@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TechStore.Models;
 
 namespace TechStore.Context
 {
-    public class TechStoreContext : IdentityDbContext
+    public class TechStoreContext : IdentityDbContext<TechUser>
     {
         public TechStoreContext(DbContextOptions<TechStoreContext> options)
             : base(options)

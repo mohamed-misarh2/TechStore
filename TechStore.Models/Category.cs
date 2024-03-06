@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace TechStore.Models
 {
-    public class Category
+    public class Category :BaseEntity
     {
-        public int CategoryID { get; set; } // Primary Key
         public string Name { get; set; }
         public string Description { get; set; }
-        public int? ParentCategoryID { get; set; } // Nullable Foreign Key
+        public int? ParentCategoryID { get; set; } 
 
         // Navigation property
         public Category ParentCategory { get; set; }

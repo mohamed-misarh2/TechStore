@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TechStore.Models
 {
-    public class OrderItem
+    public class OrderItem :BaseEntity
     {
         
         public int Quantity { get; set; }
@@ -14,9 +14,9 @@ namespace TechStore.Models
         public decimal SubtotalPrice => Quantity * UnitPrice; // Calculated property ??
 
         // Navigation properties
-        public int OrderId { get; set; } // Foreign Key
+        public int OrderId { get; set; } 
         public Order Order { get; set; }
-        public int ProductId { get; set; } // Foreign Key
+        public int ProductId { get; set; } 
         public Product Product { get; set; }
     }
 }
