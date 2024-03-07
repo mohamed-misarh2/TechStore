@@ -21,5 +21,6 @@ namespace TechStore.Models
         public TechUser User { get; set; }
         public List<OrderItem> OrderItems { get; set; }
         public List<Payment> Payments { get; set; }
+        //mahmoud
     }
 }
