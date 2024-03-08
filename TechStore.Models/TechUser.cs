@@ -14,7 +14,13 @@ namespace TechStore.Models
         public string? AccountStatus { get; set; }
         public string? PaymentInformation { get; set; }
 
-        public List<Order> Orders { get; set; }
-        public List<Review> Reviews { get; set; }
+        public ICollection<Order> Orders { get; set; }
+        public ICollection<Review> Reviews { get; set; }
+
+        public TechUser() 
+        {
+            Orders = new List<Order>();
+            Reviews = new List<Review>();
+        }
     }
 }

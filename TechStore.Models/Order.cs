@@ -21,7 +21,13 @@ namespace TechStore.Models
 
         // mohammed
         public TechUser User { get; set; }
-        public List<OrderItem> OrderItems { get; set; }
-        public List<Payment> Payments { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
+        public ICollection<Payment> Payments { get; set; }
+
+        public Order()
+        {
+            OrderItems = new List<OrderItem>();
+            Payments = new List<Payment>();
+        }
     }
 }
