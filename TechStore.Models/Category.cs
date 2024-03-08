@@ -14,7 +14,13 @@ namespace TechStore.Models
 
         // Navigation property
         public Category ParentCategory { get; set; }
-        public List<Category> ChildCategories { get; set; }
-        public List<Product> Products { get; set; }
+        public ICollection<Category> ChildCategories { get; set; }
+        public ICollection<Product> Products { get; set; }
+
+        public Category ()
+        {
+            ChildCategories = new List<Category> ();
+            Products = new List<Product> ();
+        }
     }
 }
