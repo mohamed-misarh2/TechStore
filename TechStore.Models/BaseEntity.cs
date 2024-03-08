@@ -8,6 +8,9 @@ namespace TechStore.Models
 {
     public class BaseEntity
     {
+        /// <summary>
+        /// Mohamed
+        /// </summary>
         public int Id { get; set; }
         public bool? IsDeleted { get; set; }
     }
