@@ -10,7 +10,7 @@ namespace TechStore.Models
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public int? ParentCategoryID { get; set; } 
+        public int? ParentCategoryId { get; set; } 
 
         // Navigation property
         public Category ParentCategory { get; set; }
