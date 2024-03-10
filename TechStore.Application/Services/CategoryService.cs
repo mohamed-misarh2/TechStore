@@ -102,7 +102,6 @@ namespace TechStore.Application.Services
                 Id = c.Id,
                 Name = c.Name,
                 Description = c.Description,
-                ParentCategoryName = c.ParentCategory.Name
             }).ToList();
 
             ResultDataList<GetAllCategory> result = new ResultDataList<GetAllCategory>();

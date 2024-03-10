@@ -10,16 +10,13 @@ namespace TechStore.Models
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public int? ParentCategoryId { get; set; } 
 
         // Navigation property
-        public Category ParentCategory { get; set; }
-        public ICollection<Category> ChildCategories { get; set; }
+       
         public ICollection<Product> Products { get; set; }
 
         public Category ()
         {
-            ChildCategories = new List<Category> ();
             Products = new List<Product> ();
         }
     }
