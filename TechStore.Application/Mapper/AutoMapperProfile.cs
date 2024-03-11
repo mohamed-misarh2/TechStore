@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TechStore.Dtos.Category;
 using TechStore.Models;
+using TechStore.Models;
 
 namespace TechStore.Application.Mapper
 {
@@ -16,5 +17,6 @@ namespace TechStore.Application.Mapper
             CreateMap<CreateOrUpdateCategory,Category>().ReverseMap();
             CreateMap<GetAllCategory,Category>().ReverseMap();
         }
+     
     }
 }

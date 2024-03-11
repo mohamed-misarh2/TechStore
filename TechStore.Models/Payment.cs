@@ -8,14 +8,12 @@ namespace TechStore.Models
 {
     public class Payment : BaseEntity
     {
-        public int OrderId { get; set; }
         public string? PaymentMethod { get; set; }
         public DateTime PaymentDate { get; set; }
         public decimal? Amount { get; set; }
         public string? TransactionID { get; set; }
         public string? PaymentStatus { get; set; }
-
-        // Define relationships
+        public int OrderId { get; set; }
         public Order Order { get; set; }
     }
 }
