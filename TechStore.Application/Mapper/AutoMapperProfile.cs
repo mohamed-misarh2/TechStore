@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TechStore.Dtos.Category;
 using TechStore.Models;
 using TechStore.Models;
 
@@ -14,8 +13,6 @@ namespace TechStore.Application.Mapper
     {
         public AutoMapperProfile() 
         {
-            CreateMap<CreateOrUpdateCategory,Category>().ReverseMap();
-            CreateMap<GetAllCategory,Category>().ReverseMap();
         }
      
     }
