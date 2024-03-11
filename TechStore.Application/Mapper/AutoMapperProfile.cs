@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TechStore.Dtos.OrderDtos;
 using TechStore.Models;
 
 namespace TechStore.Application.Mapper
@@ -13,7 +12,6 @@ namespace TechStore.Application.Mapper
     {
         public AutoMapperProfile()
         {
-            CreateMap<Order , OrderDtos>().ReverseMap();    
         }
     }
 }
