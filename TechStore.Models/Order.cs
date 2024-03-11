@@ -9,9 +9,8 @@ namespace TechStore.Models
 {
     public class Order : BaseEntity
     {
-        [ForeignKey("TechUser")]
         public string UserId { get; set; }
-        public DateTime OrderDate { get; set; }
+        public DateTime OrderDate { get; set; }= DateTime.Now;
         public string? ShippingAddress { get; set; }
         public string? ShippingMethod { get; set; }
         public decimal? TotalPrice { get; set; }
