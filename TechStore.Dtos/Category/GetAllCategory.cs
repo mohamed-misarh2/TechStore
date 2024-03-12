@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TechStore.Models
+namespace TechStore.Dtos.Category
 {
-    public class BaseEntity
+    public class GetAllCategory
     {
         public int Id { get; set; }
-        public bool IsDeleted { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace TechStore.Infrastructure
 {
     public class Repository<TEntity, TId> : IRepository<TEntity, TId> where TEntity : class
     {
-        private readonly TechStoreContext _context;
+        protected readonly TechStoreContext _context;
         protected readonly DbSet<TEntity> _entities;
         public Repository(TechStoreContext context)
         {

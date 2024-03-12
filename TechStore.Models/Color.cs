@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace TechStore.Models
 {
-    public class Category :BaseEntity
+    public class Color:BaseEntity
     {
         public string Name { get; set; }
-        public ICollection<Product> Products { get; set; }
-
-        public Category ()
+        public string Code { get; set; }
+        public ICollection<ProductItem> ProductItems { get; set; }
+        public Color()
         {
-            Products = new List<Product> ();
+            ProductItems = new List<ProductItem>();
         }
     }
 }
