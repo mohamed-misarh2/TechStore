@@ -12,7 +12,7 @@ namespace TechStore.Application.Contract
         Task<TEntity> UpdateAsync(TEntity entity);
         Task<TEntity> DeleteAsync(TEntity entity);
         Task<TEntity> GetByIdAsync(TId id);
-        Task<IQueryable<TEntity>> GetAllAsync();
+        Task<IQueryable<TEntity>> GetAllAsync(); 
         Task<int> SaveChangesAsync();
     }
 }
