@@ -8,20 +8,21 @@ using TechStore.Models;
 using TechStore.Models;
 using TechStore.Dtos.UserDTO;
 using TechStore.Models;
+using TechStore.Dtos.Category;
 
 
 namespace TechStore.Application.Mapper
 {
     internal class AutoMapperProfile :Profile
     {
-        public AutoMapperProfile() 
-        {
-        }
+       
      
         public AutoMapperProfile() 
         {
             CreateMap<CreateOrUpdateUserDTO, TechUser>().ReverseMap();
             CreateMap<GetAllUserDTO, TechUser>().ReverseMap();
+            CreateMap<CreateOrUpdateCategory,Category>().ReverseMap();
+            CreateMap<GetAllCategory,Category>().ReverseMap();
         }
     }
 }
