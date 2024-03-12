@@ -10,10 +10,10 @@ namespace TechStore.Models
     public class TechUser :IdentityUser
     {
       
-
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
+        public string FName { get; set; } // add name in  tabel 
+        public string LName { get; set; }
         public string? Address { get; set; }
+        public string? image {  get; set; }
         public string? AccountStatus { get; set; }
         public string? PaymentInformation { get; set; }
         public string? Image { get; set; }

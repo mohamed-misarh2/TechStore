@@ -19,6 +19,8 @@ namespace TechStore.Models
         public DateTime DeliveryDate { get; set; }      
 
         // Define relationships
+
+        // mohammed
         public TechUser User { get; set; }
         public ICollection<OrderItem> OrderItems { get; set; }
         public ICollection<Payment> Payments { get; set; }
