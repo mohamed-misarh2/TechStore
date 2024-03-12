@@ -18,10 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\TechStore.Application\TechStore.Application.csproj" />
     <ProjectReference Include="..\TechStore.Context\TechStore.Context.csproj" />
     <ProjectReference Include="..\TechStore.Dtos\TechStore.Dtos.csproj" />

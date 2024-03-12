@@ -5,10 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechStore.Models;
-using TechStore.Models;
 using TechStore.Dtos.UserDTO;
-using TechStore.Models;
-using TechStore.Dtos.Category;
+using TechStore.Dtos.CategoryDtos;
 
 
 namespace TechStore.Application.Mapper
@@ -21,8 +19,8 @@ namespace TechStore.Application.Mapper
         {
             CreateMap<CreateOrUpdateUserDTO, TechUser>().ReverseMap();
             CreateMap<GetAllUserDTO, TechUser>().ReverseMap();
-            CreateMap<CreateOrUpdateCategory,Category>().ReverseMap();
-            CreateMap<GetAllCategory,Category>().ReverseMap();
+            CreateMap<CategoryDto, Category>().ReverseMap();
+            CreateMap<CategoryDto, Category>().ReverseMap();
         }
     }
 }

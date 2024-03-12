@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TechStore.Dtos.Category
+namespace TechStore.Dtos.CategoryDtos
 {
-    public class CreateOrUpdateCategory
+    public class CategoryDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechStore.Application.Contract;
+using TechStore.Dtos.AccountDtos;
 using TechStore.Dtos.UserDTO;
 using TechStore.Dtos.ViewResult;
 using TechStore.Models;
@@ -104,6 +105,26 @@ namespace TechStore.Application.Services
             await _userRepository.DeleteAsync(exisUser);
             await _userRepository.SaveChangesAsync();
             return new ResultView<bool> { Entity = true, IsSuccess = true, Message = "User Deleted" };
+        }
+
+        public Task<ResultView<RegisterDto>> RegisterUser(RegisterDto model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ResultView<LoginDto>> LoginUser(LoginDto model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> LogoutUser()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> AddRole(string name)
+        {
+            throw new NotImplementedException();
         }
     }
 }
