@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <ProjectReference Include="..\TechStore.Dtos\TechStore.Dtos.csproj" />
+    <ProjectReference Include="..\TechStore.Models\TechStore.Models.csproj" />
   </ItemGroup>
 
 </Project>

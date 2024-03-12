@@ -18,6 +18,7 @@ namespace TechStore.Infrastructure
             _context = context;
             _entities = _context.Set<TEntity>();
         }
+
         public async Task<TEntity> CreateAsync(TEntity entity)
         {
             return (await _entities.AddAsync(entity)).Entity;
