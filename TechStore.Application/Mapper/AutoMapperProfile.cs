@@ -17,30 +17,15 @@ namespace TechStore.Application.Mapper
 {
     internal class AutoMapperProfile :Profile
     {
-        public AutoMapperProfile() {
-
-            CreateMap<CreateOrUpdateReviewDto, Review>().ReverseMap();
-            CreateMap<GetAllReviewDto, Review>().ReverseMap();
-           
-
-
-
-
-
-
-        }
-     
-        public AutoMapperProfile() 
-        {
-        }
-       
-     
         public AutoMapperProfile() 
         {
             CreateMap<CreateOrUpdateUserDTO, TechUser>().ReverseMap();
             CreateMap<GetAllUserDTO, TechUser>().ReverseMap();
             CreateMap<CreateOrUpdateCategory,Category>().ReverseMap();
             CreateMap<GetAllCategory,Category>().ReverseMap();
+            CreateMap<CreateOrUpdateReviewDto, Review>().ReverseMap();
+            CreateMap<GetAllReviewDto, Review>().ReverseMap();
+
         }
     }
 }
