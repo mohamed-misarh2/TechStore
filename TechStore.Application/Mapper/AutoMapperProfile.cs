@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TechStore.Dtos.AccountDtos;
 using TechStore.Dtos.UserDTO;
 using TechStore.Models;
 
@@ -16,6 +17,8 @@ namespace TechStore.Application.Mapper
         {
             CreateMap<CreateOrUpdateUserDTO, TechUser>().ReverseMap();
             CreateMap<GetAllUserDTO, TechUser>().ReverseMap();
+            CreateMap<LoginDto, TechUser>().ReverseMap();
+            CreateMap<RegisterDto, TechUser>().ReverseMap();
         }
     }
 }

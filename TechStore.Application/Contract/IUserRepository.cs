@@ -9,6 +9,10 @@ namespace TechStore.Application.Contract
 {
     public interface IUserRepository : IRepository<TechUser, int>
     {
-        Task<TechUser> SearchByNameUser(string name);
+        Task<TechUser> SearchUserByName(string name);
+
+
+
+
     }
 }

@@ -10,8 +10,8 @@ namespace TechStore.Models
     public class TechUser :IdentityUser
     {
       
-        public string FName { get; set; } // add name in  tabel 
-        public string LName { get; set; }
+        public string FirstName { get; set; } 
+        public string LastName { get; set; }
         public string? Address { get; set; }
         public string? image {  get; set; }
         public string? AccountStatus { get; set; }
@@ -19,6 +19,7 @@ namespace TechStore.Models
 
         public ICollection<Order> Orders { get; set; }
         public ICollection<Review> Reviews { get; set; }
+       
 
         public TechUser() 
         {
