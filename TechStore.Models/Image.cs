@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.ObjectPool;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -7,14 +8,10 @@ using System.Threading.Tasks;
 
 namespace TechStore.Models
 {
-    public class Review :BaseEntity
+    public class Image:BaseEntity
     {
-        public int Rating { get; set; }
-        public string Comment { get; set; }
-       public DateTime ReviewDate { get; set; }
-        // Define relationships
-        public TechUser User { get; set; }
-
+        public string Name { get; set; } 
+        [ForeignKey("Product")]
         public int ProductId { get; set; }
         public Product Product { get; set; }
 

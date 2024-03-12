@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,26 +9,24 @@ namespace TechStore.Models
 {
     public class Product :BaseEntity
     {
-        public string Name { get; set; }
         public string Description { get; set; }
         public string Brand { get; set; }
-        public string Model { get; set; }
-        public decimal Price { get; set; }
-        public decimal DiscountPrice { get; set; }
-        public int StockQuantity { get; set; }
-        public string Specifications { get; set; } // Serialized JSON string
-        public string WarrantyInformation { get; set; }
-        public List<string> Images { get; set; }
-        public double AverageRating { get; set; }
-        public ICollection<Review> Reviews { get; set; }
+        public string ModelName { get; set; }
         public DateTime DateAdded { get; set; }
-        public int categoryId { get; set; }
-        public Category category { get; set; }
-        public ICollection<OrderItem> items { get; set; }
-        public Product ()
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
+        public string UserId { get; set; }
+        public TechUser User { get; set; }
+        public ICollection<Image> Images { get; set; }
+        public ICollection<ProductItem> ProductItem { get; set; }
+        public ICollection<Review> Reviews { get; set;}
+        public ICollection<OrderItem> OrderItems { get; set; }
+        public Product()
         {
-            items = new List<OrderItem> ();
-            Reviews = new List<Review> ();
+            OrderItems = new List<OrderItem>();
+            Reviews = new List<Review>();
+            ProductItem = new List<ProductItem>();
+            Images= new List<Image>();  
         }
     }
 }

@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TechStore.Dtos\TechStore.Dtos.csproj" />
     <ProjectReference Include="..\TechStore.Models\TechStore.Models.csproj" />
   </ItemGroup>
 

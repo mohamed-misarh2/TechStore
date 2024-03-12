@@ -6,6 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using TechStore.Dtos;
 using TechStore.Models;
+using TechStore.Models;
+using TechStore.Models;
+using TechStore.Dtos.UserDTO;
+using TechStore.Models;
+
 
 namespace TechStore.Application.Mapper
 {
@@ -24,5 +29,14 @@ namespace TechStore.Application.Mapper
 
         }
      
+        public AutoMapperProfile() 
+        {
+        }
+     
+        public AutoMapperProfile() 
+        {
+            CreateMap<CreateOrUpdateUserDTO, TechUser>().ReverseMap();
+            CreateMap<GetAllUserDTO, TechUser>().ReverseMap();
+        }
     }
 }
