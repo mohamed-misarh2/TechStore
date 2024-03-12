@@ -19,14 +19,11 @@ namespace TechStore.Infrastructure
             _context = context;
         }
 
-        public async Task<TechUser> SearchByNameUser(string name)
+        public async Task<TechUser> SearchUserByName(string name)
         {
             return await _context.Users.FindAsync(name);
         }
 
-
-
-
-
+      
     }
 }
