@@ -9,5 +9,6 @@ namespace TechStore.Application.Contract
 {
     public interface IProductItemRepository:IRepository<ProductItem,int>
     {
+
     }
 }

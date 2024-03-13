@@ -17,9 +17,9 @@ namespace TechStore.Infrastructure
 
         public ProductRepository(TechStoreContext techStoreContext) : base(techStoreContext) { }
 
-        public Task<IQueryable<Product>> GetDiscountedProducts()
+        public async Task<IQueryable<Product>> GetDiscountedProducts()
         {
-            return Task.FromResult(_entities.Where(p => p.DiscountPrice < p.Price));
+            return await Task.FromResult(_entities.Include(p=>p.ProductItem.Select(p=>p.DiscountPrice < p.Price)));
         }
 
         public Task<IQueryable<Product>> GetNewlyAddedProducts(int count)
@@ -29,17 +29,17 @@ namespace TechStore.Infrastructure
 
         public Task<IQueryable<Product>> GetProductsByCategory(int categoryId)
         {
-            return Task.FromResult(_entities.Where(p => p.categoryId == categoryId));
+            return Task.FromResult(_entities.Where(p => p.CategoryId == categoryId));
         }
 
-        public Task<IQueryable<Product>> GetProductsByPriceRange(decimal minPrice, decimal maxPrice)
+        public async Task<IQueryable<Product>> GetProductsByPriceRange(decimal minPrice, decimal maxPrice)
         {
-            return Task.FromResult(_entities.Where(p => p.Price >= minPrice && p.Price <= maxPrice));
+            return await Task.FromResult(_entities.Include(p => p.ProductItem.Select(p => p.Price >= minPrice && p.Price <= maxPrice)));
         }
 
         public Task<IQueryable<Product>> GetRelatedProducts(Product product)
         {
-            return Task.FromResult( _entities.Where(p => p.categoryId == product.categoryId || p.Id != product.Id));
+            return Task.FromResult( _entities.Where(p => p.CategoryId == product.CategoryId || p.Id != product.Id));
         }
 
         public Task<IQueryable<Product>> SearchByBrand(string Brand)
@@ -49,8 +49,10 @@ namespace TechStore.Infrastructure
 
         public Task<IQueryable<Product>> SearchProduct(string Name)
         {          
-            return Task.FromResult(_entities.Where(p => p.Name.Contains(Name)||
+            return Task.FromResult(_entities.Where(p => p.ModelName.Contains(Name)||
                                                    p.Description.Contains(Name)));
         }
+
+        
     }
 }
