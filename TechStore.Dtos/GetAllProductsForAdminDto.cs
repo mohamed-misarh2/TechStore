@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TechStore.Models;
 
 namespace TechStore.Dtos
 {
@@ -18,5 +19,7 @@ namespace TechStore.Dtos
         public int CategoryId { get; set; }
         public DateTime DateAdded { get; set; }
         public bool IsDeleted { get; set; }
+        public string FullName { get; set; }
     }
+
 }

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -126,6 +128,36 @@ namespace TechStore.Application.Services
             };
 
         }
+        
+        public async Task<ResultView<CreateOrUpdateProductDtos>> HardDelete(CreateOrUpdateProductDtos productDto)
+        {
+            try
+            {
+                var product = await _productRepository.GetByIdAsync(productDto.Id);//??? whyyyyyyyyyy ???
+                var DeletedProductModel = await _productRepository.DeleteAsync(product);
+                if (DeletedProductModel == null)
+                {
+                    throw new ArgumentException("Product not found");
+                }
+                await _productRepository.SaveChangesAsync();
+                var DeletedProductDto = _mapper.Map<CreateOrUpdateProductDtos>(DeletedProductModel);
+                return new ResultView<CreateOrUpdateProductDtos>
+                {
+                    Entity = DeletedProductDto,
+                    IsSuccess = true,
+                    Message = "Product Deleted Sucessfully"
+                };
+            }
+            catch(Exception ex)
+            {
+                return new ResultView<CreateOrUpdateProductDtos>
+                {
+                    Entity = null,
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
 
         public async Task<ResultDataList<GetAllProductsForAdminDto>> GetAllPaginationForAdmin(int ItemsPerPage, int PageNumber)
         {
@@ -135,7 +167,8 @@ namespace TechStore.Application.Services
             }
 
             var products = (await _productRepository.GetAllAsync())
-                            .Where(p=>p.IsDeleted != false)
+                            //.Include(p => p.User)
+                            .Where(p=>p.IsDeleted == false)
                             .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
                             .Select(p => new GetAllProductsForAdminDto
                             {
@@ -145,6 +178,7 @@ namespace TechStore.Application.Services
                                 Brand = p.Brand,
                                 CategoryId = p.CategoryId,
                                 DateAdded = p.DateAdded,
+                                FullName = $"{p.User.FirstName} {p.User.LastName}",
                                 IsDeleted = p.IsDeleted
                             }).ToList();
 
@@ -209,7 +243,7 @@ namespace TechStore.Application.Services
             return resultDataList;
         }
 
-        public async Task<ResultDataList<CreateOrUpdateProductDtos>> GetProductsByCategory(int categoryId, int ItemsPerPage, int PageNumber)
+        public async Task<ResultDataList<CreateOrUpdateProductDtos>> FilterProductsByCategory(int categoryId, int ItemsPerPage, int PageNumber)
         {
             if(categoryId <= 0)
             {
@@ -236,7 +270,7 @@ namespace TechStore.Application.Services
             return resultDataList;
         }
 
-        public async Task<ResultDataList<CreateOrUpdateProductDtos>> GetRelatedProducts(int productId, int ItemsPerPage, int PageNumber)
+        public async Task<ResultDataList<CreateOrUpdateProductDtos>> FiltertRelatedProducts(int productId, int ItemsPerPage, int PageNumber)
         {
             if (PageNumber <= 0)
             {
@@ -259,7 +293,7 @@ namespace TechStore.Application.Services
             return resultDataList;
         }
 
-        public async Task<ResultDataList<CreateOrUpdateProductDtos>> GetProductsByPriceRange(decimal minPrice, decimal maxPrice, int ItemsPerPage, int PageNumber)
+        public async Task<ResultDataList<CreateOrUpdateProductDtos>> FilterProductsByPriceRange(decimal minPrice, decimal maxPrice, int ItemsPerPage, int PageNumber)
         {
             if(minPrice < 0 || maxPrice < 0)
             {
@@ -291,7 +325,7 @@ namespace TechStore.Application.Services
             return resultDataList;
         }
 
-        public async Task<ResultDataList<CreateOrUpdateProductDtos>> GetNewlyAddedProductsAsync(int count, int ItemsPerPage, int PageNumber)
+        public async Task<ResultDataList<CreateOrUpdateProductDtos>> FilterNewlyAddedProductsAsync(int count, int ItemsPerPage, int PageNumber)
         {
             if (count <= 0)
             {
@@ -317,7 +351,7 @@ namespace TechStore.Application.Services
             return resultDataLists;
         }
 
-        public async Task<ResultDataList<CreateOrUpdateProductDtos>> GetDiscountedProducts(int ItemsPerPage, int PageNumber)
+        public async Task<ResultDataList<CreateOrUpdateProductDtos>> FilterDiscountedProducts(int ItemsPerPage, int PageNumber)
         {
             if (PageNumber <= 0)
             {
@@ -361,9 +395,7 @@ namespace TechStore.Application.Services
                                 Name = p.ModelName,
                                 Description = p.Description,
                                 Brand = p.Brand,
-                                CategoryId = p.CategoryId,
                                 DateAdded = p.DateAdded,
-                                IsDeleted = p.IsDeleted
                             }).ToList();
 
             var resultDataList = new ResultDataList<GetAllProductsForUserDto>()
@@ -374,5 +406,6 @@ namespace TechStore.Application.Services
             return resultDataList;
         }
 
+        
     }
 }

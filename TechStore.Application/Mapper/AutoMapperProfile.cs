@@ -9,6 +9,8 @@ using TechStore.Dtos;
 using TechStore.Dtos;
 using TechStore.Dtos.ProductDtos;
 using TechStore.Models;
+using TechStore.Dtos.UserDTO;
+using TechStore.Dtos.Category;
 
 
 namespace TechStore.Application.Mapper
@@ -26,7 +28,7 @@ namespace TechStore.Application.Mapper
             CreateMap<CreateOrUpdateReviewDto, Review>().ReverseMap();
             CreateMap<GetAllReviewDto, Review>().ReverseMap();
 
-        public AutoMapperProfile() {
+
             CreateMap<CreateOrUpdateProductDtos, Product>().ReverseMap();
             //productitem
             CreateMap<LabtopItemDtos, ProductItem>().ReverseMap();

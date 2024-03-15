@@ -18,9 +18,9 @@ namespace TechStore.Application.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        private readonly UserManager<CreateOrUpdateUserDTO>_userManager;
-        private readonly SignInManager<CreateOrUpdateUserDTO> _signInManager;
-        public UserServices(IUserRepository userRepository , IMapper mapper , UserManager<CreateOrUpdateUserDTO> userManager , SignInManager<CreateOrUpdateUserDTO> signInManager)
+        private readonly UserManager<TechUser>_userManager;//*********
+        private readonly SignInManager<TechUser> _signInManager;//*********
+        public UserServices(IUserRepository userRepository , IMapper mapper , UserManager<TechUser> userManager , SignInManager<TechUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -125,13 +125,18 @@ namespace TechStore.Application.Services
                                                       Address = model.Address ,
                                                       image = model.Image,
                                                       PhoneNumber = model.PhoneNumber,
-                                                 };
+              
+            };
 
-            var result = await _userManager.CreateAsync(user, model.Password);
+
+            //*********
+            var userModel = _mapper.Map<TechUser>(user);
+
+            var result = await _userManager.CreateAsync(userModel, model.Password);
             if (result.Succeeded)
             {
                 
-                await _signInManager.SignInAsync(user, isPersistent: false);
+                await _signInManager.SignInAsync(userModel, isPersistent: false);
                 return new ResultView<RegisterDto> { Entity = model, IsSuccess = true, Message = "User registered successfully" };
             }
             else
@@ -168,7 +173,5 @@ namespace TechStore.Application.Services
         {
             throw new NotImplementedException();
         }
-
-       
     }
 }

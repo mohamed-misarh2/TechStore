@@ -11,9 +11,6 @@ namespace TechStore.Context
 {
     public class TechStoreContext : IdentityDbContext<TechUser>
     {
-
-       
-
         public DbSet<Product> Products { get; set; }
        
         public DbSet<Category> Categories { get; set; }
@@ -23,7 +20,7 @@ namespace TechStore.Context
         public DbSet<ProductItem> ProductItems { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Color> Colors { get; set; }
-       // public DbSet<Payment> Payment { get; set; }
+        // public DbSet<Payment> Payment { get; set; }
         public TechStoreContext(DbContextOptions<TechStoreContext> options)
             : base(options)
         {

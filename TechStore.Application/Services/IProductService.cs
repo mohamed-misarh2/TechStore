@@ -36,22 +36,27 @@ namespace TechStore.Application.Services
         Task<ResultView<CreateOrUpdateProductDtos>> Update(CreateOrUpdateProductDtos productDto);
 
         Task<ResultView<CreateOrUpdateProductDtos>> SoftDelete(CreateOrUpdateProductDtos productDto);
-
+        Task<ResultView<CreateOrUpdateProductDtos>> HardDelete(CreateOrUpdateProductDtos productDto);
         Task<ResultDataList<GetAllProductsForAdminDto>> GetAllPaginationForAdmin(int ItemsPerPage, int PageNumber);
 
+
+        //search
         Task<ResultDataList<CreateOrUpdateProductDtos>> SearchProduct(string Name, int ItemsPerPage, int PageNumber);
 
         Task<ResultDataList<CreateOrUpdateProductDtos>> SearchByBrand(string Brand, int ItemsPerPage, int PageNumber);
 
-        Task<ResultDataList<CreateOrUpdateProductDtos>> GetProductsByCategory(int categoryId, int ItemsPerPage, int PageNumber);
 
-        Task<ResultDataList<CreateOrUpdateProductDtos>> GetRelatedProducts(int productId, int ItemsPerPage, int PageNumber);
 
-        Task<ResultDataList<CreateOrUpdateProductDtos>> GetProductsByPriceRange(decimal minPrice, decimal maxPrice, int ItemsPerPage, int PageNumber);
+        //filter
+        Task<ResultDataList<CreateOrUpdateProductDtos>> FilterProductsByCategory(int categoryId, int ItemsPerPage, int PageNumber);
 
-        Task<ResultDataList<CreateOrUpdateProductDtos>> GetNewlyAddedProductsAsync(int count, int ItemsPerPage, int PageNumber);
+        Task<ResultDataList<CreateOrUpdateProductDtos>> FiltertRelatedProducts(int productId, int ItemsPerPage, int PageNumber);
 
-        Task<ResultDataList<CreateOrUpdateProductDtos>> GetDiscountedProducts(int ItemsPerPage, int PageNumber);
+        Task<ResultDataList<CreateOrUpdateProductDtos>> FilterProductsByPriceRange(decimal minPrice, decimal maxPrice, int ItemsPerPage, int PageNumber);
+
+        Task<ResultDataList<CreateOrUpdateProductDtos>> FilterNewlyAddedProductsAsync(int count, int ItemsPerPage, int PageNumber);
+
+        Task<ResultDataList<CreateOrUpdateProductDtos>> FilterDiscountedProducts(int ItemsPerPage, int PageNumber);
 
         Task<ResultDataList<GetAllProductsForUserDto>> GetAllPaginationForUser(int ItemsPerPage, int PageNumber);
     }

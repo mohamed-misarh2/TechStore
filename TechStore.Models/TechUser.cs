@@ -25,7 +25,7 @@ namespace TechStore.Models
         {
             Orders = new List<Order>();
             Reviews = new List<Review>();
-            products = new List<Product>();
+            //products = new List<Product>();
         }
     }
 }

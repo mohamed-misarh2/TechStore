@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TechStore.Application.Contract;
 using TechStore.Context;
+using TechStore.Models;
 
 namespace TechStore.Infrastructure
 {
@@ -38,6 +39,7 @@ namespace TechStore.Infrastructure
         {
             return await _entities.FindAsync(id);
         }
+
 
         public async Task<int> SaveChangesAsync()
         {

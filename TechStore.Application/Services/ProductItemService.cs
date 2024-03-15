@@ -79,9 +79,15 @@ namespace TechStore.Application.Services
             throw new ArgumentException("Product not found");
         }
 
-        public async Task<ResultDataList<T>> GetAll<T>() where T : class
+        public async Task<ResultDataList<T>> GetAll<T>() where T : class //mobile
         {
             var productItems = await _productItemRepository.GetAllAsync();
+            var productItemsDto = _mapper.Map<IQueryable<T>>(productItems);
+            return new ResultDataList<T>
+            {
+                Entities = productItemsDto.ToList(),
+                Count = productItemsDto.Count()
+            };
         }
 
         public async Task<ResultView<T>> Update<T>(T productDto) where T : class
@@ -123,6 +129,22 @@ namespace TechStore.Application.Services
                 Message = "Added successfully"
             };
 
+        }
+
+        public async Task<ResultView<T>> GetOne<T>(int id) where T : class
+        {
+            var ProductItem = await _productItemRepository.GetByIdAsync(id);
+            if(ProductItem == null)
+            {
+                throw new ArgumentNullException("ProductItem Isn't Exist");
+            }
+            var ProductItemDto = _mapper.Map<T>(ProductItem);
+            return new ResultView<T>
+            {
+                Entity = ProductItemDto,
+                IsSuccess = true,
+                Message = "ProductItem Retrived Successfully"
+            };
         }
     }
 }

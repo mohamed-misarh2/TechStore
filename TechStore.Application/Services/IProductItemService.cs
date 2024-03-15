@@ -13,7 +13,8 @@ namespace TechStore.Application.Services
         //Task<ResultView<CreateOrUpdateProductDtos>> Create(CreateOrUpdateProductDtos productDto);
         Task<ResultView<T>> Create<T>(T productDto) where T : class;
         Task<ResultView<T>> Update<T>(T productDto) where T : class;
-        Task<ResultView<CreateOrUpdateProductDtos>> GetAll(CreateOrUpdateProductDtos productDto);
+        Task<ResultDataList<T>> GetAll<T>() where T : class;
         Task SoftDelete(int productId);
+        Task<ResultView<T>> GetOne<T>(int id) where T : class;
     }
 }
