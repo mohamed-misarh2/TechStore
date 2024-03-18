@@ -13,19 +13,7 @@ namespace TechStore.Application.Services
 {
     public interface IProductService
     {
-        //Task<ResultView<CreateOrUpdateProductDtos>> Create(CreateOrUpdateProductDtos productDto);
-        //Task<ResultView<CreateOrUpdateProductDtos>> Update(CreateOrUpdateProductDtos productDto);
-        //Task<ResultView<CreateOrUpdateProductDtos>> SoftDelete(CreateOrUpdateProductDtos productDto);
-        //Task<ResultDataList<CreateOrUpdateProductDtos>> SearchProduct(string Name);
-        //Task<ResultDataList<CreateOrUpdateProductDtos>> SearchByBrand(string Brand);
-        //Task<ResultDataList<CreateOrUpdateProductDtos>> GetProductsByCategory(int categoryId);
-        //Task<ResultDataList<CreateOrUpdateProductDtos>> GetRelatedProducts(int productId);//samecategory
-        //Task<ResultDataList<CreateOrUpdateProductDtos>> GetProductsByPriceRange(decimal minPrice, decimal maxPrice);
-        //Task<ResultDataList<CreateOrUpdateProductDtos>> GetNewlyAddedProductsAsync(int count);
-        //Task<ResultDataList<CreateOrUpdateProductDtos>> GetDiscountedProducts();
-        //Task<ResultDataList<GetAllProductsForAdminDto>> GetAllPaginationForAdmin(int items,int PageNumber);
-        ////Task<ResultDataList<GetAllProductsForUserDto>> GetAllPaginationForUser(int items, int PageNumber);
-        //Task<ResultView<CreateOrUpdateProductDtos>> GetOne(int id);
+        
 
 
 
@@ -37,7 +25,7 @@ namespace TechStore.Application.Services
 
         Task<ResultView<CreateOrUpdateProductDtos>> SoftDelete(CreateOrUpdateProductDtos productDto);
         Task<ResultView<CreateOrUpdateProductDtos>> HardDelete(CreateOrUpdateProductDtos productDto);
-        Task<ResultDataList<GetAllProductsForAdminDto>> GetAllPaginationForAdmin(int ItemsPerPage, int PageNumber);
+        Task<ResultDataList<GetAllProductsForAdminDto>> GetAllPagination(int ItemsPerPage, int PageNumber);
 
 
         //search
@@ -58,6 +46,6 @@ namespace TechStore.Application.Services
 
         Task<ResultDataList<CreateOrUpdateProductDtos>> FilterDiscountedProducts(int ItemsPerPage, int PageNumber);
 
-        Task<ResultDataList<GetAllProductsForUserDto>> GetAllPaginationForUser(int ItemsPerPage, int PageNumber);
+        //Task<ResultDataList<GetAllProductsForUserDto>> GetAllPaginationForUser(int ItemsPerPage, int PageNumber);
     }
 }

@@ -25,11 +25,12 @@ namespace TechStore.Application.Services
             _productRepository = productRepository;
             _mapper = mapper;
         }
+
         public async Task<ResultView<CreateOrUpdateProductDtos>> Create(CreateOrUpdateProductDtos productDto)
         {
             var OldProduct = (await _productRepository.GetAllAsync())
-                             .Where(p=>p.Id == productDto.Id).FirstOrDefault();
-            if(OldProduct != null)
+                             .Where(p => p.Description == productDto.Description).FirstOrDefault();//******??
+            if (OldProduct != null)
             {
                 return new ResultView<CreateOrUpdateProductDtos>
                 {
@@ -54,9 +55,9 @@ namespace TechStore.Application.Services
         public async Task<ResultView<CreateOrUpdateProductDtos>> GetOne(int id)
         {
             var ProductModel =await _productRepository.GetByIdAsync(id);
-            var productDto = _mapper.Map<CreateOrUpdateProductDtos>(ProductModel);
-            if (productDto != null)
+            if (ProductModel != null)
             {
+                var productDto = _mapper.Map<CreateOrUpdateProductDtos>(ProductModel);
                 return new ResultView<CreateOrUpdateProductDtos>
                 {
                     Entity = productDto,
@@ -76,12 +77,12 @@ namespace TechStore.Application.Services
 
         public async Task<ResultView<CreateOrUpdateProductDtos>> Update(CreateOrUpdateProductDtos productDto)
         {
-            var OldProductDto = (await _productRepository.GetAllAsync())
-                                .Where(p => p.Id == productDto.Id).FirstOrDefault();
-            if(OldProductDto != null)
+            //var OldProductDto = (await _productRepository.GetAllAsync())
+            //                    .Where(p => p.Id == productDto.Id).FirstOrDefault();
+            var OldProduct = await _productRepository.GetByIdAsync(productDto.Id);
+            if(OldProduct != null)
             {
-                var product = _mapper.Map<Product>(OldProductDto);
-                var NewUpdatedProduct = await _productRepository.UpdateAsync(product);
+                var NewUpdatedProduct = await _productRepository.UpdateAsync(OldProduct);
                 await _productRepository.SaveChangesAsync();
                 var NewUpdatedProductDto = _mapper.Map<CreateOrUpdateProductDtos>(NewUpdatedProduct);
                 return new ResultView<CreateOrUpdateProductDtos>
@@ -131,44 +132,35 @@ namespace TechStore.Application.Services
         
         public async Task<ResultView<CreateOrUpdateProductDtos>> HardDelete(CreateOrUpdateProductDtos productDto)
         {
-            try
+            var product = await _productRepository.GetByIdAsync(productDto.Id);//??? whyyyyyyyyyy ???
+            if (product != null)
             {
-                var product = await _productRepository.GetByIdAsync(productDto.Id);//??? whyyyyyyyyyy ???
                 var DeletedProductModel = await _productRepository.DeleteAsync(product);
-                if (DeletedProductModel == null)
-                {
-                    throw new ArgumentException("Product not found");
-                }
                 await _productRepository.SaveChangesAsync();
                 var DeletedProductDto = _mapper.Map<CreateOrUpdateProductDtos>(DeletedProductModel);
                 return new ResultView<CreateOrUpdateProductDtos>
                 {
-                    Entity = DeletedProductDto,
-                    IsSuccess = true,
-                    Message = "Product Deleted Sucessfully"
+                        Entity = DeletedProductDto,
+                        IsSuccess = true,
+                        Message = "Product Deleted Sucessfully"
                 };
             }
-            catch(Exception ex)
+
+            return new ResultView<CreateOrUpdateProductDtos>
             {
-                return new ResultView<CreateOrUpdateProductDtos>
-                {
-                    Entity = null,
-                    IsSuccess = false,
-                    Message = ex.Message
-                };
-            }
+                Entity = null,
+                IsSuccess = false,
+                Message = "Product Not Found"
+            };
         }
 
-        public async Task<ResultDataList<GetAllProductsForAdminDto>> GetAllPaginationForAdmin(int ItemsPerPage, int PageNumber)
+        public async Task<ResultDataList<GetAllProductsForAdminDto>> GetAllPagination(int ItemsPerPage, int PageNumber)
         {
-            if(PageNumber <= 0)
-            {
-                throw new ArgumentException("Page number must be greater than zero");
-            }
 
-            var products = (await _productRepository.GetAllAsync())
-                            //.Include(p => p.User)
-                            .Where(p=>p.IsDeleted == false)
+            if (PageNumber > 1)
+            {
+                var products = (await _productRepository.GetAllAsync())
+                            .Where(p => p.IsDeleted == false)
                             .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
                             .Select(p => new GetAllProductsForAdminDto
                             {
@@ -182,39 +174,63 @@ namespace TechStore.Application.Services
                                 IsDeleted = p.IsDeleted
                             }).ToList();
 
-            var resultDataList = new ResultDataList<GetAllProductsForAdminDto>()
-            {
-                Entities = products,
-                Count = products.Count()
-            };
-            return resultDataList;
-        }
+                var resultDataList = new ResultDataList<GetAllProductsForAdminDto>()
+                {
+                    Entities = products,
+                    Count = products.Count()
+                };
+                return resultDataList;
+            }
 
+            var resultDataListt = new ResultDataList<GetAllProductsForAdminDto>()
+            {
+                Entities = null,
+                Count = 0
+            };
+            return resultDataListt;
+     }
+            
+
+
+        //****
         public async Task<ResultDataList<CreateOrUpdateProductDtos>> SearchProduct(string Name, int ItemsPerPage, int PageNumber)
         {
-            if (string.IsNullOrWhiteSpace(Name))
+            try
             {
-                throw new ArgumentException("Name cannot be empty or whitespace.");
+                if (string.IsNullOrWhiteSpace(Name))
+                {
+                    throw new ArgumentException("Name cannot be empty or whitespace.");
+                }
+
+                if (PageNumber <= 0)
+                {
+                    throw new ArgumentException("Page number must be greater than zero");
+                }
+
+                var products = (await _productRepository.SearchProduct(Name))
+                               .Where(p => p.IsDeleted != false)
+                               .Skip(ItemsPerPage * (PageNumber - 1))
+                               .Take(ItemsPerPage)
+                               .ToList();
+
+                var ProductsDto = _mapper.Map<List<CreateOrUpdateProductDtos>>(products);//tolist
+                var resultDataList = new ResultDataList<CreateOrUpdateProductDtos>()
+                {
+                    Entities = ProductsDto,
+                    Count = ProductsDto.Count()
+                };
+                return resultDataList;
             }
-
-            if (PageNumber <= 0)
+            catch(Exception ex)
             {
-                throw new ArgumentException("Page number must be greater than zero");
+                var resultDataList = new ResultDataList<CreateOrUpdateProductDtos>()
+                {
+                    Entities = null,
+                    Count = 0
+                };
+                return resultDataList;
             }
-
-            var products = (await _productRepository.SearchProduct(Name))
-                           .Where(p => p.IsDeleted != false)
-                           .Skip(ItemsPerPage * (PageNumber - 1))
-                           .Take(ItemsPerPage)
-                           .ToList();
-
-            var ProductsDto = _mapper.Map<List<CreateOrUpdateProductDtos>>(products);//tolist
-            var resultDataList = new ResultDataList<CreateOrUpdateProductDtos>()
-            {
-                Entities = ProductsDto,
-                Count = ProductsDto.Count()
-            };
-            return resultDataList;
+            
         }
 
         public async Task<ResultDataList<CreateOrUpdateProductDtos>> SearchByBrand(string Brand, int ItemsPerPage, int PageNumber)
@@ -378,34 +394,33 @@ namespace TechStore.Application.Services
             return resultDataList;
         }
 
-        public async Task<ResultDataList<GetAllProductsForUserDto>> GetAllPaginationForUser(int ItemsPerPage, int PageNumber)
-        {
-            if (PageNumber <= 0)
-            {
-                throw new ArgumentException("Page number must be greater than zero");
-            }
+        //public async Task<ResultDataList<GetAllProductsForUserDto>> GetAllPaginationForUser(int ItemsPerPage, int PageNumber)
+        //{
+        //    if (PageNumber <= 0)
+        //    {
+        //        throw new ArgumentException("Page number must be greater than zero");
+        //    }
 
-            var products = (await _productRepository.GetAllAsync())
-                            .Where(p => p.IsDeleted != false)
-                            .Skip(ItemsPerPage * (PageNumber - 1))
-                            .Take(ItemsPerPage)
-                            .Select(p => new GetAllProductsForUserDto
-                            {
-                                Id = p.Id,
-                                Name = p.ModelName,
-                                Description = p.Description,
-                                Brand = p.Brand,
-                                DateAdded = p.DateAdded,
-                            }).ToList();
+        //    var products = (await _productRepository.GetAllAsync())
+        //                    .Where(p => p.IsDeleted != false)
+        //                    .Skip(ItemsPerPage * (PageNumber - 1))
+        //                    .Take(ItemsPerPage)
+        //                    .Select(p => new GetAllProductsForUserDto
+        //                    {
+        //                        Id = p.Id,
+        //                        Name = p.ModelName,
+        //                        Description = p.Description,
+        //                        Brand = p.Brand,
+        //                        DateAdded = p.DateAdded,
+        //                    }).ToList();
 
-            var resultDataList = new ResultDataList<GetAllProductsForUserDto>()
-            {
-                Entities = products,
-                Count = products.Count()
-            };
-            return resultDataList;
-        }
+        //    var resultDataList = new ResultDataList<GetAllProductsForUserDto>()
+        //    {
+        //        Entities = products,
+        //        Count = products.Count()
+        //    };
+        //    return resultDataList;
+        //}
 
-        
     }
 }

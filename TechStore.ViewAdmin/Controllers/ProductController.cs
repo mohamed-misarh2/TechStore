@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Threading.Tasks.Sources;
 using TechStore.Application.Services;
 using TechStore.Dtos.ProductDtos;
@@ -22,11 +23,15 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpGet]//create update delete getone getall
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int itemsPerPage = 1, int pageNumber = 10)
         {
             try
             {
-                var products = await _productService.GetAllPaginationForAdmin(5,1);
+                if(pageNumber < 1)
+                {
+                    return NoContent();
+                }
+                var products = await _productService.GetAllPagination(itemsPerPage, pageNumber);
                 if(products.Count == 0)
                 {
                     return NoContent();
@@ -45,10 +50,15 @@ namespace TechStore.ViewAdmin.Controllers
 
         [HttpGet]
         [Route("/Get/{id:int}")]
-        public async Task<IActionResult> GetOne(int id)
+        public async Task<IActionResult> GetOneById(int id)
         {
+            if (id < 0)
+            {
+                return BadRequest("Enter Valid Id !");
+            }
+
             var product = await _productService.GetOne(id);
-            if (product is null)
+            if (product.Entity is null)
             {
                 return Ok("Not Found");
             }
@@ -64,22 +74,10 @@ namespace TechStore.ViewAdmin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var p = await _productService.Create(product);
+                await _productService.Create(product);
                 return Ok("Created Successfully!");
             }
             return BadRequest(ModelState);
-        }
-
-
-        [HttpPost]
-        public async Task<IActionResult> CreateProductItem(Product Product)
-        {
-            if (Product.CategoryId == 1)
-            {
-                _productItemService.Create<MobileAndTabletItemDtos>(MobileAndTabletItemDtos mob){
-
-                }
-            }
         }
 
 
@@ -89,7 +87,7 @@ namespace TechStore.ViewAdmin.Controllers
             if(id > 0)
             {
                 var product = await _productService.GetOne(id);
-                if (product is null)
+                if (product.Entity is null)
                 {
                     return BadRequest("Product NotFound !");
                 }

@@ -47,6 +47,7 @@ namespace TechStore.ViewAdmin
             .AddEntityFrameworkStores<TechStoreContext>()
             .AddDefaultTokenProviders();
 
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
