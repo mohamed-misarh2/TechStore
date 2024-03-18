@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TechStore.Dtos;
+using TechStore.Dtos.ReviewDtos;
 using TechStore.Dtos.ViewResult;
 using TechStore.Models;
 
@@ -11,14 +11,13 @@ namespace TechStore.Application.Services
 {
     public interface IReviewService
     {
-     Task<ResultView<CreateOrUpdateReviewDto>> Create(CreateOrUpdateReviewDto createOrUpdateReview);
-    Task<ResultView<CreateOrUpdateReviewDto>> Update(CreateOrUpdateReviewDto createOrUpdateReview);
-        Task<ResultView<CreateOrUpdateReviewDto>> HardDelete(CreateOrUpdateReviewDto createOrUpdateReview);
-        Task<ResultView<CreateOrUpdateReviewDto>> SoftDelete(CreateOrUpdateReviewDto createOrUpdateReview);
-        Task<ResultDataList<GetAllReviewDto>> GetAllPagination(int items, int pagenumber);
+        Task<ResultView<CreateOrUpdateReviewDto>> CreateReview( CreateOrUpdateReviewDto createOrUpdateReview);
+        Task<ResultView<CreateOrUpdateReviewDto>> UpdateReview(CreateOrUpdateReviewDto createOrUpdateReview);
+        Task<ResultView<CreateOrUpdateReviewDto>> HardDeleteReview(CreateOrUpdateReviewDto createOrUpdateReview);
+        Task<ResultView<CreateOrUpdateReviewDto>> SoftDeleteReview(CreateOrUpdateReviewDto createOrUpdateReview);
+        Task<ResultDataList<GetAllReviewDto>> GetAllPaginationReview(int items, int pagenumber);
 
-
-        Task<GetAllReviewDto> GetOne(int id);
+        Task<CreateOrUpdateReviewDto> GetOneReview(int id);
 
 
     }

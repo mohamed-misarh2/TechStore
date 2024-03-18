@@ -10,6 +10,10 @@ using TechStore.Dtos;
 using TechStore.Dtos.ProductDtos;
 using TechStore.Models;
 using TechStore.Dtos.UserDTO;
+using TechStore.Dtos.CategoryDtos;
+using TechStore.Dtos.AccountDtos;
+using Microsoft.AspNetCore.Identity;
+using TechStore.Dtos.ReviewDtos;
 using TechStore.Dtos.Category;
 
 
@@ -19,7 +23,7 @@ namespace TechStore.Application.Mapper
     {
         public AutoMapperProfile() 
         {
-            CreateMap<CreateOrUpdateUserDTO, TechUser>().ReverseMap();
+            CreateMap<UpdateUserDTO, TechUser>().ReverseMap();
             CreateMap<GetAllUserDTO, TechUser>().ReverseMap();
             CreateMap<LoginDto, TechUser>().ReverseMap();
             CreateMap<RegisterDto, TechUser>().ReverseMap();
@@ -28,6 +32,13 @@ namespace TechStore.Application.Mapper
             CreateMap<CreateOrUpdateReviewDto, Review>().ReverseMap();
             CreateMap<GetAllReviewDto, Review>().ReverseMap();
 
+            CreateMap<RegisterDto, TechUser>().ReverseMap();
+            CreateMap<LoginDto, TechUser>().ReverseMap();
+            CreateMap<UserDto, TechUser>().ReverseMap();
+            CreateMap<CategoryDto, Category>().ReverseMap();
+            CreateMap<CreateOrUpdateReviewDto, Review>().ReverseMap();
+            CreateMap<GetAllReviewDto, Review>().ReverseMap();
+           
 
             CreateMap<CreateOrUpdateProductDtos, Product>().ReverseMap();
             //productitem

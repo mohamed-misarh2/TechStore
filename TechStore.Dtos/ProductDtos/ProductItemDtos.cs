@@ -9,7 +9,7 @@ namespace TechStore.Dtos.ProductDtos
     public class ProductItemDtos
     {
         public int? Quantity { get; set; }
-        public decimal? Price { get; set; }
+        public decimal? Price { get; set; }/// 
         public decimal? DiscountPrice { get; set; }
         public string? ScreenSize { get; set; }
         public string? ScreenType { get; set; }

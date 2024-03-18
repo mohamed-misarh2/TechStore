@@ -24,7 +24,13 @@ namespace TechStore.Infrastructure
         {
             return (await _entities.AddAsync(entity)).Entity;
         }
-
+        public  Task<TEntity> UpdateAsync(TEntity entity)
+        {
+            return Task.FromResult(_entities.Update(entity).Entity);
+            //var updatedEntity = _entities.Update(entity).Entity;
+            //await _context.SaveChangesAsync();
+            //return updatedEntity;
+        }
         public Task<TEntity> DeleteAsync(TEntity entity)
         {
             return Task.FromResult(_entities.Remove(entity).Entity);
@@ -46,10 +52,7 @@ namespace TechStore.Infrastructure
             return await _context.SaveChangesAsync();
         }
 
-        public Task<TEntity> UpdateAsync(TEntity entity)
-        {
-            return Task.FromResult(_entities.Update(entity).Entity);
-        }
+       
        
     }
 }

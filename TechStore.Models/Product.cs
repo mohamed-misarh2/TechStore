@@ -12,7 +12,7 @@ namespace TechStore.Models
         public string Description { get; set; }
         public string Brand { get; set; }
         public string ModelName { get; set; }
-        public DateTime DateAdded { get; set; }
+        public DateTime? DateAdded { get; set; }=DateTime.Now;
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public string UserId { get; set; }

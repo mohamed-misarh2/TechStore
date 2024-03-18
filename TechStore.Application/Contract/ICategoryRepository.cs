@@ -9,6 +9,6 @@ namespace TechStore.Application.Contract
 {
     public interface ICategoryRepository:IRepository<Category,int>
     {
-        Task<Category> GetByName(string name);
+        Task<Category> SearchByName(string name);
     }
 }
