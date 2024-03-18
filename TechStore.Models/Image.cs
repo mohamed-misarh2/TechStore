@@ -11,9 +11,9 @@ namespace TechStore.Models
     public class Image:BaseEntity
     {
         public string Name { get; set; } 
-        [ForeignKey("Product")]
-        public int ProductId { get; set; }
-        public Product Product { get; set; }
+        [ForeignKey("ProductItem")]
+        public int ItemId { get; set; }
+        public ProductItem ProductItem { get; set; }
 
     }
 }

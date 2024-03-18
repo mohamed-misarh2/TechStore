@@ -1,19 +1,19 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TechStore.Dtos.AccountDtos
+namespace TechStore.Dtos.UserDTO
 {
-    public class RegisterDto
+    public class UpdateUserDTO
     {
-        public string? Id { get; set; }  
+        public string Id { get; set; }
 
-        [Required(ErrorMessage= "First Name is Required")]
+        [Required(ErrorMessage = "First Name is Required")]
         [DisplayName("First Name")]
         public string FirstName { get; set; }
 
@@ -26,17 +26,12 @@ namespace TechStore.Dtos.AccountDtos
 
         public string UserName { get; set; }
 
-
-        [Required(ErrorMessage = "Password  is Required")]
-        public string Password { get; set; }
-
-       
         [Required(ErrorMessage = "Phone Number  is Required")]
         [DisplayName("Phone Number")]
 
         public string PhoneNumber { get; set; }
 
-        [EmailAddress , Required(ErrorMessage = "Email is Required")]
+        [EmailAddress, Required(ErrorMessage = "Email is Required")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = " Address is Required")]
@@ -44,6 +39,10 @@ namespace TechStore.Dtos.AccountDtos
 
         [Required(ErrorMessage = "Image is Required")]
 
-        public IFormFile Image { get; set; }
+        public IFormFile UrlImage { get; set; }
+        public string?Image { get; set; }
+
+
     }
+    
 }
