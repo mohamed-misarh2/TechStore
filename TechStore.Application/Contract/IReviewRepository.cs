@@ -10,7 +10,5 @@ namespace TechStore.Application.Contract
     public interface IReviewRepository:IRepository<Review,int>
     {
 
-
-
     }
 }

@@ -1,4 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,115 +20,237 @@ namespace TechStore.Application.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public UserServices(IUserRepository userRepository , IMapper mapper)
+        private readonly SignInManager<TechUser> _signInManager;
+        private readonly UserManager<TechUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        public UserServices(IUserRepository userRepository, IMapper mapper, SignInManager<TechUser> signInManager, UserManager<TechUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _mapper = mapper;
             _userRepository = userRepository;
-
-        }
-        public async Task<ResultView<CreateOrUpdateUserDTO>> CreateUser(CreateOrUpdateUserDTO User)
-        {
-            var Query = (await _userRepository.GetAllAsync());
-            var olduser = Query.Where(u=>u.UserName == User.UserName).FirstOrDefault();
-            if (olduser != null) 
-            {
-                return new ResultView<CreateOrUpdateUserDTO> { Entity = null, IsSuccess = false, Message = "Already Exist" };
-            }
-            else
-            {
-                var user = _mapper.Map<TechUser>(User);
-                var newUser = await _userRepository.CreateAsync(user);
-                await _userRepository.SaveChangesAsync();
-                var userDTO = _mapper.Map<CreateOrUpdateUserDTO>(newUser);
-                return new ResultView<CreateOrUpdateUserDTO> { Entity = userDTO, IsSuccess = true, Message = "Created Successfully" };
-            }
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
        
 
-        public async Task<ResultView<CreateOrUpdateUserDTO>> EditUser(CreateOrUpdateUserDTO User)
+        public async Task<ResultView<UpdateUserDTO>> UpdateUser(string Id ,UpdateUserDTO model)
         {
-            var exisUser = await _userRepository.GetByIdAsync(User.Id);
-            if (exisUser != null)
+            var existUser = await _userRepository.GetByIdAsync(Id);
+            if (existUser == null)
             {
-                _mapper.Map(User, exisUser);
-                await _userRepository.UpdateAsync(exisUser);
-                await _userRepository.SaveChangesAsync();
-                var userDTO = _mapper.Map<CreateOrUpdateUserDTO>(exisUser);
-                return new ResultView<CreateOrUpdateUserDTO> { Entity = userDTO, IsSuccess = true, Message = "User Updated Successfully" };
+                return new ResultView<UpdateUserDTO> { Entity = null, IsSuccess = false, Message = "User Not Found" };
+
             }
             else
             {
-                return new ResultView<CreateOrUpdateUserDTO> { Entity = null, IsSuccess = false, Message = "User Not Found" };
+                if (model.UrlImage != null)
+                {
+                    string uploadsFolder = Path.Combine("wwwroot", "ImageUser");
+                    string FileName = model.UrlImage.FileName;
+                    string filePath = Path.Combine(uploadsFolder, FileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.UrlImage.CopyToAsync(fileStream);
+                    }
+
+                }
+               
+                existUser.UserName = model.UserName;
+                existUser.Email = model.Email;
+                existUser.FirstName = model.FirstName;
+                existUser.LastName = model.LastName;
+                existUser.Address = model.Address;
+                existUser.Image = model.UrlImage.FileName;
+                existUser.PhoneNumber = model.PhoneNumber;
+                
+                
+
+                var result = await _userManager.UpdateAsync(existUser);
+                if (result.Succeeded)
+                {
+
+                    await _signInManager.SignInAsync(existUser, isPersistent: false);
+                    return new ResultView<UpdateUserDTO> { Entity = model, IsSuccess = true, Message = "User Updated Successfully" };
+                }
+                else
+                {
+                    return new ResultView<UpdateUserDTO> { Entity = model, IsSuccess = true, Message = "Error" };
+                }
             }
+
         }
 
-       
 
 
 
-        public async Task<CreateOrUpdateUserDTO> GetByIdUser(int ID)
+
+        public async Task<UpdateUserDTO> GetUserById(string ID)
         {
            var userid = await _userRepository.GetByIdAsync(ID);
-            var returnuserDTO =_mapper.Map<CreateOrUpdateUserDTO>(userid);
+            var returnuserDTO =_mapper.Map<UpdateUserDTO>(userid);
             return returnuserDTO;
         }
 
-        public async Task<CreateOrUpdateUserDTO> SearchByNameUser(string Name) // add function for SearchByName
+        public async Task<ResultDataList<UserDto>> SearchByNameUser(string Name) // add function for SearchByName
         {
-            var username = await _userRepository.SearchByNameUser(Name);
-            var returnuserDTO = _mapper.Map<CreateOrUpdateUserDTO>(username);
-            return returnuserDTO;
-        }
+            var searchedName = (await _userRepository.SearchUserByName(Name)).Select(u => new UserDto()
+            {
+                Id = u.Id,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                UserName = u.UserName,
+                PhoneNumber=u.PhoneNumber,
+                Email = u.Email,
+                Address = u.Address,
+                Image = u.Image
 
-        public async Task<ResultDataList<GetAllUserDTO>> GetAllPaginationUser(int items, int pagenumber) 
+            }).ToList();
+            var returnuserDTO = _mapper.Map<List<UserDto>>(searchedName);
+
+            ResultDataList<UserDto> resultDataList = new ResultDataList<UserDto>();
+            resultDataList.Entities = returnuserDTO;
+            resultDataList.Count = searchedName.Count();
+
+            return resultDataList;
+        }
+        public async Task<ResultDataList<UserDto>> GetAllPaginationUser(int items, int pagenumber) 
         {
             var AlldAta = (await _userRepository.GetAllAsync());
-            var UserSer = AlldAta.Skip(items * (pagenumber - 1)).Take(items)
-                                              .Select(U => new GetAllUserDTO()
+            var UserSer = AlldAta.Where(u=>u.IsDeleted==false).Skip(items * (pagenumber - 1)).Take(items)
+                                              .Select(u => new UserDto()
                                               {
-                                                  Name = U.FName + U.LName,
-                                                  Email = U.Email,
-                                                  Address = U.Address
-                                                  
+                                                  Id=u.Id,
+                                                  FirstName=u.FirstName, 
+                                                  LastName=u.LastName,
+                                                  UserName = u.UserName,    
+                                                  Email = u.Email,
+                                                  PhoneNumber=u.PhoneNumber,
+                                                  Address = u.Address , 
+                                                  Image=u.Image
+                                                 
                                               }).ToList();
-            ResultDataList<GetAllUserDTO> resultDataList = new ResultDataList<GetAllUserDTO>();
+            ResultDataList<UserDto> resultDataList = new ResultDataList<UserDto>();
             resultDataList.Entities = UserSer;
             resultDataList.Count = AlldAta.Count();
             return resultDataList;
         }
 
-        public async Task<ResultView<bool>> DeleteUser(int UserId)
+        public async Task<ResultView<UserDto>> DeleteUser(string UserId)
         {
-            var exisUser = await _userRepository.GetByIdAsync(UserId);
+            var existUser = await _userRepository.GetByIdAsync(UserId);
 
-            if (exisUser != null)
+            if (existUser == null)
             {
-                return new ResultView<bool> { Entity = false, IsSuccess = false, Message = "User Not Found" };
+                return new ResultView<UserDto> { Entity = null, IsSuccess = false, Message = "User Not Found" };
             }
-            await _userRepository.DeleteAsync(exisUser);
-            await _userRepository.SaveChangesAsync();
-            return new ResultView<bool> { Entity = true, IsSuccess = true, Message = "User Deleted" };
+             var data= (await _userRepository.GetAllAsync()).FirstOrDefault(u=>u.Id==UserId);
+             data.IsDeleted=true;
+             await _userRepository.SaveChangesAsync();
+            var userDeleted = _mapper.Map<UserDto>(data);
+             return new ResultView<UserDto> { Entity = userDeleted, IsSuccess = true, Message = "User Deleted" };
         }
 
-        public Task<ResultView<RegisterDto>> RegisterUser(RegisterDto model)
+        public async Task<ResultView<RegisterDto>> RegisterUser(RegisterDto model , string RoleName="User")
         {
-            throw new NotImplementedException();
+           
+            if (model.Image != null)
+            {
+                string uploadsFolder = Path.Combine("wwwroot" ,"ImageUser");
+                string FileName = model.Image.FileName;
+                string filePath = Path.Combine(uploadsFolder, FileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.Image.CopyToAsync(fileStream);
+                }
+
+            }
+                var user = new TechUser
+                {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Address = model.Address,
+                    Image = model.Image.FileName,
+                    PhoneNumber = model.PhoneNumber,
+
+                };
+
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    await _userManager.AddToRoleAsync(user, RoleName);
+                    return new ResultView<RegisterDto> { Entity = model, IsSuccess = true, Message = "User registered successfully" };
+                }
+                else
+                {
+                    return new ResultView<RegisterDto> { Entity = model, IsSuccess = false, Message = "User registration failed" };
+                }
+            }
+
+
+        public async Task<ResultView<LoginDto>> LoginUser(LoginDto model)
+        {
+            var user = await _userManager.FindByNameAsync(model.UserName);
+            if (user == null)
+            {
+                return new ResultView<LoginDto> { Entity = null, IsSuccess = false, Message = " UserName Or Password incorrcet" };
+            }
+            var result = _signInManager.CheckPasswordSignInAsync(user, model.Password, true).Result;
+            if (!result.Succeeded)
+            {
+                return new ResultView<LoginDto> { Entity = null, IsSuccess = false, Message = " UserName Or Password incorrcet" };
+
+            }
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            return new ResultView<LoginDto> { Entity = model, IsSuccess = true, Message = " Login successfully" };
         }
 
-        public Task<ResultView<LoginDto>> LoginUser(LoginDto model)
+        public async Task<bool> LogoutUser()
         {
-            throw new NotImplementedException();
+            await _signInManager.SignOutAsync();
+            return true;
         }
 
-        public Task<bool> LogoutUser()
+        public async Task<bool> AddRole(string name)
         {
-            throw new NotImplementedException();
+            IdentityRole role = new IdentityRole();
+            role.Name = name;
+            await _roleManager.CreateAsync(role);
+            return true;
         }
 
-        public Task<bool> AddRole(string name)
+        public async Task<List<string>> GetRoleForUser(string UserName)
         {
-            throw new NotImplementedException();
+
+            var user = await _userManager.FindByNameAsync(UserName);
+            if (user == null)
+            {
+                return new List<string>() {"Not Found"}; 
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            return roles.ToList(); 
+        }    
+        public async Task<string> GetIDForUser(string UserName)
+        {
+
+            var user = await _userManager.FindByNameAsync(UserName);
+            if (user == null)
+            {
+                return "Not Found"; 
+            }
+
+            var UserId = await _userManager.GetUserIdAsync(user);
+
+            return UserId; 
         }
+
+       
     }
 }

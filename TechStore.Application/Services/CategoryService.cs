@@ -41,7 +41,7 @@ namespace TechStore.Application.Services
 
         public async Task<ResultView<CategoryDto>> UpdateCategory(CategoryDto updatedcategory)
         {
-            var existingCategory = await _categoryRepository.GetByIdAsync(updatedcategory.Id);
+            var existingCategory = await _categoryRepository.GetByIdAsync((int)updatedcategory.Id);
             if (existingCategory == null)
             {
                 return new ResultView<CategoryDto> { Entity = null, IsSuccess = false, Message = "Category not found" };
@@ -62,7 +62,7 @@ namespace TechStore.Application.Services
         {
             try
             {
-                var existingCategory = await _categoryRepository.GetByIdAsync(category.Id);
+                var existingCategory = await _categoryRepository.GetByIdAsync((int)category.Id);
                 var mCat = _mapper.Map<Category>(existingCategory);
                 var oldCat = _categoryRepository.DeleteAsync(mCat);
                 await _categoryRepository.SaveChangesAsync();

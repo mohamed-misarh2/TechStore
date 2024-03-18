@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TechStore.Application.Services;
 using TechStore.Dtos.CategoryDtos;
@@ -7,6 +8,7 @@ namespace TechStore.ViewAdmin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
@@ -51,8 +53,8 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
         [HttpGet]
-        [Route("Name:{string}")]
-        public async Task<IActionResult> GetByNae(string Name)
+        [Route("{Name}")]
+        public async Task<IActionResult> GetByName(string Name)
         {
             var data = await _categoryService.GetCategoryByName(Name);
             return Ok(data);

@@ -163,7 +163,7 @@ namespace TechStore.Context.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -187,7 +187,7 @@ namespace TechStore.Context.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -207,19 +207,19 @@ namespace TechStore.Context.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ItemId");
 
                     b.ToTable("Images");
                 });
@@ -235,10 +235,10 @@ namespace TechStore.Context.Migrations
                     b.Property<DateTime>("DeliveryDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("OrderDate")
+                    b.Property<DateTime?>("OrderDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("OrderStatus")
@@ -275,7 +275,7 @@ namespace TechStore.Context.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<int?>("OrderId")
@@ -310,7 +310,7 @@ namespace TechStore.Context.Migrations
                     b.Property<decimal?>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<int>("OrderId")
@@ -350,14 +350,14 @@ namespace TechStore.Context.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DateAdded")
+                    b.Property<DateTime?>("DateAdded")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("ModelName")
@@ -412,7 +412,7 @@ namespace TechStore.Context.Migrations
                     b.Property<string>("GraphicsCardType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("NumberProcessorCores")
@@ -496,7 +496,7 @@ namespace TechStore.Context.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<int?>("ProductId")
@@ -505,7 +505,7 @@ namespace TechStore.Context.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ReviewDate")
+                    b.Property<DateTime?>("ReviewDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
@@ -528,9 +528,6 @@ namespace TechStore.Context.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("AccountStatus")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
@@ -545,14 +542,17 @@ namespace TechStore.Context.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FName")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LName")
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -658,13 +658,13 @@ namespace TechStore.Context.Migrations
 
             modelBuilder.Entity("TechStore.Models.Image", b =>
                 {
-                    b.HasOne("TechStore.Models.Product", "Product")
+                    b.HasOne("TechStore.Models.ProductItem", "ProductItem")
                         .WithMany("Images")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
+                    b.Navigation("ProductItem");
                 });
 
             modelBuilder.Entity("TechStore.Models.Order", b =>
@@ -776,13 +776,16 @@ namespace TechStore.Context.Migrations
 
             modelBuilder.Entity("TechStore.Models.Product", b =>
                 {
-                    b.Navigation("Images");
-
                     b.Navigation("OrderItems");
 
                     b.Navigation("ProductItem");
 
                     b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("TechStore.Models.ProductItem", b =>
+                {
+                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("TechStore.Models.TechUser", b =>
