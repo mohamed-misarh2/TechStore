@@ -10,10 +10,10 @@ namespace TechStore.Models
     {
         public string Name { get; set; }
         public string Code { get; set; }
-        public ICollection<ProductItem> ProductItems { get; set; }
+        public ICollection<Specification> ProductItems { get; set; }
         public Color()
         {
-            ProductItems = new List<ProductItem>();
+            ProductItems = new List<Specification>();
         }
     }
 }

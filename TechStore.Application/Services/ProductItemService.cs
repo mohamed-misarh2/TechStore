@@ -31,7 +31,7 @@ namespace TechStore.Application.Services
                 throw new ArgumentNullException("Product DTO cannot be null");
             }
 
-            var product = _mapper.Map<ProductItem>(productItemDto);
+            var product = _mapper.Map<Specification>(productItemDto);
             var newProduct = await _productItemRepository.CreateAsync(product);
             await _productItemRepository.SaveChangesAsync();
             T NewProductDto;
@@ -98,7 +98,7 @@ namespace TechStore.Application.Services
             {
                 throw new ArgumentNullException("Product DTO cannot be null");
             }
-            var product = _mapper.Map<ProductItem>(productDto);
+            var product = _mapper.Map<Specification>(productDto);
             var NewProduct = await _productItemRepository.UpdateAsync(product);
             await _productItemRepository.SaveChangesAsync();
             T NewProducDto;

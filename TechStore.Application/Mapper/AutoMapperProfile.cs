@@ -31,10 +31,10 @@ namespace TechStore.Application.Mapper
 
             CreateMap<CreateOrUpdateProductDtos, Product>().ReverseMap();
             //productitem
-            CreateMap<LabtopItemDtos, ProductItem>().ReverseMap();
-            CreateMap<MobileAndTabletItemDtos, ProductItem>().ReverseMap();
-            CreateMap<ScreenItemDtos, ProductItem>().ReverseMap();
-            CreateMap<SmartwatchItemDtos, ProductItem>().ReverseMap();
+            CreateMap<LabtopItemDtos, Specification>().ReverseMap();
+            CreateMap<MobileAndTabletItemDtos, Specification>().ReverseMap();
+            CreateMap<ScreenItemDtos, Specification>().ReverseMap();
+            CreateMap<SmartwatchItemDtos, Specification>().ReverseMap();
             CreateMap<GetAllProductsForAdminDto, Product>().ReverseMap();
             CreateMap<GetAllProductsForUserDto, Product>().ReverseMap();
         }

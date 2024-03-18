@@ -17,9 +17,11 @@ namespace TechStore.Context
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<ProductItem> ProductItems { get; set; }
+        public DbSet<Specification> Specifications { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Color> Colors { get; set; }
+        public DbSet<CategorySpecifications> CategorySpecifications { get; set; }
+        public DbSet<ProductSpecifications> ProductSpecifications { get; set; }
         // public DbSet<Payment> Payment { get; set; }
         public TechStoreContext(DbContextOptions<TechStoreContext> options)
             : base(options)

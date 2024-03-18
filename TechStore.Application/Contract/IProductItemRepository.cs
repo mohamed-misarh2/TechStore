@@ -7,7 +7,7 @@ using TechStore.Models;
 
 namespace TechStore.Application.Contract
 {
-    public interface IProductItemRepository:IRepository<ProductItem,int>
+    public interface IProductItemRepository:IRepository<Specification,int>
     {
 
     }

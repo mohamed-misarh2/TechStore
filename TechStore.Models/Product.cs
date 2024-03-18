@@ -18,14 +18,15 @@ namespace TechStore.Models
         public string UserId { get; set; }
         public TechUser User { get; set; }
         public ICollection<Image> Images { get; set; }
-        public ICollection<ProductItem> ProductItem { get; set; }
         public ICollection<Review> Reviews { get; set;}
         public ICollection<OrderItem> OrderItems { get; set; }
+        public ICollection<ProductSpecifications> ProductSpecification { get; set; }
+
         public Product()
         {
+            ProductSpecification = new List<ProductSpecifications>();
             OrderItems = new List<OrderItem>();
             Reviews = new List<Review>();
-            ProductItem = new List<ProductItem>();
             Images= new List<Image>();  
         }
     }

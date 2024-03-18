@@ -9,7 +9,7 @@ using TechStore.Models;
 
 namespace TechStore.Infrastructure
 {
-    public class ProductItemRepository:Repository<ProductItem,int>,IProductItemRepository
+    public class ProductItemRepository:Repository<Specification,int>,IProductItemRepository
     {
         public ProductItemRepository(TechStoreContext techStoreContext) : base(techStoreContext) { }
 
