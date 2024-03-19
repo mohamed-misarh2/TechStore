@@ -1,4 +1,4 @@
-html {
+/*html {
   font-size: 14px;
 }
 
@@ -20,3 +20,66 @@ html {
 body {
   margin-bottom: 60px;
 }
+*/
+
+
+.nav-top-style {
+    background-color: rgb(14,0,26);
+    height: 4vh;
+    color: #fff;
+    padding: 1vh 0;
+}
+
+.navbar-top_contet span {
+    margin-right: 25vh;
+}
+
+.navbar-top_contet a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 3vh;
+    text-align: right;
+}
+
+    .navbar-top_contet a:hover {
+        color: #ccc;
+    }
+
+
+
+
+.carousel-inner {
+    border-radius: 15px;
+}
+
+main {
+    margin: 2vh 10vh;
+}
+
+.text-center {
+    background-color: #0e001a;
+    color: rgb(255, 255, 255);
+}
+
+.text-reset {
+    text-decoration: none;
+}
+
+li .form-control {
+    width: 30vh;
+}
+
+.social-media-icons .facebook {
+    margin-right: 10px;
+    max-width: 40px;
+    margin-bottom: 1vh;
+}
+
+.app-download-icons .google-play {
+    margin-right: 1vh;
+    max-width: 15vh;
+    margin: 1vh;
+}
+
+
+
