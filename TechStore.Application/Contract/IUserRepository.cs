@@ -7,11 +7,9 @@ using TechStore.Models;
 
 namespace TechStore.Application.Contract
 {
-    public interface IUserRepository : IRepository<TechUser, int>
+    public interface IUserRepository : IRepository<TechUser, string>
     {
-        Task<TechUser> SearchUserByName(string name);
-
-
+        Task<List<TechUser>> SearchUserByName(string name);
 
 
     }

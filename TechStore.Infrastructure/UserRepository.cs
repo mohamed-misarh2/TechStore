@@ -10,7 +10,7 @@ using TechStore.Models;
 
 namespace TechStore.Infrastructure
 {
-    public class UserRepository : Repository<TechUser,int>, IUserRepository
+    public class UserRepository : Repository<TechUser,string>, IUserRepository
     {
         private readonly TechStoreContext _context;
        
@@ -19,9 +19,10 @@ namespace TechStore.Infrastructure
             _context = context;
         }
 
-        public async Task<TechUser> SearchUserByName(string name)
+        public async Task<List<TechUser>> SearchUserByName(string name)
         {
-            return await _context.Users.FindAsync(name);
+            var data= await _context.Users.Where(u=>u.FirstName ==name|| u.LastName==name).Select(u=>u).ToListAsync();
+            return data;
         }
 
       

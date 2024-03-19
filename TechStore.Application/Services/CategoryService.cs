@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechStore.Application.Contract;
-using TechStore.Dtos.Category;
+using TechStore.Dtos.CategoryDtos;
 using TechStore.Dtos.ViewResult;
 using TechStore.Models;
 
@@ -21,61 +21,61 @@ namespace TechStore.Application.Services
             _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
-        public async Task<ResultView<CreateOrUpdateCategory>> Create(CreateOrUpdateCategory category)
+        public async Task<ResultView<CategoryDto>> CreateCategory(CategoryDto category)
         {
             var allcategories = await _categoryRepository.GetAllAsync();
             var oldcat = allcategories.Where(c => c.Name == category.Name).FirstOrDefault();
             if (oldcat != null)
             {
-                return new ResultView<CreateOrUpdateCategory> { Entity = null, IsSuccess = false, Message = "Already Exist" };
+                return new ResultView<CategoryDto> { Entity = null, IsSuccess = false, Message = "Already Exist" };
             }
             else
             {
                 var cat = _mapper.Map<Category>(category);
                 var newCat = await _categoryRepository.CreateAsync(cat);
                 await _categoryRepository.SaveChangesAsync();
-                var catDto = _mapper.Map<CreateOrUpdateCategory>(newCat);
-                return new ResultView<CreateOrUpdateCategory> { Entity = catDto, IsSuccess = true, Message = "Created Successfully" };
+                var catDto = _mapper.Map<CategoryDto>(newCat);
+                return new ResultView<CategoryDto> { Entity = catDto, IsSuccess = true, Message = "Created Successfully" };
             }
         }
 
-        public async Task<ResultView<CreateOrUpdateCategory>> Update(CreateOrUpdateCategory updatedcategory)
+        public async Task<ResultView<CategoryDto>> UpdateCategory(CategoryDto updatedcategory)
         {
-            var existingCategory = await _categoryRepository.GetByIdAsync(updatedcategory.Id);
+            var existingCategory = await _categoryRepository.GetByIdAsync((int)updatedcategory.Id);
             if (existingCategory == null)
             {
-                return new ResultView<CreateOrUpdateCategory> { Entity = null, IsSuccess = false, Message = "Category not found" };
+                return new ResultView<CategoryDto> { Entity = null, IsSuccess = false, Message = "Category not found" };
             }
             _mapper.Map(updatedcategory, existingCategory);
 
             var updatedCat = await _categoryRepository.UpdateAsync(existingCategory);
             if (updatedCat == null)
             {
-                return new ResultView<CreateOrUpdateCategory> { Entity = null, IsSuccess = false, Message = "Failed to update Category" };
+                return new ResultView<CategoryDto> { Entity = null, IsSuccess = false, Message = "Failed to update Category" };
             }
             await _categoryRepository.SaveChangesAsync();
 
-            var catDto = _mapper.Map<CreateOrUpdateCategory>(updatedCat);
-            return new ResultView<CreateOrUpdateCategory> { Entity = catDto, IsSuccess = true, Message = "Updated Successfully" };
+            var catDto = _mapper.Map<CategoryDto>(updatedCat);
+            return new ResultView<CategoryDto> { Entity = catDto, IsSuccess = true, Message = "Updated Successfully" };
         }
-        public async Task<ResultView<CreateOrUpdateCategory>> HardDelete(CreateOrUpdateCategory category)
+        public async Task<ResultView<CategoryDto>> HardDeleteCategory(CategoryDto category)
         {
             try
             {
-                var existingCategory = await _categoryRepository.GetByIdAsync(category.Id);
+                var existingCategory = await _categoryRepository.GetByIdAsync((int)category.Id);
                 var mCat = _mapper.Map<Category>(existingCategory);
                 var oldCat = _categoryRepository.DeleteAsync(mCat);
                 await _categoryRepository.SaveChangesAsync();
-                var catDto = _mapper.Map<CreateOrUpdateCategory>(oldCat);
-                return new ResultView<CreateOrUpdateCategory> { Entity = catDto, IsSuccess = true, Message = "Deleted Successfully" };
+                var catDto = _mapper.Map<CategoryDto>(oldCat);
+                return new ResultView<CategoryDto> { Entity = catDto, IsSuccess = true, Message = "Deleted Successfully" };
             }
             catch (Exception ex)
             {
-                return new ResultView<CreateOrUpdateCategory> { Entity = null, IsSuccess = false, Message = ex.Message };
+                return new ResultView<CategoryDto> { Entity = null, IsSuccess = false, Message = ex.Message };
 
             }
         }
-        public async Task<ResultView<CreateOrUpdateCategory>> SoftDelete(CreateOrUpdateCategory category)
+        public async Task<ResultView<CategoryDto>> SoftDeleteCategory(CategoryDto category)
         {
             try
             {
@@ -83,41 +83,41 @@ namespace TechStore.Application.Services
                 var oldCat = (await _categoryRepository.GetAllAsync()).FirstOrDefault(b => b.Id == category.Id);
                 oldCat.IsDeleted = true;
                 await _categoryRepository.SaveChangesAsync();
-                var catDto = _mapper.Map<CreateOrUpdateCategory>(oldCat);
-                return new ResultView<CreateOrUpdateCategory> { Entity = catDto, IsSuccess = true, Message = "Deleted Successfully" };
+                var catDto = _mapper.Map<CategoryDto>(oldCat);
+                return new ResultView<CategoryDto> { Entity = catDto, IsSuccess = true, Message = "Deleted Successfully" };
             }
             catch (Exception ex)
             {
-                return new ResultView<CreateOrUpdateCategory> { Entity = null, IsSuccess = false, Message = ex.Message };
+                return new ResultView<CategoryDto> { Entity = null, IsSuccess = false, Message = ex.Message };
 
             }
         }
 
-        public async Task<ResultDataList<GetAllCategory>> GetAll()
+        public async Task<ResultDataList<CategoryDto>> GetAllCategory()
         {
             var categories = await _categoryRepository.GetAllAsync();
 
-            var catDtos = categories.Select(c => new GetAllCategory
+            var catDtos = categories.Select(c => new CategoryDto
             {
                 Id = c.Id,
                 Name = c.Name,
             }).ToList();
 
-            ResultDataList<GetAllCategory> result = new ResultDataList<GetAllCategory>();
+            ResultDataList<CategoryDto> result = new ResultDataList<CategoryDto>();
             result.Entities = catDtos;
             return result;
         }
 
-        public async Task<CreateOrUpdateCategory> GetById(int id)
+        public async Task<CategoryDto> GetCategoryById(int id)
         {
             var cat = await _categoryRepository.GetByIdAsync(id);
-            var catDto = _mapper.Map<CreateOrUpdateCategory>(cat);
+            var catDto = _mapper.Map<CategoryDto>(cat);
             return catDto;
         }
-        public async Task<CreateOrUpdateCategory> GetByName(string name)
+        public async Task<CategoryDto> GetCategoryByName(string name)
         {
-            var cat = await _categoryRepository.GetByName(name);
-            var catDto = _mapper.Map<CreateOrUpdateCategory>(cat);
+            var cat = await _categoryRepository.SearchByName(name);
+            var catDto = _mapper.Map<CategoryDto>(cat);
             return catDto;
 
         }

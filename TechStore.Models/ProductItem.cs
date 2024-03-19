@@ -11,7 +11,7 @@ namespace TechStore.Models
     public class ProductItem:BaseEntity
     {
         public int? Quantity { get; set; }
-        public decimal? Price { get; set; }
+        public decimal? Price { get; set; }/// 
         public decimal? DiscountPrice { get; set; }
         public string? ScreenSize { get; set; }
         public string? ScreenType { get; set; }
@@ -45,6 +45,11 @@ namespace TechStore.Models
         [ForeignKey("Product")]
         public int ProductId { get; set; }
         public Product Product { get; set; }
+        public ICollection<Image> Images { get; set; }
+        public ProductItem()
+        {
+                Images=new List<Image>();    
+        }
 
     }
 }
