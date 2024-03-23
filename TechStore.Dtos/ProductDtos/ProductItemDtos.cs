@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TechStore.Models
+namespace TechStore.Dtos.ProductDtos
 {
-    public class ProductItem:BaseEntity
+    public class ProductItemDtos
     {
         public int? Quantity { get; set; }
         public decimal? Price { get; set; }/// 
@@ -37,19 +35,7 @@ namespace TechStore.Models
         public string? Clarity { get; set; }//Screen الوضوح
         public string? WaterResistant { get; set; }//SmartWatch مقاوم للماء
         public string? CompatibleWithDevices { get; set; }//SmartWatch متوافق مع اجهزه 
-
-        [ForeignKey("Color")]
         public int ColorId { get; set; }
-        public Color Color { get; set; }
-
-        [ForeignKey("Product")]
         public int ProductId { get; set; }
-        public Product Product { get; set; }
-        public ICollection<Image> Images { get; set; }
-        public ProductItem()
-        {
-                Images=new List<Image>();    
-        }
-
     }
 }
