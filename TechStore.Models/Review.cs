@@ -11,13 +11,13 @@ namespace TechStore.Models
     {
         public int Rating { get; set; }
         public string Comment { get; set; }
-        public DateTime ReviewDate { get; set; }
+        public DateTime? ReviewDate { get; set; } = DateTime.Now;
 
-        public string UserId { get; set; }
-        public TechUser User { get; set; }
+        public string? UserId { get; set; }
+        public TechUser? User { get; set; }
 
-        public int ProductId { get; set; }
-        public Product Product { get; set; }
+        public int? ProductId { get; set; }
+        public Product? Product { get; set; }
 
     }
 }

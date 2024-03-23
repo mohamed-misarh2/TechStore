@@ -1,16 +1,18 @@
-﻿using TechStore.Dtos.Category;
+﻿using TechStore.Dtos;
+using TechStore.Dtos.CategoryDtos;
 using TechStore.Dtos.ViewResult;
 
 namespace TechStore.Application.Services
 {
     public interface ICategoryService
     {
-        Task<ResultView<CreateOrUpdateCategory>> Create(CreateOrUpdateCategory category);
-        Task<ResultDataList<GetAllCategory>> GetAll();
-        Task<CreateOrUpdateCategory> GetById(int id);
-        Task<CreateOrUpdateCategory> GetByName(string name);
-        Task<ResultView<CreateOrUpdateCategory>> HardDelete(CreateOrUpdateCategory category);
-        Task<ResultView<CreateOrUpdateCategory>> SoftDelete(CreateOrUpdateCategory category);
-        Task<ResultView<CreateOrUpdateCategory>> Update(CreateOrUpdateCategory updatedcategory);
+        Task<ResultView<CategorySpecificationDto>> CreateCategory(CategoryDto category,List<SpecificationsDto> specificationsDto);
+        Task<ResultDataList<CategoryDto>> GetAllCategory();
+        Task<CategorySpecificationDto> GetCategoryById(int id);
+        Task<CategoryDto> GetCategoryByName(string name);
+        Task<ResultView<CategoryDto>> HardDeleteCategory(CategoryDto category);
+        Task<ResultView<CategoryDto>> SoftDeleteCategory(CategoryDto category);
+        Task<ResultView<CategoryDto>> UpdateCategory(CategoryDto category);
+        //Task<ResultView<CategoryDto>> AddSpecificationCategory(CategoryDto category,List<SpecificationsDto> specificationsDto);
     }
 }

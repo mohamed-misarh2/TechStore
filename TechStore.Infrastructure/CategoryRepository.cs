@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,15 +10,19 @@ using TechStore.Models;
 
 namespace TechStore.Infrastructure
 {
-    public class CategoryRepository : Repository<Category, int>,ICategoryRepository
+    public class CategoryRepository : Repository<Category, int>, ICategoryRepository
     {
         public CategoryRepository(TechStoreContext context) : base(context)
         {
         }
 
-        public async Task<Category> GetByName(string name)
+        public async Task<Category> SearchByName(string name)
         {
-            return await _entities.FindAsync(name);
+            return await _entities.Where(c=>c.Name==name).FirstOrDefaultAsync();
         }
+
+
+        
+
     }
 }

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TechStore.Dtos.Category
+namespace TechStore.Dtos
 {
-    public class CreateOrUpdateCategory
+    public class SpecificationsDto
     {
-        public int Id { get; set; }
+        public int SpecificationId { get; set; }
         public string Name { get; set; }
     }
 }
