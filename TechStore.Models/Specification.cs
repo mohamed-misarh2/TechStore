@@ -14,14 +14,15 @@ namespace TechStore.Models
 
         public string Name { get; set;}
 
-        public ICollection<CategorySpecifications> CategorySpecifications { get; set;}
-        public ICollection<ProductSpecifications> ProductSpecification { get; set; }
+        public ICollection<CategorySpecifications>? CategorySpecifications { get; set;}
+        public ICollection<ProductCategorySpecifications>? ProductSpecification { get; set; }
+
 
 
         public Specification() 
         {
             CategorySpecifications = new List<CategorySpecifications>();
-            ProductSpecification = new List<ProductSpecifications>();
+            ProductSpecification = new List<ProductCategorySpecifications>();
         }
 
         //public int? Quantity { get; set; }

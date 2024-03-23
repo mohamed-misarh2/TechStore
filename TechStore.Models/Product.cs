@@ -20,11 +20,11 @@ namespace TechStore.Models
         public ICollection<Image> Images { get; set; }
         public ICollection<Review> Reviews { get; set;}
         public ICollection<OrderItem> OrderItems { get; set; }
-        public ICollection<ProductSpecifications> ProductSpecification { get; set; }
+        public ICollection<ProductCategorySpecifications>? ProductCategorySpecifications { get; set; }
 
         public Product()
         {
-            ProductSpecification = new List<ProductSpecifications>();
+            ProductCategorySpecifications = new List<ProductCategorySpecifications>();
             OrderItems = new List<OrderItem>();
             Reviews = new List<Review>();
             Images= new List<Image>();  

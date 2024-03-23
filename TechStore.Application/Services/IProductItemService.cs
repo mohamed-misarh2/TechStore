@@ -13,15 +13,15 @@ namespace TechStore.Application.Services
     public interface IProductItemService
     {
         //Task<ResultView<CreateOrUpdateProductDtos>> Create(CreateOrUpdateProductDtos productDto);
-        Task<ResultView<ProductItemDtos>> CreateProductItem(ProductItemDtos productItemDto);
+        //Task<ResultView<ProductItemDtos>> CreateProductItem(ProductItemDtos productItemDto);
        
-        Task<ResultView<ProductItemDtos>> SoftDeleteProductItem(int ProductItemId);
+        //Task<ResultView<ProductItemDtos>> SoftDeleteProductItem(int ProductItemId);
 
-        Task<ResultView<ProductItemDtos>> HardDeleteProductItem(ProductItemDtos productItemDto);
+        //Task<ResultView<ProductItemDtos>> HardDeleteProductItem(ProductItemDtos productItemDto);
 
-        Task<ResultView<ProductItemDtos>> UpdateProductItem(ProductItemDtos productDto);
+        //Task<ResultView<ProductItemDtos>> UpdateProductItem(ProductItemDtos productDto);
 
-        Task<ResultView<ProductItemDtos>> GetOneProductItem(int id);
+        //Task<ResultView<ProductItemDtos>> GetOneProductItem(int id);
 
     }
 }

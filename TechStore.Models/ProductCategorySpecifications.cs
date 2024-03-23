@@ -7,15 +7,20 @@ using System.Threading.Tasks;
 
 namespace TechStore.Models
 {
-    public class CategorySpecifications:BaseEntity
+    public class ProductCategorySpecifications:BaseEntity
     {
-        [ForeignKey("Category")]
-        public int? CategoryId {  get; set; } 
-        public Category? Category { get; set; }
+        [ForeignKey("Product")]
+        public int? ProductId { get; set; }
+        public Product? Product { get; set; }
 
+        [ForeignKey("Category")]
+        public int? CategoryId { get; set; }
+        public Category? Category { get; set; }
 
         [ForeignKey("Specification")]
         public int? SpecificationId { get; set; }
         public Specification? Specification { get; set; }
+
+        public string Value { get; set; }
     }
 }

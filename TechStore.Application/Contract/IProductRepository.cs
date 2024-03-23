@@ -15,9 +15,9 @@ namespace TechStore.Application.Contract
         Task<IQueryable<Product>> SearchByBrand(string Brand);
         Task<IQueryable<Product>> GetProductsByCategory(int categoryId);
         Task<IQueryable<Product>> GetRelatedProducts(Product product);//samecategory
-        Task<IQueryable<Product>> GetProductsByPriceRange(decimal minPrice, decimal maxPrice);
+        //Task<IQueryable<Product>> GetProductsByPriceRange(decimal minPrice, decimal maxPrice);
         Task<IQueryable<Product>> GetNewlyAddedProducts(int count);
-        Task<IQueryable<Product>> GetDiscountedProducts();
+        //Task<IQueryable<Product>> GetDiscountedProducts();
         
     }
 }

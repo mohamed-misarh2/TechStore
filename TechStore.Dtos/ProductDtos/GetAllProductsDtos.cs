@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TechStore.Models;
 
-namespace TechStore.Dtos
+namespace TechStore.Dtos.ProductDtos
 {
-    public class GetAllProductsForAdminDto
+    public class GetAllProductsDtos
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -17,7 +17,7 @@ namespace TechStore.Dtos
         public int StockQuantity { get; set; }
         public ICollection<string> Images { get; set; }
         public int CategoryId { get; set; }
-        public DateTime DateAdded { get; set; }
+        public DateTime? DateAdded { get; set; }
         public bool IsDeleted { get; set; }
         public string FullName { get; set; }
     }

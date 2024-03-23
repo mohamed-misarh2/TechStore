@@ -21,7 +21,7 @@ namespace TechStore.Context
         public DbSet<Image> Images { get; set; }
         public DbSet<Color> Colors { get; set; }
         public DbSet<CategorySpecifications> CategorySpecifications { get; set; }
-        public DbSet<ProductSpecifications> ProductSpecifications { get; set; }
+        public DbSet<ProductCategorySpecifications> ProductSpecifications { get; set; }
         // public DbSet<Payment> Payment { get; set; }
         public TechStoreContext(DbContextOptions<TechStoreContext> options)
             : base(options)

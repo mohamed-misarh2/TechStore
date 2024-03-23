@@ -13,12 +13,12 @@ namespace TechStore.Models
 
         public ICollection<CategorySpecifications> CategorySpecifications { get; set; }
         
-        public ICollection<ProductSpecifications> ProductSpecification { get; set; }
+        public ICollection<ProductCategorySpecifications> ProductCategorySpecifications { get; set; }
         public Category ()
         {
             Products = new List<Product> ();
             CategorySpecifications = new List<CategorySpecifications>();
-            ProductSpecification = new List<ProductSpecifications>();
+            ProductCategorySpecifications = new List<ProductCategorySpecifications>();
 
         }
     }

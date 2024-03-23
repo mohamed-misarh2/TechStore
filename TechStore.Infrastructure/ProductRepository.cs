@@ -17,10 +17,10 @@ namespace TechStore.Infrastructure
 
         public ProductRepository(TechStoreContext techStoreContext) : base(techStoreContext) { }
 
-        public async Task<IQueryable<Product>> GetDiscountedProducts()
-        {
-            return await Task.FromResult(_entities.Include(p=>p.ProductItem.Select(p=>p.DiscountPrice < p.Price)));
-        }
+        //public async Task<IQueryable<Product>> GetDiscountedProducts()
+        //{
+        //    return await Task.FromResult(_entities.Include(p=>p.ProductItem.Select(p=>p.DiscountPrice < p.Price)));
+        //}
 
         public Task<IQueryable<Product>> GetNewlyAddedProducts(int count)
         {
@@ -32,10 +32,10 @@ namespace TechStore.Infrastructure
             return Task.FromResult(_entities.Where(p => p.CategoryId == categoryId));
         }
 
-        public async Task<IQueryable<Product>> GetProductsByPriceRange(decimal minPrice, decimal maxPrice)
-        {
-            return await Task.FromResult(_entities.Include(p => p.ProductItem.Select(p => p.Price >= minPrice && p.Price <= maxPrice)));
-        }
+        //public async Task<IQueryable<Product>> GetProductsByPriceRange(decimal minPrice, decimal maxPrice)
+        //{
+        //    return await Task.FromResult(_entities.Include(p => p.ProductItem.Select(p => p.Price >= minPrice && p.Price <= maxPrice)));
+        //}
 
         public Task<IQueryable<Product>> GetRelatedProducts(Product product)
         {

@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TechStore.Application.Contract;
-using TechStore.Dtos;
 using TechStore.Dtos.ProductDtos;
 using TechStore.Dtos.ViewResult;
 using TechStore.Models;
@@ -154,7 +153,7 @@ namespace TechStore.Application.Services
             };
         }
 
-        public async Task<ResultDataList<GetAllProductsForAdminDto>> GetAllPagination(int ItemsPerPage, int PageNumber)
+        public async Task<ResultDataList<GetAllProductsDtos>> GetAllPagination(int ItemsPerPage, int PageNumber)
         {
 
             if (PageNumber > 1)
@@ -162,7 +161,7 @@ namespace TechStore.Application.Services
                 var products = (await _productRepository.GetAllAsync())
                             .Where(p => p.IsDeleted == false)
                             .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
-                            .Select(p => new GetAllProductsForAdminDto
+                            .Select(p => new GetAllProductsDtos
                             {
                                 Id = p.Id,
                                 Name = p.ModelName,
@@ -174,7 +173,7 @@ namespace TechStore.Application.Services
                                 IsDeleted = p.IsDeleted
                             }).ToList();
 
-                var resultDataList = new ResultDataList<GetAllProductsForAdminDto>()
+                var resultDataList = new ResultDataList<GetAllProductsDtos>()
                 {
                     Entities = products,
                     Count = products.Count()
@@ -182,7 +181,7 @@ namespace TechStore.Application.Services
                 return resultDataList;
             }
 
-            var resultDataListt = new ResultDataList<GetAllProductsForAdminDto>()
+            var resultDataListt = new ResultDataList<GetAllProductsDtos>()
             {
                 Entities = null,
                 Count = 0
@@ -309,37 +308,37 @@ namespace TechStore.Application.Services
             return resultDataList;
         }
 
-        public async Task<ResultDataList<CreateOrUpdateProductDtos>> FilterProductsByPriceRange(decimal minPrice, decimal maxPrice, int ItemsPerPage, int PageNumber)
-        {
-            if(minPrice < 0 || maxPrice < 0)
-            {
-                throw new ArgumentException("Prices cannot be negative !");
-            }
+        //public async Task<ResultDataList<CreateOrUpdateProductDtos>> FilterProductsByPriceRange(decimal minPrice, decimal maxPrice, int ItemsPerPage, int PageNumber)
+        //{
+        //    if(minPrice < 0 || maxPrice < 0)
+        //    {
+        //        throw new ArgumentException("Prices cannot be negative !");
+        //    }
 
-            if(minPrice > maxPrice)
-            {
-                throw new ArgumentException("Minimum Price Cannot be Greater than Maximum Price");
-            }
+        //    if(minPrice > maxPrice)
+        //    {
+        //        throw new ArgumentException("Minimum Price Cannot be Greater than Maximum Price");
+        //    }
 
-            if (PageNumber <= 0)
-            {
-                throw new ArgumentException("Page number must be greater than zero");
-            }
+        //    if (PageNumber <= 0)
+        //    {
+        //        throw new ArgumentException("Page number must be greater than zero");
+        //    }
 
-            var products = (await _productRepository.GetProductsByPriceRange(minPrice, maxPrice))
-                           .Where(p => p.IsDeleted != false)
-                           .Skip(ItemsPerPage * (PageNumber - 1))
-                           .Take(ItemsPerPage)
-                           .ToList();
+        //    var products = (await _productRepository.GetProductsByPriceRange(minPrice, maxPrice))
+        //                   .Where(p => p.IsDeleted != false)
+        //                   .Skip(ItemsPerPage * (PageNumber - 1))
+        //                   .Take(ItemsPerPage)
+        //                   .ToList();
 
-            var productsDtos = _mapper.Map <List<CreateOrUpdateProductDtos>>(products);
-            var resultDataList = new ResultDataList<CreateOrUpdateProductDtos>()
-            {
-                Entities = productsDtos,
-                Count = productsDtos.Count()
-            };
-            return resultDataList;
-        }
+        //    var productsDtos = _mapper.Map <List<CreateOrUpdateProductDtos>>(products);
+        //    var resultDataList = new ResultDataList<CreateOrUpdateProductDtos>()
+        //    {
+        //        Entities = productsDtos,
+        //        Count = productsDtos.Count()
+        //    };
+        //    return resultDataList;
+        //}
 
         public async Task<ResultDataList<CreateOrUpdateProductDtos>> FilterNewlyAddedProductsAsync(int count, int ItemsPerPage, int PageNumber)
         {
@@ -367,60 +366,33 @@ namespace TechStore.Application.Services
             return resultDataLists;
         }
 
-        public async Task<ResultDataList<CreateOrUpdateProductDtos>> FilterDiscountedProducts(int ItemsPerPage, int PageNumber)
-        {
-            if (PageNumber <= 0)
-            {
-                throw new ArgumentException("Page number must be greater than zero");
-            }
-
-            var products = (await _productRepository.GetDiscountedProducts())
-                           .Where(p=>p.IsDeleted != false)
-                           .Skip(ItemsPerPage * (PageNumber - 1))
-                           .Take(ItemsPerPage)
-                           .ToList();
-
-            if(products is null)//!products.Any() =>empty ?
-            {
-                throw new ArgumentException("No discounted products found");
-            }
-
-            var productsDto = _mapper.Map<List<CreateOrUpdateProductDtos>>(products);
-            var resultDataList = new ResultDataList<CreateOrUpdateProductDtos>()
-            {
-                Entities = productsDto,
-                Count = productsDto.Count()
-            };
-            return resultDataList;
-        }
-
-        //public async Task<ResultDataList<GetAllProductsForUserDto>> GetAllPaginationForUser(int ItemsPerPage, int PageNumber)
+        //public async Task<ResultDataList<CreateOrUpdateProductDtos>> FilterDiscountedProducts(int ItemsPerPage, int PageNumber)
         //{
         //    if (PageNumber <= 0)
         //    {
         //        throw new ArgumentException("Page number must be greater than zero");
         //    }
 
-        //    var products = (await _productRepository.GetAllAsync())
-        //                    .Where(p => p.IsDeleted != false)
-        //                    .Skip(ItemsPerPage * (PageNumber - 1))
-        //                    .Take(ItemsPerPage)
-        //                    .Select(p => new GetAllProductsForUserDto
-        //                    {
-        //                        Id = p.Id,
-        //                        Name = p.ModelName,
-        //                        Description = p.Description,
-        //                        Brand = p.Brand,
-        //                        DateAdded = p.DateAdded,
-        //                    }).ToList();
+        //    var products = (await _productRepository.GetDiscountedProducts())
+        //                   .Where(p=>p.IsDeleted != false)
+        //                   .Skip(ItemsPerPage * (PageNumber - 1))
+        //                   .Take(ItemsPerPage)
+        //                   .ToList();
 
-        //    var resultDataList = new ResultDataList<GetAllProductsForUserDto>()
+        //    if(products is null)//!products.Any() =>empty ?
         //    {
-        //        Entities = products,
-        //        Count = products.Count()
+        //        throw new ArgumentException("No discounted products found");
+        //    }
+
+        //    var productsDto = _mapper.Map<List<CreateOrUpdateProductDtos>>(products);
+        //    var resultDataList = new ResultDataList<CreateOrUpdateProductDtos>()
+        //    {
+        //        Entities = productsDto,
+        //        Count = productsDto.Count()
         //    };
         //    return resultDataList;
         //}
 
+        
     }
 }
