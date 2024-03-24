@@ -31,5 +31,10 @@ namespace TechStore.Infrastructure
 
             return specifications;
         }
+
+        public Task<string> GetSpecificationNameById(int id)
+        {
+            return Task.FromResult( _entities.Where(spec=>spec.Id == id).Select(se=>se.Name).FirstOrDefault());
+        }
     }
 }

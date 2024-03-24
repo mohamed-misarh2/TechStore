@@ -22,6 +22,14 @@ namespace TechStore.Infrastructure
         //    return await Task.FromResult(_entities.Include(p=>p.ProductItem.Select(p=>p.DiscountPrice < p.Price)));
         //}
 
+        public async Task DetachEntityAsync(Product entity)
+        {
+            if (_context.Entry(entity).State != EntityState.Detached)
+            {
+                _context.Entry(entity).State = EntityState.Detached;
+            }
+        }
+
         public Task<IQueryable<Product>> GetNewlyAddedProducts(int count)
         {
             return Task.FromResult(_entities.OrderByDescending(p => p.DateAdded).Take(count));

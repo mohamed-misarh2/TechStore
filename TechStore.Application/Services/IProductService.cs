@@ -12,19 +12,15 @@ namespace TechStore.Application.Services
 {
     public interface IProductService
     {
-        
+        Task<ResultView<ProductCategorySpecificationsListDto>> Create(CreateOrUpdateProductDtos productDto, List<ProductCategorySpecificationsDto> ProductCategorySpecificationsDto);
 
+        Task<ResultView<GetProductSpecificationNameValueDtos>> GetOne(int id);
 
+        Task<ResultView<ProductCategorySpecificationsListDto>> Update(CreateOrUpdateProductDtos productDto, List<ProductCategorySpecificationsDto> ProductCategorySpecificationsDto);
 
-        Task<ResultView<CreateOrUpdateProductDtos>> Create(CreateOrUpdateProductDtos productDto);
+        Task<ResultView<ProductCategorySpecificationsListDto>> SoftDelete(int productId);
 
-        Task<ResultView<CreateOrUpdateProductDtos>> GetOne(int id);
-
-        Task<ResultView<CreateOrUpdateProductDtos>> Update(CreateOrUpdateProductDtos productDto);
-
-        Task<ResultView<CreateOrUpdateProductDtos>> SoftDelete(CreateOrUpdateProductDtos productDto);
-
-        Task<ResultView<CreateOrUpdateProductDtos>> HardDelete(CreateOrUpdateProductDtos productDto);
+        Task<ResultView<ProductCategorySpecificationsListDto>> HardDelete(int productId);
 
         Task<ResultDataList<GetAllProductsDtos>> GetAllPagination(int ItemsPerPage, int PageNumber);
 

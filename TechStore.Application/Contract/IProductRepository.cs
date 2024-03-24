@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,9 @@ namespace TechStore.Application.Contract
 {
     public interface IProductRepository:IRepository<Product,int>
     {
+        Task DetachEntityAsync(Product entity);
+        
+
         Task<IQueryable<Product>> SearchProduct(string Name);
         Task<IQueryable<Product>> SearchByBrand(string Brand);
         Task<IQueryable<Product>> GetProductsByCategory(int categoryId);

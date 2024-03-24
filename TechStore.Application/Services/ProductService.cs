@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TechStore.Application.Contract;
+using TechStore.Dtos;
 using TechStore.Dtos.ProductDtos;
 using TechStore.Dtos.ViewResult;
 using TechStore.Models;
@@ -18,20 +19,26 @@ namespace TechStore.Application.Services
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
+        private readonly IproductCategorySpecifications _productCategorySpecifications;
+        private readonly IspecificationsRepository _ispecificationsRepository;
         private readonly IMapper _mapper;
 
-        public ProductService(IProductRepository productRepository,IMapper mapper) {
+        public ProductService(IProductRepository productRepository,IproductCategorySpecifications productCategorySpecifications,IspecificationsRepository ispecificationsRepository,IMapper mapper) {
             _productRepository = productRepository;
+            _productCategorySpecifications = productCategorySpecifications;
+            _ispecificationsRepository = ispecificationsRepository;
             _mapper = mapper;
         }
 
-        public async Task<ResultView<CreateOrUpdateProductDtos>> Create(CreateOrUpdateProductDtos productDto)
+
+        //admin
+        public async Task<ResultView<ProductCategorySpecificationsListDto>> Create(CreateOrUpdateProductDtos productDto,List<ProductCategorySpecificationsDto> ProductCategorySpecificationsDto)
         {
             var OldProduct = (await _productRepository.GetAllAsync())
-                             .Where(p => p.Description == productDto.Description).FirstOrDefault();//******??
+                             .Where(p => p.Description == productDto.Description).FirstOrDefault();
             if (OldProduct != null)
             {
-                return new ResultView<CreateOrUpdateProductDtos>
+                return new ResultView<ProductCategorySpecificationsListDto>
                 {
                     Entity = null,
                     IsSuccess = false,
@@ -40,32 +47,67 @@ namespace TechStore.Application.Services
             }
 
             var product = _mapper.Map<Product>(productDto);
-            var NewProduct = await _productRepository.CreateAsync(product);
+            var AddedProduct = await _productRepository.CreateAsync(product);
             await _productRepository.SaveChangesAsync();
-            var NewProductDto = _mapper.Map<CreateOrUpdateProductDtos>(product);
-            return new ResultView<CreateOrUpdateProductDtos>
+
+            var list = new List<ProductCategorySpecifications>();
+
+            foreach (var item in ProductCategorySpecificationsDto)
             {
-                Entity = NewProductDto,
+                var itemModel = _mapper.Map<ProductCategorySpecifications>(item);
+                itemModel.ProductId = AddedProduct.Id;
+                itemModel.CategoryId = AddedProduct.CategoryId;
+                var res = await _productCategorySpecifications.CreateAsync(itemModel);
+                list.Add(res);
+            }
+
+            await _productCategorySpecifications.SaveChangesAsync();
+            
+            var listDto = _mapper.Map<List<ProductCategorySpecificationsDto>>(list);
+
+            var NewProductDto = _mapper.Map<CreateOrUpdateProductDtos>(product);
+            var ProductCategorySpecificationsList = new ProductCategorySpecificationsListDto
+            {
+                CreateOrUpdateProductDtos = NewProductDto,
+                ProductCategorySpecifications = listDto
+            };
+
+            return new ResultView<ProductCategorySpecificationsListDto>
+            {
+                Entity = ProductCategorySpecificationsList,
                 IsSuccess = true,
                 Message = "Product Added Successfully !"
             };
         }
-
-        public async Task<ResultView<CreateOrUpdateProductDtos>> GetOne(int id)
+        
+        public async Task<ResultView<GetProductSpecificationNameValueDtos>> GetOne(int id)
         {
-            var ProductModel =await _productRepository.GetByIdAsync(id);
+            var ProductModel = await _productRepository.GetByIdAsync(id);
             if (ProductModel != null)
             {
                 var productDto = _mapper.Map<CreateOrUpdateProductDtos>(ProductModel);
-                return new ResultView<CreateOrUpdateProductDtos>
+
+                var productCategorySpecificationsList = (await _productCategorySpecifications.GetProductCategorySpecifications(id)).ToList();
+
+                var SpecList = new List<GetSpecificationsNameValueDtos>();
+
+                foreach(var productCatSpec in productCategorySpecificationsList)
                 {
-                    Entity = productDto,
+                    var SpecName = await _ispecificationsRepository.GetSpecificationNameById((int)productCatSpec.SpecificationId);
+                    SpecList.Add(new GetSpecificationsNameValueDtos { Name = SpecName, Value = productCatSpec.Value });
+                }
+
+                var getAll = new GetProductSpecificationNameValueDtos { createOrUpdateProductDtos = productDto, specificationsNameValueDtos = SpecList };
+
+                return new ResultView<GetProductSpecificationNameValueDtos>
+                {
+                    Entity = getAll,
                     IsSuccess = true,
                     Message = "Product Retrived Successfully !"
                 };
             }
 
-            return new ResultView<CreateOrUpdateProductDtos>
+            return new ResultView<GetProductSpecificationNameValueDtos>
             {
                 Entity = null,
                 IsSuccess = false,
@@ -74,25 +116,48 @@ namespace TechStore.Application.Services
 
         }
 
-        public async Task<ResultView<CreateOrUpdateProductDtos>> Update(CreateOrUpdateProductDtos productDto)
+        public async Task<ResultView<ProductCategorySpecificationsListDto>> Update(CreateOrUpdateProductDtos productDto , List<ProductCategorySpecificationsDto> ProductCategorySpecificationsDto)
         {
-            //var OldProductDto = (await _productRepository.GetAllAsync())
-            //                    .Where(p => p.Id == productDto.Id).FirstOrDefault();
+            //var OldProduct = await _productRepository.GetByIdAsync(productDto.Id);//error here tracking id
+
             var OldProduct = await _productRepository.GetByIdAsync(productDto.Id);
-            if(OldProduct != null)
+            await _productRepository.DetachEntityAsync(OldProduct);
+
+            if (OldProduct != null)
             {
-                var NewUpdatedProduct = await _productRepository.UpdateAsync(OldProduct);
+                var updatedProduct = _mapper.Map<Product>(productDto);
+                var NewUpdatedProduct = await _productRepository.UpdateAsync(updatedProduct);
                 await _productRepository.SaveChangesAsync();
-                var NewUpdatedProductDto = _mapper.Map<CreateOrUpdateProductDtos>(NewUpdatedProduct);
-                return new ResultView<CreateOrUpdateProductDtos>
+
+                List<ProductCategorySpecifications> productCategorySpecifications = new List<ProductCategorySpecifications>();
+
+                foreach (var productSpecDto in ProductCategorySpecificationsDto)
                 {
-                    Entity = NewUpdatedProductDto,
+                    var updatedSpecModel = _mapper.Map<ProductCategorySpecifications>(productSpecDto);
+                    var updatedSpec = await _productCategorySpecifications.UpdateAsync(updatedSpecModel);
+                    productCategorySpecifications.Add(updatedSpec);
+                }
+
+                await _productCategorySpecifications.SaveChangesAsync();
+                var NewUpdatedProductDto = _mapper.Map<CreateOrUpdateProductDtos>(NewUpdatedProduct);
+                var productCategorySpecDto = _mapper.Map<List<ProductCategorySpecificationsDto>>(productCategorySpecifications);
+
+                var productCategorySpecListDto = new ProductCategorySpecificationsListDto
+                {
+                    CreateOrUpdateProductDtos = NewUpdatedProductDto,
+                    ProductCategorySpecifications = productCategorySpecDto
+                };
+
+                return new ResultView<ProductCategorySpecificationsListDto>
+                {
+                    Entity = productCategorySpecListDto,
                     IsSuccess = true,
                     Message = "Product Updated Successfully !"
                 };
+
             }
 
-            return new ResultView<CreateOrUpdateProductDtos>
+            return new ResultView<ProductCategorySpecificationsListDto>
             {
                 Entity = null,
                 IsSuccess = false,
@@ -100,52 +165,84 @@ namespace TechStore.Application.Services
             };
         }
 
-        public async Task<ResultView<CreateOrUpdateProductDtos>> SoftDelete(CreateOrUpdateProductDtos productDto)
+        public async Task<ResultView<ProductCategorySpecificationsListDto>> SoftDelete(int productId)
         {
-            //var OldProduct = (await _productRepository.GetAllAsync())
-            //                 .Where(p=>p.Id == productDto.Id).FirstOrDefault();
-            var OldProduct = (await _productRepository.GetByIdAsync(productDto.Id));
+            var OldProduct = (await _productRepository.GetByIdAsync(productId));
             if (OldProduct != null)
             {
                 OldProduct.IsDeleted = true;
                 await _productRepository.SaveChangesAsync();
-                var DeletedProductDto = _mapper.Map<CreateOrUpdateProductDtos>(OldProduct);
-                return new ResultView<CreateOrUpdateProductDtos>
+
+                var ProductCatSpec = (await _productCategorySpecifications.GetProductCategorySpecifications(productId)).ToList();
+
+                foreach(var productCategorySpec in ProductCatSpec)
                 {
-                    Entity = DeletedProductDto,
+                    productCategorySpec.IsDeleted = true;
+                }
+                await _productCategorySpecifications.SaveChangesAsync();
+
+                var DeletedProductDto = _mapper.Map<CreateOrUpdateProductDtos>(OldProduct);
+                var ProductCatSpecDtos = _mapper.Map<List<ProductCategorySpecificationsDto>>(ProductCatSpec);
+
+                var ProductCatSpecListDtos = new ProductCategorySpecificationsListDto { CreateOrUpdateProductDtos = DeletedProductDto, ProductCategorySpecifications = ProductCatSpecDtos };
+
+                return new ResultView<ProductCategorySpecificationsListDto>
+                {
+                    Entity = ProductCatSpecListDtos,
                     IsSuccess = true,
                     Message = "Product Deleted Successfully !"
 
                 };
             }
 
-            return new ResultView<CreateOrUpdateProductDtos>
+            return new ResultView<ProductCategorySpecificationsListDto>
             {
                 Entity = null,
                 IsSuccess = false,
-                Message = "failed tp delete this product !"
+                Message = "failed to delete this product !"
 
             };
 
         }
         
-        public async Task<ResultView<CreateOrUpdateProductDtos>> HardDelete(CreateOrUpdateProductDtos productDto)
+        public async Task<ResultView<ProductCategorySpecificationsListDto>> HardDelete(int productId)
         {
-            var product = await _productRepository.GetByIdAsync(productDto.Id);//??? whyyyyyyyyyy ???
+            var product = await _productRepository.GetByIdAsync(productId);
             if (product != null)
             {
+
+                var ProductCatSpec = (await _productCategorySpecifications.GetProductCategorySpecifications(productId)).ToList();
+
+                var productCategorySpecificationsList = new List<ProductCategorySpecifications>();
+                foreach (var productCatSpec in ProductCatSpec)
+                {
+                    var DeletedproductCategorySpecifications = await _productCategorySpecifications.DeleteAsync(productCatSpec);
+                    productCategorySpecificationsList.Add(DeletedproductCategorySpecifications);
+                }
+
+                await _productCategorySpecifications.SaveChangesAsync();
+
                 var DeletedProductModel = await _productRepository.DeleteAsync(product);
                 await _productRepository.SaveChangesAsync();
+
                 var DeletedProductDto = _mapper.Map<CreateOrUpdateProductDtos>(DeletedProductModel);
-                return new ResultView<CreateOrUpdateProductDtos>
+                var productCategorySpecificationsListtDtos = _mapper.Map<List<ProductCategorySpecificationsDto>>(productCategorySpecificationsList);
+
+                var productCategorySpecificationsListDto = new ProductCategorySpecificationsListDto
                 {
-                        Entity = DeletedProductDto,
+                    CreateOrUpdateProductDtos = DeletedProductDto,
+                    ProductCategorySpecifications = productCategorySpecificationsListtDtos
+                };
+
+                return new ResultView<ProductCategorySpecificationsListDto>
+                {
+                        Entity = productCategorySpecificationsListDto,
                         IsSuccess = true,
                         Message = "Product Deleted Sucessfully"
                 };
             }
 
-            return new ResultView<CreateOrUpdateProductDtos>
+            return new ResultView<ProductCategorySpecificationsListDto>
             {
                 Entity = null,
                 IsSuccess = false,
@@ -188,10 +285,13 @@ namespace TechStore.Application.Services
             };
             return resultDataListt;
      }
-            
 
 
-        //****
+
+
+
+        //user
+
         public async Task<ResultDataList<CreateOrUpdateProductDtos>> SearchProduct(string Name, int ItemsPerPage, int PageNumber)
         {
             try

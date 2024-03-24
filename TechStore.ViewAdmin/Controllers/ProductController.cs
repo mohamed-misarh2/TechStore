@@ -13,12 +13,10 @@ namespace TechStore.ViewAdmin.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
-        private readonly IProductItemService _productItemService;
 
-        public ProductController(IProductService productService,IProductItemService productItemService)
+        public ProductController(IProductService productService)
         {
             _productService = productService;
-            _productItemService = productItemService;
         }
 
 
@@ -70,12 +68,12 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> Create(CreateOrUpdateProductDtos product)
+        public async Task<ActionResult> Create([FromBody] ProductCategorySpecificationsListDto product)
         {
             if (ModelState.IsValid)
             {
-                await _productService.Create(product);
-                return Ok("Created Successfully!");
+                var res =  await _productService.Create(product.CreateOrUpdateProductDtos,product.ProductCategorySpecifications);
+                return Ok(res);
             }
             return BadRequest(ModelState);
         }
@@ -84,14 +82,9 @@ namespace TechStore.ViewAdmin.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> HardDeleteProduct(int id)
         {
-            if(id > 0)
+            if (id > 0)
             {
-                var product = await _productService.GetOne(id);
-                if (product.Entity is null)
-                {
-                    return BadRequest("Product NotFound !");
-                }
-                var DeletedProduct = await _productService.HardDelete(product.Entity);
+                var DeletedProduct = await _productService.HardDelete(id);
                 if (DeletedProduct.IsSuccess)
                 {
                     return Ok(DeletedProduct.Message);
@@ -103,14 +96,14 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpDelete]
-        public async Task<IActionResult> SoftDeleteProduct(CreateOrUpdateProductDtos productDto)
+        public async Task<IActionResult> SoftDeleteProduct(int ProductId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var DeletedProduct = await _productService.SoftDelete(productDto);
+            var DeletedProduct = await _productService.SoftDelete(ProductId);
             if (DeletedProduct.IsSuccess)
             {
                 return Ok(DeletedProduct.Entity);
@@ -120,11 +113,11 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpPut]
-        public async Task<ActionResult> Update(CreateOrUpdateProductDtos product)
+        public async Task<ActionResult> Update([FromBody] ProductCategorySpecificationsListDto product)
         {
             if (ModelState.IsValid)
             {
-                var p = await _productService.Update(product);
+                var p = await _productService.Update(product.CreateOrUpdateProductDtos,product.ProductCategorySpecifications);
                 return Ok("Updated Successfully!");
             }
             return BadRequest(ModelState);
