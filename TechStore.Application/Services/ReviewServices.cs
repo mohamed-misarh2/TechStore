@@ -25,21 +25,13 @@ namespace TechStore.Application.Services
         }
         public async Task<ResultView<CreateOrUpdateReviewDto>> CreateReview(CreateOrUpdateReviewDto Review)
         {
-            var oldreview=(await _reviewRepository.GetAllAsync()).FirstOrDefault(r=>r.Id== Review.Id);
-            if (oldreview!=null)
-            {
-                return new ResultView<CreateOrUpdateReviewDto>() { Entity = null, IsSuccess = true, Message = "Already Exist" };
-
-            }
-            else
-            {
+           
                 var review=  _mapper.Map<Review>(Review);
                 var NewReview= await _reviewRepository.CreateAsync(review);
                 await _reviewRepository.SaveChangesAsync();
                 var ReviewDto= _mapper.Map<CreateOrUpdateReviewDto>(NewReview);
                 return new ResultView<CreateOrUpdateReviewDto>() { Entity=ReviewDto,IsSuccess=true, Message = "Created Successfully" };
 
-            }
            
         }
 

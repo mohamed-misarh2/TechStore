@@ -1,10 +1,13 @@
 ﻿@{
     ViewData["Title"] = "UpdateReview";
+    Layout = null;
+
 }
 
-<h1>AddReview</h1>
+<h1>UpdateReview</h1>
 
 @model TechStore.Dtos.ReviewDtos.CreateOrUpdateReviewDto
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="UpdateReview" asp-controller="Review" method="post" enctype="multipart/form-data">
