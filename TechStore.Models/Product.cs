@@ -17,7 +17,7 @@ namespace TechStore.Models
         public Category Category { get; set; }
         public string UserId { get; set; }
         public TechUser User { get; set; }
-        public ICollection<Image> Images { get; set; }
+        public ICollection<Image>? Images { get; set; }
         public ICollection<Review> Reviews { get; set;}
         public ICollection<OrderItem> OrderItems { get; set; }
         public ICollection<ProductCategorySpecifications>? ProductCategorySpecifications { get; set; }

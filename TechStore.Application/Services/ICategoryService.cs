@@ -1,5 +1,5 @@
-﻿using TechStore.Dtos;
-using TechStore.Dtos.CategoryDtos;
+﻿using TechStore.Dtos.CategoryDtos;
+using TechStore.Dtos.ProductDtos;
 using TechStore.Dtos.ViewResult;
 
 namespace TechStore.Application.Services

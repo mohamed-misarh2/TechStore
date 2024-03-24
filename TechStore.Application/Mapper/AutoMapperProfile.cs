@@ -28,14 +28,12 @@ namespace TechStore.Application.Mapper
 
             CreateMap<CreateOrUpdateProductDtos, Product>().ReverseMap();
             CreateMap<SpecificationsDto, Specification>().ReverseMap();
-               
 
+
+            CreateMap<ProductCategorySpecificationsDto, ProductCategorySpecifications>().ReverseMap();
 
             //productitem
-            CreateMap<LabtopItemDtos, Specification>().ReverseMap();
-            CreateMap<MobileAndTabletItemDtos, Specification>().ReverseMap();
-            CreateMap<ScreenItemDtos, Specification>().ReverseMap();
-            CreateMap<SmartwatchItemDtos, Specification>().ReverseMap();
+
             CreateMap<GetAllProductsDtos, Product>().ReverseMap();
             CreateMap<GetAllProductsForUserDto, Product>().ReverseMap();
 

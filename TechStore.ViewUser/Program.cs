@@ -31,17 +31,16 @@ namespace TechStore.ViewUser
                options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
 
             builder.Services.AddScoped<ICategoryService, CategoryService>();
-            builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IUserServices, UserServices>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IUserServices, UserServices>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
-         builder.Services.AddScoped<IReviewService, ReviewServices>();
+            builder.Services.AddScoped<IReviewService, ReviewServices>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
-            builder.Services.AddScoped<IProductItemRepository, ProductItemRepository>();
             builder.Services.AddScoped<IProductService, ProductService>();
-            builder.Services.AddScoped<IProductItemService, ProductItemService>();
+
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -74,3 +73,4 @@ namespace TechStore.ViewUser
         }
     }
 }
+
