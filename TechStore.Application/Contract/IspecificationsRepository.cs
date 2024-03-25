@@ -14,5 +14,6 @@ namespace TechStore.Application.Contract
 
         Task<IQueryable<Specification>> GetSpecificationsByCategory(int categoryId);
 
+        Task<string> GetSpecificationNameById(int id);
     }
 }

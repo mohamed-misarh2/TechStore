@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TechStore.Models;
 
 namespace TechStore.Dtos.ProductDtos
 {
@@ -16,6 +17,6 @@ namespace TechStore.Dtos.ProductDtos
         public DateTime DateAdded { get; set; }
         public int CategoryId { get; set; }
         public string UserId { get; set; }
-        public List<IFormFile>? Images { get; set; }
+        //public List<IFormFile>? Images { get; set; }
     }
 }

@@ -12,19 +12,15 @@ namespace TechStore.Application.Services
 {
     public interface IProductService
     {
-        
+        Task<ResultView<ProductCategorySpecificationsListDto>> Create(CreateOrUpdateProductDtos productDto, List<ProductCategorySpecificationsDto> ProductCategorySpecificationsDto);
 
+        Task<ResultView<GetProductSpecificationNameValueDtos>> GetOne(int id);
 
+        Task<ResultView<ProductCategorySpecificationsListDto>> Update(CreateOrUpdateProductDtos productDto, List<ProductCategorySpecificationsDto> ProductCategorySpecificationsDto);
 
-        Task<ResultView<CreateOrUpdateProductDtos>> Create(CreateOrUpdateProductDtos productDto);
+        Task<ResultView<ProductCategorySpecificationsListDto>> SoftDelete(int productId);
 
-        Task<ResultView<CreateOrUpdateProductDtos>> GetOne(int id);
-
-        Task<ResultView<CreateOrUpdateProductDtos>> Update(CreateOrUpdateProductDtos productDto);
-
-        Task<ResultView<CreateOrUpdateProductDtos>> SoftDelete(CreateOrUpdateProductDtos productDto);
-
-        Task<ResultView<CreateOrUpdateProductDtos>> HardDelete(CreateOrUpdateProductDtos productDto);
+        Task<ResultView<ProductCategorySpecificationsListDto>> HardDelete(int productId);
 
         Task<ResultDataList<GetAllProductsDtos>> GetAllPagination(int ItemsPerPage, int PageNumber);
 
@@ -32,7 +28,7 @@ namespace TechStore.Application.Services
 
 
 
-
+        //sort
 
 
 
@@ -53,12 +49,13 @@ namespace TechStore.Application.Services
 
         Task<ResultDataList<CreateOrUpdateProductDtos>> FiltertRelatedProducts(int productId, int ItemsPerPage, int PageNumber);
 
-        //Task<ResultDataList<CreateOrUpdateProductDtos>> FilterProductsByPriceRange(decimal minPrice, decimal maxPrice, int ItemsPerPage, int PageNumber);
+        Task<ResultDataList<CreateOrUpdateProductDtos>> FilterProductsByPriceRange(decimal minPrice, decimal maxPrice, int ItemsPerPage, int PageNumber);
 
-        Task<ResultDataList<CreateOrUpdateProductDtos>> FilterNewlyAddedProductsAsync(int count, int ItemsPerPage, int PageNumber);
+        Task<ResultDataList<CreateOrUpdateProductDtos>> FilterNewlyAddedProducts(int count, int ItemsPerPage, int PageNumber);
 
-        //Task<ResultDataList<CreateOrUpdateProductDtos>> FilterDiscountedProducts(int ItemsPerPage, int PageNumber);
+        Task<ResultDataList<CreateOrUpdateProductDtos>> FilterDiscountedProducts(int ItemsPerPage, int PageNumber);
 
-        //Task<ResultDataList<GetAllProductsForUserDto>> GetAllPaginationForUser(int ItemsPerPage, int PageNumber);
+        Task<ResultDataList<CreateOrUpdateProductDtos>> FilterProductsByWarranty(string Warranty, int ItemsPerPage, int PageNumber);
+
     }
 }

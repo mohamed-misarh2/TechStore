@@ -11,6 +11,7 @@ using TechStore.Dtos.UserDTO;
 using TechStore.Dtos.CategoryDtos;
 using Microsoft.AspNetCore.Identity;
 using TechStore.Dtos.ReviewDtos;
+using TechStore.Dtos.AccountDtos;
 
 
 namespace TechStore.Application.Mapper
@@ -28,14 +29,12 @@ namespace TechStore.Application.Mapper
 
             CreateMap<CreateOrUpdateProductDtos, Product>().ReverseMap();
             CreateMap<SpecificationsDto, Specification>().ReverseMap();
-               
 
+
+            CreateMap<ProductCategorySpecificationsDto, ProductCategorySpecifications>().ReverseMap();
 
             //productitem
-            CreateMap<LabtopItemDtos, Specification>().ReverseMap();
-            CreateMap<MobileAndTabletItemDtos, Specification>().ReverseMap();
-            CreateMap<ScreenItemDtos, Specification>().ReverseMap();
-            CreateMap<SmartwatchItemDtos, Specification>().ReverseMap();
+
             CreateMap<GetAllProductsDtos, Product>().ReverseMap();
             CreateMap<GetAllProductsForUserDto, Product>().ReverseMap();
 

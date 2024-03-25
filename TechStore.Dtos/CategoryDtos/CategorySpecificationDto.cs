@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TechStore.Dtos.CategoryDtos;
+using TechStore.Dtos.ProductDtos;
 
-namespace TechStore.Dtos
+namespace TechStore.Dtos.CategoryDtos
 {
     public class CategorySpecificationDto
     {

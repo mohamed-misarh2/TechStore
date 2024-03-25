@@ -17,10 +17,18 @@ namespace TechStore.Infrastructure
 
         public ProductRepository(TechStoreContext techStoreContext) : base(techStoreContext) { }
 
-        //public async Task<IQueryable<Product>> GetDiscountedProducts()
-        //{
-        //    return await Task.FromResult(_entities.Include(p=>p.ProductItem.Select(p=>p.DiscountPrice < p.Price)));
-        //}
+        public async Task<IQueryable<Product>> GetDiscountedProducts()
+        {
+            return await Task.FromResult(_entities.Where(p => p.DiscountedPrice < p.Price));
+        }
+
+        public async Task DetachEntityAsync(Product entity)
+        {
+            if (_context.Entry(entity).State != EntityState.Detached)
+            {
+                _context.Entry(entity).State = EntityState.Detached;
+            }
+        }
 
         public Task<IQueryable<Product>> GetNewlyAddedProducts(int count)
         {
@@ -32,10 +40,10 @@ namespace TechStore.Infrastructure
             return Task.FromResult(_entities.Where(p => p.CategoryId == categoryId));
         }
 
-        //public async Task<IQueryable<Product>> GetProductsByPriceRange(decimal minPrice, decimal maxPrice)
-        //{
-        //    return await Task.FromResult(_entities.Include(p => p.ProductItem.Select(p => p.Price >= minPrice && p.Price <= maxPrice)));
-        //}
+        public async Task<IQueryable<Product>> GetProductsByPriceRange(decimal minPrice, decimal maxPrice)
+        {
+            return await Task.FromResult(_entities.Where(p => p.Price >= minPrice && p.Price <= maxPrice));
+        }
 
         public Task<IQueryable<Product>> GetRelatedProducts(Product product)
         {
@@ -44,7 +52,7 @@ namespace TechStore.Infrastructure
 
         public Task<IQueryable<Product>> SearchByBrand(string Brand)
         {
-            return Task.FromResult(_entities.Where(p => p.Brand.Contains(Brand)));// contains || ==
+            return Task.FromResult(_entities.Where(p => p.Brand.Contains(Brand)));
         }
 
         public Task<IQueryable<Product>> SearchProduct(string Name)
@@ -53,6 +61,19 @@ namespace TechStore.Infrastructure
                                                    p.Description.Contains(Name)));
         }
 
-        
+        public Task<IQueryable<Product>> GetProductsByWarranty(string Warranty)
+        {
+            return Task.FromResult(_entities.Where(p => p.Warranty == Warranty));
+        }
+
+        public async Task<IQueryable<Product>> GetProductsByDescending()
+        {
+            return await Task.FromResult(_entities.OrderByDescending(p => p.Price));
+        }
+
+        public async Task<IQueryable<Product>> GetProductsByAscending()
+        {
+            return await Task.FromResult(_entities.OrderBy(p=>p.Price));
+        }
     }
 }
