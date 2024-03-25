@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TechStore.Application.Contract;
 using TechStore.Application.Services;
@@ -17,6 +16,8 @@ namespace TechStore.ViewUser
         {
             var builder = WebApplication.CreateBuilder(args);
 
+
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<TechStoreContext>(options =>
@@ -25,32 +26,15 @@ namespace TechStore.ViewUser
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            //builder.Services.AddScoped<SignInManager<CreateOrUpdateUserDTO>>();
-            //builder.Services.AddScoped<UserManager<CreateOrUpdateUserDTO>>();
-            builder.Services.AddDbContext<TechStoreContext>(options =>
-               options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
 
             builder.Services.AddScoped<ICategoryService, CategoryService>();
-            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-            builder.Services.AddScoped<IUserServices, UserServices>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IUserServices, UserServices>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IReviewService, ReviewServices>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
-            builder.Services.AddScoped<IProductRepository, ProductRepository>();
-            builder.Services.AddScoped<IProductService, ProductService>();
-
-
+            builder.Services.AddScoped<IspecificationsRepository, SpecificationsRepository>();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-            builder.Services.AddIdentity<TechUser, IdentityRole>(options =>
-            {
-                options.SignIn.RequireConfirmedAccount = false;
-            })
-            .AddEntityFrameworkStores<TechStoreContext>()
-            .AddDefaultTokenProviders();
-
 
             var app = builder.Build();
 
@@ -73,4 +57,3 @@ namespace TechStore.ViewUser
         }
     }
 }
-
