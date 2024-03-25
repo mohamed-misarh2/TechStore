@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,14 +82,19 @@ namespace TechStore.Infrastructure
         {
             IQueryable<Product> query = _entities;
 
-            // Apply filters based on criteria
-            if (!string.IsNullOrEmpty(criteria.Brand))
+            if (criteria.Brand.Any())
             {
-                query = query.Where(p => p.Brand.Contains(criteria.Brand));
-            } 
-            if (!string.IsNullOrEmpty(criteria.Warranty))
+                query = query.Where(p => p.Brand == criteria.Brand);
+            }
+
+            if ( criteria.Warranty.Any())
             {
-                query = query.Where(p => p.Warranty.Contains(criteria.Warranty));
+                query = query.Where(p => p.Warranty == criteria.Warranty);
+            }
+
+            if (criteria.DiscountValue.HasValue)
+            {
+                query = query.Where(p => p.DiscountValue == criteria.DiscountValue);
             }
 
             if (criteria.MinPrice.HasValue)
@@ -96,17 +102,11 @@ namespace TechStore.Infrastructure
                 query = query.Where(p => p.Price >= criteria.MinPrice.Value);
             }
 
-            if (criteria.DiscountValue.HasValue)
-            {
-                query = query.Where(p => p.DiscountValue == criteria.DiscountValue.Value);
-            }
-
             if (criteria.MaxPrice.HasValue)
             {
                 query = query.Where(p => p.Price <= criteria.MaxPrice.Value);
             }
 
-            // You can add more filters as needed...
 
             return await Task.FromResult(query);
         }

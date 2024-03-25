@@ -33,7 +33,12 @@ namespace TechStore.Application.Services
 
 
 
+        Task<ResultDataList<GetAllProductsDtos>> SortProductsByDesending();
 
+
+
+        Task<ResultDataList<GetAllProductsDtos>> SortProductsByAscending();
+        
 
 
 
@@ -57,5 +62,6 @@ namespace TechStore.Application.Services
 
         Task<ResultDataList<CreateOrUpdateProductDtos>> FilterProductsByWarranty(string Warranty, int ItemsPerPage, int PageNumber);
 
+        Task<ResultDataList<GetAllProductsDtos>> FilterProducts(FillterProductsDtos fillterProductsDto);
     }
 }

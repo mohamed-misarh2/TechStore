@@ -261,12 +261,12 @@ namespace TechStore.Application.Services
                             .Select(p => new GetAllProductsDtos
                             {
                                 Id = p.Id,
-                                Name = p.ModelName,
+                                ModelName = p.ModelName,
                                 Description = p.Description,
                                 Brand = p.Brand,
                                 CategoryId = p.CategoryId,
                                 DateAdded = p.DateAdded,
-                                FullName = $"{p.User.FirstName} {p.User.LastName}",
+                                //FullName = $"{p.User.FirstName} {p.User.LastName}",
                                 IsDeleted = p.IsDeleted
                             }).ToList();
 
@@ -291,7 +291,56 @@ namespace TechStore.Application.Services
         //user
 
         //sort (ascending - descending) => price
+        public async Task<ResultDataList<GetAllProductsDtos>> SortProductsByDesending()
+        {
+            var products = (await _productRepository.GetProductsByDescending()).ToList();
+            var productsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
+            ResultDataList<GetAllProductsDtos> res;
+            if(products != null)
+            {
+                res = new ResultDataList<GetAllProductsDtos>()
+                {
+                    Entities = productsDto,
+                    Count = products.Count()
+                };
+            }
+            else
+            {
+                res = new ResultDataList<GetAllProductsDtos>()
+                {
+                    Entities = null,
+                    Count = 0
+                };
+            }
+            return res;
+        }
 
+
+        public async Task<ResultDataList<GetAllProductsDtos>> SortProductsByAscending()
+        {
+            var products = (await _productRepository.GetProductsByAscending()).ToList();
+            var productsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
+            ResultDataList<GetAllProductsDtos> res;
+            if(products != null)
+            {
+                res = new ResultDataList<GetAllProductsDtos>()
+                {
+                    Entities = productsDto,
+                    Count = products.Count()
+                };
+            }
+            else
+            {
+                res = new ResultDataList<GetAllProductsDtos>()
+                {
+                    Entities = null,
+                    Count = 0
+                };
+            }
+
+            
+            return res;
+        }
 
         //search
         public async Task<ResultDataList<CreateOrUpdateProductDtos>> SearchProduct(string Name, int ItemsPerPage, int PageNumber)
@@ -587,10 +636,27 @@ namespace TechStore.Application.Services
 
         public async Task<ResultDataList<GetAllProductsDtos>> FilterProducts(FillterProductsDtos fillterProductsDto)
         {
-            var products = await _productRepository.FilterProducts(fillterProductsDto);
-            var productsDto = _mapper.Map<GetAllProductsDtos>(products);
-          
-
+            var products = (await _productRepository.FilterProducts(fillterProductsDto)).ToList();
+            var productsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
+            ResultDataList<GetAllProductsDtos> resultDataList;
+            if(products != null)
+            {
+                resultDataList = new ResultDataList<GetAllProductsDtos>()
+                {
+                    Entities = productsDto,
+                    Count = productsDto.Count()
+                };
+            }
+            else
+            {
+                resultDataList = new ResultDataList<GetAllProductsDtos>()
+                {
+                    Entities = null,
+                    Count = 0
+                };
+            }
+            
+            return resultDataList;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
 
-        [HttpGet]//create update delete getone getall
+        [HttpGet("GetAll")]//create update delete getone getall
         public async Task<IActionResult> GetAll(int itemsPerPage = 1, int pageNumber = 10)
         {
             try
@@ -119,6 +119,70 @@ namespace TechStore.ViewAdmin.Controllers
             {
                 var p = await _productService.Update(product.CreateOrUpdateProductDtos,product.ProductCategorySpecifications);
                 return Ok("Updated Successfully!");
+            }
+            return BadRequest(ModelState);
+        }
+
+
+        [HttpPut("Filterr")]
+        public async Task<IActionResult> Filterr(FillterProductsDtos fillterProductsDtos)
+        {
+            if (ModelState.IsValid)
+            {
+                var products = await _productService.FilterProducts(fillterProductsDtos);
+                return Ok(products);
+            }
+            return BadRequest(ModelState);
+            
+        }
+
+
+        [HttpGet("SortProductsByDescending")]
+        public async Task<IActionResult> SortProductsByDescending()
+        {
+            if (ModelState.IsValid)
+            {
+                var products = await _productService.SortProductsByDesending();
+                return Ok(products);
+            }
+            return BadRequest(ModelState);
+
+        }
+
+
+        [HttpGet("SortProductsByAscending")]
+        public async Task<IActionResult> SortProductsByAscending()
+        {
+            if (ModelState.IsValid)
+            {
+                var products = await _productService.SortProductsByAscending();
+                return Ok(products);
+            }
+            return BadRequest(ModelState);
+
+        }
+
+
+        //search
+
+        [HttpGet("SearchByName")]
+        public async Task<IActionResult> SearchByName(string Name, int ItemsPerPage, int PageNumber)
+        {
+            if (ModelState.IsValid)
+            {
+                var products = await _productService.SearchProduct(Name, ItemsPerPage, PageNumber);
+                return Ok(products);
+            }
+            return BadRequest(ModelState);
+        }
+
+        [HttpGet("SearchByBrand")]
+        public async Task<IActionResult> SearchByBrand(string BrandName, int ItemsPerPage, int PageNumber)
+        {
+            if (ModelState.IsValid)
+            {
+                var products = await _productService.SearchByBrand(BrandName, ItemsPerPage, PageNumber);
+                return Ok(products);
             }
             return BadRequest(ModelState);
         }
