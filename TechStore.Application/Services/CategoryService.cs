@@ -57,42 +57,6 @@ namespace TechStore.Application.Services
         }
 
 
-        //public async Task<ResultView<CategorySpecificationDto>> CreateCategory(CategoryDto category, List<SpecificationsDto> specificationsDtos)
-        //{
- 
-        //    var allcategories = await _categoryRepository.GetAllAsync();
-        //    var oldcat = allcategories.Where(c => c.Name == category.Name).FirstOrDefault();
-        //    if (oldcat != null)
-        //    {
-        //        return new ResultView<CategorySpecificationDto> { Entity = null, IsSuccess = false, Message = "Already Exist" };
-        //    }
-
-        //    var cat = _mapper.Map<Category>(category);
-
-        //    foreach (var specificationDto in specificationsDtos)
-        //    {
-              
-        //        var existingSpecification = await _specificationsRepository.SearchByName(specificationDto.Name);
-        //        if (existingSpecification == null)
-        //        {
-        //            var specificationModel = _mapper.Map<Specification>(specificationDto);
-        //            cat.CategorySpecifications.Add(new CategorySpecifications { Category = cat, Specification = specificationModel });
-        //        }
-        //        else
-        //        {
-        //            cat.CategorySpecifications.Add(new CategorySpecifications { Category = cat, SpecificationId = existingSpecification.Id });
-        //        }
-        //    }
-
-        //    var newCat = await _categoryRepository.CreateAsync(cat);
-        //    await _categoryRepository.SaveChangesAsync();
-        //    var catDto = _mapper.Map<CategoryDto>(newCat);
-
-        //    var categorySpecificationDto = new CategorySpecificationDto { Category = catDto, SpecificationsDtos = specificationsDtos };
-
-        //    return new ResultView<CategorySpecificationDto> { Entity = categorySpecificationDto, IsSuccess = true, Message = "Created Successfully" };
-        //}
-
 
         public async Task<ResultView<CategoryDto>> UpdateCategory(CategoryDto updatedcategory)
         {
@@ -142,13 +106,6 @@ namespace TechStore.Application.Services
                 oldCat.IsDeleted = true;
                 await _categoryRepository.SaveChangesAsync();
 
-                //var catSpec = await _specificationsRepository.GetSpecificationsByCategory(category.Id);///******??
-                //foreach(var specification in catSpec)
-                //{
-                //    specification.IsDeleted = true;
-                //    await _specificationsRepository.SaveChangesAsync();
-                //}
-
                 var catDto = _mapper.Map<CategoryDto>(oldCat);
                 return new ResultView<CategoryDto> { Entity = catDto, IsSuccess = true, Message = "Deleted Successfully" };
             }
@@ -180,10 +137,9 @@ namespace TechStore.Application.Services
             var cat = await _categoryRepository.GetByIdAsync(id);
             var spec = await _specificationsRepository.GetSpecificationsByCategory(id);
 
-            var catDto = _mapper.Map<CategoryDto>(cat);//*******  how to return categoryspecif??
+            var catDto = _mapper.Map<CategoryDto>(cat);
             var SpecDto = _mapper.Map<List<SpecificationsDto>>(spec);
             var cateSpec = new CategorySpecificationDto { Category = catDto , SpecificationsDtos = SpecDto };
-
             return cateSpec;
         }
 
@@ -195,19 +151,5 @@ namespace TechStore.Application.Services
 
         }
 
-        //public async Task<ResultView<CategorySpecificationDto>> AddSpecificationCategory(CategoryDto category, List<SpecificationsDto> specificationsDto)
-        //{
-        //    var ExistingCategory = await _categoryRepository.GetByIdAsync(category.Id);
-        //    if (ExistingCategory is null)
-        //    {
-        //        return new ResultView<CategorySpecificationDto> { Entity = null, IsSuccess = false, Message = "Category doesn't Exist" };
-        //    }
-
-        //    var AllSpec = (await _specificationsRepository.GetAllAsync()).ToList();
-        //    foreach
-
-        //}
-   
-    
     }
 }
