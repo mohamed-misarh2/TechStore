@@ -30,6 +30,7 @@ namespace TechStore.ViewAdmin.Controllers
                     return NoContent();
                 }
                 var products = await _productService.GetAllPagination(itemsPerPage, pageNumber);
+
                 if(products.Count == 0)
                 {
                     return NoContent();
@@ -117,8 +118,21 @@ namespace TechStore.ViewAdmin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var p = await _productService.Update(product.CreateOrUpdateProductDtos,product.ProductCategorySpecifications);
+                var Product = await _productService.Update(product.CreateOrUpdateProductDtos,product.ProductCategorySpecifications);
                 return Ok("Updated Successfully!");
+            }
+            return BadRequest(ModelState);
+        }
+
+        //user
+
+        [HttpGet("GetProductsByCategory/{categoryId:int}")]
+        public async Task<IActionResult> GetProductsByCategory(int categoryId, int ItemsPerPage, int PageNumber)
+        {
+            if (ModelState.IsValid)
+            {
+                var Products = await _productService.FilterProductsByCategory(categoryId, ItemsPerPage , PageNumber);
+                return Ok(Products);
             }
             return BadRequest(ModelState);
         }

@@ -15,7 +15,7 @@ namespace TechStore.Dtos.ProductDtos
         public string Brand { get; set; }
         public decimal Price { get; set; }
         public decimal? DiscountValue { get; set; }//10%  0%
-        public decimal? DiscountedPrice => Price * DiscountValue / 100; // (1500*10)/100
+        public decimal? DiscountedPrice { get; set; }  // (1500*10)/100
         public int Quantity { get; set; }
         public ICollection<string> Images { get; set; }
         public int CategoryId { get; set; }
