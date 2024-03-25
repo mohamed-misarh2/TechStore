@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TechStore.Application.Contract;
 using TechStore.Context;
 using TechStore.Dtos;
+using TechStore.Dtos.ProductDtos;
 using TechStore.Dtos.ViewResult;
 using TechStore.Models;
 
@@ -74,6 +75,40 @@ namespace TechStore.Infrastructure
         public async Task<IQueryable<Product>> GetProductsByAscending()
         {
             return await Task.FromResult(_entities.OrderBy(p=>p.Price));
+        }
+
+        public async Task<IQueryable<Product>> FilterProducts(FillterProductsDtos criteria)
+        {
+            IQueryable<Product> query = _entities;
+
+            // Apply filters based on criteria
+            if (!string.IsNullOrEmpty(criteria.Brand))
+            {
+                query = query.Where(p => p.Brand.Contains(criteria.Brand));
+            } 
+            if (!string.IsNullOrEmpty(criteria.Warranty))
+            {
+                query = query.Where(p => p.Warranty.Contains(criteria.Warranty));
+            }
+
+            if (criteria.MinPrice.HasValue)
+            {
+                query = query.Where(p => p.Price >= criteria.MinPrice.Value);
+            }
+
+            if (criteria.DiscountValue.HasValue)
+            {
+                query = query.Where(p => p.DiscountValue == criteria.DiscountValue.Value);
+            }
+
+            if (criteria.MaxPrice.HasValue)
+            {
+                query = query.Where(p => p.Price <= criteria.MaxPrice.Value);
+            }
+
+            // You can add more filters as needed...
+
+            return await Task.FromResult(query);
         }
     }
 }

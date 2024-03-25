@@ -578,8 +578,18 @@ namespace TechStore.Application.Services
             
         }
 
-        public async Task<ResultDataList<CreateOrUpdateProductDtos>> FilterProductsByWarranty(string Warranty, int ItemsPerPage, int PageNumber)
+        public Task<ResultDataList<CreateOrUpdateProductDtos>> FilterProductsByWarranty(string Warranty, int ItemsPerPage, int PageNumber)
         {
+            throw new NotImplementedException();
+        }
+
+
+
+        public async Task<ResultDataList<GetAllProductsDtos>> FilterProducts(FillterProductsDtos fillterProductsDto)
+        {
+            var products = await _productRepository.FilterProducts(fillterProductsDto);
+            var productsDto = _mapper.Map<GetAllProductsDtos>(products);
+          
 
         }
     }
