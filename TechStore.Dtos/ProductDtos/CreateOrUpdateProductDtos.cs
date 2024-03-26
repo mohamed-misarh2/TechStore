@@ -20,9 +20,10 @@ namespace TechStore.Dtos.ProductDtos
         public decimal? DiscountValue { get; set; }//10%  0%
         public decimal? DiscountedPrice => Price * DiscountValue / 100; // (1500*10)/100
         public string? Warranty { get; set; }
+        public int? Quantity { get; set; }
         public DateTime DateAdded { get; set; }
         public int CategoryId { get; set; }
         public string UserId { get; set; }
-        //public List<IFormFile>? Images { get; set; }
+        public List<IFormFile>? Images { get; set; }
     }
 }

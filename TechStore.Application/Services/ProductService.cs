@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -22,12 +24,43 @@ namespace TechStore.Application.Services
         private readonly IproductCategorySpecifications _productCategorySpecifications;
         private readonly IspecificationsRepository _ispecificationsRepository;
         private readonly IMapper _mapper;
-
-        public ProductService(IProductRepository productRepository,IproductCategorySpecifications productCategorySpecifications,IspecificationsRepository ispecificationsRepository,IMapper mapper) {
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ProductService(IProductRepository productRepository,IproductCategorySpecifications productCategorySpecifications,IspecificationsRepository ispecificationsRepository,IMapper mapper,IWebHostEnvironment webHostEnvironment) {
             _productRepository = productRepository;
             _productCategorySpecifications = productCategorySpecifications;
             _ispecificationsRepository = ispecificationsRepository;
             _mapper = mapper;
+            _webHostEnvironment = webHostEnvironment;
+        }
+
+
+        //images
+        private async Task<List<string>> SaveProductImages(List<IFormFile> images)
+        {
+            var imagePaths = new List<string>();
+
+            // Loop through each uploaded image file
+            foreach (var image in images)
+            {
+                if (image != null && image.Length > 0)
+                {
+                    // Generate unique file name
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+
+                    // Specify the directory where images will be saved (e.g., wwwroot/images)
+                    var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "ImageProduct", fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await image.CopyToAsync(stream);
+                    }
+
+                    imagePaths.Add("/ImageProduct/" + fileName); 
+                    
+                }
+            }
+
+            return imagePaths;
         }
 
 
@@ -47,6 +80,15 @@ namespace TechStore.Application.Services
             }
 
             var product = _mapper.Map<Product>(productDto);
+            var imagePaths = await SaveProductImages(productDto.Images);
+
+            // Set the image paths in the product entity
+            product.Images = new List<Image>(); // Create new list for images
+            foreach (var imagePath in imagePaths)
+            {
+                product.Images.Add(new Image { Name = imagePath }); // Add each image path to the list
+            }
+
             var AddedProduct = await _productRepository.CreateAsync(product);
             await _productRepository.SaveChangesAsync();
 
@@ -319,10 +361,13 @@ namespace TechStore.Application.Services
                                     Price = p.Price,
                                     DiscountValue = p.DiscountValue,
                                     DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
-                                    IsDeleted = p.IsDeleted
+                                    IsDeleted = p.IsDeleted,
+                                    Images = p.Images.Select(i=>i.Name).ToList()
+                                    
                                }).ToList();
 
                 var ProductsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
+             
                 var resultDataList = new ResultDataList<GetAllProductsDtos>()
                 {
                     Entities = ProductsDto,
