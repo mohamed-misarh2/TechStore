@@ -446,55 +446,7 @@ namespace TechStore.Application.Services
             
         }
 
-        public async Task<ResultDataList<GetAllProductsDtos>> SearchByBrand(string Brand, int ItemsPerPage, int PageNumber)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(Brand))
-                {
-                    throw new ArgumentException("Name cannot be empty or whitespace.");
-                }
-                if (PageNumber <= 0)
-                {
-                    throw new ArgumentException("Page number must be greater than zero");
-                }
-
-                var products = (await _productRepository.SearchByBrand(Brand))
-                               .Where(p => p.IsDeleted == false)
-                               .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
-                                .Select(p => new GetAllProductsDtos
-                                {
-                                    Id = p.Id,
-                                    ModelName = p.ModelName,
-                                    Description = p.Description,
-                                    Brand = p.Brand,
-                                    CategoryId = p.CategoryId,
-                                    DateAdded = p.DateAdded,
-                                    Price = p.Price,
-                                    DiscountValue = p.DiscountValue,
-                                    DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
-                                    IsDeleted = p.IsDeleted
-                                }).ToList();
-
-                var ProductsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
-                var resultDataList = new ResultDataList<GetAllProductsDtos>()
-                {
-                    Entities = ProductsDto,
-                    Count = ProductsDto.Count()
-                };
-                return resultDataList;
-            }
-            catch (Exception ex)
-            {
-                var resultDataList = new ResultDataList<GetAllProductsDtos>()
-                {
-                    Entities = null,
-                    Count = 0
-                };
-                return resultDataList;
-            }
-            
-        }
+       
 
 
         //filter  

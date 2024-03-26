@@ -190,16 +190,7 @@ namespace TechStore.ViewAdmin.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpGet("SearchByBrand")]
-        public async Task<IActionResult> SearchByBrand(string BrandName, int ItemsPerPage, int PageNumber)
-        {
-            if (ModelState.IsValid)
-            {
-                var products = await _productService.SearchByBrand(BrandName, ItemsPerPage, PageNumber);
-                return Ok(products);
-            }
-            return BadRequest(ModelState);
-        }
+      
 
     }
 }

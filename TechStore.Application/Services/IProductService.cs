@@ -33,7 +33,6 @@ namespace TechStore.Application.Services
 
         //search
         Task<ResultDataList<GetAllProductsDtos>> SearchProduct(string Name, int ItemsPerPage, int PageNumber);
-        Task<ResultDataList<GetAllProductsDtos>> SearchByBrand(string Brand, int ItemsPerPage, int PageNumber);
 
 
 

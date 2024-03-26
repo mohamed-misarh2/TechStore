@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,16 +53,15 @@ namespace TechStore.Infrastructure
             return Task.FromResult( _entities.Where(p => p.CategoryId == product.CategoryId || p.Id != product.Id));
         }
 
-        public Task<IQueryable<Product>> SearchByBrand(string Brand)
-        {
-            return Task.FromResult(_entities.Where(p => p.Brand.Contains(Brand)));
-        }
+        
 
         public Task<IQueryable<Product>> SearchProduct(string Name)
         {          
             return Task.FromResult(_entities.Where(p => p.ModelName.Contains(Name)||
-                                                   p.Description.Contains(Name)));
+                                                   p.Description.Contains(Name)||
+                                                   p.Brand.Contains(Name)));
         }
+       
 
         public Task<IQueryable<Product>> GetProductsByWarranty(string Warranty)
         {

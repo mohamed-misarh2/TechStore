@@ -1,0 +1,32 @@
+﻿@model ResultDataList<GetAllProductsDtos>
+@{
+    ViewData["Title"] = "Mobile";
+}
+
+<h1>Mobile</h1>
+
+<table class="table table-dark table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Descripation</th>
+            <th scope="col">Price</th>
+            <th scope="col">Discount</th>
+            <th scope="col">Discounted Price</th>
+            <th scope="col">Name</th>
+
+            <th>Update Or Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Entities)
+        {
+            <tr>
+                <td>@product.Description</td>
+                <td>@product.Price</td>
+                <td>@product.DiscountValue</td>
+                <td>@product.DiscountedPrice</td>
+                <td>@product.ModelName</td>
+            </tr>
+        }
+    </tbody>
+</table>

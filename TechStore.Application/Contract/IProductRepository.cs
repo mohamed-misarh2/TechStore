@@ -17,7 +17,6 @@ namespace TechStore.Application.Contract
         
         //search
         Task<IQueryable<Product>> SearchProduct(string Name);
-        Task<IQueryable<Product>> SearchByBrand(string Brand);
 
         //filter
         Task<IQueryable<Product>> GetProductsByCategory(int categoryId);
