@@ -40,6 +40,11 @@ namespace TechStore.ViewUser.Controllers
             }
 
         }
+        public  IActionResult Filter()
+        {
+            var filter = new FillterProductsDtos();
+            return View("Fillter", filter);
+        }
         [HttpPost]
         public async Task<IActionResult> Filter(FillterProductsDtos criteria)
         {
