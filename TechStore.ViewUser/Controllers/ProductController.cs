@@ -20,7 +20,7 @@ namespace TechStore.ViewUser.Controllers
         }
         public async Task<IActionResult> Mobile()
         {
-            var products = await _productService.GetAllPagination(5,1);
+            var products = await _productService.FilterProductsByCategory(1, 5, 1);
             return View(products);
         }
 
@@ -39,8 +39,12 @@ namespace TechStore.ViewUser.Controllers
             }
 
         }
-
-        [HttpGet]
+        public  IActionResult Filter()
+        {
+            var filter = new FillterProductsDtos();
+            return View("Fillter", filter);
+        }
+        [HttpPost]
         public async Task<IActionResult> Filter(FillterProductsDtos criteria)
         {
             try

@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using TechStore.Application.Contract;
+using TechStore.Application.Mapper;
 using TechStore.Application.Services;
 using TechStore.Context;
 using TechStore.Infrastructure;
@@ -72,10 +73,14 @@ namespace TechStore.ViewAdmin
             builder.Services.AddScoped<IproductCategorySpecifications,ProductCategorySpecificationsRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 
             //builder.Services.AddScoped<IProductItemService, ProductItemService>();
             //builder.Services.AddScoped<IUserServices, UserServices>();
             //builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 
 
             builder.Services.AddDbContext<TechStoreContext>(options =>

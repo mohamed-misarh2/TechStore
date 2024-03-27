@@ -30,4 +30,8 @@
     <ProjectReference Include="..\TechStore.Infrastructure\TechStore.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\ImageProduct\" />
+  </ItemGroup>
+
 </Project>

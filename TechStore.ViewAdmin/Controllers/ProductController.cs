@@ -69,7 +69,7 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] ProductCategorySpecificationsListDto product)
+        public async Task<ActionResult> Create([FromForm] ProductCategorySpecificationsListDto product)
         {
             if (ModelState.IsValid)
             {
