@@ -16,13 +16,13 @@ namespace TechStore.Dtos.ProductDtos
         public string Description { get; set; }
         public string Brand { get; set; }
         public string ModelName { get; set; }
-        public decimal Price { get; set; }//1500
-        public decimal? DiscountValue { get; set; }//10%  0%
-        public decimal? DiscountedPrice => Price * DiscountValue / 100; // (1500*10)/100
+        public decimal Price { get; set; }
+        public decimal? DiscountValue { get; set; }
+        public decimal? DiscountedPrice => Price * DiscountValue / 100;
         public string? Warranty { get; set; }
         public DateTime DateAdded { get; set; }
         public int CategoryId { get; set; }
         public string UserId { get; set; }
-        //public List<IFormFile>? Images { get; set; }
+        public List<IFormFile>? Images { get; set; }
     }
 }

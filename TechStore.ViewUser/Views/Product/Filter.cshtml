@@ -1,53 +1,54 @@
-﻿@* 
+﻿
 @{
     ViewData["Title"] = "Filter";
 }
 
 <h1>Filter</h1>
 
-@model ResultDataList<GetAllProductsDtos>
+@model List<GetAllProductsDtos>
 
 <h1>Filtered Products</h1>
 
-@if (Model.Entities != null && Model.Entities.Any())
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Model Name</th>
-                <th>Description</th>
-                <th>Brand</th>
-                <th>Category Id</th>
-                <th>Date Added</th>
-                <th>Price</th>
-                <th>Discount Value</th>
-                <th>Discounted Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var product in Model.Entities)
-            {
+    @if (Model != null)
+    {
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@product.Id</td>
-                    <td>@product.ModelName</td>
-                    <td>@product.Description</td>
-                    <td>@product.Brand</td>
-                    <td>@product.CategoryId</td>
-                    <td>@product.DateAdded</td>
-                    <td>@product.Price</td>
-                    <td>@product.DiscountValue</td>
-                    <td>@product.DiscountedPrice</td>
+                    <th>Id</th>
+                    <th>Model Name</th>
+                    <th>Description</th>
+                    <th>Brand</th>
+                    <th>Category Id</th>
+                    <th>Date Added</th>
+                    <th>Price</th>
+                    <th>Discount Value</th>
+                    <th>Discounted Price</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No products match the selected criteria.</p>
-} *@
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.Id</td>
+                        <td>@product.ModelName</td>
+                        <td>@product.Description</td>
+                        <td>@product.Brand</td>
+                        <td>@product.CategoryId</td>
+                        <td>@product.DateAdded</td>
+                        <td>@product.Price</td>
+                        <td>@product.DiscountValue</td>
+                        <td>@product.DiscountedPrice</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No products match the selected criteria.</p>
+    }
 
+@* 
 @model FillterProductsDtos
 
 <h1>Filter Products</h1>
@@ -110,4 +111,4 @@ else
         </label><br />
     </div>
     <button type="submit" class="btn btn-primary">Filter</button>
-</form>
+</form> *@

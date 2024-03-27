@@ -253,7 +253,7 @@ namespace TechStore.Application.Services
         public async Task<ResultDataList<GetAllProductsDtos>> GetAllPagination(int ItemsPerPage, int PageNumber)
         {
 
-            if (PageNumber > 1)
+            if (PageNumber > 0)
             {
                 var products = (await _productRepository.GetAllAsync())
                             .Where(p => p.IsDeleted == false)
@@ -266,7 +266,9 @@ namespace TechStore.Application.Services
                                 Brand = p.Brand,
                                 CategoryId = p.CategoryId,
                                 DateAdded = p.DateAdded,
-                                //FullName = $"{p.User.FirstName} {p.User.LastName}",
+                                Price = p.Price,
+                                DiscountValue = p.DiscountValue,
+                                DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                 IsDeleted = p.IsDeleted
                             }).ToList();
 
@@ -275,14 +277,19 @@ namespace TechStore.Application.Services
                     Entities = products,
                     Count = products.Count()
                 };
+                return resultDataList;
+            }
+            else
+            {
+                var resultDataList = new ResultDataList<GetAllProductsDtos>()
+                {
+                    Entities = null,
+                    Count = 0
+                };
+                return resultDataList;
             }
 
-            var resultDataListt = new ResultDataList<GetAllProductsDtos>()
-            {
-                Entities = null,
-                Count = 0
-            };
-            return resultDataListt;
+            
      }
 
 
@@ -445,8 +452,6 @@ namespace TechStore.Application.Services
             }
             
         }
-
-       
 
 
         //filter  

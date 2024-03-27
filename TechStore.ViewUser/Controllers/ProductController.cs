@@ -20,12 +20,11 @@ namespace TechStore.ViewUser.Controllers
         }
         public async Task<IActionResult> Mobile()
         {
-            var products = await _productService.FilterProductsByCategory(2, 5, 1);
+            var products = await _productService.GetAllPagination(5,1);
             return View(products);
         }
 
         [HttpGet]
-
         public async Task<IActionResult> Search(string name, int itemsPerPage = 10, int pageNumber = 1)
         {
             try
@@ -40,18 +39,17 @@ namespace TechStore.ViewUser.Controllers
             }
 
         }
-        [HttpPost]
+
+        [HttpGet]
         public async Task<IActionResult> Filter(FillterProductsDtos criteria)
         {
             try
             {
-                // Call the service method to filter products based on criteria
                 var result = await _productService.FilterProducts(criteria);
-                return View("Filter", result); // Assuming you have a view named "FilterResults.cshtml" to display filtered products
+                return View("Filter", result.Entities); 
             }
             catch (Exception ex)
             {
-                // Log or handle the exception appropriately
                 return View("Error", new ErrorViewModel { Message = "An error occurred while processing your request." });
             }
         }
