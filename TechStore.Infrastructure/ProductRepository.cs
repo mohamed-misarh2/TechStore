@@ -43,10 +43,6 @@ namespace TechStore.Infrastructure
             return Task.FromResult(_entities.Where(p => p.CategoryId == categoryId));
         }
 
-        public async Task<IQueryable<Product>> GetProductsByPriceRange(decimal minPrice, decimal maxPrice)
-        {
-            return await Task.FromResult(_entities.Where(p => p.Price >= minPrice && p.Price <= maxPrice));
-        }
 
         public Task<IQueryable<Product>> GetRelatedProducts(Product product)
         {
