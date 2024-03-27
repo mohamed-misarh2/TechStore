@@ -25,7 +25,6 @@ namespace TechStore.ViewUser.Controllers
         }
 
         [HttpGet]
-
         public async Task<IActionResult> Search(string name, int itemsPerPage = 10, int pageNumber = 1)
         {
             try
@@ -51,13 +50,11 @@ namespace TechStore.ViewUser.Controllers
         {
             try
             {
-                // Call the service method to filter products based on criteria
                 var result = await _productService.FilterProducts(criteria);
-                return View("Mobile", result); // Assuming you have a view named "FilterResults.cshtml" to display filtered products
+                return View("Mobile", result);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // Log or handle the exception appropriately
                 return View("Error", new ErrorViewModel { Message = "An error occurred while processing your request." });
             }
         }
