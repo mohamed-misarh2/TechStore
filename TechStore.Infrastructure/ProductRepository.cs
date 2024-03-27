@@ -82,27 +82,27 @@ namespace TechStore.Infrastructure
         {
             IQueryable<Product> query = _entities;
 
-            if (criteria.Brand.Any())
+            if (criteria.Brand != null && criteria.Brand.Any())
             {
                 query = query.Where(p => p.Brand == criteria.Brand);
             }
 
-            if ( criteria.Warranty.Any())
+            if ( criteria.Warranty!=null&& criteria.Warranty.Any())
             {
                 query = query.Where(p => p.Warranty == criteria.Warranty);
             }
 
-            if (criteria.DiscountValue.HasValue)
+            if (criteria.DiscountValue != null && criteria.DiscountValue.HasValue)
             {
                 query = query.Where(p => p.DiscountValue == criteria.DiscountValue);
             }
 
-            if (criteria.MinPrice.HasValue)
+            if (criteria.MinPrice != null && criteria.MinPrice.HasValue)
             {
                 query = query.Where(p => p.Price >= criteria.MinPrice.Value);
             }
 
-            if (criteria.MaxPrice.HasValue)
+            if (criteria.MaxPrice != null && criteria.MaxPrice.HasValue)
             {
                 query = query.Where(p => p.Price <= criteria.MaxPrice.Value);
             }
@@ -110,5 +110,17 @@ namespace TechStore.Infrastructure
 
             return await Task.FromResult(query);
         }
+
+        public async Task<List<string>> GetBrands()
+        {
+            var brands = await _context.Products
+                .Where(p => p.Brand != null)
+                .Select(p => p.Brand)
+                .Distinct()
+                .ToListAsync();
+
+            return brands;
+        }
+
     }
 }

@@ -30,5 +30,6 @@ namespace TechStore.Application.Contract
         Task<IQueryable<Product>> GetProductsByDescending();
         Task<IQueryable<Product>> GetProductsByAscending();
         Task<IQueryable<Product>> FilterProducts(FillterProductsDtos criteria);
+        Task<List<string>> GetBrands();
     }
 }

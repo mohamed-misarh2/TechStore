@@ -50,5 +50,6 @@ namespace TechStore.Application.Services
         //Task<ResultDataList<CreateOrUpdateProductDtos>> FilterProductsByWarranty(string Warranty, int ItemsPerPage, int PageNumber);
 
         Task<ResultDataList<GetAllProductsDtos>> FilterProducts(FillterProductsDtos fillterProductsDto);
+        Task<List<string>> GetBrands();
     }
 }
