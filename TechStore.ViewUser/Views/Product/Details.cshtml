@@ -8,24 +8,49 @@
 @if (Model.Entity != null && Model.Entity.productsDtos != null)
 {
     <div class="container">
-    <div class="row">
-        <div class="col-8">
-            @foreach( var image in Model.Entity.productsDtos.Images)
+        <div class="row">
+            <div class="col-8">
+                @foreach (var image in Model.Entity.productsDtos.Images)
                 {
-                    <img class="product-image-photo" data-src="@image" width="240" height="300" alt="@image" src="@image.">
+                    <img class="product-image-photo" data-src="@image" width="240" height="300" alt="@image" src="@image">
                 }
             </div>
-        <div class="col-4">
+            <div class="col-4">
                 <h1>@Model.Entity.productsDtos.ModelName</h1>
                 <p>@Model.Entity.productsDtos.Description</p>
                 <h3>@Model.Entity.productsDtos.Price EGP</h3>
 
                 <button class="btn btn-dark">Add To Cart</button>
+            </div>
         </div>
-    </div>
     </div>
 }
 else
 {
     <p>Error: Product data is unavailable.</p>
 }
+
+
+
+<div>
+
+    @if (Model.Entity != null && Model.Entity.specificationsNameValueDtos != null)
+    {
+        foreach(var specification in Model.Entity.specificationsNameValueDtos)
+        {
+            <table>
+                <tr>
+                    <td>
+                        @specification.Name
+                    </td>
+                    <td>
+                        @specification.Value
+                    </td>
+                </tr>
+
+            </table>
+        }
+    }
+
+
+</div>

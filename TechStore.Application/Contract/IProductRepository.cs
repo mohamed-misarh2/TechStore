@@ -13,6 +13,7 @@ namespace TechStore.Application.Contract
 {
     public interface IProductRepository:IRepository<Product,int>
     {
+        Task<Product> GetProductWithImages(int id);
         Task DetachEntityAsync(Product entity);
         
         //search
