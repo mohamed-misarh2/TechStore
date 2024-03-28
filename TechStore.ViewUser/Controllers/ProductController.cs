@@ -51,9 +51,9 @@ namespace TechStore.ViewUser.Controllers
             try
             {
                 var result = await _productService.FilterProducts(criteria);
-                return View("Mobile", result); // Assuming you have a view named "FilterResults.cshtml" to display filtered products
+                return View("Mobile", result);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View("Error", new ErrorViewModel { Message = "An error occurred while processing your request." });
             }
