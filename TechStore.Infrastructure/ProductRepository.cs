@@ -20,6 +20,17 @@ namespace TechStore.Infrastructure
 
         public ProductRepository(TechStoreContext techStoreContext) : base(techStoreContext) { }
 
+
+
+        public async Task<Product> GetProductWithImages(int id)
+        {
+            var product = await _entities.Where(p => p.Id == id)
+                .Include(prd => prd.Images)
+                .FirstOrDefaultAsync();
+
+            return product;
+        }
+
         public async Task<IQueryable<Product>> GetDiscountedProducts()
         {
             return await Task.FromResult(_entities.Where(p => p.DiscountedPrice < p.Price));

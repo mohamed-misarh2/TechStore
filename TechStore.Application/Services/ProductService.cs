@@ -124,10 +124,12 @@ namespace TechStore.Application.Services
         
         public async Task<ResultView<GetProductSpecificationNameValueDtos>> GetOne(int id)
         {
-            var ProductModel = await _productRepository.GetByIdAsync(id);
+            var ProductModel = await _productRepository.GetProductWithImages(id);
             if (ProductModel != null)
             {
                 var productDto = _mapper.Map<GetAllProductsDtos>(ProductModel);
+                productDto.Images = ProductModel.Images.Select(image => image.Name).ToList();
+
 
                 var productCategorySpecificationsList = (await _productCategorySpecifications.GetProductCategorySpecifications(id)).ToList();
 
