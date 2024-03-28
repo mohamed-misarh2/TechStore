@@ -8,7 +8,7 @@ namespace TechStore.Dtos.ProductDtos
 {
     public class GetProductSpecificationNameValueDtos
     {
-        public CreateOrUpdateProductDtos createOrUpdateProductDtos { get; set; }
+        public GetAllProductsDtos productsDtos { get; set; }
 
         public List<GetSpecificationsNameValueDtos> specificationsNameValueDtos { get; set;}
     }

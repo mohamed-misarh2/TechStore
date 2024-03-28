@@ -1,0 +1,32 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model ResultView<GetProductSpecificationNameValueDtos>
+
+@if (Model.Entity != null && Model.Entity.productsDtos != null)
+{
+    <div class="container">
+    <div class="row">
+        <div class="col-8">
+            @foreach( var image in Model.Entity.productsDtos.Images)
+                {
+                    <img class="product-image-photo" data-src="@image" width="240" height="300" alt="@image" src="@image.">
+
+                }
+            </div>
+        <div class="col-4">
+                <h1>@Model.Entity.productsDtos.ModelName</h1>
+                <p>@Model.Entity.productsDtos.Description</p>
+                <h3>@Model.Entity.productsDtos.Price EGP</h3>
+
+                <button class="btn btn-dark">Add To Cart</button>
+        </div>
+    </div>
+    </div>
+}
+else
+{
+    <p>Error: Product data is unavailable.</p>
+}

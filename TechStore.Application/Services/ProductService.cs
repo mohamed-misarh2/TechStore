@@ -127,7 +127,7 @@ namespace TechStore.Application.Services
             var ProductModel = await _productRepository.GetByIdAsync(id);
             if (ProductModel != null)
             {
-                var productDto = _mapper.Map<CreateOrUpdateProductDtos>(ProductModel);
+                var productDto = _mapper.Map<GetAllProductsDtos>(ProductModel);
 
                 var productCategorySpecificationsList = (await _productCategorySpecifications.GetProductCategorySpecifications(id)).ToList();
 
@@ -139,7 +139,7 @@ namespace TechStore.Application.Services
                     SpecList.Add(new GetSpecificationsNameValueDtos { Name = SpecName, Value = productCatSpec.Value });
                 }
 
-                var getAll = new GetProductSpecificationNameValueDtos { createOrUpdateProductDtos = productDto, specificationsNameValueDtos = SpecList };
+                var getAll = new GetProductSpecificationNameValueDtos { productsDtos = productDto, specificationsNameValueDtos = SpecList };
 
                 return new ResultView<GetProductSpecificationNameValueDtos>
                 {
