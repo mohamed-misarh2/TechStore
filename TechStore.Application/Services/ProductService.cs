@@ -129,6 +129,7 @@ namespace TechStore.Application.Services
             if (ProductModel != null)
             {
                 var productDto = _mapper.Map<GetAllProductsDtos>(ProductModel);
+                
 
                 var productCategorySpecificationsList = (await _productCategorySpecifications.GetProductCategorySpecifications(id)).ToList();
 
