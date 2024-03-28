@@ -524,5 +524,10 @@ namespace TechStore.Application.Services
             
             return resultDataList;
         }
+        public async Task<List<string>> GetBrands()
+        {
+            var brands = await _productRepository.GetBrands();
+            return brands;
+        }
     }
 }

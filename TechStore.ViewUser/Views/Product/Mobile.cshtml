@@ -13,7 +13,7 @@
             <th scope="col">Discount</th>
             <th scope="col">Discounted Price</th>
             <th scope="col">Name</th>
-            <th scope="col">Image</th> <!-- Added column for image -->
+            <th scope="col">Image</th>
         </tr>
     </thead>
     <tbody>
@@ -39,3 +39,28 @@
         }
     </tbody>
 </table>
+
+@using (Html.BeginForm("Filter", "Product", FormMethod.Get))
+{
+    <div class="form-group">
+        @Html.Label("Brand:")
+        @Html.TextBox("brand", null, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Min Price:")
+        @Html.TextBox("minPrice", null, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Max Price:")
+        @Html.TextBox("maxPrice", null, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Warranty:")
+        @Html.TextBox("warranty", null, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Discount:")
+        @Html.TextBox("discount", null, new { @class = "form-control" })
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+}

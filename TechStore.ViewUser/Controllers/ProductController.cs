@@ -39,18 +39,19 @@ namespace TechStore.ViewUser.Controllers
             }
 
         }
-        public  IActionResult Filter()
-        {
-            var filter = new FillterProductsDtos();
-            return View("Fillter", filter);
-        }
-        [HttpPost]
+        //public   IActionResult Filter()
+        //{
+        //    var filter = new FillterProductsDtos();
+        //   // filter.Brand = await _productService.GetBrands();
+        //    return View("Fillter", filter);
+        //}
+        //[HttpPost]
         public async Task<IActionResult> Filter(FillterProductsDtos criteria)
         {
             try
             {
                 var result = await _productService.FilterProducts(criteria);
-                return View("Filter", result.Entities); 
+                return View("Mobile", result); // Assuming you have a view named "FilterResults.cshtml" to display filtered products
             }
             catch (Exception ex)
             {
