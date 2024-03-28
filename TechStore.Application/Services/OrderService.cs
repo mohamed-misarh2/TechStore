@@ -27,7 +27,7 @@ namespace TechStore.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultView<OrderDto>> CreateOrderAsync(OrderDto orderDto)
+        public async Task<ResultView<OrderDto>> CreateOrderAsync(OrderDto orderDto)//user
         {
             var result = new ResultView<OrderDto>();
 
@@ -76,8 +76,7 @@ namespace TechStore.Application.Services
             return result;
         }
 
-
-        public async Task<ResultView<OrderItemDto>> UpdateOrderItemQuantityAsync(int orderId, int orderItemId, int newQuantity)
+        public async Task<ResultView<OrderItemDto>> UpdateOrderItemQuantityAsync(int orderId, int orderItemId, int newQuantity)//user
         {
             var result = new ResultView<OrderItemDto>();
 
@@ -91,10 +90,20 @@ namespace TechStore.Application.Services
                 if (product == null)
                     throw new Exception("Product not found.");
 
-                var quantityDifference = newQuantity - (orderItem.Quantity ?? 0);
-                product.Quantity -= quantityDifference;
+                int quantityDifference;
+                if (newQuantity > orderItem.Quantity)  
+                {
+                    quantityDifference =  newQuantity - (orderItem.Quantity ?? 0); 
+                    product.Quantity += quantityDifference;
+                }
+                else  
+                {
+                    quantityDifference = (orderItem.Quantity ?? 0) - newQuantity;
+                    product.Quantity -= quantityDifference;
+                }
 
-                orderItem.Quantity = newQuantity;
+                orderItem.Quantity = quantityDifference;
+
                 await _orderItemRepository.UpdateAsync(orderItem);
                 await _orderItemRepository.SaveChangesAsync();
 
@@ -117,6 +126,7 @@ namespace TechStore.Application.Services
 
             return result;
         }
+        
         public async Task<ResultView<GetAllOrderDto>> GetOrderByIdAsync(int orderId)
         {
             var result = new ResultView<GetAllOrderDto>();
@@ -161,6 +171,50 @@ namespace TechStore.Application.Services
             }
             return result;
         }
+
+        public async Task<ResultDataList<GetOrderDetailsDto>> GetOrderDetails(int orderId)
+        { 
+            var ExistingOrder = await _orderRepository.GetByIdAsync(orderId);
+
+            if(ExistingOrder != null)
+            {
+                var OrderItems = await _orderItemRepository.GetOrders(orderId);
+                var list = new List<GetOrderDetailsDto>();
+
+                foreach (var OrderItem in OrderItems)
+                {
+                    var obj = new GetOrderDetailsDto
+                    {
+                        Id = OrderItem.Id,
+                        OrderId = OrderItem.OrderId,
+                        ProductId = OrderItem.ProductId,
+                        Description = OrderItem.Product.Description,
+                        Price = OrderItem.Product.Price,
+                        Quantity = OrderItem.Product.Quantity,  
+                        Image = OrderItem.Product.Images.Select(i=>i.Name).FirstOrDefault()
+                    };
+                    list.Add(obj);
+                }
+
+                var listDto = _mapper.Map<List<GetOrderDetailsDto>>(list);
+
+                return new ResultDataList<GetOrderDetailsDto>()
+                {
+                    Entities = listDto,
+                    Count = listDto.Count
+                };
+
+            }
+            else
+            {
+                return new ResultDataList<GetOrderDetailsDto>()
+                {
+                    Entities = null,
+                    Count = 0
+                };
+            }
+        }
+
         public async Task<ResultDataList<GetAllOrderDto>> GetAllOrdersAsync()
         {
             var result = new ResultDataList<GetAllOrderDto>();
@@ -182,6 +236,7 @@ namespace TechStore.Application.Services
 
             return result;
         }
+        
         public async Task<ResultView<OrderDto>> SoftDeleteOrderAsync(int orderId)
         {
             var result = new ResultView<OrderDto>();
@@ -194,6 +249,7 @@ namespace TechStore.Application.Services
 
                 order.IsDeleted = true;
                 await _orderRepository.UpdateAsync(order);
+                await _orderRepository.SaveChangesAsync();
 
                 var orderDto = _mapper.Map<OrderDto>(order);
 
@@ -223,6 +279,7 @@ namespace TechStore.Application.Services
                     throw new Exception($"Order with ID {deletedOrder.Id} not found.");
 
                 await _orderRepository.DeleteAsync(deletedOrder);
+                await _orderRepository.SaveChangesAsync();
 
                 var deletedOrderDto = _mapper.Map<OrderDto>(order);
 
@@ -301,6 +358,7 @@ namespace TechStore.Application.Services
 
             return result;
         }
+
         public async Task<ResultDataList<GetAllOrderDto>> GetOrdersByUserIdAsync(string userId)
         {
             var result = new ResultDataList<GetAllOrderDto>();
@@ -323,6 +381,31 @@ namespace TechStore.Application.Services
 
             return result;
         }
+
+        public async Task<ResultView<OrderDto>> updateStatus(int OrderId , OrderStatus NewOrderStatus)
+        {
+            var ExistingOrder = await _orderRepository.GetByIdAsync(OrderId);
+            var result = new ResultView<OrderDto>();
+            if (ExistingOrder != null)
+            {
+                ExistingOrder.orderStatus = NewOrderStatus;
+                await _orderRepository.UpdateAsync(ExistingOrder);
+                await _orderRepository.SaveChangesAsync();
+                var UpdatedOrderDto = _mapper.Map<OrderDto>(ExistingOrder);
+
+                result.Entity = UpdatedOrderDto;
+                result.IsSuccess = true;
+                result.Message = "OrderStatus Updated Successfully";
+            }
+            else
+            {
+                result.Entity = null;
+                result.IsSuccess = false;
+                result.Message = "Failed to update order status";
+            }
+            return result;
+        }
+    
     }
 
 }

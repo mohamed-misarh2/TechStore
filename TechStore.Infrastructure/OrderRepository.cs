@@ -16,6 +16,7 @@ namespace TechStore.Infrastructure
         public OrderRepository(TechStoreContext context) : base(context)
         {
         }
+
         public async Task<Order> GetOrderWithItemsAsync(int orderId)
         {
             var order = await _context.Orders
@@ -28,7 +29,7 @@ namespace TechStore.Infrastructure
                     OrderDate = order.OrderDate,
                     ShippingAddress = order.ShippingAddress,
                     ShippingMethod = order.ShippingMethod,
-                    OrderStatus = order.OrderStatus,
+                    orderStatus = order.orderStatus,
                     PaymentStatus = order.PaymentStatus,
                     TotalPrice = order.TotalPrice,
                     OrderItems = order.OrderItems.Select(orderitem => new OrderItem
@@ -38,7 +39,6 @@ namespace TechStore.Infrastructure
                         ProductId = orderitem.ProductId,
                         Quantity = orderitem.Quantity ?? 0,
                         UnitPrice = orderitem.UnitPrice ?? 0,
-                       
                     }).ToList()
                 })
                 .FirstOrDefaultAsync();
@@ -65,7 +65,7 @@ namespace TechStore.Infrastructure
                     order.UserId.ToLowerInvariant().Contains(searchTerm) ||
                     order.ShippingAddress.ToLowerInvariant().Contains(searchTerm) ||
                     order.ShippingMethod.ToLowerInvariant().Contains(searchTerm) ||
-                    order.OrderStatus.ToLowerInvariant().Contains(searchTerm) ||
+                    order.orderStatus.ToString().ToLowerInvariant().Contains(searchTerm) ||
                     order.PaymentStatus.ToLowerInvariant().Contains(searchTerm)
                 )
                 .ToListAsync();

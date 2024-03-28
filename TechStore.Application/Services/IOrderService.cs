@@ -1,5 +1,6 @@
 ﻿using TechStore.Dtos.OrderDtos;
 using TechStore.Dtos.ViewResult;
+using TechStore.Models;
 
 namespace TechStore.Application.Services
 {
@@ -12,6 +13,7 @@ namespace TechStore.Application.Services
         Task<ResultView<OrderDto>> SoftDeleteOrderAsync(int orderId);
         Task<ResultView<OrderItemDto>> UpdateOrderItemQuantityAsync(int orderId, int orderItemId, int newQuantity);
         Task<ResultView<GetAllOrderDto>> GetOrderWithItems(int orderId);
-
+        Task<ResultDataList<GetOrderDetailsDto>> GetOrderDetails(int orderId);
+        Task<ResultView<OrderDto>> updateStatus(int OrderId, OrderStatus NewOrderStatus);
     }
 }
