@@ -58,6 +58,19 @@ namespace TechStore.ViewUser.Controllers
                 return View("Error", new ErrorViewModel { Message = "An error occurred while processing your request." });
             }
         }
+        
+        public async Task<IActionResult> Details(int id)
+        {
+            try
+            {
+                var result = await _productService.GetOne(id);
+                return View("Details",result);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel { Message=ex.Message });
+            }
+        }
 
     }
 }
