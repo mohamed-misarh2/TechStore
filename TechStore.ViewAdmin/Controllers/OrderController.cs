@@ -16,24 +16,57 @@ namespace TechStore.ViewAdmin.Controllers
         {
             _orderService = orderService;
         }
+
+        [HttpPost]
+        public async Task<IActionResult> create([FromBody] OrderDto orderDto)
+        {
+            var product = await _orderService.CreateOrderAsync(orderDto);
+            return Ok(product);
+        }
+
+        [HttpPut("update")]
+        public async Task<IActionResult> update( int orderId, int orderItemId, int newQuantity)
+        {
+            var product = await _orderService.UpdateOrderItemQuantityAsync(orderId,orderItemId,newQuantity);
+            return Ok(product);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllOrdersAsync()
         {
             var result = await _orderService.GetAllOrdersAsync();
             return Ok(result);
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrder(int id)
         {
-            var result = await _orderService.GetOrderWithItems(id);
+            var result = await _orderService.GetOrderDetails(id);
             return Ok(result);
         }
         
-        [HttpDelete]
-        public async Task<IActionResult> DeleteOrder(int id)
+        [HttpDelete("SoftDeleteOrder")]
+        public async Task<IActionResult> SoftDeleteOrder(int id)
         {
             var result  = await _orderService.SoftDeleteOrderAsync(id);
             return Ok(result);
         }
+
+        [HttpDelete("HardDeleteOrder")]
+        public async Task<IActionResult> HardDeleteOrder(int id)
+        {
+            var result = await _orderService.HardDeleteOrderAsync(id);
+            return Ok(result);
+        }
+
+        [HttpPut("updateStatus")]
+        public async Task<IActionResult> updateStatus(int OrderId, Models.OrderStatus NewOrderStatus)
+        {
+            var state = await _orderService.updateStatus(OrderId, NewOrderStatus);
+            return Ok(state);
+        }
+
+        
+
     }
 }

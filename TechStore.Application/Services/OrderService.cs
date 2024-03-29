@@ -27,6 +27,7 @@ namespace TechStore.Application.Services
             _mapper = mapper;
         }
 
+        //
         public async Task<ResultView<OrderDto>> CreateOrderAsync(OrderDto orderDto)//user
         {
             var result = new ResultView<OrderDto>();
@@ -59,9 +60,10 @@ namespace TechStore.Application.Services
                 order.OrderItems = orderItems;
 
                 var createdOrder = await _orderRepository.CreateAsync(order);
-                var createdOrderDto = _mapper.Map<OrderDto>(createdOrder);
                 await _orderRepository.SaveChangesAsync();
                 await _orderItemRepository.SaveChangesAsync();
+
+                var createdOrderDto = _mapper.Map<OrderDto>(createdOrder);
 
                 result.IsSuccess = true;
                 result.Message = "Order created successfully.";
@@ -75,7 +77,8 @@ namespace TechStore.Application.Services
 
             return result;
         }
-
+        
+        //
         public async Task<ResultView<OrderItemDto>> UpdateOrderItemQuantityAsync(int orderId, int orderItemId, int newQuantity)//user
         {
             var result = new ResultView<OrderItemDto>();
@@ -94,20 +97,18 @@ namespace TechStore.Application.Services
                 if (newQuantity > orderItem.Quantity)  
                 {
                     quantityDifference =  newQuantity - (orderItem.Quantity ?? 0); 
-                    product.Quantity += quantityDifference;
+                    product.Quantity -= quantityDifference;
                 }
                 else  
                 {
                     quantityDifference = (orderItem.Quantity ?? 0) - newQuantity;
-                    product.Quantity -= quantityDifference;
+                    product.Quantity += quantityDifference;
                 }
 
-                orderItem.Quantity = quantityDifference;
+                orderItem.Quantity = newQuantity;
 
                 await _orderItemRepository.UpdateAsync(orderItem);
                 await _orderItemRepository.SaveChangesAsync();
-
-
                 await _productRepository.UpdateAsync(product);
                 await _productRepository.SaveChangesAsync();
 
@@ -127,6 +128,7 @@ namespace TechStore.Application.Services
             return result;
         }
         
+        //
         public async Task<ResultView<GetAllOrderDto>> GetOrderByIdAsync(int orderId)
         {
             var result = new ResultView<GetAllOrderDto>();
@@ -151,7 +153,8 @@ namespace TechStore.Application.Services
 
             return result;
         }
-
+        
+        //
         public async Task<ResultView<GetAllOrderDto>> GetOrderWithItems(int orderId)
         {
             var result = new ResultView<GetAllOrderDto>();
@@ -171,7 +174,8 @@ namespace TechStore.Application.Services
             }
             return result;
         }
-
+       
+        //null ex
         public async Task<ResultDataList<GetOrderDetailsDto>> GetOrderDetails(int orderId)
         { 
             var ExistingOrder = await _orderRepository.GetByIdAsync(orderId);
@@ -180,6 +184,7 @@ namespace TechStore.Application.Services
             {
                 var OrderItems = await _orderItemRepository.GetOrders(orderId);
                 var list = new List<GetOrderDetailsDto>();
+
 
                 foreach (var OrderItem in OrderItems)
                 {
@@ -190,8 +195,8 @@ namespace TechStore.Application.Services
                         ProductId = OrderItem.ProductId,
                         Description = OrderItem.Product.Description,
                         Price = OrderItem.Product.Price,
-                        Quantity = OrderItem.Product.Quantity,  
-                        Image = OrderItem.Product.Images.Select(i=>i.Name).FirstOrDefault()
+                        Quantity = OrderItem.Product.Quantity,
+                        Image = OrderItem.Product.Images.Select(i => i.Name).FirstOrDefault()
                     };
                     list.Add(obj);
                 }
@@ -215,7 +220,8 @@ namespace TechStore.Application.Services
             }
         }
 
-        public async Task<ResultDataList<GetAllOrderDto>> GetAllOrdersAsync()
+        //
+        public async Task<ResultDataList<GetAllOrderDto>> GetAllOrdersAsync()//include items??
         {
             var result = new ResultDataList<GetAllOrderDto>();
 
@@ -237,6 +243,7 @@ namespace TechStore.Application.Services
             return result;
         }
         
+        //
         public async Task<ResultView<OrderDto>> SoftDeleteOrderAsync(int orderId)
         {
             var result = new ResultView<OrderDto>();
@@ -249,8 +256,16 @@ namespace TechStore.Application.Services
 
                 order.IsDeleted = true;
                 await _orderRepository.UpdateAsync(order);
-                await _orderRepository.SaveChangesAsync();
 
+                var OrderItems = await _orderItemRepository.GetOrders(orderId);//how binding in order ????
+                foreach (var item in OrderItems)
+                {
+                    item.IsDeleted = true;
+                    await _orderItemRepository.UpdateAsync(item);
+                }
+                
+                await _orderRepository.SaveChangesAsync();
+                await _orderItemRepository.SaveChangesAsync();
                 var orderDto = _mapper.Map<OrderDto>(order);
 
                 result.IsSuccess = true;
@@ -265,23 +280,30 @@ namespace TechStore.Application.Services
 
             return result;
         }
-
-        public async Task<ResultView<OrderDto>> HardDeleteOrderAsync(OrderDto orderDto)
+        
+        //
+        public async Task<ResultView<OrderDto>> HardDeleteOrderAsync(int orderId)
         {
             var result = new ResultView<OrderDto>();
 
             try
             {
-                var order = _mapper.Map<Order>(orderDto);
-
-                var deletedOrder = await _orderRepository.GetByIdAsync(order.Id);
+                var deletedOrder = await _orderRepository.GetByIdAsync(orderId);
                 if (deletedOrder == null)
                     throw new Exception($"Order with ID {deletedOrder.Id} not found.");
 
+                var deletedOrderItems = await _orderItemRepository.GetOrders(orderId);
+                foreach (var item in deletedOrderItems)
+                {
+                    await _orderItemRepository.DeleteAsync(item);
+                }
+
+                await _orderItemRepository.SaveChangesAsync();  //delete orderitems then delete order
                 await _orderRepository.DeleteAsync(deletedOrder);
                 await _orderRepository.SaveChangesAsync();
 
-                var deletedOrderDto = _mapper.Map<OrderDto>(order);
+                deletedOrder.OrderItems = deletedOrderItems;
+                var deletedOrderDto = _mapper.Map<OrderDto>(deletedOrder);
 
                 result.IsSuccess = true;
                 result.Message = "Order  deleted successfully.";
@@ -382,6 +404,7 @@ namespace TechStore.Application.Services
             return result;
         }
 
+        //
         public async Task<ResultView<OrderDto>> updateStatus(int OrderId , OrderStatus NewOrderStatus)
         {
             var ExistingOrder = await _orderRepository.GetByIdAsync(OrderId);
@@ -391,6 +414,8 @@ namespace TechStore.Application.Services
                 ExistingOrder.orderStatus = NewOrderStatus;
                 await _orderRepository.UpdateAsync(ExistingOrder);
                 await _orderRepository.SaveChangesAsync();
+                var orderItems =await _orderItemRepository.GetOrders(OrderId);
+                ExistingOrder.OrderItems = orderItems;
                 var UpdatedOrderDto = _mapper.Map<OrderDto>(ExistingOrder);
 
                 result.Entity = UpdatedOrderDto;

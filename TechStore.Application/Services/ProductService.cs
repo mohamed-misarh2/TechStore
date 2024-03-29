@@ -158,7 +158,6 @@ namespace TechStore.Application.Services
                 IsSuccess = false,
                 Message = "Product doesn't Exist !"
             };
-
         }
 
         public async Task<ResultView<ProductCategorySpecificationsListDto>> Update(CreateOrUpdateProductDtos productDto , List<ProductCategorySpecificationsDto> ProductCategorySpecificationsDto)
@@ -337,10 +336,7 @@ namespace TechStore.Application.Services
             
      }
 
-
-
         //user
-
         public async Task<ResultDataList<GetAllProductsDtos>> FilterProductsByCategory(int categoryId, int ItemsPerPage, int PageNumber)
         {
             try
@@ -396,6 +392,7 @@ namespace TechStore.Application.Services
 
         }
 
+
         //sort 
         public async Task<ResultDataList<GetAllProductsDtos>> SortProductsByDesending()
         {
@@ -446,6 +443,7 @@ namespace TechStore.Application.Services
             
             return res;
         }
+
 
         //search
         public async Task<ResultDataList<GetAllProductsDtos>> SearchProduct(string Name, int ItemsPerPage, int PageNumber)
@@ -525,10 +523,12 @@ namespace TechStore.Application.Services
             
             return resultDataList;
         }
+       
         public async Task<List<string>> GetBrands()
         {
             var brands = await _productRepository.GetBrands();
             return brands;
         }
+
     }
 }
