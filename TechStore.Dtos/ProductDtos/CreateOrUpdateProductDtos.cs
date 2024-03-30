@@ -11,7 +11,7 @@ namespace TechStore.Dtos.ProductDtos
 {
     public class CreateOrUpdateProductDtos
     {
-        public int Id { get; set; }
+        public int Id { get;}
         [Required]
         public string Description { get; set; }
         public string Brand { get; set; }

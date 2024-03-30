@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using TechStore.Dtos.ReviewDtos;
 using TechStore.Dtos.AccountDtos;
 using TechStore.Dtos.OrderDtos;
+using Microsoft.AspNetCore.Http;
 
 
 namespace TechStore.Application.Mapper
@@ -47,7 +48,8 @@ namespace TechStore.Application.Mapper
             CreateMap<GetAllOrderDto, Order>().ReverseMap();
             CreateMap<OrderItemDto, OrderItem>().ReverseMap();
             CreateMap<GetAllOrderItemDto, OrderItem>().ReverseMap();
-
+            CreateMap<IFormFile, Image>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FileName)).ReverseMap();
 
         }
     }
