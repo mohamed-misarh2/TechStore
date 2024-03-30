@@ -40,15 +40,14 @@ namespace TechStore.Application.Services
         {
             var imagePaths = new List<string>();
 
-            // Loop through each uploaded image file
             foreach (var image in images)
             {
                 if (image != null && image.Length > 0)
                 {
-                    // Generate unique file name
+                    // create file name
                     var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
 
-                    // Specify the directory where images will be saved (e.g., wwwroot/images)
+                    //  where images will be saved => wwwroot/images
                     var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "ImageProduct", fileName);
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
@@ -79,17 +78,17 @@ namespace TechStore.Application.Services
                     Message = "Product Already Exists !"
                 };
             }
-
             var product = _mapper.Map<Product>(productDto);
-            var imagePaths = await SaveProductImages(productDto.Images);
 
-            // Set the image paths in the product entity
-            product.Images = new List<Image>(); // Create new list for images
+
+            var imagePaths = await SaveProductImages(productDto.Images);
+            product.Images = new List<Image>(); 
             foreach (var imagePath in imagePaths)
             {
-                product.Images.Add(new Image { Name = imagePath }); // Add each image path to the list
+                product.Images.Add(new Image { Name = imagePath });
             }
 
+            //add product
             var AddedProduct = await _productRepository.CreateAsync(product);
             await _productRepository.SaveChangesAsync();
 
@@ -101,14 +100,16 @@ namespace TechStore.Application.Services
                 itemModel.ProductId = AddedProduct.Id;
                 itemModel.CategoryId = AddedProduct.CategoryId;
                 var res = await _productCategorySpecifications.CreateAsync(itemModel);
+                //add specifications
                 list.Add(res);
             }
 
             await _productCategorySpecifications.SaveChangesAsync();
             
+            //map product & specifications
             var listDto = _mapper.Map<List<ProductCategorySpecificationsDto>>(list);
-
             var NewProductDto = _mapper.Map<CreateOrUpdateProductDtos>(product);
+
             var ProductCategorySpecificationsList = new ProductCategorySpecificationsListDto
             {
                 CreateOrUpdateProductDtos = NewProductDto,
@@ -123,7 +124,7 @@ namespace TechStore.Application.Services
             };
         }
         
-        public async Task<ResultView<GetProductSpecificationNameValueDtos>> GetOne(int id)
+        public async Task<ResultView<GetProductSpecificationNameValueDtos>> GetOne(int id) //values only ?? new func for big table??
         {
             var ProductModel = await _productRepository.GetProductWithImages(id);
             if (ProductModel != null)
@@ -183,6 +184,7 @@ namespace TechStore.Application.Services
                 }
 
                 await _productCategorySpecifications.SaveChangesAsync();
+
                 var NewUpdatedProductDto = _mapper.Map<CreateOrUpdateProductDtos>(NewUpdatedProduct);
                 var productCategorySpecDto = _mapper.Map<List<ProductCategorySpecificationsDto>>(productCategorySpecifications);
 
@@ -335,6 +337,10 @@ namespace TechStore.Application.Services
 
             
      }
+
+
+
+
 
         //user
         public async Task<ResultDataList<GetAllProductsDtos>> FilterProductsByCategory(int categoryId, int ItemsPerPage, int PageNumber)

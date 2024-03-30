@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using TechStore.Dtos.ReviewDtos;
 using TechStore.Dtos.AccountDtos;
 using TechStore.Dtos.OrderDtos;
+using Microsoft.AspNetCore.Http;
 
 
 namespace TechStore.Application.Mapper
@@ -27,16 +28,14 @@ namespace TechStore.Application.Mapper
             CreateMap<RegisterDto, TechUser>().ReverseMap();
 
 
-
             CreateMap<CreateOrUpdateProductDtos, Product>().ReverseMap();
             CreateMap<SpecificationsDto, Specification>().ReverseMap();
-
-
             CreateMap<ProductCategorySpecificationsDto, ProductCategorySpecifications>().ReverseMap();
-
-
             CreateMap<GetAllProductsDtos, Product>().ReverseMap();
             CreateMap<GetAllProductsForUserDto, Product>().ReverseMap();
+            CreateMap<IFormFile, Image>()
+           .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FileName)).ReverseMap();
+
 
             CreateMap<UserDto, TechUser>().ReverseMap();
             CreateMap<CategoryDto, Category>().ReverseMap();

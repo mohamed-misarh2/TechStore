@@ -128,8 +128,8 @@ namespace TechStore.Application.Services
             return result;
         }
         
-        //
-        public async Task<ResultView<GetAllOrderDto>> GetOrderByIdAsync(int orderId)
+        //  ??
+        public async Task<ResultView<GetAllOrderDto>> GetOrderByIdAsync(int orderId)//?
         {
             var result = new ResultView<GetAllOrderDto>();
 
@@ -175,19 +175,22 @@ namespace TechStore.Application.Services
             return result;
         }
        
-        //null ex
-        public async Task<ResultDataList<GetOrderDetailsDto>> GetOrderDetails(int orderId)
+        //
+        public async Task<ResultDataList<GetOrderDetailsDto>> GetOrderDetails(int orderId)//user
         { 
             var ExistingOrder = await _orderRepository.GetByIdAsync(orderId);
 
             if(ExistingOrder != null)
             {
                 var OrderItems = await _orderItemRepository.GetOrders(orderId);
+
                 var list = new List<GetOrderDetailsDto>();
 
 
                 foreach (var OrderItem in OrderItems)
                 {
+                    var product = await _productRepository.GetByIdAsync(OrderItem.ProductId);
+                    var images = await _productRepository.GetImagesByProductId(OrderItem.ProductId);
                     var obj = new GetOrderDetailsDto
                     {
                         Id = OrderItem.Id,
@@ -221,7 +224,7 @@ namespace TechStore.Application.Services
         }
 
         //
-        public async Task<ResultDataList<GetAllOrderDto>> GetAllOrdersAsync()//include items??
+        public async Task<ResultDataList<GetAllOrderDto>> GetAllOrdersAsync()//admin
         {
             var result = new ResultDataList<GetAllOrderDto>();
 
@@ -244,7 +247,7 @@ namespace TechStore.Application.Services
         }
         
         //
-        public async Task<ResultView<OrderDto>> SoftDeleteOrderAsync(int orderId)
+        public async Task<ResultView<OrderDto>> SoftDeleteOrderAsync(int orderId)//user & admin
         {
             var result = new ResultView<OrderDto>();
 
@@ -280,9 +283,33 @@ namespace TechStore.Application.Services
 
             return result;
         }
-        
+
+
+        public async Task<ResultView<OrderItemDto>> SoftDeleteOrderItemAsync(int orderItemId)
+        {
+            var result = new ResultView<OrderItemDto>();
+            var ExistingOrderItem = await _orderItemRepository.GetByIdAsync(orderItemId);
+            if(ExistingOrderItem != null)
+            {
+                ExistingOrderItem.IsDeleted = true;
+                await _orderItemRepository.UpdateAsync(ExistingOrderItem);
+                await _orderItemRepository.SaveChangesAsync();
+                var orderItemDto = _mapper.Map<OrderItemDto>(ExistingOrderItem);
+                result.Entity = orderItemDto;
+                result.IsSuccess = true;
+                result.Message = "OrderItem Deleted Successfully";
+
+            }
+            else
+            {
+                result.Entity = null;
+                result.IsSuccess = false;
+                result.Message = "Faild To Delete OrderItem";
+            }
+            return result;
+        }
         //
-        public async Task<ResultView<OrderDto>> HardDeleteOrderAsync(int orderId)
+        public async Task<ResultView<OrderDto>> HardDeleteOrderAsync(int orderId)//user & admin
         {
             var result = new ResultView<OrderDto>();
 
@@ -318,7 +345,8 @@ namespace TechStore.Application.Services
             return result;
         }
 
-        public async Task<ResultDataList<GetAllOrderDto>> GetOrdersSortedByDateAscendingAsync()
+        //
+        public async Task<ResultDataList<GetAllOrderDto>> GetOrdersSortedByDateAscendingAsync()//user & admin
         {
             var result = new ResultDataList<GetAllOrderDto>();
 
@@ -339,7 +367,8 @@ namespace TechStore.Application.Services
             return result;
         }
 
-        public async Task<ResultDataList<GetAllOrderDto>> GetOrdersSortedByDateDescendingAsync()
+        //
+        public async Task<ResultDataList<GetAllOrderDto>> GetOrdersSortedByDateDescendingAsync()//user & admin
         {
             var result = new ResultDataList<GetAllOrderDto>();
 
@@ -360,7 +389,8 @@ namespace TechStore.Application.Services
             return result;
         }
 
-        public async Task<ResultDataList<GetAllOrderDto>> SearchOrdersAsync(string searchTerm)
+        
+        public async Task<ResultDataList<GetAllOrderDto>> SearchOrdersAsync(string searchTerm)//user & admin
         {
             var result = new ResultDataList<GetAllOrderDto>();
 
@@ -381,7 +411,8 @@ namespace TechStore.Application.Services
             return result;
         }
 
-        public async Task<ResultDataList<GetAllOrderDto>> GetOrdersByUserIdAsync(string userId)
+        //
+        public async Task<ResultDataList<GetAllOrderDto>> GetOrdersByUserIdAsync(string userId) //user
         {
             var result = new ResultDataList<GetAllOrderDto>();
 
@@ -405,7 +436,7 @@ namespace TechStore.Application.Services
         }
 
         //
-        public async Task<ResultView<OrderDto>> updateStatus(int OrderId , OrderStatus NewOrderStatus)
+        public async Task<ResultView<OrderDto>> updateStatus(int OrderId , OrderStatus NewOrderStatus)//admin
         {
             var ExistingOrder = await _orderRepository.GetByIdAsync(OrderId);
             var result = new ResultView<OrderDto>();

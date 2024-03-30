@@ -11,9 +11,15 @@ namespace TechStore.Application.Services
         Task<ResultView<GetAllOrderDto>> GetOrderByIdAsync(int orderId);
         Task<ResultView<OrderDto>> HardDeleteOrderAsync(int orderId);
         Task<ResultView<OrderDto>> SoftDeleteOrderAsync(int orderId);
+        Task<ResultView<OrderItemDto>> SoftDeleteOrderItemAsync(int orderItemId);
         Task<ResultView<OrderItemDto>> UpdateOrderItemQuantityAsync(int orderId, int orderItemId, int newQuantity);
         Task<ResultView<GetAllOrderDto>> GetOrderWithItems(int orderId);
         Task<ResultDataList<GetOrderDetailsDto>> GetOrderDetails(int orderId);
         Task<ResultView<OrderDto>> updateStatus(int OrderId, OrderStatus NewOrderStatus);
+
+        Task<ResultDataList<GetAllOrderDto>> GetOrdersSortedByDateAscendingAsync();
+        Task<ResultDataList<GetAllOrderDto>> GetOrdersSortedByDateDescendingAsync();
+        Task<ResultDataList<GetAllOrderDto>> GetOrdersByUserIdAsync(string userId);
+        Task<ResultDataList<GetAllOrderDto>> SearchOrdersAsync(string searchTerm);
     }
 }

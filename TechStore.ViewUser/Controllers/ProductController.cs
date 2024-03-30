@@ -20,7 +20,7 @@ namespace TechStore.ViewUser.Controllers
         }
         public async Task<IActionResult> Mobile()
         {
-            var products = await _productService.FilterProductsByCategory(1, 5, 1);
+            var products = await _productService.FilterProductsByCategory(2, 5, 1);
             return View(products);
         }
 
