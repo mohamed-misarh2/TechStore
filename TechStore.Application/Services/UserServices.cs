@@ -48,24 +48,16 @@ namespace TechStore.Application.Services
             }
             else
             {
-                if (model.UrlImage != null)
-                {
-                    string uploadsFolder = Path.Combine("wwwroot", "ImageUser");
-                    string FileName = model.UrlImage.FileName;
-                    string filePath = Path.Combine(uploadsFolder, FileName);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await model.UrlImage.CopyToAsync(fileStream);
-                    }
-
-                }
-               
+                using var datastream = new MemoryStream();
+                await model.UrlImage.CopyToAsync(datastream);
+                var Img1Byts = datastream.ToArray();
+                string img1Base64String = Convert.ToBase64String(Img1Byts);
                 existUser.UserName = model.UserName;
                 existUser.Email = model.Email;
                 existUser.FirstName = model.FirstName;
                 existUser.LastName = model.LastName;
                 existUser.Address = model.Address;
-                existUser.Image = model.UrlImage.FileName;
+                existUser.Image = img1Base64String;
                 existUser.PhoneNumber = model.PhoneNumber;
                 
                 
@@ -121,7 +113,7 @@ namespace TechStore.Application.Services
         public async Task<ResultDataList<UserDto>> GetAllPaginationUser(int items, int pagenumber) 
         {
             var AlldAta = (await _userRepository.GetAllAsync());
-            var UserSer = AlldAta.Where(u=>u.IsDeleted==false).Skip(items * (pagenumber - 1)).Take(items)
+            var UserSer = AlldAta.Where(u=>u.IsDeleted==false).Skip(items * pagenumber).Take(items)
                                               .Select(u => new UserDto()
                                               {
                                                   Id=u.Id,
@@ -157,26 +149,17 @@ namespace TechStore.Application.Services
 
         public async Task<ResultView<RegisterDto>> RegisterUser(RegisterDto model , string RoleName="User")
         {
-           
-            if (model.Image != null)
-            {
-                string uploadsFolder = Path.Combine("wwwroot" ,"ImageUser");
-                string FileName = model.Image.FileName;
-                string filePath = Path.Combine(uploadsFolder, FileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await model.Image.CopyToAsync(fileStream);
-                }
 
-            }
-                var user = new TechUser
+            var newImageString = model.Image.Split(",");
+            var newImage= newImageString[1];
+            var user = new TechUser
                 {
                     UserName = model.UserName,
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Address = model.Address,
-                    Image = model.Image.FileName,
+                    Image = newImage,
                     PhoneNumber = model.PhoneNumber,
 
                 };
@@ -252,6 +235,22 @@ namespace TechStore.Application.Services
             var UserId = await _userManager.GetUserIdAsync(user);
 
             return UserId; 
+        }
+        public async Task <List<RoleDto>>GetAllRoles()
+        {
+            var roles = await _roleManager.Roles.ToListAsync();
+            var roleDto=_mapper.Map<List<RoleDto>>(roles);    
+            return roleDto;
+
+        }
+
+        public async Task<List<RoleDto>> DeleteRole(string roleId)
+        {
+            var role=await _roleManager.FindByIdAsync(roleId);  
+            var deleteRole = await _roleManager.DeleteAsync(role);
+            var roleDto = _mapper.Map<List<RoleDto>>(deleteRole);
+            return roleDto;
+
         }
     }
 }

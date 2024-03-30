@@ -40,7 +40,7 @@ namespace TechStore.Dtos.UserDTO
         [Required(ErrorMessage = "Image is Required")]
 
         public IFormFile UrlImage { get; set; }
-        public string?Image { get; set; }
+        public string? Image { get; set; }
 
 
     }

@@ -9,7 +9,7 @@ namespace TechStore.ViewAdmin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
@@ -26,7 +26,7 @@ namespace TechStore.ViewAdmin.Controllers
         //}
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CategorySpecificationDto data)
+        public async Task<IActionResult> Create( CategorySpecificationDto data)
         {
             var result = await _categoryService.CreateCategory(data.Category, data.SpecificationsDtos);
             if (result.IsSuccess)
@@ -37,16 +37,16 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] CategoryDto category)
+        public async Task<IActionResult> Update( CategoryDto category)
         {
             var data = await _categoryService.UpdateCategory(category);
             return Ok(data);
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> Delete(CategoryDto category)
+        [HttpDelete("DeleteCategory")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var data = await _categoryService.SoftDeleteCategory(category);
+            var data = await _categoryService.SoftDeleteCategory(id);
             return Ok(data);
         }
 

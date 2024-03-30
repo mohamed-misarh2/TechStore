@@ -403,7 +403,7 @@ namespace TechStore.Context.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("TechStore.Models.ProductSpecifications", b =>
+            modelBuilder.Entity("TechStore.Models.ProductCategorySpecifications", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -717,14 +717,14 @@ namespace TechStore.Context.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TechStore.Models.ProductSpecifications", b =>
+            modelBuilder.Entity("TechStore.Models.ProductCategorySpecifications", b =>
                 {
                     b.HasOne("TechStore.Models.Category", "Category")
-                        .WithMany("ProductSpecification")
+                        .WithMany("ProductCategorySpecifications")
                         .HasForeignKey("CategoryId");
 
                     b.HasOne("TechStore.Models.Product", "Product")
-                        .WithMany("ProductSpecification")
+                        .WithMany("ProductCategorySpecifications")
                         .HasForeignKey("ProductId");
 
                     b.HasOne("TechStore.Models.Specification", "Specification")
@@ -764,7 +764,7 @@ namespace TechStore.Context.Migrations
                 {
                     b.Navigation("CategorySpecifications");
 
-                    b.Navigation("ProductSpecification");
+                    b.Navigation("ProductCategorySpecifications");
 
                     b.Navigation("Products");
                 });
@@ -787,7 +787,7 @@ namespace TechStore.Context.Migrations
 
                     b.Navigation("OrderItems");
 
-                    b.Navigation("ProductSpecification");
+                    b.Navigation("ProductCategorySpecifications");
 
                     b.Navigation("Reviews");
                 });

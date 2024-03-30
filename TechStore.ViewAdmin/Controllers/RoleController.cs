@@ -7,7 +7,7 @@ namespace TechStore.ViewAdmin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     public class RoleController : ControllerBase
     {
         private readonly IUserServices _userServices;
@@ -22,6 +22,20 @@ namespace TechStore.ViewAdmin.Controllers
         {
             var role = await _userServices.AddRole(name);
             return Ok(role);
+
+        }
+        [HttpGet("GetAllRoles")]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            var roles = await _userServices.GetAllRoles();
+            return Ok(roles);
+
+        }
+        [HttpDelete("DeleteRole")]
+        public async Task<IActionResult> DeleteAsync(string roleId)
+        {
+            var roles = await _userServices.DeleteRole(roleId);
+            return Ok(roles);
 
         }
     }

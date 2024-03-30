@@ -45,12 +45,8 @@ namespace TechStore.ViewUser.Controllers
         [HttpPost]
         public async Task<IActionResult>UpdateReviewAsync(CreateOrUpdateReviewDto review)
         {
-
-            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            //review.UserId = userId;
             if (ModelState.IsValid)
             {
-                //review.ProductId =7 ;
                 var data = await _reviewService.UpdateReview(review);
                 return View("UpdateReview", review);
 

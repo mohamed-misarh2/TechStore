@@ -13,37 +13,37 @@ namespace TechStore.Dtos.AccountDtos
     {
         public string? Id { get; set; }  
 
-        [Required(ErrorMessage= "First Name is Required")]
+        //[Required(ErrorMessage= "First Name is Required")]
         [DisplayName("First Name")]
         public string FirstName { get; set; }
 
-        [Required(ErrorMessage = "Last Name is Required")]
+        //[Required(ErrorMessage = "Last Name is Required")]
         [DisplayName("Last Name")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "User Name is Required")]
+        //[Required(ErrorMessage = "User Name is Required")]
         [DisplayName("User Name")]
 
         public string UserName { get; set; }
 
 
-        [Required(ErrorMessage = "Password  is Required")]
+        //[Required(ErrorMessage = "Password  is Required")]
         public string Password { get; set; }
-
        
-        [Required(ErrorMessage = "Phone Number  is Required")]
+        //[Required(ErrorMessage = "Phone Number  is Required")]
         [DisplayName("Phone Number")]
 
         public string PhoneNumber { get; set; }
 
-        [EmailAddress , Required(ErrorMessage = "Email is Required")]
+        //[EmailAddress , Required(ErrorMessage = "Email is Required")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = " Address is Required")]
-        public string? Address { get; set; }
+        //[Required(ErrorMessage = " Address is Required")]
+        public string Address { get; set; }
 
-        [Required(ErrorMessage = "Image is Required")]
+        //[Required(ErrorMessage = "Image is Required")]
 
-        public IFormFile Image { get; set; }
+        public string Image { get; set; }
+       
     }
 }

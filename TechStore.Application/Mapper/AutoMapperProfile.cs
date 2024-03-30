@@ -11,6 +11,7 @@ using TechStore.Dtos.UserDTO;
 using TechStore.Dtos.CategoryDtos;
 using Microsoft.AspNetCore.Identity;
 using TechStore.Dtos.ReviewDtos;
+using TechStore.Dtos.AccountDtos;
 
 
 namespace TechStore.Application.Mapper
@@ -23,6 +24,7 @@ namespace TechStore.Application.Mapper
             CreateMap<GetAllUserDTO, TechUser>().ReverseMap();
             CreateMap<LoginDto, TechUser>().ReverseMap();
             CreateMap<RegisterDto, TechUser>().ReverseMap();
+            CreateMap<RoleDto, IdentityRole>().ReverseMap();
 
 
 

@@ -38,11 +38,11 @@ namespace TechStore.Application.Services
         public async Task<ResultDataList<GetAllReviewDto>> GetAllPaginationReview(int items, int pagenumber)
         {
             var AllData = await _reviewRepository.GetAllAsync();
-            var Reviews = (await _reviewRepository.GetAllAsync()).Skip(items * pagenumber - 1).Take(items).
+            var Reviews = AllData.Where(R=>R.IsDeleted==false).Skip(items * pagenumber ).Take(items).
                 Select(p => new GetAllReviewDto
                 {
-                  Id = p.Id,
-                 //   TechUserId = p.TechUserId,
+                   Id = p.Id,
+                // TechUserId = p.TechUserId,
                     Comment=p.Comment,
                   //  ProductId=p.ProductId,
                      Rating=p.Rating,
@@ -63,43 +63,29 @@ namespace TechStore.Application.Services
             return reviewDto;
         }
 
-        public async Task<ResultView<CreateOrUpdateReviewDto>> HardDeleteReview(CreateOrUpdateReviewDto Review)
+        public async Task<ResultView<CreateOrUpdateReviewDto>> HardDeleteReview(int reviewId  )
         {
-            try
-            {
 
-                var review = _mapper.Map<Review>(Review);
+                var review =await _reviewRepository.GetByIdAsync(reviewId);
                 var oldreview = await _reviewRepository.DeleteAsync(review);
-                      await  _reviewRepository.SaveChangesAsync();
+                await  _reviewRepository.SaveChangesAsync();
                 var ReviewDto = _mapper.Map<CreateOrUpdateReviewDto>(oldreview);
                 return new ResultView<CreateOrUpdateReviewDto> { Entity = ReviewDto, IsSuccess = true, Message = "Deleted Successfully" };
 
-            }
-            catch (Exception ex)
-            {
-                return new ResultView<CreateOrUpdateReviewDto> { Entity = null, IsSuccess = false, Message = ex.Message };
-            }
+          
         }
 
-        public async Task<ResultView<CreateOrUpdateReviewDto>> SoftDeleteReview(CreateOrUpdateReviewDto Review)
+        public async Task<ResultView<CreateOrUpdateReviewDto>> SoftDeleteReview(int reviewId)
         {
 
-            try
-            {
-
-                var review = _mapper.Map<Review>(Review);
-                var oldreview = (await _reviewRepository.GetAllAsync()).FirstOrDefault(p => p.Id == Review.Id);
+           
+                var oldreview = (await _reviewRepository.GetAllAsync()).FirstOrDefault(p => p.Id ==  reviewId);
                 oldreview.IsDeleted = true;
-               await  _reviewRepository.SaveChangesAsync();
+                 await  _reviewRepository.SaveChangesAsync();
                 var reviewDto = _mapper.Map<CreateOrUpdateReviewDto>(oldreview);
                 return new ResultView<CreateOrUpdateReviewDto> { Entity =reviewDto , IsSuccess = true, Message = "Deleted Successfully" };
 
-            }
-            catch (Exception ex)
-            {
-                return new ResultView<CreateOrUpdateReviewDto> { Entity = Review, IsSuccess = false, Message = ex.Message };
-            }
-
+            
 
         }
 

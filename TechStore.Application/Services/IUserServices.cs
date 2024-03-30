@@ -25,5 +25,7 @@ namespace TechStore.Application.Services
         Task<bool> AddRole(string name); 
         Task<List<string>> GetRoleForUser(string UserName);
         Task<string> GetIDForUser(string UserName);
+        Task<List<RoleDto>> GetAllRoles();
+        Task<List<RoleDto>> DeleteRole(string roleId);
     }
 }

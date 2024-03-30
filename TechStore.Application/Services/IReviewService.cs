@@ -13,8 +13,8 @@ namespace TechStore.Application.Services
     {
         Task<ResultView<CreateOrUpdateReviewDto>> CreateReview( CreateOrUpdateReviewDto createOrUpdateReview);
         Task<ResultView<CreateOrUpdateReviewDto>> UpdateReview(CreateOrUpdateReviewDto createOrUpdateReview);
-        Task<ResultView<CreateOrUpdateReviewDto>> HardDeleteReview(CreateOrUpdateReviewDto createOrUpdateReview);
-        Task<ResultView<CreateOrUpdateReviewDto>> SoftDeleteReview(CreateOrUpdateReviewDto createOrUpdateReview);
+        Task<ResultView<CreateOrUpdateReviewDto>> HardDeleteReview(int reviewId );
+        Task<ResultView<CreateOrUpdateReviewDto>> SoftDeleteReview(int reviewId);
         Task<ResultDataList<GetAllReviewDto>> GetAllPaginationReview(int items, int pagenumber);
 
         Task<CreateOrUpdateReviewDto> GetOneReview(int id);

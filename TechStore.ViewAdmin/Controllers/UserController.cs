@@ -21,7 +21,7 @@ namespace TechStore.ViewAdmin.Controllers
         [HttpGet("GetAllUser")]
         public async Task<IActionResult> GetAllAsync()
         {
-            var data= await _userServices.GetAllPaginationUser(4 ,1);
+            var data= await _userServices.GetAllPaginationUser(5,0);
             return Ok(data);
 
         }

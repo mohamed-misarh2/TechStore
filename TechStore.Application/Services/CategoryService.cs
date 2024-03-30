@@ -131,12 +131,11 @@ namespace TechStore.Application.Services
             }
         }
         
-        public async Task<ResultView<CategoryDto>> SoftDeleteCategory(CategoryDto category)
+        public async Task<ResultView<CategoryDto>> SoftDeleteCategory(int id)
         {
             try
             {
-                var mCat = _mapper.Map<Category>(category);
-                var oldCat = (await _categoryRepository.GetAllAsync()).FirstOrDefault(b => b.Id == category.Id);
+                var oldCat = (await _categoryRepository.GetAllAsync()).FirstOrDefault(b => b.Id == id);
                 oldCat.IsDeleted = true;
                 await _categoryRepository.SaveChangesAsync();
 

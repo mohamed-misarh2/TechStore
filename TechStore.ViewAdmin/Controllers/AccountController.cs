@@ -25,9 +25,9 @@ namespace TechStore.ViewAdmin.Controllers
             _userServices = userServices;
             config = configuration;
         }
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost("CreateAccount")]
-        public async Task<IActionResult> CreateAccount(RegisterDto model , string RoleName)
+        public async Task<IActionResult> CreateAccount( RegisterDto model , string RoleName)
         {
             var data = await _userServices.RegisterUser(model,RoleName);
             return Ok(data);
@@ -42,7 +42,7 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromForm] LoginDto model )
+        public async Task<IActionResult> Login( LoginDto model )
         {
             var data = await _userServices.LoginUser(model);
             if (data.IsSuccess)
@@ -81,6 +81,12 @@ namespace TechStore.ViewAdmin.Controllers
             }
             return Unauthorized();
            
+        }
+        [HttpPost("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var data = await _userServices.LogoutUser();
+            return Ok(data);    
         }
     }
 }
