@@ -154,8 +154,8 @@ namespace TechStore.Application.Services
             return result;
         }
         
-        //
-        public async Task<ResultView<GetAllOrderDto>> GetOrderWithItems(int orderId)
+        //  want to edit with getorderdetails dto
+        public async Task<ResultView<GetAllOrderDto>> GetOrderWithItems(int orderId)//admin
         {
             var result = new ResultView<GetAllOrderDto>();
             try
