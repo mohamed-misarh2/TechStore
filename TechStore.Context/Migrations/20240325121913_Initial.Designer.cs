@@ -12,7 +12,12 @@ using TechStore.Context;
 namespace TechStore.Context.Migrations
 {
     [DbContext(typeof(TechStoreContext))]
+<<<<<<<< HEAD:TechStore.Context/Migrations/20240325121913_Initial.Designer.cs
     partial class Initial
+========
+    [Migration("20240328203034__init")]
+    partial class _init
+>>>>>>>> origin/master:TechStore.Context/Migrations/20240328203034__init.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -245,9 +250,6 @@ namespace TechStore.Context.Migrations
                     b.Property<DateTime?>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("OrderStatus")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PaymentStatus")
                         .HasColumnType("nvarchar(max)");
 
@@ -262,6 +264,9 @@ namespace TechStore.Context.Migrations
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("orderStatus")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

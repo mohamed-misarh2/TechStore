@@ -1,5 +1,5 @@
-﻿@model ResultDataList<GetAllProductsDtos>
-@{
+﻿
+@* @{
     ViewData["Title"] = "Mobile";
 }
 
@@ -82,12 +82,12 @@
                                 <a href="#" class="btn btn-primary">@product.Price</a>
                             </div>
                         </div> *@
-                    </div>
+@*                     </div>
                 }
             </div>
         </div>
     </div>
-</div>
+</div>  *@
 
 
 
@@ -130,3 +130,89 @@
         </a>
     </div>
 } *@
+
+
+
+
+
+
+@model ResultDataList<GetAllProductsDtos>
+
+<html>
+    <head>
+
+
+        <style>
+            /* .container{
+                width:90%;
+            } */
+
+            .item{
+                padding:20px;
+                border-radius:5px;
+                box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+                transition: box-shadow 0.3s ease;
+
+            }
+
+            .item p{
+                font-size:16px;
+            }
+
+            .item h3{
+                font-size:12px;
+                font-weight:800;
+            }
+
+            .item:hover{
+                box-shadow: 0 0 7px rgba(0, 0, 0, 0.5);
+            }
+
+            .item img{
+                width:70%;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="row">
+
+            <div class="col-md-3">
+
+            </div>
+
+            <div class="col-md-9">
+
+                <div class="row">
+                    @for (int i = 0; i <= 2; i++)
+                    {
+                        @if (Model != null && Model.Entities != null)
+                        {
+                            @foreach (var product in Model.Entities)
+                            {
+                                <div class="col-md-4 mt-4">
+                                    <div class="item">
+                                        <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
+                                        <p class="mt-3">@product.Description</p>
+                                        <h3 class="mt-3">@product.Price EGP</h3>
+                                    </div>
+
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+
+            </div>
+            
+            
+            </div>
+        </div>
+    </body>
+</html>
+
+
+
+                                               

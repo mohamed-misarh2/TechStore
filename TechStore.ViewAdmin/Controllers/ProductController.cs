@@ -19,13 +19,19 @@ namespace TechStore.ViewAdmin.Controllers
             _productService = productService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+
+        [HttpGet("GetAll")]//create update delete getone getall
+        public async Task<IActionResult> GetAll(int itemsPerPage = 1, int pageNumber = 10)
         {
            var products = await _productService.GetAllPagination(1, 1);       
             try
             {
-               
+                if(pageNumber < 1)
+                {
+                    return NoContent();
+                }
+                var products = await _productService.GetAllPagination(itemsPerPage, pageNumber);
+
                 if(products.Count == 0)
                 {
                     return NoContent();
@@ -134,24 +140,37 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpPut("Filterr")]
-        public async Task<IActionResult> Filterr(FillterProductsDtos fillterProductsDtos)
+        public async Task<IActionResult> Filterr(FillterProductsDtos fillterProductsDtos, int ItemsPerPage, int PageNumber)
         {
             if (ModelState.IsValid)
             {
-                var products = await _productService.FilterProducts(fillterProductsDtos);
+                var products = await _productService.FilterProducts(fillterProductsDtos, ItemsPerPage, PageNumber);
                 return Ok(products);
             }
             return BadRequest(ModelState);
             
         }
 
+        //user
 
-        [HttpGet("SortProductsByDescending")]
-        public async Task<IActionResult> SortProductsByDescending()
+        [HttpGet("GetProductsByCategory/{categoryId:int}")]
+        public async Task<IActionResult> GetProductsByCategory(int categoryId, int ItemsPerPage, int PageNumber)
         {
             if (ModelState.IsValid)
             {
-                var products = await _productService.SortProductsByDesending();
+                var Products = await _productService.FilterProductsByCategory(categoryId, ItemsPerPage , PageNumber);
+                return Ok(Products);
+            }
+            return BadRequest(ModelState);
+        }
+
+
+        [HttpGet("SortProductsByDescending")]
+        public async Task<IActionResult> SortProductsByDescending(int ItemsPerPage, int PageNumber)
+        {
+            if (ModelState.IsValid)
+            {
+                var products = await _productService.SortProductsByDesending(ItemsPerPage, PageNumber);
                 return Ok(products);
             }
             return BadRequest(ModelState);
@@ -160,11 +179,11 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpGet("SortProductsByAscending")]
-        public async Task<IActionResult> SortProductsByAscending()
+        public async Task<IActionResult> SortProductsByAscending(int ItemsPerPage, int PageNumber)
         {
             if (ModelState.IsValid)
             {
-                var products = await _productService.SortProductsByAscending();
+                var products = await _productService.SortProductsByAscending(ItemsPerPage, PageNumber);
                 return Ok(products);
             }
             return BadRequest(ModelState);

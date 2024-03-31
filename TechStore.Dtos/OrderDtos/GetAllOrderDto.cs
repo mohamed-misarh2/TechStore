@@ -18,6 +18,6 @@ namespace TechStore.Dtos.OrderDtos
         public decimal TotalPrice { get; set; }
 
         // Include order items
-        public List<GetAllOrderItemDto> OrderItems { get; set; }
+        //public List<GetAllOrderItemDto> OrderItems { get; set; }
     }
 }

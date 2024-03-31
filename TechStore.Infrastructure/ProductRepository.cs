@@ -54,25 +54,22 @@ namespace TechStore.Infrastructure
             return Task.FromResult(_entities.Where(p => p.CategoryId == categoryId));
         }
 
-        public async Task<IQueryable<Product>> GetProductsByPriceRange(decimal minPrice, decimal maxPrice)
-        {
-            return await Task.FromResult(_entities.Where(p => p.Price >= minPrice && p.Price <= maxPrice));
-        }
 
         public Task<IQueryable<Product>> GetRelatedProducts(Product product)
         {
-            return Task.FromResult( _entities.Where(p => p.CategoryId == product.CategoryId || p.Id != product.Id));
+            return Task.FromResult(_entities.Where(p => p.CategoryId == product.CategoryId || p.Id != product.Id));
         }
 
-        
+
 
         public Task<IQueryable<Product>> SearchProduct(string Name)
-        {          
-            return Task.FromResult(_entities.Where(p => p.ModelName.Contains(Name)||
-                                                   p.Description.Contains(Name)||
-                                                   p.Brand.Contains(Name)));
+        {
+            Name = Name.ToLower();
+            return Task.FromResult(_entities.Where(p => p.ModelName.ToLower().Contains(Name) ||
+                                                   p.Description.ToLower().Contains(Name) ||
+                                                   p.Brand.ToLower().Contains(Name)));
         }
-       
+
 
         public Task<IQueryable<Product>> GetProductsByWarranty(string Warranty)
         {
@@ -86,7 +83,7 @@ namespace TechStore.Infrastructure
 
         public async Task<IQueryable<Product>> GetProductsByAscending()
         {
-            return await Task.FromResult(_entities.OrderBy(p=>p.Price));
+            return await Task.FromResult(_entities.OrderBy(p => p.Price));
         }
 
         public async Task<IQueryable<Product>> FilterProducts(FillterProductsDtos criteria)
@@ -98,7 +95,7 @@ namespace TechStore.Infrastructure
                 query = query.Where(p => p.Brand == criteria.Brand);
             }
 
-            if ( criteria.Warranty!=null&& criteria.Warranty.Any())
+            if (criteria.Warranty != null && criteria.Warranty.Any())
             {
                 query = query.Where(p => p.Warranty == criteria.Warranty);
             }
@@ -132,6 +129,16 @@ namespace TechStore.Infrastructure
 
             return brands;
         }
+
+        public async Task<IQueryable<Image>> GetImagesByProductId(int ProductId){
+
+            var images = _context.Products
+                        .Where(p => p.Id == ProductId)
+                        .SelectMany(p => p.Images);
+            return images;
+        }
+
+            
 
     }
 }

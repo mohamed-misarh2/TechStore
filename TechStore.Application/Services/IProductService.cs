@@ -27,13 +27,12 @@ namespace TechStore.Application.Services
 
         //sort
 
-        Task<ResultDataList<GetAllProductsDtos>> SortProductsByDesending();
-        Task<ResultDataList<GetAllProductsDtos>> SortProductsByAscending();
+        Task<ResultDataList<GetAllProductsDtos>> SortProductsByDesending(int ItemsPerPage, int PageNumber);
+        Task<ResultDataList<GetAllProductsDtos>> SortProductsByAscending(int ItemsPerPage, int PageNumber);
         
 
         //search
         Task<ResultDataList<GetAllProductsDtos>> SearchProduct(string Name, int ItemsPerPage, int PageNumber);
-
 
 
         //filter
@@ -49,7 +48,7 @@ namespace TechStore.Application.Services
 
         //Task<ResultDataList<CreateOrUpdateProductDtos>> FilterProductsByWarranty(string Warranty, int ItemsPerPage, int PageNumber);
 
-        Task<ResultDataList<GetAllProductsDtos>> FilterProducts(FillterProductsDtos fillterProductsDto);
+        Task<ResultDataList<GetAllProductsDtos>> FilterProducts(FillterProductsDtos fillterProductsDto,int ItemsPerPage, int PageNumber);
         Task<List<string>> GetBrands();
     }
 }

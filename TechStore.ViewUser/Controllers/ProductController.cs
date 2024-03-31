@@ -20,8 +20,23 @@ namespace TechStore.ViewUser.Controllers
         }
         public async Task<IActionResult> Mobile()
         {
-            var products = await _productService.FilterProductsByCategory(1, 5, 1);
-            return View(products);
+            var products = await _productService.FilterProductsByCategory(2, 5, 1);
+            return View("Mobile", products);
+        }
+        public async Task<IActionResult> Laptop()
+        {
+            var products = await _productService.FilterProductsByCategory(2, 5, 1);
+            return View("ProductsByCategory", products);
+        } 
+        public async Task<IActionResult> Screen()
+        {
+            var products = await _productService.FilterProductsByCategory(2, 5, 1);
+            return View("ProductsByCategory", products);
+        } 
+        public async Task<IActionResult> SmartWatch()
+        {
+            var products = await _productService.FilterProductsByCategory(2, 5, 1);
+            return View("ProductsByCategory",products);
         }
 
         [HttpGet]
@@ -50,8 +65,16 @@ namespace TechStore.ViewUser.Controllers
         {
             try
             {
+                ViewBag.Brands = await _productService.GetBrands();
+
+                // Ensure ViewBag.Brands is not null before passing it to the view
+                if (ViewBag.Brands == null)
+                {
+                    ViewBag.Brands = new List<string>(); // Initialize an empty list to avoid null reference
+                }
+
                 var result = await _productService.FilterProducts(criteria);
-                return View("Mobile", result);
+                return View("ProductsByCategory", result);
             }
             catch (Exception)
             {

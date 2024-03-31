@@ -22,7 +22,6 @@ namespace TechStore.Application.Contract
         //filter
         Task<IQueryable<Product>> GetProductsByCategory(int categoryId);
         Task<IQueryable<Product>> GetRelatedProducts(Product product);
-        Task<IQueryable<Product>> GetProductsByPriceRange(decimal minPrice, decimal maxPrice);
         Task<IQueryable<Product>> GetNewlyAddedProducts(int count);
         Task<IQueryable<Product>> GetDiscountedProducts();
         Task<IQueryable<Product>> GetProductsByWarranty(string Warranty);
@@ -32,5 +31,6 @@ namespace TechStore.Application.Contract
         Task<IQueryable<Product>> GetProductsByAscending();
         Task<IQueryable<Product>> FilterProducts(FillterProductsDtos criteria);
         Task<List<string>> GetBrands();
+        Task<IQueryable<Image>> GetImagesByProductId(int ProductId);
     }
 }
