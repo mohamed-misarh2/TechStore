@@ -176,7 +176,7 @@ namespace TechStore.Application.Services
         }
        
         //
-        public async Task<ResultDataList<GetOrderDetailsDto>> GetOrderDetails(int orderId)//user
+        public async Task<ResultView<GetOrderWithItemsDto>> GetOrderDetails(int orderId)//user
         { 
             var ExistingOrder = await _orderRepository.GetByIdAsync(orderId);
 
@@ -191,6 +191,7 @@ namespace TechStore.Application.Services
                 {
                     var product = await _productRepository.GetByIdAsync(OrderItem.ProductId);
                     var images = await _productRepository.GetImagesByProductId(OrderItem.ProductId);
+                    product.Images = images.ToList();
                     var obj = new GetOrderDetailsDto
                     {
                         Id = OrderItem.Id,
@@ -199,26 +200,31 @@ namespace TechStore.Application.Services
                         Description = OrderItem.Product.Description,
                         Price = OrderItem.Product.Price,
                         Quantity = OrderItem.Product.Quantity,
-                        Image = OrderItem.Product.Images.Select(i => i.Name).FirstOrDefault()
+                        Image = product.Images.Select(i => i.Name).FirstOrDefault()
                     };
                     list.Add(obj);
                 }
 
+                var orderDto = _mapper.Map<OrderWithoutItemsDto>(ExistingOrder);
                 var listDto = _mapper.Map<List<GetOrderDetailsDto>>(list);
 
-                return new ResultDataList<GetOrderDetailsDto>()
+                var orderWithItemsDto = new GetOrderWithItemsDto { order = orderDto, Details = listDto };
+
+                return new ResultView<GetOrderWithItemsDto>()
                 {
-                    Entities = listDto,
-                    Count = listDto.Count
+                    Entity = orderWithItemsDto,
+                    IsSuccess = true,
+                    Message = "Order Retrived Successfully"
                 };
 
             }
             else
             {
-                return new ResultDataList<GetOrderDetailsDto>()
+                return new ResultView<GetOrderWithItemsDto>()
                 {
-                    Entities = null,
-                    Count = 0
+                    Entity = null,
+                    IsSuccess = false,
+                    Message = "Faild To Retrive Order"
                 };
             }
         }
@@ -316,12 +322,14 @@ namespace TechStore.Application.Services
             try
             {
                 var deletedOrder = await _orderRepository.GetByIdAsync(orderId);
+                deletedOrder.IsDeleted = true;
                 if (deletedOrder == null)
                     throw new Exception($"Order with ID {deletedOrder.Id} not found.");
 
                 var deletedOrderItems = await _orderItemRepository.GetOrders(orderId);
                 foreach (var item in deletedOrderItems)
                 {
+                    item.IsDeleted = true;//to make returned with this value
                     await _orderItemRepository.DeleteAsync(item);
                 }
 

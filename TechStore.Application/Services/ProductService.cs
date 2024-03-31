@@ -65,6 +65,7 @@ namespace TechStore.Application.Services
 
 
         //admin
+
         public async Task<ResultView<ProductCategorySpecificationsListDto>> Create(CreateOrUpdateProductDtos productDto,List<ProductCategorySpecificationsDto> ProductCategorySpecificationsDto)
         {
             var OldProduct = (await _productRepository.GetAllAsync())
@@ -301,22 +302,26 @@ namespace TechStore.Application.Services
 
             if (PageNumber > 0)
             {
+
                 var products = (await _productRepository.GetAllAsync())
-                            .Where(p => p.IsDeleted == false)
-                            .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
-                            .Select(p => new GetAllProductsDtos
-                            {
-                                Id = p.Id,
-                                ModelName = p.ModelName,
-                                Description = p.Description,
-                                Brand = p.Brand,
-                                CategoryId = p.CategoryId,
-                                DateAdded = p.DateAdded,
-                                Price = p.Price,
-                                DiscountValue = p.DiscountValue,
-                                DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
-                                IsDeleted = p.IsDeleted
-                            }).ToList();
+                               .Where(p => p.IsDeleted == false)
+                               .Skip(ItemsPerPage * (PageNumber - 1))
+                               .Take(ItemsPerPage)
+                               .Select(p => new GetAllProductsDtos
+                               {
+                                   Id = p.Id,
+                                   ModelName = p.ModelName,
+                                   Description = p.Description,
+                                   Brand = p.Brand,
+                                   CategoryId = p.CategoryId,
+                                   DateAdded = p.DateAdded,
+                                   Price = p.Price,
+                                   DiscountValue = p.DiscountValue,
+                                   DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
+                                   IsDeleted = p.IsDeleted,
+                                   Image = p.Images.Select(i => i.Name).FirstOrDefault()
+                               }).ToList();
+
 
                 var resultDataList = new ResultDataList<GetAllProductsDtos>()
                 {
@@ -335,9 +340,8 @@ namespace TechStore.Application.Services
                 return resultDataList;
             }
 
-            
-     }
 
+        }
 
 
 
@@ -373,8 +377,8 @@ namespace TechStore.Application.Services
                                     DiscountValue = p.DiscountValue,
                                     DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                     IsDeleted = p.IsDeleted,
-                                    Images = p.Images.Select(i=>i.Name).ToList()
-                                    
+                                    Image = p.Images.Select(i => i.Name).FirstOrDefault()
+
                                }).ToList();
 
                 var ProductsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
@@ -400,9 +404,25 @@ namespace TechStore.Application.Services
 
 
         //sort 
-        public async Task<ResultDataList<GetAllProductsDtos>> SortProductsByDesending()
+        public async Task<ResultDataList<GetAllProductsDtos>> SortProductsByDesending(int ItemsPerPage, int PageNumber)
         {
-            var products = (await _productRepository.GetProductsByDescending()).ToList();
+            var products = (await _productRepository.GetProductsByDescending())
+                            .Where(p => p.IsDeleted == false)
+                            .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
+                            .Select(p => new GetAllProductsDtos
+                            {
+                                Id = p.Id,
+                                ModelName = p.ModelName,
+                                Description = p.Description,
+                                Brand = p.Brand,
+                                CategoryId = p.CategoryId,
+                                DateAdded = p.DateAdded,
+                                Price = p.Price,
+                                DiscountValue = p.DiscountValue,
+                                DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
+                                IsDeleted = p.IsDeleted,
+                                Image = p.Images.Select(i => i.Name).FirstOrDefault()
+                            }).ToList();
             var productsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
             ResultDataList<GetAllProductsDtos> res;
             if(products != null)
@@ -424,9 +444,25 @@ namespace TechStore.Application.Services
             return res;
         }
 
-        public async Task<ResultDataList<GetAllProductsDtos>> SortProductsByAscending()
+        public async Task<ResultDataList<GetAllProductsDtos>> SortProductsByAscending(int ItemsPerPage, int PageNumber)
         {
-            var products = (await _productRepository.GetProductsByAscending()).ToList();
+            var products = (await _productRepository.GetProductsByAscending())
+                            .Where(p => p.IsDeleted == false)
+                            .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
+                            .Select(p => new GetAllProductsDtos
+                            {
+                                Id = p.Id,
+                                ModelName = p.ModelName,
+                                Description = p.Description,
+                                Brand = p.Brand,
+                                CategoryId = p.CategoryId,
+                                DateAdded = p.DateAdded,
+                                Price = p.Price,
+                                DiscountValue = p.DiscountValue,
+                                DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
+                                IsDeleted = p.IsDeleted,
+                                Image = p.Images.Select(i => i.Name).FirstOrDefault()
+                            }).ToList();
             var productsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
             ResultDataList<GetAllProductsDtos> res;
             if(products != null)
@@ -480,7 +516,8 @@ namespace TechStore.Application.Services
                                     Price = p.Price,
                                     DiscountValue = p.DiscountValue,
                                     DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
-                                    IsDeleted = p.IsDeleted
+                                    IsDeleted = p.IsDeleted,
+                                    Image = p.Images.Select(i => i.Name).FirstOrDefault()
                                }).ToList();
 
                 var ProductsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
@@ -505,9 +542,25 @@ namespace TechStore.Application.Services
 
 
         //filter
-        public async Task<ResultDataList<GetAllProductsDtos>> FilterProducts(FillterProductsDtos fillterProductsDto)
+        public async Task<ResultDataList<GetAllProductsDtos>> FilterProducts(FillterProductsDtos fillterProductsDto,int ItemsPerPage, int PageNumber)
         {
-            var products = (await _productRepository.FilterProducts(fillterProductsDto)).ToList();
+            var products = (await _productRepository.FilterProducts(fillterProductsDto))
+                            .Where(p => p.IsDeleted == false)
+                            .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
+                            .Select(p => new GetAllProductsDtos
+                            {
+                                Id = p.Id,
+                                ModelName = p.ModelName,
+                                Description = p.Description,
+                                Brand = p.Brand,
+                                CategoryId = p.CategoryId,
+                                DateAdded = p.DateAdded,
+                                Price = p.Price,
+                                DiscountValue = p.DiscountValue,
+                                DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
+                                IsDeleted = p.IsDeleted,
+                                Image = p.Images.Select(i => i.Name).FirstOrDefault()
+                            }).ToList();
             var productsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
             ResultDataList<GetAllProductsDtos> resultDataList;
             if(products != null)

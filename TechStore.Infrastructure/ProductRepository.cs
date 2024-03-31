@@ -64,9 +64,10 @@ namespace TechStore.Infrastructure
 
         public Task<IQueryable<Product>> SearchProduct(string Name)
         {
-            return Task.FromResult(_entities.Where(p => p.ModelName.ToLowerInvariant().Contains(Name) ||
-                                                   p.Description.ToLowerInvariant().Contains(Name) ||
-                                                   p.Brand.ToLowerInvariant().Contains(Name)));
+            Name = Name.ToLower();
+            return Task.FromResult(_entities.Where(p => p.ModelName.ToLower().Contains(Name) ||
+                                                   p.Description.ToLower().Contains(Name) ||
+                                                   p.Brand.ToLower().Contains(Name)));
         }
 
 

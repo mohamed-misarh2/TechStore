@@ -43,6 +43,7 @@ namespace TechStore.Application.Mapper
             CreateMap<GetAllReviewDto, Review>().ReverseMap();
 
             CreateMap<OrderDto, Order>().ReverseMap();
+            CreateMap<OrderWithoutItemsDto, Order>().ReverseMap();
             CreateMap<GetAllOrderDto, Order>().ReverseMap();
             CreateMap<OrderItemDto, OrderItem>().ReverseMap();
             CreateMap<GetAllOrderItemDto, OrderItem>().ReverseMap();
