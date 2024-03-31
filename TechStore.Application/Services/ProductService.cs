@@ -319,7 +319,7 @@ namespace TechStore.Application.Services
                                    DiscountValue = p.DiscountValue,
                                    DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                    IsDeleted = p.IsDeleted,
-                                   Image = p.Images.Select(i => i.Name).FirstOrDefault()
+                                   Images = p.Images.Select(i => i.Name).ToList()
                                }).ToList();
 
 
@@ -377,7 +377,7 @@ namespace TechStore.Application.Services
                                     DiscountValue = p.DiscountValue,
                                     DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                     IsDeleted = p.IsDeleted,
-                                    Image = p.Images.Select(i => i.Name).FirstOrDefault()
+                                    Images = p.Images.Select(i => i.Name).ToList()
 
                                }).ToList();
 
@@ -421,7 +421,7 @@ namespace TechStore.Application.Services
                                 DiscountValue = p.DiscountValue,
                                 DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                 IsDeleted = p.IsDeleted,
-                                Image = p.Images.Select(i => i.Name).FirstOrDefault()
+                                Images = p.Images.Select(i => i.Name).ToList()
                             }).ToList();
             var productsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
             ResultDataList<GetAllProductsDtos> res;
@@ -461,7 +461,7 @@ namespace TechStore.Application.Services
                                 DiscountValue = p.DiscountValue,
                                 DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                 IsDeleted = p.IsDeleted,
-                                Image = p.Images.Select(i => i.Name).FirstOrDefault()
+                                Images = p.Images.Select(i => i.Name).ToList()
                             }).ToList();
             var productsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
             ResultDataList<GetAllProductsDtos> res;
@@ -517,7 +517,7 @@ namespace TechStore.Application.Services
                                     DiscountValue = p.DiscountValue,
                                     DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                     IsDeleted = p.IsDeleted,
-                                    Image = p.Images.Select(i => i.Name).FirstOrDefault()
+                                    Images = p.Images.Select(i => i.Name).ToList()
                                }).ToList();
 
                 var ProductsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
@@ -559,7 +559,7 @@ namespace TechStore.Application.Services
                                 DiscountValue = p.DiscountValue,
                                 DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                 IsDeleted = p.IsDeleted,
-                                Image = p.Images.Select(i => i.Name).FirstOrDefault()
+                                Images = p.Images.Select(i => i.Name).ToList()
                             }).ToList();
             var productsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
             ResultDataList<GetAllProductsDtos> resultDataList;
@@ -583,9 +583,9 @@ namespace TechStore.Application.Services
             return resultDataList;
         }
        
-        public async Task<List<string>> GetBrands()
+        public async Task<List<string>> GetBrands(int categoryid)
         {
-            var brands = await _productRepository.GetBrands();
+            var brands = await _productRepository.GetBrands(categoryid);
             return brands;
         }
 
