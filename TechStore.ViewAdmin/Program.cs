@@ -70,6 +70,7 @@ namespace TechStore.ViewAdmin
             builder.Services.AddScoped<IUserServices, UserServices>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IspecificationsRepository, SpecificationsRepository>();
+            builder.Services.AddScoped<ICategorySpecificationsRepository, CategorySpecificationsRepository>();
             builder.Services.AddScoped<IproductCategorySpecifications,ProductCategorySpecificationsRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IProductService, ProductService>();
