@@ -14,10 +14,5 @@ namespace TechStore.Models
         [ForeignKey("Product")]
         public int ProductId { get; set; }//**
         public Product Product { get; set; }//**
-
-
-        //[ForeignKey("Specification")]  ****??
-        //public int SpecificationId { get; set; }
-        //public Specification Specification { get; set; }
     }
 }

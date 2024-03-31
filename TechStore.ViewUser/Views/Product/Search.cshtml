@@ -1,0 +1,60 @@
+﻿@model ResultDataList<GetAllProductsDtos>
+@{
+    ViewData["Title"] = "Search";
+}
+
+<h1>Search</h1>
+
+
+<form asp-action="Search" method="get">
+    <div class="form-group">
+        <label for="name">Product Name:</label>
+        <input type="text" id="name" name="name" class="form-control" />
+    </div>
+    
+    <button type="submit" class="btn btn-primary d-none">Search</button>
+</form>
+@if (Model != null && Model.Entities.Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Model Name</th>
+                <th>Description</th>
+                <th>Brand</th>
+                <th>Category Id</th>
+                <th>Date Added</th>
+                <th>Price</th>
+                <th>Discount Value</th>
+                <th>Discounted Price</th>
+                <th>Is Deleted</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Entities)
+            {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.ModelName</td>
+                    <td>@product.Description</td>
+                    <td>@product.Brand</td>
+                    <td>@product.CategoryId</td>
+                    <td>@product.DateAdded</td>
+                    <td>@product.Price</td>
+                    <td>@product.DiscountValue</td>
+                    <td>@product.DiscountedPrice</td>
+                    <td>@product.IsDeleted</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+   @*  <div>
+        Page @(Model.PageNumber) of @(Math.Ceiling(Model.Count / (double)Model.ItemsPerPage))
+    </div> *@
+}
+else
+{
+    <p>No products found.</p>
+}

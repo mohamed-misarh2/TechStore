@@ -12,11 +12,15 @@ using TechStore.Dtos.CategoryDtos;
 using Microsoft.AspNetCore.Identity;
 using TechStore.Dtos.ReviewDtos;
 using TechStore.Dtos.AccountDtos;
+<<<<<<< HEAD
+=======
+using TechStore.Dtos.OrderDtos;
+>>>>>>> origin/master
 
 
 namespace TechStore.Application.Mapper
 {
-    public class AutoMapperProfile :Profile
+    public class AutoMapperProfile : Profile
     {
         public AutoMapperProfile()
         {
@@ -30,24 +34,24 @@ namespace TechStore.Application.Mapper
 
             CreateMap<CreateOrUpdateProductDtos, Product>().ReverseMap();
             CreateMap<SpecificationsDto, Specification>().ReverseMap();
-               
 
 
-            //productitem
-            CreateMap<LabtopItemDtos, Specification>().ReverseMap();
-            CreateMap<MobileAndTabletItemDtos, Specification>().ReverseMap();
-            CreateMap<ScreenItemDtos, Specification>().ReverseMap();
-            CreateMap<SmartwatchItemDtos, Specification>().ReverseMap();
+            CreateMap<ProductCategorySpecificationsDto, ProductCategorySpecifications>().ReverseMap();
+
+
             CreateMap<GetAllProductsDtos, Product>().ReverseMap();
             CreateMap<GetAllProductsForUserDto, Product>().ReverseMap();
 
             CreateMap<UserDto, TechUser>().ReverseMap();
             CreateMap<CategoryDto, Category>().ReverseMap();
-            CreateMap <CreateOrUpdateReviewDto, Review>().ReverseMap();
+            CreateMap<CreateOrUpdateReviewDto, Review>().ReverseMap();
             CreateMap<GetAllReviewDto, Review>().ReverseMap();
 
+            CreateMap<OrderDto, Order>().ReverseMap();
+            CreateMap<GetAllOrderDto, Order>().ReverseMap();
+            CreateMap<OrderItemDto, OrderItem>().ReverseMap();
+            CreateMap<GetAllOrderItemDto, OrderItem>().ReverseMap();
 
-            
 
         }
     }

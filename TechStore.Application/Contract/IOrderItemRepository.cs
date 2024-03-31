@@ -7,8 +7,9 @@ using TechStore.Models;
 
 namespace TechStore.Application.Contract
 {
-    public interface IProductItemRepository:IRepository<Specification,int>
+    public interface IOrderItemRepository:IRepository<OrderItem,int>
     {
+        public Task<List<OrderItem>> GetOrders(int orderId);
 
     }
 }

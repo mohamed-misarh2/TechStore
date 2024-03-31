@@ -59,18 +59,18 @@
                         Categories
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Mobile & Tablet</a>
+                        <a class="dropdown-item" href="Product/Mobile">Mobile & Tablet</a>
                         <a class="dropdown-item" href="#">Labtop </a>
                         <a class="dropdown-item" href="#">Screen </a>
                         <a class="dropdown-item" href="#">Smart Watch</a>
                     </div>
                 </li>
 
-
                 <li class="nav-item">
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-5 custom-search-width" style="width: 500px;" type="search"
-                               placeholder="Search For Products Or brands" aria-label="Search">
+                    <form asp-controller="Product" asp-action="Search" method="get" class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-5 custom-search-width" style="width: 500px;" type="text"
+                               placeholder="Search For Products Or brands" name="name">
+                        <button class="btn btn-outline-success my-2 my-sm-0 d-none" type="submit">Search</button>
                     </form>
                 </li>
 

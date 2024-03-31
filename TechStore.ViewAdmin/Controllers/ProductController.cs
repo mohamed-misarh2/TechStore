@@ -20,6 +20,7 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
 
+<<<<<<< HEAD
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -27,6 +28,19 @@ namespace TechStore.ViewAdmin.Controllers
             {
               
                 var products = await _productService.GetAllPagination(1, 1);
+=======
+        [HttpGet("GetAll")]//create update delete getone getall
+        public async Task<IActionResult> GetAll(int itemsPerPage = 1, int pageNumber = 10)
+        {
+            try
+            {
+                if(pageNumber < 1)
+                {
+                    return NoContent();
+                }
+                var products = await _productService.GetAllPagination(itemsPerPage, pageNumber);
+
+>>>>>>> origin/master
                 if(products.Count == 0)
                 {
                     return NoContent();
@@ -65,12 +79,12 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> Create(CreateOrUpdateProductDtos product)
+        public async Task<ActionResult> Create([FromForm] ProductCategorySpecificationsListDto product)
         {
             if (ModelState.IsValid)
             {
-                await _productService.Create(product);
-                return Ok("Created Successfully!");
+                var res =  await _productService.Create(product.CreateOrUpdateProductDtos,product.ProductCategorySpecifications);
+                return Ok(res);
             }
             return BadRequest(ModelState);
         }
@@ -79,14 +93,9 @@ namespace TechStore.ViewAdmin.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> HardDeleteProduct(int id)
         {
-            if(id > 0)
+            if (id > 0)
             {
-                var product = await _productService.GetOne(id);
-                if (product.Entity is null)
-                {
-                    return BadRequest("Product NotFound !");
-                }
-                var DeletedProduct = await _productService.HardDelete(product.Entity);
+                var DeletedProduct = await _productService.HardDelete(id);
                 if (DeletedProduct.IsSuccess)
                 {
                     return Ok(DeletedProduct.Message);
@@ -98,14 +107,14 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpDelete]
-        public async Task<IActionResult> SoftDeleteProduct(CreateOrUpdateProductDtos productDto)
+        public async Task<IActionResult> SoftDeleteProduct(int ProductId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var DeletedProduct = await _productService.SoftDelete(productDto);
+            var DeletedProduct = await _productService.SoftDelete(ProductId);
             if (DeletedProduct.IsSuccess)
             {
                 return Ok(DeletedProduct.Entity);
@@ -115,15 +124,83 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpPut]
-        public async Task<ActionResult> Update(CreateOrUpdateProductDtos product)
+        public async Task<ActionResult> Update([FromBody] ProductCategorySpecificationsListDto product)
         {
             if (ModelState.IsValid)
             {
-                var p = await _productService.Update(product);
+                var Product = await _productService.Update(product.CreateOrUpdateProductDtos,product.ProductCategorySpecifications);
                 return Ok("Updated Successfully!");
             }
             return BadRequest(ModelState);
         }
+
+        //user
+
+        [HttpGet("GetProductsByCategory/{categoryId:int}")]
+        public async Task<IActionResult> GetProductsByCategory(int categoryId, int ItemsPerPage, int PageNumber)
+        {
+            if (ModelState.IsValid)
+            {
+                var Products = await _productService.FilterProductsByCategory(categoryId, ItemsPerPage , PageNumber);
+                return Ok(Products);
+            }
+            return BadRequest(ModelState);
+        }
+
+
+        [HttpPut("Filterr")]
+        public async Task<IActionResult> Filterr(FillterProductsDtos fillterProductsDtos)
+        {
+            if (ModelState.IsValid)
+            {
+                var products = await _productService.FilterProducts(fillterProductsDtos);
+                return Ok(products);
+            }
+            return BadRequest(ModelState);
+            
+        }
+
+
+        [HttpGet("SortProductsByDescending")]
+        public async Task<IActionResult> SortProductsByDescending()
+        {
+            if (ModelState.IsValid)
+            {
+                var products = await _productService.SortProductsByDesending();
+                return Ok(products);
+            }
+            return BadRequest(ModelState);
+
+        }
+
+
+        [HttpGet("SortProductsByAscending")]
+        public async Task<IActionResult> SortProductsByAscending()
+        {
+            if (ModelState.IsValid)
+            {
+                var products = await _productService.SortProductsByAscending();
+                return Ok(products);
+            }
+            return BadRequest(ModelState);
+
+        }
+
+
+        //search
+
+        [HttpGet("SearchByName")]
+        public async Task<IActionResult> SearchByName(string Name, int ItemsPerPage, int PageNumber)
+        {
+            if (ModelState.IsValid)
+            {
+                var products = await _productService.SearchProduct(Name, ItemsPerPage, PageNumber);
+                return Ok(products);
+            }
+            return BadRequest(ModelState);
+        }
+
+      
 
     }
 }

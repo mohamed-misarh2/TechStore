@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using TechStore.Application.Contract;
+using TechStore.Application.Mapper;
 using TechStore.Application.Services;
 using TechStore.Context;
 using TechStore.Infrastructure;
@@ -18,6 +19,10 @@ namespace TechStore.ViewAdmin
     {
         public static void Main(string[] args)
         {
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -72,6 +77,21 @@ namespace TechStore.ViewAdmin
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IspecificationsRepository, SpecificationsRepository>();
+<<<<<<< HEAD
+=======
+            builder.Services.AddScoped<IproductCategorySpecifications,ProductCategorySpecificationsRepository>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+
+            //builder.Services.AddScoped<IProductItemService, ProductItemService>();
+            //builder.Services.AddScoped<IUserServices, UserServices>();
+            //builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+
+>>>>>>> origin/master
 
             builder.Services.AddDbContext<TechStoreContext>(options =>
                options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
