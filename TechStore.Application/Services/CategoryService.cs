@@ -184,10 +184,10 @@ namespace TechStore.Application.Services
             return cateSpec;
         }
 
-        public async Task<CategoryDto> GetCategoryByName(string name)
+        public async Task<List<CategoryDto>> GetCategoryByName(string name)
         {
             var cat = await _categoryRepository.SearchByName(name);
-            var catDto = _mapper.Map<CategoryDto>(cat);
+            var catDto = _mapper.Map<List<CategoryDto>>(cat);
             return catDto;
 
         }

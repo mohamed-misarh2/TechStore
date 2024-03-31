@@ -160,7 +160,7 @@ namespace TechStore.Application.Services
             {
                 var products = (await _productRepository.GetAllAsync())
                             .Where(p => p.IsDeleted == false)
-                            .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
+                            .Skip(ItemsPerPage * PageNumber ).Take(ItemsPerPage)
                             .Select(p => new GetAllProductsDtos
                             {
                                 Id = p.Id,

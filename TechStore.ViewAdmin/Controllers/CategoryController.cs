@@ -18,12 +18,12 @@ namespace TechStore.ViewAdmin.Controllers
         {
             _categoryService = categoryService;
         }
-        //[HttpPost]
-        //public async Task<IActionResult> Create( CategoryDto category,List<SpecificationsDto> specificationsDtos)
-        //{
-        //    var data = await _categoryService.CreateCategory(category, specificationsDtos);
-        //    return Ok(data);    
-        //}
+/*        [HttpPost]
+        public async Task<IActionResult> Create(CategoryDto category, List<SpecificationsDto> specificationsDtos)
+        {
+            var data = await _categoryService.CreateCategory(category, specificationsDtos);
+            return Ok(data);
+        }*/
 
         [HttpPost]
         public async Task<IActionResult> Create( CategorySpecificationDto data)
@@ -66,8 +66,8 @@ namespace TechStore.ViewAdmin.Controllers
             return Ok(data);
         }
 
-        [HttpGet]
-        [Route("{Name}")]
+        [HttpGet("SearchCategoriesByName")]
+        //[Route("{Name}")]
         public async Task<IActionResult> GetByName(string Name)
         {
             var data = await _categoryService.GetCategoryByName(Name);

@@ -12,13 +12,17 @@ namespace TechStore.Infrastructure
 {
     public class CategoryRepository : Repository<Category, int>, ICategoryRepository
     {
+        private readonly TechStoreContext _context;
+
         public CategoryRepository(TechStoreContext context) : base(context)
         {
+            _context = context; 
         }
 
-        public async Task<Category> SearchByName(string name)
+        public async Task<List<Category>> SearchByName(string name)
         {
-            return await _entities.Where(c=>c.Name==name).FirstOrDefaultAsync();
+            var data= await _context.Categories.Where(c=>c.Name==name).Select(c=>c).ToListAsync();
+            return data;
         }
 
 

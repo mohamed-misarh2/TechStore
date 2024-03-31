@@ -13,25 +13,20 @@ namespace TechStore.ViewAdmin.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
-        private readonly IProductItemService _productItemService;
 
-        public ProductController(IProductService productService,IProductItemService productItemService)
+        public ProductController(IProductService productService)
         {
             _productService = productService;
-            _productItemService = productItemService;
         }
 
 
-        [HttpGet]//create update delete getone getall
-        public async Task<IActionResult> GetAll(int itemsPerPage = 1, int pageNumber = 10)
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
             try
             {
-                if(pageNumber < 1)
-                {
-                    return NoContent();
-                }
-                var products = await _productService.GetAllPagination(itemsPerPage, pageNumber);
+              
+                var products = await _productService.GetAllPagination(1, 1);
                 if(products.Count == 0)
                 {
                     return NoContent();
