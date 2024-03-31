@@ -22,9 +22,7 @@ namespace TechStore.ViewAdmin.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-           
-              
-                var products = await _productService.GetAllPagination(1, 1);       
+           var products = await _productService.GetAllPagination(1, 1);       
             try
             {
                

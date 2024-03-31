@@ -67,6 +67,13 @@ namespace TechStore.ViewAdmin
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IUserServices, UserServices>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IspecificationsRepository, SpecificationsRepository>();
+            builder.Services.AddScoped<IproductCategorySpecifications, ProductCategorySpecificationsRepository>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 
             builder.Services.AddDbContext<TechStoreContext>(options =>
                options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
@@ -99,7 +106,7 @@ namespace TechStore.ViewAdmin
                 options.AddPolicy("AllowOrigin",
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:4200/")
+                        builder.AllowAnyOrigin()
                                .AllowAnyHeader()
                                .AllowAnyMethod();
                     });
