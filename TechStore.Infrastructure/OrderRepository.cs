@@ -56,20 +56,21 @@ namespace TechStore.Infrastructure
             return await _context.Orders.OrderByDescending(order => order.OrderDate).ToListAsync();
         }
 
-        public async Task<List<Order>> SearchOrdersAsync(string searchTerm)
+        public Task<List<Order>> SearchOrdersAsync(string searchTerm)
         {
-            searchTerm = searchTerm.ToLowerInvariant();
+            searchTerm = searchTerm.ToLower();
 
-            return await _context.Orders
+            var filteredOrders = _context.Orders
                 .Where(order =>
-                    order.UserId.ToLowerInvariant().Contains(searchTerm) ||
-                    order.ShippingAddress.ToLowerInvariant().Contains(searchTerm) ||
-                    order.ShippingMethod.ToLowerInvariant().Contains(searchTerm) ||
-                    order.orderStatus.ToString().ToLowerInvariant().Contains(searchTerm) ||
-                    order.PaymentStatus.ToLowerInvariant().Contains(searchTerm)
-                )
-                .ToListAsync();
+                       order.ShippingAddress.ToLower().Contains(searchTerm) ||
+                       order.ShippingMethod.ToLower().Contains(searchTerm) ||
+                       //order.orderStatus.ToString().ToLower().Contains(searchTerm) ||
+                       order.PaymentStatus.ToLower().Contains(searchTerm)
+                ).ToList();
+
+            return Task.FromResult( filteredOrders);
         }
+
         public async Task<List<Order>> GetOrdersByUserIdAsync(string userId)
         {
             return await _context.Orders

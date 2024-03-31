@@ -20,8 +20,8 @@ namespace TechStore.ViewUser.Controllers
         }
         public async Task<IActionResult> Mobile()
         {
-            var products = await _productService.FilterProductsByCategory(1, 5, 1);
-            return View("ProductsByCategory", products);
+            var products = await _productService.FilterProductsByCategory(2, 5, 1);
+            return View("Mobile", products);
         }
         public async Task<IActionResult> Laptop()
         {
@@ -30,12 +30,12 @@ namespace TechStore.ViewUser.Controllers
         } 
         public async Task<IActionResult> Screen()
         {
-            var products = await _productService.FilterProductsByCategory(3, 5, 1);
+            var products = await _productService.FilterProductsByCategory(2, 5, 1);
             return View("ProductsByCategory", products);
         } 
         public async Task<IActionResult> SmartWatch()
         {
-            var products = await _productService.FilterProductsByCategory(4, 5, 1);
+            var products = await _productService.FilterProductsByCategory(2, 5, 1);
             return View("ProductsByCategory",products);
         }
 

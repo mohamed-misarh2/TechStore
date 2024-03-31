@@ -52,6 +52,13 @@ namespace TechStore.ViewAdmin.Controllers
             return Ok(result);
         }
 
+        [HttpDelete("SoftDeleteOrderItem")]
+        public async Task<IActionResult> SoftDeleteOrderItem(int id)
+        {
+            var result = await _orderService.SoftDeleteOrderItemAsync(id);
+            return Ok(result);
+        }
+
         [HttpDelete("HardDeleteOrder")]
         public async Task<IActionResult> HardDeleteOrder(int id)
         {
@@ -66,7 +73,32 @@ namespace TechStore.ViewAdmin.Controllers
             return Ok(state);
         }
 
-        
+        [HttpGet("GetSortedAs")]
+        public async Task<IActionResult> GetSortedAs()
+        {
+            var result = await _orderService.GetOrdersSortedByDateAscendingAsync();
+            return Ok(result);
+        }
 
+        [HttpGet("GetSortedes")]
+        public async Task<IActionResult> GetSortedes()
+        {
+            var result = await _orderService.GetOrdersSortedByDateDescendingAsync();
+            return Ok(result);
+        }
+
+        [HttpGet("GetorderByUserId")]
+        public async Task<IActionResult> GetorderByUserId(string userId)
+        {
+            var result = await _orderService.GetOrdersByUserIdAsync(userId);
+            return Ok(result);
+        }
+
+        [HttpGet("searchOrder")]
+        public async Task<IActionResult> searchOrder(string term)
+        {
+            var result = await _orderService.SearchOrdersAsync(term);
+            return Ok(result);
+        }
     }
 }
