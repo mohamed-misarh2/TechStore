@@ -12,11 +12,8 @@ using TechStore.Dtos.CategoryDtos;
 using Microsoft.AspNetCore.Identity;
 using TechStore.Dtos.ReviewDtos;
 using TechStore.Dtos.AccountDtos;
-<<<<<<< HEAD
-=======
-using TechStore.Dtos.OrderDtos;
->>>>>>> origin/master
 
+using TechStore.Dtos.OrderDtos;
 
 namespace TechStore.Application.Mapper
 {

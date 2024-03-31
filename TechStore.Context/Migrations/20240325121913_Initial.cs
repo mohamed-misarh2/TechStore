@@ -5,13 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TechStore.Context.Migrations
 {
-    /// <inheritdoc />
-<<<<<<<< HEAD:TechStore.Context/Migrations/20240325121913_Initial.cs
+
     public partial class Initial : Migration
-========
-    public partial class edit : Migration
->>>>>>>> origin/master:TechStore.Context/Migrations/20240326133106_edit.cs
-    {
+    { 
+
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {

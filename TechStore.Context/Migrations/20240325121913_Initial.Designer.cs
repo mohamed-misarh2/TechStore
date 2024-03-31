@@ -12,13 +12,7 @@ using TechStore.Context;
 namespace TechStore.Context.Migrations
 {
     [DbContext(typeof(TechStoreContext))]
-<<<<<<<< HEAD:TechStore.Context/Migrations/20240325121913_Initial.Designer.cs
-    [Migration("20240325121913_Initial")]
     partial class Initial
-========
-    [Migration("20240326133106_edit")]
-    partial class edit
->>>>>>>> origin/master:TechStore.Context/Migrations/20240326133106_edit.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

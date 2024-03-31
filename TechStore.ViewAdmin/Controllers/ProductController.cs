@@ -19,28 +19,15 @@ namespace TechStore.ViewAdmin.Controllers
             _productService = productService;
         }
 
-
-<<<<<<< HEAD
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            try
-            {
+           
               
-                var products = await _productService.GetAllPagination(1, 1);
-=======
-        [HttpGet("GetAll")]//create update delete getone getall
-        public async Task<IActionResult> GetAll(int itemsPerPage = 1, int pageNumber = 10)
-        {
+                var products = await _productService.GetAllPagination(1, 1);       
             try
             {
-                if(pageNumber < 1)
-                {
-                    return NoContent();
-                }
-                var products = await _productService.GetAllPagination(itemsPerPage, pageNumber);
-
->>>>>>> origin/master
+               
                 if(products.Count == 0)
                 {
                     return NoContent();
