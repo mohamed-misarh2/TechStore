@@ -61,7 +61,7 @@ namespace TechStore.ViewUser.Controllers
         //    return View("Fillter", filter);
         //}
         //[HttpPost]
-        public async Task<IActionResult> Filter(FillterProductsDtos criteria)
+        public async Task<IActionResult> Filter(FillterProductsDtos criteria, int itemsPerPage = 10, int pageNumber = 1)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace TechStore.ViewUser.Controllers
                     ViewBag.Brands = new List<string>(); // Initialize an empty list to avoid null reference
                 }
 
-                var result = await _productService.FilterProducts(criteria);
+                var result = await _productService.FilterProducts(criteria, itemsPerPage, pageNumber);
                 return View("ProductsByCategory", result);
             }
             catch (Exception)

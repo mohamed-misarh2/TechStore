@@ -1,4 +1,5 @@
-﻿using TechStore.Dtos.CategoryDtos;
+﻿using TechStore.Application.Contract;
+using TechStore.Dtos.CategoryDtos;
 using TechStore.Dtos.ProductDtos;
 using TechStore.Dtos.ViewResult;
 
@@ -12,7 +13,12 @@ namespace TechStore.Application.Services
         Task<CategoryDto> GetCategoryByName(string name);
         Task<ResultView<CategoryDto>> HardDeleteCategory(CategoryDto category);
         Task<ResultView<CategoryDto>> SoftDeleteCategory(CategoryDto category);
-        Task<ResultView<CategoryDto>> UpdateCategory(CategoryDto category);
-        //Task<ResultView<CategoryDto>> AddSpecificationCategory(CategoryDto category,List<SpecificationsDto> specificationsDto);
-    }
+        Task<ResultView<CategoryDto>> UpdateCategory(CategoryDto updatedcategory);
+        Task<ResultView<CategorySpecificationDto>> DeleteSpecFromCategory(int CategoryId, int SpecID);
+        Task<ResultView<CategorySpecificationDto>> AddSpecToCategory(int CategoryId, SpecificationsDto specificationsDto);
+        Task<ResultDataList<SpecificationsDto>> GetSpecificationsByCategoryId(int CategoryId);
+        
+
+            //Task<ResultView<CategoryDto>> AddSpecificationCategory(CategoryDto category,List<SpecificationsDto> specificationsDto);
+        }
 }

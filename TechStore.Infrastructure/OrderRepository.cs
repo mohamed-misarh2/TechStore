@@ -64,7 +64,7 @@ namespace TechStore.Infrastructure
                 .Where(order =>
                        order.ShippingAddress.ToLower().Contains(searchTerm) ||
                        order.ShippingMethod.ToLower().Contains(searchTerm) ||
-                       //order.orderStatus.ToString().ToLower().Contains(searchTerm) ||
+                       order.orderStatus.Value.ToString() == searchTerm ||
                        order.PaymentStatus.ToLower().Contains(searchTerm)
                 ).ToList();
 
