@@ -61,7 +61,7 @@ namespace TechStore.ViewUser.Controllers
         //    return View("Fillter", filter);
         //}
         //[HttpPost]
-        public async Task<IActionResult> Filter(FillterProductsDtos criteria)
+        public async Task<IActionResult> Filter(FillterProductsDtos criteria, int itemsPerPage = 10, int pageNumber = 1)
         {
             try
             {

@@ -25,7 +25,13 @@ namespace TechStore.Infrastructure
         }
 
 
-        
+        public async Task DetachEntityAsync(Category entity)
+        {
+            if (_context.Entry(entity).State != EntityState.Detached)
+            {
+                _context.Entry(entity).State = EntityState.Detached;
+            }
+        }
 
     }
 }
