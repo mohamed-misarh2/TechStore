@@ -3,58 +3,87 @@
     ViewData["Title"] = "Search";
 }
 
-<h1>Search</h1>
+<style>
+    .item {
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        transition: box-shadow 0.3s ease;
+    }
 
+        .item p {
+            font-size: 16px;
+            max-width: 100%;
+        }
 
-<form asp-action="Search" method="get">
-    <div class="form-group">
-        <label for="name">Product Name:</label>
-        <input type="text" id="name" name="name" class="form-control" />
+        .item h3 {
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .item:hover {
+            box-shadow: 0 0 7px rgba(0, 0, 0, 0.5);
+        }
+
+        .item img {
+            width: 70%;
+        }
+</style>
+
+<div class="container">
+    <div class="row">
+
+      
+        <div class="col-md-8">
+            <div class="row">
+
+                @if (Model != null && Model.Entities != null)
+                {
+                    @foreach (var product in Model.Entities)
+                    {
+                        @if (product.DiscountValue > 0)
+                        {
+
+                            <div class="col-md-4 mt-4">
+                                <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
+                                    <div class="item">
+                                        @if (product.Images != null && product.Images.Any())
+                                        {
+                                            <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
+                                        }                                        <p class="mt-3">@product.Description</p>
+                                        <h3 class="mt-3">@product.DiscountedPrice EGP</h3>
+                                        <span class="price-container">
+                                            <span id="product-price-@(product.Id)" data-price-amount="@product.Price" data-price-type="finalPrice" class="price-wrapper" style="text-decoration:line-through">
+                                                @product.Price <span class="currency"></span>
+                                            </span>
+                                            <span style="color:red">   @product.DiscountValue% of</span>
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4 mt-4">
+                                <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
+                                    <div class="item">
+                                        @if (product.Images != null && product.Images.Any())
+                                        {
+                                            <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
+                                        }
+                                        <p class="mt-3">@product.Description</p>
+                                        <h3 class="mt-3">@product.Price EGP</h3>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                    }
+                }
+                else
+                {
+                    <p>No products found.</p>
+                }
+            </div>
+        </div>
     </div>
-    
-    <button type="submit" class="btn btn-primary d-none">Search</button>
-</form>
-@if (Model != null && Model.Entities.Any())
-{
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Model Name</th>
-                <th>Description</th>
-                <th>Brand</th>
-                <th>Category Id</th>
-                <th>Date Added</th>
-                <th>Price</th>
-                <th>Discount Value</th>
-                <th>Discounted Price</th>
-                <th>Is Deleted</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var product in Model.Entities)
-            {
-                <tr>
-                    <td>@product.Id</td>
-                    <td>@product.ModelName</td>
-                    <td>@product.Description</td>
-                    <td>@product.Brand</td>
-                    <td>@product.CategoryId</td>
-                    <td>@product.DateAdded</td>
-                    <td>@product.Price</td>
-                    <td>@product.DiscountValue</td>
-                    <td>@product.DiscountedPrice</td>
-                    <td>@product.IsDeleted</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-   @*  <div>
-        Page @(Model.PageNumber) of @(Math.Ceiling(Model.Count / (double)Model.ItemsPerPage))
-    </div> *@
-}
-else
-{
-    <p>No products found.</p>
-}
+</div>

@@ -69,7 +69,7 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromForm] ProductCategorySpecificationsListDto product)
+        public async Task<ActionResult> Create([FromForm] ProductCategorySpecificationsListDto product)//spec doesn't take from form??
         {
             if (ModelState.IsValid)
             {

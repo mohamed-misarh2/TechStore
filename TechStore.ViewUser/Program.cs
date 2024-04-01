@@ -29,6 +29,7 @@ namespace TechStore.ViewUser
 
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<ICategorySpecificationsRepository, CategorySpecificationsRepository>();
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IproductCategorySpecifications,ProductCategorySpecificationsRepository>();
