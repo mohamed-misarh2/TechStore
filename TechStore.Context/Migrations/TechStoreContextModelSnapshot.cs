@@ -175,7 +175,7 @@ namespace TechStore.Context.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("TechStore.Models.Color", b =>
+            modelBuilder.Entity("TechStore.Models.CategorySpecifications", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -183,20 +183,22 @@ namespace TechStore.Context.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("SpecificationId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Colors");
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("SpecificationId");
+
+                    b.ToTable("CategorySpecifications");
                 });
 
             modelBuilder.Entity("TechStore.Models.Image", b =>
@@ -210,16 +212,16 @@ namespace TechStore.Context.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ItemId");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Images");
                 });
@@ -232,7 +234,7 @@ namespace TechStore.Context.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DeliveryDate")
+                    b.Property<DateTime?>("DeliveryDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
@@ -240,9 +242,6 @@ namespace TechStore.Context.Migrations
 
                     b.Property<DateTime?>("OrderDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("OrderStatus")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PaymentStatus")
                         .HasColumnType("nvarchar(max)");
@@ -257,8 +256,10 @@ namespace TechStore.Context.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("orderStatus")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -281,7 +282,7 @@ namespace TechStore.Context.Migrations
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int?>("Quantity")
@@ -357,6 +358,9 @@ namespace TechStore.Context.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal?>("DiscountValue")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -364,9 +368,18 @@ namespace TechStore.Context.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Warranty")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -377,7 +390,7 @@ namespace TechStore.Context.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("TechStore.Models.ProductItem", b =>
+            modelBuilder.Entity("TechStore.Models.ProductCategorySpecifications", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -385,103 +398,31 @@ namespace TechStore.Context.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("BatteryCapacity")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CameraResolution")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Clarity")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ColorId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
-
-                    b.Property<string>("CompatibleWithDevices")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("DiscountPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("FrontCamera")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("GraphicsCard")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("GraphicsCardType")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("NumberProcessorCores")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NumberSIMCards")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OS")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PortType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("ProcessorBrand")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProcessorSpeed")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Quantity")
+                    b.Property<int?>("SpecificationId")
                         .HasColumnType("int");
 
-                    b.Property<string>("RAMType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Ram")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Resoluation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ScreenDesign")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ScreenSize")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ScreenType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StorageCapacity")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("USBPorts")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WarrantyInformation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WaterResistant")
+                    b.Property<string>("Value")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ColorId");
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductItems");
+                    b.HasIndex("SpecificationId");
+
+                    b.ToTable("ProductSpecifications");
                 });
 
             modelBuilder.Entity("TechStore.Models.Review", b =>
@@ -518,6 +459,26 @@ namespace TechStore.Context.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("TechStore.Models.Specification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Specifications");
                 });
 
             modelBuilder.Entity("TechStore.Models.TechUser", b =>
@@ -656,24 +617,37 @@ namespace TechStore.Context.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TechStore.Models.CategorySpecifications", b =>
+                {
+                    b.HasOne("TechStore.Models.Category", "Category")
+                        .WithMany("CategorySpecifications")
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("TechStore.Models.Specification", "Specification")
+                        .WithMany("CategorySpecifications")
+                        .HasForeignKey("SpecificationId");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Specification");
+                });
+
             modelBuilder.Entity("TechStore.Models.Image", b =>
                 {
-                    b.HasOne("TechStore.Models.ProductItem", "ProductItem")
+                    b.HasOne("TechStore.Models.Product", "Product")
                         .WithMany("Images")
-                        .HasForeignKey("ItemId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ProductItem");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("TechStore.Models.Order", b =>
                 {
                     b.HasOne("TechStore.Models.TechUser", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -686,7 +660,9 @@ namespace TechStore.Context.Migrations
 
                     b.HasOne("TechStore.Models.Product", "Product")
                         .WithMany("OrderItems")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Order");
 
@@ -723,23 +699,25 @@ namespace TechStore.Context.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TechStore.Models.ProductItem", b =>
+            modelBuilder.Entity("TechStore.Models.ProductCategorySpecifications", b =>
                 {
-                    b.HasOne("TechStore.Models.Color", "Color")
-                        .WithMany("ProductItems")
-                        .HasForeignKey("ColorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("TechStore.Models.Category", "Category")
+                        .WithMany("ProductCategorySpecifications")
+                        .HasForeignKey("CategoryId");
 
                     b.HasOne("TechStore.Models.Product", "Product")
-                        .WithMany("ProductItem")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("ProductCategorySpecifications")
+                        .HasForeignKey("ProductId");
 
-                    b.Navigation("Color");
+                    b.HasOne("TechStore.Models.Specification", "Specification")
+                        .WithMany("ProductSpecification")
+                        .HasForeignKey("SpecificationId");
+
+                    b.Navigation("Category");
 
                     b.Navigation("Product");
+
+                    b.Navigation("Specification");
                 });
 
             modelBuilder.Entity("TechStore.Models.Review", b =>
@@ -759,12 +737,11 @@ namespace TechStore.Context.Migrations
 
             modelBuilder.Entity("TechStore.Models.Category", b =>
                 {
-                    b.Navigation("Products");
-                });
+                    b.Navigation("CategorySpecifications");
 
-            modelBuilder.Entity("TechStore.Models.Color", b =>
-                {
-                    b.Navigation("ProductItems");
+                    b.Navigation("ProductCategorySpecifications");
+
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("TechStore.Models.Order", b =>
@@ -776,16 +753,20 @@ namespace TechStore.Context.Migrations
 
             modelBuilder.Entity("TechStore.Models.Product", b =>
                 {
+                    b.Navigation("Images");
+
                     b.Navigation("OrderItems");
 
-                    b.Navigation("ProductItem");
+                    b.Navigation("ProductCategorySpecifications");
 
                     b.Navigation("Reviews");
                 });
 
-            modelBuilder.Entity("TechStore.Models.ProductItem", b =>
+            modelBuilder.Entity("TechStore.Models.Specification", b =>
                 {
-                    b.Navigation("Images");
+                    b.Navigation("CategorySpecifications");
+
+                    b.Navigation("ProductSpecification");
                 });
 
             modelBuilder.Entity("TechStore.Models.TechUser", b =>

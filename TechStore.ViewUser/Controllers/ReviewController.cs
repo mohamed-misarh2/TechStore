@@ -31,7 +31,7 @@ namespace TechStore.ViewUser.Controllers
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
              review.UserId = userId;
-             review.ProductId=7 ;
+             review.ProductId=1;
              var data = await _reviewService.CreateReview(review);
              return View("AddReview" , review);
         }

@@ -12,11 +12,10 @@ namespace TechStore.Infrastructure
 {
     public class UserRepository : Repository<TechUser,string>, IUserRepository
     {
-        private readonly TechStoreContext _context;
        
         public UserRepository(TechStoreContext context) : base(context)
         {
-            _context = context;
+           
         }
 
         public async Task<List<TechUser>> SearchUserByName(string name)

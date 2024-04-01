@@ -1,0 +1,148 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model ResultView<GetProductSpecificationNameValueDtos>
+<html>
+    <head>
+        <style>
+            .image {
+                flex: 0 1 20%;
+            }
+
+            .image img {
+                width: 100%;
+                transition: 0.5s;
+            }
+
+            .controller {
+                position: absolute;
+                left: 50%;
+                bottom: 0px;
+                transform: translateX(-50%);
+                padding: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: fit-content;
+                flex-wrap: wrap;
+                min-width: 320px;
+            }
+
+            .controller img {
+                width: 80px;
+                height: 80px;
+                border: 1px solid white;
+                box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+                border-radius: 15px;
+                padding: 5px;
+                margin: 10px;
+                object-fit: contain;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 50px auto;
+            width: 80%;
+            font-size: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border-bottom: 1px solid;
+            text-align: left;
+            padding: 15px;
+        }
+
+        thead th {
+            font-size: 30px;
+            border: none;
+        }
+
+        </style>
+    </head>
+    <body>
+    @if (Model.Entity != null && Model.Entity.productsDtos != null)
+{
+    <div class="container">
+        <div class="row">
+                <div class="col-8">
+                    <div class="row">
+                        <div class="col-2">
+                            <div class="controller" style="display: flex; flex-direction: column;">
+                                @foreach (var image in Model.Entity.productsDtos.Images)
+                                {
+                                    <div class="controller-image">
+                                        <img class="product-image-photo" data-src="@image">
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-10">
+                            <div class="image">
+                                <img width="240" height="300" alt="" src="@Model.Entity.productsDtos.Images.FirstOrDefault()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="col-4">
+                <h2>@Model.Entity.productsDtos.ModelName</h2>
+                <p style="font-size:25px">@Model.Entity.productsDtos.Description</p>
+                <h2>@Model.Entity.productsDtos.Price EGP</h2>
+
+                <button style="width:30vw;height:7vh; " class="btn btn-dark">Add To Cart</button>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>Error: Product data is unavailable.</p>
+}
+
+
+
+    <div>
+        @if (Model.Entity != null && Model.Entity.specificationsNameValueDtos != null)
+        {
+            <table>
+                <thead>
+                <th>Specification</th>
+                </thead>
+                <tbody>
+                @foreach (var specification in Model.Entity.specificationsNameValueDtos)
+                {
+                  
+                    <tr>
+                      <th>@specification.Name</th>
+                      <td>@specification.Value</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </div>
+    <script>
+        window.onload = function () {
+            var imgs = document.querySelectorAll(".controller img");
+            var mainImage = document.querySelector(".image img");
+            var hs = document.querySelector("h2");
+
+            imgs.forEach((ele) => {
+                ele.onclick = function () {
+                    mainImage.src = ele.dataset.src; // Change the source of the main image
+                    hs.style.color = ele.dataset.color; // Change the color of the heading
+                };
+            });
+        };
+    </script>
+</body>
+</html>

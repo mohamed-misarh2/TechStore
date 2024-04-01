@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TechStore.Models;
 
 namespace TechStore.Application.Contract
 {
@@ -14,5 +15,6 @@ namespace TechStore.Application.Contract
         Task<TEntity> GetByIdAsync(TId id);
         Task<IQueryable<TEntity>> GetAllAsync(); 
         Task<int> SaveChangesAsync();
+
     }
 }

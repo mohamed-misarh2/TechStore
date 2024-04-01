@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TechStore.Application.Services;
 using TechStore.Dtos.CategoryDtos;
+using TechStore.Dtos.ProductDtos;
 
 namespace TechStore.ViewAdmin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
@@ -17,22 +18,35 @@ namespace TechStore.ViewAdmin.Controllers
         {
             _categoryService = categoryService;
         }
+        //[HttpPost]
+        //public async Task<IActionResult> Create( CategoryDto category,List<SpecificationsDto> specificationsDtos)
+        //{
+        //    var data = await _categoryService.CreateCategory(category, specificationsDtos);
+        //    return Ok(data);    
+        //}
+
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CategoryDto category)
+        public async Task<IActionResult> Create([FromBody] CategorySpecificationDto data)
         {
-            var data = await _categoryService.CreateCategory(category);
-            return Ok(data);    
+            var result = await _categoryService.CreateCategory(data.Category, data.SpecificationsDtos);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Entity);
+            }
+            return BadRequest(result.Message);
         }
+
         [HttpPut]
-        public async Task<IActionResult> Update([FromForm] CategoryDto category)
+        public async Task<IActionResult> Update([FromBody] CategoryDto category)
         {
             var data = await _categoryService.UpdateCategory(category);
             return Ok(data);
         }
+
         [HttpDelete]
         public async Task<IActionResult> Delete(CategoryDto category)
         {
-            var data = await _categoryService.HardDeleteCategory(category);
+            var data = await _categoryService.SoftDeleteCategory(category);
             return Ok(data);
         }
 
@@ -58,6 +72,28 @@ namespace TechStore.ViewAdmin.Controllers
         {
             var data = await _categoryService.GetCategoryByName(Name);
             return Ok(data);
+        }
+
+
+        [HttpDelete("DeleteSpec")]
+        public async Task<IActionResult> DeleteSpec(int CategoryId, int SpecID)
+        {
+            var res = await _categoryService.DeleteSpecFromCategory(CategoryId, SpecID);
+            return Ok(res);
+        }
+
+        [HttpPost("CreateSpec")]
+        public async Task<IActionResult> CreateSpec(int CategoryId, SpecificationsDto specificationsDto)
+        {
+            var res = await _categoryService.AddSpecToCategory(CategoryId, specificationsDto);
+            return Ok(res);
+        }
+
+        [HttpGet("GetSpecficationsByCategoryId")]
+        public async Task<IActionResult> GetSpecficationsByCategoryId(int CategoryId)
+        {
+            var res = await _categoryService.GetSpecificationsByCategoryId(CategoryId);
+            return Ok(res);
         }
     }
 }
