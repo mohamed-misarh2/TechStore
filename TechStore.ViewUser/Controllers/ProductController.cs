@@ -73,7 +73,7 @@ namespace TechStore.ViewUser.Controllers
                     ViewBag.Brands = new List<string>(); // Initialize an empty list to avoid null reference
                 }
 
-                var result = await _productService.FilterProducts(criteria);
+                var result = await _productService.FilterProducts(criteria , 1 , 1);
                 return View("ProductsByCategory", result);
             }
             catch (Exception)

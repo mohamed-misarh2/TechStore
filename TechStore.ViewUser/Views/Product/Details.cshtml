@@ -71,7 +71,7 @@
     </head>
     <body>
     @if (Model.Entity != null && Model.Entity.productsDtos != null)
-{
+   {
     <div class="container">
         <div class="row">
                 <div class="col-8">
@@ -114,11 +114,10 @@ else
 
         @if (Model.Entity != null && Model.Entity.specificationsNameValueDtos != null)
         {
-        foreach(var specification in Model.Entity.specificationsNameValueDtos)
-        {
+       
             <table>
                 <thead>
-                <th>Specification</th>
+                 <th>Specification</th>
                 </thead>
                 <tbody>
                 @foreach (var specification in Model.Entity.specificationsNameValueDtos)
@@ -128,12 +127,11 @@ else
                       <th>@specification.Name</th>
                       <td>@specification.Value</td>
                     </tr>
-
-            </table>
                 }
                 </tbody>
             </table>
-        }
+        
+    }
 
 
     </div>

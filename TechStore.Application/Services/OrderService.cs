@@ -60,7 +60,6 @@ namespace TechStore.Application.Services
                 order.OrderItems = orderItems;
 
                 var createdOrder = await _orderRepository.CreateAsync(order);
-                var createdOrderDto = _mapper.Map<OrderDto>(createdOrder);
                 await _orderRepository.SaveChangesAsync();
                 await _orderItemRepository.SaveChangesAsync();
 
@@ -472,7 +471,8 @@ namespace TechStore.Application.Services
             }
             return result;
         }
-    
+
+      
     }
 
 }

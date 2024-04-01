@@ -55,7 +55,7 @@ namespace TechStore.ViewAdmin.Controllers
         [HttpDelete("SoftDeleteOrderItem")]
         public async Task<IActionResult> SoftDeleteOrderItem(int id)
         {
-            var result = await _orderService.SoftDeleteOrderItemAsync(id);
+            var result = await _orderService.SoftDeleteOrderAsync(id);
             return Ok(result);
         }
 

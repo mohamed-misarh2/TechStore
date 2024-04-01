@@ -90,7 +90,7 @@ namespace TechStore.Application.Services
 
         public async Task<ResultDataList<UserDto>> SearchByNameUser(string Name) // add function for SearchByName
         {
-            var searchedName = (await _userRepository.SearchUserByName(Name)).Select(u => new UserDto()
+            var searchedName = (await _userRepository.SearchUserByName(Name)).Where(u=>u.IsDeleted==false).Select(u => new UserDto()
             {
                 Id = u.Id,
                 FirstName = u.FirstName,

@@ -316,10 +316,11 @@ namespace TechStore.Application.Services
                                    CategoryId = p.CategoryId,
                                    DateAdded = p.DateAdded,
                                    Price = p.Price,
+                                   Quantity=p.Quantity,
                                    DiscountValue = p.DiscountValue,
                                    DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                    IsDeleted = p.IsDeleted,
-                                   Image = p.Images.Select(i => i.Name).FirstOrDefault()
+                                   Images = p.Images.Select(i => i.Name).ToList()
                                }).ToList();
 
 
@@ -328,6 +329,8 @@ namespace TechStore.Application.Services
                     Entities = products,
                     Count = products.Count()
                 };
+                return resultDataList;
+
             }
             else
             {
@@ -460,7 +463,7 @@ namespace TechStore.Application.Services
                                 DiscountValue = p.DiscountValue,
                                 DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                 IsDeleted = p.IsDeleted,
-                                Image = p.Images.Select(i => i.Name).FirstOrDefault()
+                                Images = p.Images.Select(i => i.Name).ToList()
                             }).ToList();
             var productsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
             ResultDataList<GetAllProductsDtos> res;
@@ -487,7 +490,7 @@ namespace TechStore.Application.Services
 
 
         //search
-        public async Task<ResultDataList<GetAllProductsDtos>> SearchProduct(string Name, int ItemsPerPage, int PageNumber)
+        public async Task<ResultDataList<GetAllProductsDtos>> SearchProduct(string Name)
         {
             try
             {
@@ -495,15 +498,8 @@ namespace TechStore.Application.Services
                 {
                     throw new ArgumentException("Name cannot be empty or whitespace.");
                 }
-
-                if (PageNumber <= 0)
-                {
-                    throw new ArgumentException("Page number must be greater than zero");
-                }
-
                 var products = (await _productRepository.SearchProduct(Name))
                                .Where(p => p.IsDeleted == false)
-                               .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
                                .Select(p => new GetAllProductsDtos
                                {
                                     Id = p.Id,

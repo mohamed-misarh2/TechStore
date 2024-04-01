@@ -18,10 +18,9 @@ namespace TechStore.Infrastructure
            
         }
 
-        public async Task<List<TechUser>> SearchUserByName(string name)
+        public async Task<IQueryable<TechUser>> SearchUserByName(string name)
         {
-            var data= await _context.Users.Where(u=>u.FirstName ==name || u.FirstName==name).Select(u=>u).ToListAsync();
-            return data;
+            return await Task.FromResult(_entities.Where(u => u.FirstName.Contains(name) || u.LastName.Contains(name)));
         }
 
       

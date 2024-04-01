@@ -9,7 +9,7 @@ namespace TechStore.Application.Contract
 {
     public interface IUserRepository : IRepository<TechUser, string>
     {
-        Task<List<TechUser>> SearchUserByName(string name);
+        Task<IQueryable<TechUser>> SearchUserByName(string name);
 
 
     }

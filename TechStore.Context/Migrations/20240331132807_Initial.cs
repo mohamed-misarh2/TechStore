@@ -5,10 +5,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TechStore.Context.Migrations
 {
-
+    /// <inheritdoc />
     public partial class Initial : Migration
-    { 
-
+    {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -202,7 +201,7 @@ namespace TechStore.Context.Migrations
                     ShippingAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ShippingMethod = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    OrderStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    orderStatus = table.Column<int>(type: "int", nullable: true),
                     PaymentStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DeliveryDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)

@@ -19,10 +19,9 @@ namespace TechStore.Infrastructure
             _context = context; 
         }
 
-        public async Task<List<Category>> SearchByName(string name)
+        public async Task<IQueryable<Category>> SearchByName(string name)
         {
-            var data= await _context.Categories.Where(c=>c.Name==name).Select(c=>c).ToListAsync();
-            return data;
+            return await Task.FromResult(_entities.Where(c => c.Name.Contains(name)));
         }
 
 

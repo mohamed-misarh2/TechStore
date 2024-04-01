@@ -21,16 +21,11 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpGet("GetAll")]//create update delete getone getall
-        public async Task<IActionResult> GetAll(int itemsPerPage = 1, int pageNumber = 10)
+        public async Task<IActionResult> GetAll()
         {
-           var products = await _productService.GetAllPagination(1, 1);       
             try
-            {
-                if(pageNumber < 1)
-                {
-                    return NoContent();
-                }
-                var products = await _productService.GetAllPagination(itemsPerPage, pageNumber);
+            { 
+                var products = await _productService.GetAllPagination(5,1);
 
                 if(products.Count == 0)
                 {
@@ -49,7 +44,7 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpGet]
-        [Route("/Get/{id:int}")]
+        [Route("/GetOneById/{id:int}")]
         public async Task<IActionResult> GetOneById(int id)
         {
             if (id < 0)
@@ -70,7 +65,7 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromForm] ProductCategorySpecificationsListDto product)
+        public async Task<ActionResult> Create(ProductCategorySpecificationsListDto product)
         {
             if (ModelState.IsValid)
             {
@@ -153,17 +148,6 @@ namespace TechStore.ViewAdmin.Controllers
 
         //user
 
-        [HttpGet("GetProductsByCategory/{categoryId:int}")]
-        public async Task<IActionResult> GetProductsByCategory(int categoryId, int ItemsPerPage, int PageNumber)
-        {
-            if (ModelState.IsValid)
-            {
-                var Products = await _productService.FilterProductsByCategory(categoryId, ItemsPerPage , PageNumber);
-                return Ok(Products);
-            }
-            return BadRequest(ModelState);
-        }
-
 
         [HttpGet("SortProductsByDescending")]
         public async Task<IActionResult> SortProductsByDescending(int ItemsPerPage, int PageNumber)
@@ -198,7 +182,7 @@ namespace TechStore.ViewAdmin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var products = await _productService.SearchProduct(Name, ItemsPerPage, PageNumber);
+                var products = await _productService.SearchProduct(Name);
                 return Ok(products);
             }
             return BadRequest(ModelState);
