@@ -32,5 +32,6 @@ namespace TechStore.Application.Contract
         Task<IQueryable<Product>> FilterProducts(FillterProductsDtos criteria);
         Task<List<string>> GetBrands(int categoryid);
         Task<IQueryable<Image>> GetImagesByProductId(int ProductId);
+        Task<IQueryable<string>> GetAllBrands();
     }
 }

@@ -99,7 +99,13 @@ namespace TechStore.Application.Services
             var DeletedSpecfication = await _categorySpecificationsRepository.DeleteAsync(Specfication);
             await _categorySpecificationsRepository.SaveChangesAsync();
             var DeletedSpecDto = _mapper.Map<CategorySpecificationDto>(DeletedSpecfication);
-            return new ResultView<CategorySpecificationDto> { Entity = DeletedSpecDto, IsSuccess = true, Message = "Deleted Successfully" };
+            var category = await _categoryRepository.GetByIdAsync(CategoryId);
+            var SpecList = await _specificationsRepository.GetSpecificationsByCategory(CategoryId);
+            var CategoryDto = _mapper.Map<CategoryDto>(category);
+            var SpecListDto = _mapper.Map<List<SpecificationsDto>>(SpecList);
+
+            var CategorySpec = new CategorySpecificationDto { Category = CategoryDto, SpecificationsDtos = SpecListDto };
+            return new ResultView<CategorySpecificationDto> { Entity = CategorySpec, IsSuccess = true, Message = "Deleted Successfully" };
         }
 
         public async Task<ResultView<CategorySpecificationDto>> AddSpecToCategory(int CategoryId, SpecificationsDto specificationsDto)

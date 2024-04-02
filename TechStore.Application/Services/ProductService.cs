@@ -589,5 +589,11 @@ namespace TechStore.Application.Services
             return brands;
         }
 
+        public async Task<List<string>> GetAllBrands()
+        {
+            var brands = await _productRepository.GetAllBrands();
+            return brands.ToList();
+        }
+
     }
 }

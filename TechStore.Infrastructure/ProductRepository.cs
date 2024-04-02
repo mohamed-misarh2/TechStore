@@ -139,6 +139,9 @@ namespace TechStore.Infrastructure
         }
 
             
-
+        public async Task<IQueryable<string>> GetAllBrands()
+        {
+            return _entities.Select(b => b.Brand);
+        }
     }
 }
