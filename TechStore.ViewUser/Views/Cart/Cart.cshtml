@@ -3,6 +3,7 @@
 *@
 @{
 }
+
 @{
     decimal totalprice = 0;
     decimal price =0;
@@ -30,10 +31,10 @@
         }
 
         .custom-dropdown .dropdown-icon {
-            font-size: 13px; /* Adjust the font size as needed */
+            font-size: 13px;
             position: absolute;
             top: 50%;
-            right: 10px; /* Adjust as needed */
+            right: 10px; 
             transform: translateY(-50%);
         }
 
@@ -77,24 +78,23 @@
                         <td>@(item.Quantity * item.Price)</td>
                         <td>
                             <form id="updateQuantityForm" asp-controller="Cart" asp-action="UpdateQuantity" method="post">
-                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <input type="hidden" name="productId" value="@item.ProductId"/>
                                 <div class="custom-dropdown">
                                     <select id="quantityDropdown" name="quantity" class="form-control">
                                         
                                         @for (int i = 1; i <= item.CopyQuantity; i++)
                                         {
-
                                             if (i == item.Quantity)
                                             {
                                                 <option value="@i" selected>@i</option>
                                             }
                                             else
                                             {
-
                                                 <option value="@i">@i</option>
                                             }
                                             
                                         }
+
                                     </select>
 
                                     <span id="dropdownIcon" class="dropdown-icon">&#9660;</span>
