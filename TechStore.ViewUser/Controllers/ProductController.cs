@@ -2,17 +2,22 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TechStore.Application.Services;
 using TechStore.Dtos.ProductDtos;
+using TechStore.Models;
 using TechStore.ViewUser.Models;
+using Microsoft.AspNetCore.Http;
+using TechStore.ViewUser.ExtenstionMethods;
 
 namespace TechStore.ViewUser.Controllers
 {
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService, IHttpContextAccessor httpContextAccessor)
         {
             _productService = productService;
+            _httpContextAccessor = httpContextAccessor;
         }
         public IActionResult Index()
         {
@@ -90,6 +95,9 @@ namespace TechStore.ViewUser.Controllers
                 return View("Error", new ErrorViewModel { Message=ex.Message });
             }
         }
+
+        
+
 
     }
 }
