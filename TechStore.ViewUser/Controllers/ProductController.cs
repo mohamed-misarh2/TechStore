@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TechStore.Application.Services;
-using TechStore.Dtos.CartDto;
 using TechStore.Dtos.ProductDtos;
 using TechStore.ViewUser.Models;
 
