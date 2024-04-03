@@ -2,7 +2,11 @@
 @{
     ViewData["Title"] = "Mobile";
 }
-
+@{
+    int pageSize = 3; // Assuming a default page size of 10
+    var pageNumber = ViewBag.PageNumber ?? 1; // Retrieve the current page number from ViewBag
+    string actionName = ViewBag.ActionName ;
+}
 <style>
     .item {
         padding: 20px;
@@ -64,45 +68,78 @@
 
                 @if (Model != null && Model.Entities != null)
                 {
-                    @foreach (var product in Model.Entities)
-                    {
-                        @if (product.DiscountValue > 0)
-                        {
+               
 
-                            <div class="col-md-4 mt-4">
-                                <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
-                                    <div class="item">
-                                        @if (product.Images != null && product.Images.Any())
-                                        {
-                                            <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
-                                        }                                        <p class="mt-3">@product.Description</p>
-                                        <h3 class="mt-3">@product.DiscountedPrice EGP</h3>
-                                        <span class="price-container">
-                                            <span id="product-price-@(product.Id)" data-price-amount="@product.Price" data-price-type="finalPrice" class="price-wrapper" style="text-decoration:line-through">
-                                                @product.Price <span class="currency"></span>
-                                            </span>
-                                            <span style="color:red">   @product.DiscountValue% of</span>
-                                        </span>
-                                    </div>
-                                </a>
-                            </div>
-                        }
-                        else
+
+                        @foreach (var product in Model.Entities)
                         {
-                            <div class="col-md-4 mt-4">
-                                <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
-                                    <div class="item">
-                                        @if (product.Images != null && product.Images.Any())
-                                        {
-                                            <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
-                                        }
-                                        <p class="mt-3">@product.Description</p>
-                                        <h3 class="mt-3">@product.Price EGP</h3>
-                                    </div>
-                                </a>
-                            </div>
+                            @if (product.DiscountValue > 0)
+                            {
+
+                                <div class="col-md-4 mt-4">
+                                    <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
+                                        <div class="item">
+                                            @if (product.Images != null && product.Images.Any())
+                                            {
+                                                <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
+                                            }
+                                            <p class="mt-3">@product.Description
+                                            </p>
+                                            <h3 class="mt-3">@product.DiscountedPrice EGP</h3>
+                                            <span class="price-container">
+                                                <span id="product-price-@(product.Id)" data-price-amount="@product.Price" data-price-type="finalPrice" class="price-wrapper" style="text-decoration:line-through">
+                                                    @product.Price <span class="currency"></span>
+                                                </span>
+                                                <span style="color:red">   @product.DiscountValue% of</span>
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
+                                ///////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+                            }
+                            else
+                            {
+                                <div class="col-md-4 mt-4">
+                                    <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
+                                        <div class="item">
+                                            @if (product.Images != null && product.Images.Any())
+                                            {
+                                                <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
+                                            }
+                                            <p class="mt-3">@product.Description</p>
+                                            <h3 class="mt-3">@product.Price EGP</h3>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
                         }
-                    }
+
+                    <section aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            @if (pageNumber > 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action(actionName, new { pageNumber = pageNumber - 1 })">Previous</a>
+                                </li>
+                            }
+                            @for (int i = 1; i <= Math.Ceiling((double)Model.Count / pageSize); i++)
+                            {
+                                <li class="page-item @(i == pageNumber ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action(actionName, new { pageNumber = i })">@i</a>
+                                </li>
+                            }
+
+                            @if (pageNumber < Math.Ceiling((double)Model.Count / pageSize))
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action(actionName, new { pageNumber = pageNumber + 1 })">Next</a>
+                                </li>
+                            }
+                        </ul>
+                    </section>
                 }
                 else
                 {

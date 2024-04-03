@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using TechStore.Application.Contract;
 using TechStore.Application.Services;
 using TechStore.Context;
@@ -39,7 +40,21 @@ namespace TechStore.ViewUser
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
             builder.Services.AddScoped<IspecificationsRepository, SpecificationsRepository>();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.Cookie.Name = "TechStore.Session";
+                options.IdleTimeout = TimeSpan.MaxValue;
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
+                                    
+
+
+
+       
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -48,8 +63,40 @@ namespace TechStore.ViewUser
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
-
             app.UseRouting();
+            app.UseSession();
+            app.Use(async (context, next) =>
+            {
+                var session = context.Session;
+                var lastAccessed = session.GetString("LastAccessed");
+                var cartLastAccessed = session.GetString("CartLastAccessed");
+
+                if (!string.IsNullOrEmpty(lastAccessed) && DateTime.TryParse(lastAccessed, out DateTime lastAccessedTime))
+                {
+                    var expirationTime = lastAccessedTime.AddMinutes(30); // Adjust as needed
+                    if (DateTime.Now > expirationTime)
+                    {
+                        // Session has expired, clear session data
+                        session.Clear();
+                        context.Response.Redirect("/sessionExpired"); // Redirect to a session expired page
+                        return;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(cartLastAccessed) && DateTime.TryParse(cartLastAccessed, out DateTime cartLastAccessedTime))
+                {
+                    var cartExpirationTime = cartLastAccessedTime.AddMinutes(30); // Adjust as needed
+                    if (DateTime.Now > cartExpirationTime)
+                    {
+                        // Cart data has expired, clear cart data
+                        session.Remove("Cart");
+                        session.Remove("CartLastAccessed");
+                    }
+                }
+
+                session.SetString("LastAccessed", DateTime.Now.ToString()); // Update last accessed time
+                await next();
+            });
             app.UseAuthentication();
             app.UseAuthorization();
 

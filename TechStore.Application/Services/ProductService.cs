@@ -380,13 +380,16 @@ namespace TechStore.Application.Services
                                     Images = p.Images.Select(i => i.Name).ToList()
 
                                }).ToList();
+                var totalCount = (await _productRepository.GetProductsByCategory(categoryId))
+                                .Where(p => !p.IsDeleted)
+                                .Count();
 
                 var ProductsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
              
                 var resultDataList = new ResultDataList<GetAllProductsDtos>()
                 {
                     Entities = ProductsDto,
-                    Count = ProductsDto.Count()
+                    Count = totalCount
                 };
                 return resultDataList;
             }
@@ -519,12 +522,15 @@ namespace TechStore.Application.Services
                                     IsDeleted = p.IsDeleted,
                                     Images = p.Images.Select(i => i.Name).ToList()
                                }).ToList();
+                var totalCount = (await _productRepository.SearchProduct(Name))
+                               .Where(p => !p.IsDeleted)
+                               .Count();
 
                 var ProductsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
                 var resultDataList = new ResultDataList<GetAllProductsDtos>()
                 {
                     Entities = ProductsDto,
-                    Count = ProductsDto.Count()
+                    Count = totalCount
                 };
                 return resultDataList;
             }

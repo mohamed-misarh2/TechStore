@@ -113,7 +113,9 @@
                         <p style="font-size:25px">@Model.Entity.productsDtos.Description</p>
                         <h2>@Model.Entity.productsDtos.Price EGP</h2>
                     }
+                
                     <button style="width:30vw;height:7vh; " class="btn btn-dark">Add To Cart</button>
+                    
             </div>
         </div>
     </div>
@@ -145,6 +147,22 @@ else
             </table>
         }
     </div>
+
+
+    @if (Model.Entity != null && Model.Entity.productsDtos != null)
+    {
+     @*    <h2>@Model.Entity.productsDtos.ModelName
+        </h2>
+        <p>Price: @Model.Entity.productsDtos.Price</p> *@
+
+     @*    <form asp-controller="Cart" asp-action="AddToCart" method="post">
+            <input type="hidden" name="productId" value="@Model.Entity.productsDtos.Id" />
+        <input type="hidden" name="productName" value="@Model.Entity.productsDtos.Description" />
+        <input type="hidden" name="price" value="@Model.Entity.productsDtos.Price" />
+        <input type="number" name="quantity" value="1" min="1" />
+        <button type="submit">Add to Cart</button>
+    </form> *@
+    }
     <script>
         window.onload = function () {
             var imgs = document.querySelectorAll(".controller img");
