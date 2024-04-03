@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using TechStore.Application.Services;
 using TechStore.Dtos.ProductDtos;
 using TechStore.ViewUser.ExtenstionMethods;
 
@@ -8,9 +9,17 @@ namespace TechStore.ViewUser.Controllers
 {
     public class CartController : Controller
     {
+        private readonly IProductService _productService;
+
+        public CartController(IProductService productService)
+        {
+            _productService = productService;
+        }
         public IActionResult Index()
         {
-            return View();
+            var sessionCartItems = HttpContext.Session.Get<List<CartItemDto>>("Cart") ?? new List<CartItemDto>();
+            ////ViewBag.Products = _productService.GetAllPagination(10,1).
+            return View("CartTest", sessionCartItems);
         }
 
 
@@ -73,8 +82,8 @@ namespace TechStore.ViewUser.Controllers
 
         public IActionResult Cart()
         {
-            var sessionCartItems =  HttpContext.Session.Get<List<CartItemDto>>("Cart");
-            return View(sessionCartItems);
+            var sessionCartItems = HttpContext.Session.Get<List<CartItemDto>>("Cart") ?? new List<CartItemDto>();
+            return View("Cart", sessionCartItems);
         }
 
     }

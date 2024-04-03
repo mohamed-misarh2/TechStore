@@ -322,11 +322,12 @@ namespace TechStore.Application.Services
                                    Images = p.Images.Select(i => i.Name).ToList()
                                }).ToList();
 
-
+                var productscount = (await _productRepository.GetAllAsync())
+                               .Where(p => p.IsDeleted == false).Count();
                 var resultDataList = new ResultDataList<GetAllProductsDtos>()
                 {
                     Entities = products,
-                    Count = products.Count()
+                    Count = productscount
                 };
                 return resultDataList;
             }
