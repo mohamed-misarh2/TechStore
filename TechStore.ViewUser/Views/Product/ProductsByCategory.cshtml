@@ -8,20 +8,20 @@
     string actionName = ViewBag.ActionName ;
 }
 <style>
-    .item {
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
-        transition: box-shadow 0.3s ease;
-    }
+        .item {
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+            transition: box-shadow 0.3s ease;
+        }
 
         .item p {
-            font-size: 16px;
+            font-size: 0.9vw;
             max-width:100%;
         }
 
         .item h3 {
-            font-size: 12px;
+            font-size: 0.9vw;
             font-weight: 800;
         }
 
@@ -30,125 +30,244 @@
         }
 
         .item img {
-            width: 70%;
+            width: 90%;
+            height:30vh;
+        }
+
+        span{
+            font-size:0.7vw;
+        }
+
+       .Discount{
+           font-size:0.7vw;
+           margin-left:0.1vw;
+       }
+
+
+        .radio-label {
+            display: inline-block;
+            position: relative;
+            margin-right: 10px;
+        }
+
+
+        .radio-label input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .radio-custom {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 0;
+            width: 20px;
+            height: 20px;
+            background-color: white; 
+            border: 1px solid black; 
+            border-radius: 50%;
+        }
+
+        .radio-label input[type="radio"]:checked + .radio-custom {
+            background-color: black;
+            cursor:pointer;
+        }
+
+        .radio-label:hover {
+            cursor: pointer;
+        }
+
+        .radio-text {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 30px;
+            font-size: 1vw;
+        }
+
+        .brand p{
+            font-weight:700;
+            font-size:1.2vw;
+        }
+
+        .fa-plus {
+            font-size: 1vw;
+        }
+
+        .plus-icon {
+            cursor: pointer; 
+        }
+
+        .plus-icon:hover {
+            cursor: pointer; 
         }
 </style>
+
 <h1>Mobile</h1>
 <div class="container">
     <div class="row">
 
-        <div class="col-md-4">
-            @using (Html.BeginForm("Filter", "Product", FormMethod.Get))
-            {
-                <div class="form-group">
-                    @Html.Label("Brand:")
-                    @Html.TextBox("brand", null, new { @class = "form-control" })
-                </div>
-                <div class="form-group">
-                    @Html.Label("Min Price:")
-                    @Html.TextBox("minPrice", null, new { @class = "form-control" })
-                </div>
-                <div class="form-group">
-                    @Html.Label("Max Price:")
-                    @Html.TextBox("maxPrice", null, new { @class = "form-control" })
-                </div>
-                <div class="form-group">
-                    @Html.Label("Warranty:")
-                    @Html.TextBox("warranty", null, new { @class = "form-control" })
-                </div>
-                <div class="form-group">
-                    @Html.Label("Discount:")
-                    @Html.TextBox("discount", null, new { @class = "form-control" })
-                </div>
-                <button type="submit" class="btn btn-primary">Filter</button>
-            }
+        <div class="col-md-4 mt-5">
+            <div class="filter">
+
+                <form id="filterForm" action="/Product/Filter" method="post">
+                    <div class="row">
+                        <div class="col-md-7 brand">
+                            <p>Brand</p>
+
+                            <div class="radio-container d-none">
+                                @foreach(var brand in ViewBag.Brands){
+                                    <div>
+                                        <label class="radio-label">
+                                            <input type="radio" name="brand" onclick="check(this)" value="@brand" class="form-check-input" id="rad" />
+                                            <span class="radio-custom"></span> =
+                                            <span class="radio-text">@brand</span>
+                                        </label>
+                                    </div>
+                                    
+                                }
+                              
+                            </div>
+                       
+
+                        </div>
+
+                        <div class="col-md-5">
+                            <span class="plus-icon" onclick="toggleRadioContainer()"><i class="fa fa-plus"></i></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
         </div>
         <div class="col-md-8" >
             <div class="row">
 
                 @if (Model != null && Model.Entities != null)
                 {
-               
 
 
-                        @foreach (var product in Model.Entities)
+
+
+                    @foreach (var product in Model.Entities)
+                    {
+                        @if (product.DiscountValue > 0)
                         {
-                            @if (product.DiscountValue > 0)
-                            {
 
-                                <div class="col-md-4 mt-4">
-                                    <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
-                                        <div class="item">
-                                            @if (product.Images != null && product.Images.Any())
-                                            {
-                                                <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
-                                            }
-                                            <p class="mt-3">@product.Description
-                                            </p>
-                                            <h3 class="mt-3">@product.DiscountedPrice EGP</h3>
-                                            <span class="price-container">
-                                                <span id="product-price-@(product.Id)" data-price-amount="@product.Price" data-price-type="finalPrice" class="price-wrapper" style="text-decoration:line-through">
-                                                    @product.Price <span class="currency"></span>
-                                                </span>
-                                                <span style="color:red">   @product.DiscountValue% of</span>
+                            <div class="col-md-4 mt-4">
+                                <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
+                                    <div class="item">
+                                        @if (product.Images != null && product.Images.Any())
+                                        {
+                                            <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
+                                        }
+                                        <p class="mt-3">@product.Description
+                                        </p>
+                                        <h3 class="mt-3">@String.Format("{0:F2}", product.DiscountedPrice) EGP</h3>
+
+                                        <span class="price-container">
+                                            <span id="product-price-@(product.Id)" data-price-amount="@product.Price" data-price-type="finalPrice" class="price-wrapper" style="text-decoration:line-through">
+                                                @product.Price <span class="currency"></span>
                                             </span>
-                                        </div>
-                                    </a>
-                                </div>
-                                ///////////////////////////////////////////////////////////////////////////////////////////////
+                                            <span class="Discount" style="color:red">   @product.DiscountValue% of</span>
+                                        </span>
 
-
-
-                            }
-                            else
-                            {
-                                <div class="col-md-4 mt-4">
-                                    <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
-                                        <div class="item">
-                                            @if (product.Images != null && product.Images.Any())
-                                            {
-                                                <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
-                                            }
-                                            <p class="mt-3">@product.Description</p>
-                                            <h3 class="mt-3">@product.Price EGP</h3>
-                                        </div>
-                                    </a>
-                                </div>
-                            }
+                                    </div>
+                                </a>
+                            </div>
                         }
+                        else
+                        {
 
-                    <section aria-label="Page navigation">
-                        <ul class="pagination justify-content-center">
-                            @if (pageNumber > 1)
-                            {
-                                <li class="page-item">
-                                    <a class="page-link" href="@Url.Action(actionName, new { pageNumber = pageNumber - 1 })">Previous</a>
-                                </li>
-                            }
-                            @for (int i = 1; i <= Math.Ceiling((double)Model.Count / pageSize); i++)
-                            {
-                                <li class="page-item @(i == pageNumber ? "active" : "")">
-                                    <a class="page-link" href="@Url.Action(actionName, new { pageNumber = i })">@i</a>
-                                </li>
-                            }
+                            <div class="col-md-4 mt-4">
+                                <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
+                                    <div class="item">
+                                        @if (product.Images != null && product.Images.Any())
+                                        {
+                                            <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
+                                        }
+                                        <p class="mt-3">@product.Description</p>
+                                        <h3 class="mt-3">@String.Format("{0:F2}", product.Price) EGP</h3>
+                                    </div>
+                                </a>
+                            </div>
 
-                            @if (pageNumber < Math.Ceiling((double)Model.Count / pageSize))
-                            {
-                                <li class="page-item">
-                                    <a class="page-link" href="@Url.Action(actionName, new { pageNumber = pageNumber + 1 })">Next</a>
-                                </li>
-                            }
-                        </ul>
-                    </section>
+                        }
+                    }
+
+
+
                 }
-                else
-                {
-                    <p>No products found.</p>
-                }
+
+                        <section aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                @if (pageNumber > 1)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action(actionName, new { pageNumber = pageNumber - 1 })">Previous</a>
+                                    </li>
+                                }
+                                @for (int i = 1; i <= Math.Ceiling((double)Model.Count / pageSize); i++)
+                                {
+                                    <li class="page-item @(i == pageNumber ? "active" : "")">
+                                        <a class="page-link" href="@Url.Action(actionName, new { pageNumber = i })">@i</a>
+                                    </li>
+                                }
+
+                                @if (pageNumber < Math.Ceiling((double)Model.Count / pageSize))
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action(actionName, new { pageNumber = pageNumber + 1 })">Next</a>
+                                    </li>
+                                }
+                            </ul>
+                        </section>
+                 
+                
             </div>
         </div>
     </div>
 </div>
 
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    // $(document).ready(function () {
+    //     $('.minus-icon').click(function () {
+    //         $('.radio-container').toggle(); // Toggle visibility of radio-container
+    //         $(this).find('i').toggleClass('fa-plus fa-minus'); // Toggle between plus and minus icons
+    //     });
+    // });
+
+
+    $(document).ready(function () {
+        $('.radio-label input[type="radio"]').click(function () {
+            $('#filterForm').submit(); // Submit the form when a radio button is clicked
+        });
+    });
+
+    function check(radioButton) {
+        radioButton.checked = true;
+    }
+
+    function toggleRadioContainer() {
+        var radioContainer = document.querySelector('.radio-container');
+        var plusIcon = document.querySelector('.plus-icon i');
+
+        // Toggle visibility of the radio container
+        radioContainer.classList.toggle('d-none');
+
+        // Change icon to plus or minus based on visibility
+        if (radioContainer.classList.contains('d-none')) {
+            plusIcon.classList.remove('fa-minus');
+            plusIcon.classList.add('fa-plus');
+        } else {
+            plusIcon.classList.remove('fa-plus');
+            plusIcon.classList.add('fa-minus');
+        }
+    }
+
+
+</script>
 

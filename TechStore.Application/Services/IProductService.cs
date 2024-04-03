@@ -50,5 +50,6 @@ namespace TechStore.Application.Services
 
         Task<ResultDataList<GetAllProductsDtos>> FilterProducts(FillterProductsDtos fillterProductsDto,int ItemsPerPage, int PageNumber);
         Task<List<string>> GetBrands( int categoryid);
+        Task<List<string>> GetAllBrands();
     }
 }
