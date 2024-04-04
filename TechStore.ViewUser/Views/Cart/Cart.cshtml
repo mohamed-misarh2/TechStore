@@ -1,0 +1,145 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@{
+    decimal totalprice = 0;
+}
+
+@model List<CartItemDto>
+
+<html>
+    <head>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+      <style>
+        .custom-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .custom-dropdown select {
+            width: 60px; /* Adjust the width as needed */
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding-right: 20px;
+            cursor:pointer;
+        }
+
+        .custom-dropdown .dropdown-icon {
+            font-size: 13px;
+            position: absolute;
+            top: 50%;
+            right: 10px; 
+            transform: translateY(-50%);
+        }
+
+
+        .custom-dropdown .dropdown-icon:hover{
+            cursor :pointer;
+        }
+
+      </style>
+    </head>
+
+    <body>
+    <h2>Your Cart</h2>
+
+    @if (Model.Count == 0)
+    {
+        <p>Your cart is empty.</p>
+    }
+    else
+    {
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>TotalPrice</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Description</td>
+                        <td><img class="product-image-photo" data-src="@item.Image" height="50" alt="" src="@item.Image"></td>
+                        <td>@item.Price</td>
+                        <td>@item.Quantity</td>
+                        <td>@(item.Quantity * item.Price)</td>
+                        <td>
+                            <form id="updateQuantityForm" asp-controller="Cart" asp-action="UpdateQuantity" method="post">
+                                <input type="hidden" name="productId" value="@item.ProductId"/>
+                                <div class="custom-dropdown">
+                                    <select id="quantityDropdown" name="quantity" class="form-control">
+                                        
+                                        @for (int i = 1; i <= item.CopyQuantity; i++)
+                                        {
+                                            if (i == item.Quantity)
+                                            {
+                                                <option value="@i" selected>@i</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@i">@i</option>
+                                            }
+                                            
+                                        }
+
+                                    </select>
+
+                                    <span id="dropdownIcon" class="dropdown-icon">&#9660;</span>
+                                </div>
+                                
+                            
+                                </form>
+                        </td>
+                        <td>
+                            <form asp-controller="Cart" asp-action="RemoveFromCart" method="post">
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <button type="submit" class="btn btn-dark">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <div>
+
+
+        @foreach (var item in Model)
+        {
+            totalprice += item.Price * item.Quantity;
+        }
+
+        <h2>Total Price: @(totalprice.ToString("C"))</h2>
+    </div>
+    </body>
+</html>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+ <script>
+    var quantityDropdown = document.getElementById("quantityDropdown");
+    
+    quantityDropdown.addEventListener("change", function() {
+        document.getElementById("updateQuantityForm").submit(); 
+    });
+
+    $(document).ready(function () {
+        $('#quantityDropdown').hide();
+
+        $('#dropdownIcon').click(function () {
+            $('#quantityDropdown').toggle();
+        });
+    });
+</script>

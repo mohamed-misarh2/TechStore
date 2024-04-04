@@ -10,6 +10,7 @@ namespace TechStore.Dtos.ViewResult
     {
         public List<TEntity> Entities { get; set; }
         public int Count { get; set; }
+    
         public ResultDataList()
         {
             Entities = new List<TEntity>();

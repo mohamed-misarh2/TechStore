@@ -322,11 +322,12 @@ namespace TechStore.Application.Services
                                    Images = p.Images.Select(i => i.Name).ToList()
                                }).ToList();
 
-
+                var productscount = (await _productRepository.GetAllAsync())
+                               .Where(p => p.IsDeleted == false).Count();
                 var resultDataList = new ResultDataList<GetAllProductsDtos>()
                 {
                     Entities = products,
-                    Count = products.Count()
+                    Count = productscount
                 };
                 return resultDataList;
             }
@@ -380,13 +381,16 @@ namespace TechStore.Application.Services
                                     Images = p.Images.Select(i => i.Name).ToList()
 
                                }).ToList();
+                var totalCount = (await _productRepository.GetProductsByCategory(categoryId))
+                                .Where(p => !p.IsDeleted)
+                                .Count();
 
                 var ProductsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
              
                 var resultDataList = new ResultDataList<GetAllProductsDtos>()
                 {
                     Entities = ProductsDto,
-                    Count = ProductsDto.Count()
+                    Count = totalCount
                 };
                 return resultDataList;
             }
@@ -519,12 +523,15 @@ namespace TechStore.Application.Services
                                     IsDeleted = p.IsDeleted,
                                     Images = p.Images.Select(i => i.Name).ToList()
                                }).ToList();
+                var totalCount = (await _productRepository.SearchProduct(Name))
+                               .Where(p => !p.IsDeleted)
+                               .Count();
 
                 var ProductsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
                 var resultDataList = new ResultDataList<GetAllProductsDtos>()
                 {
                     Entities = ProductsDto,
-                    Count = ProductsDto.Count()
+                    Count = totalCount
                 };
                 return resultDataList;
             }
@@ -583,10 +590,16 @@ namespace TechStore.Application.Services
             return resultDataList;
         }
        
-        public async Task<List<string>> GetBrands()
+        public async Task<List<string>> GetBrands(int categoryid)
         {
-            var brands = await _productRepository.GetBrands();
+            var brands = await _productRepository.GetBrands(categoryid);
             return brands;
+        }
+
+        public async Task<List<string>> GetAllBrands()
+        {
+            var brands = await _productRepository.GetAllBrands();
+            return brands.ToList();
         }
 
     }
