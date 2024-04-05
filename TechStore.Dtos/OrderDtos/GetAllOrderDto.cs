@@ -12,9 +12,8 @@ namespace TechStore.Dtos.OrderDtos
         public string UserId { get; set; }
         public DateTime OrderDate { get; set; }
         public string ShippingAddress { get; set; }
-        public string ShippingMethod { get; set; }
+        public string Phone { get; set; }
         public string OrderStatus { get; set; }
-        public string PaymentStatus { get; set; }
         public decimal TotalPrice { get; set; }
 
         // Include order items

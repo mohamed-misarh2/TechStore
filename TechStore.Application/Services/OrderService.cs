@@ -199,7 +199,7 @@ namespace TechStore.Application.Services
                         ProductId = OrderItem.ProductId,
                         Description = OrderItem.Product.Description,
                         Price = OrderItem.Product.Price,
-                        Quantity = OrderItem.Product.Quantity,
+                        Quantity = OrderItem.Quantity,
                         Image = product.Images.Select(i => i.Name).FirstOrDefault()
                     };
                     list.Add(obj);
@@ -450,7 +450,7 @@ namespace TechStore.Application.Services
             var result = new ResultView<OrderDto>();
             if (ExistingOrder != null)
             {
-                ExistingOrder.orderStatus = NewOrderStatus;
+                ExistingOrder.OrderStatus = NewOrderStatus;
                 await _orderRepository.UpdateAsync(ExistingOrder);
                 await _orderRepository.SaveChangesAsync();
                 var orderItems =await _orderItemRepository.GetOrders(OrderId);

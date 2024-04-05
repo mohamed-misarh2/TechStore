@@ -4,12 +4,12 @@
 @{
 }
 
-@{
+@* @{
     decimal totalprice = 0;
     decimal price =0;
     var quantity = 0;
 }
-
+ *@
 @model List<CartItemDto>
 
 <html>
@@ -67,6 +67,7 @@
                     <th>Action</th>
                 </tr>
             </thead>
+
             <tbody>
                 @foreach (var item in Model)
                 {
@@ -92,7 +93,6 @@
                                             {
                                                 <option value="@i">@i</option>
                                             }
-                                            
                                         }
 
                                     </select>
@@ -115,16 +115,20 @@
         </table>
     }
 
-    <div>
+    @* <div>
 
 
         @foreach (var item in Model)
         {
-            @* totalprice += item.Price * item.Quantity; *@
+            totalprice += item.Price * item.Quantity;
         }
 
         <h2>Total Price: @(totalprice.ToString("C"))</h2>
-    </div>
+    </div> *@
+
+    <div class="row">
+    <a class="btn btn-dark w-50" href="/PayPal/PaymentWithPaypal">pay now</a>
+     </div>
     </body>
 </html>
 

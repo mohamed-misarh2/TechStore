@@ -17,7 +17,6 @@ namespace TechStore.ViewUser
             var builder = WebApplication.CreateBuilder(args);
 
 
-
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<TechStoreContext>(options =>
@@ -25,7 +24,6 @@ namespace TechStore.ViewUser
             builder.Services.AddIdentity<TechUser, IdentityRole>().AddEntityFrameworkStores<TechStoreContext>();
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
-
 
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -38,6 +36,10 @@ namespace TechStore.ViewUser
             builder.Services.AddScoped<IReviewService, ReviewServices>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
             builder.Services.AddScoped<IspecificationsRepository, SpecificationsRepository>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddSession(options =>
             {
