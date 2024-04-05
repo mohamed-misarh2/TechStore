@@ -125,7 +125,7 @@
                     {
                         <h4 class="name">@Model.Entity.productsDtos.ModelName</h4>
                         <p class="Discrp">@Model.Entity.productsDtos.Description</p>
-                        <h3 class="price">@Model.Entity.productsDtos.DiscountedPrice EGP</h3>
+                        <h3 class="price">@String.Format("{0:#,0}", Model.Entity.productsDtos.DiscountedPrice) EGP</h3>
                         <span class="price-container">
                             <span id="product-price-@(Model.Entity.productsDtos.Id)" data-price-amount="@Model.Entity.productsDtos.Price" data-price-type="finalPrice" class="price-wrapper" style="text-decoration:line-through">
                                 @Model.Entity.productsDtos.Price <span class="currency"></span>
@@ -138,18 +138,20 @@
                     {
                         <h2 class="name">@Model.Entity.productsDtos.ModelName</h2>
                         <p class="Discrp">@Model.Entity.productsDtos.Description</p>
-                        <h2 class="price">@Model.Entity.productsDtos.Price EGP</h2>
+                        <h2 class="price">@String.Format("{0:#,0}",Model.Entity.productsDtos.Price) EGP</h2>
                     }
                     <!-- Form for adding product to the cart -->
-                    <form asp-action="AddToCart" asp-controller ="Cart" method="post">
+                    <form id="addToCartForm" asp-action="AddToCart" asp-controller="Cart" method="post">
                         <input type="hidden" name="productId" value="@Model.Entity.productsDtos.Id" />
                         <input type="hidden" name="Description" value="@Model.Entity.productsDtos.Description" />
                         @* checkdiscount *@
                         <input type="hidden" name="price" value="@Model.Entity.productsDtos.Price" />
+                        <input type="hidden" name="DiscountValue" value="@Model.Entity.productsDtos.DiscountValue" />
+                        <input type="hidden" name="DiscountedPrice" value="@Model.Entity.productsDtos.DiscountedPrice" />
                         <input type="hidden" name="CopyQuantity" value="@Model.Entity.productsDtos.Quantity" />
                         <input type="hidden" name="image" value="@Model.Entity.productsDtos.Images.FirstOrDefault()" />
                         <input type="hidden" name="quantity" value="1" min="1" />
-                        <button style="width:30vw;height:7vh; " class="btn btn-dark">Add To Cart</button>
+                        <button id="addToCartButton" style="width:30vw;height:7vh; " class="btn btn-dark">Add To Cart</button>
                     </form>
                 
                     
@@ -198,6 +200,31 @@ else
                 };
             });
         };
+
+        document.getElementById('addToCartButton').addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            var form = document.getElementById('addToCartForm');
+            var formData = new FormData(form);
+
+            // Make an AJAX request to submit the form data
+            fetch(form.action, {
+                method: form.method,
+                body: formData
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Handle success response here (e.g., show a success message)
+                        console.log('Item added to cart successfully.');
+                    } else {
+                        // Handle error response here (e.g., show an error message)
+                        console.error('Error adding item to cart.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error adding item to cart:', error);
+                });
+        });
     </script>
 </body>
 </html>

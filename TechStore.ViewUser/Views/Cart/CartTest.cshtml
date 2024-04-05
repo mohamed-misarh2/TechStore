@@ -1,5 +1,9 @@
 ﻿@model List<CartItemDto>
+@{
 
+   var products = ViewBag.Products;
+   var products2 = ViewBag.Products2;
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,24 +20,25 @@
 
 
     <div id="body_cart" class="body_cart ">
-        <div class="container">
-            <div class="row carthome justify-content-center ">
-                <div class=" row cart col-lg-11 ">
-                    <div class="cartelement col-12 col-md-4">
-                        <div class="cart_Img">   <img src="./ImageCart/download.png" alt="img Cart"></div>
-                        <div class="cart-empty"><p>Your shopping cart is empty!</p></div>
-                        <span class="cart-p">B.TECH is the #1 place for all your needs, explore our wide range of products, flexible payments & offers!</span>
-                        <a asp-controller="Home" asp-action="Index" class="btn ShopNaw" type="button">Shop Naw!</a>
-                    </div>
-
-
-
-                </div>
-
-            </div>
-        </div>
+        
         @if ( Model.Count == 0)
         {
+            <div class="container">
+                <div class="row carthome justify-content-center ">
+                    <div class=" row cart col-lg-11 ">
+                        <div class="cartelement col-12 col-md-4">
+                            <div class="cart_Img">   <img src="./ImageCart/download.png" alt="img Cart"></div>
+                            <div class="cart-empty"><p>Your shopping cart is empty!</p></div>
+                            <span class="cart-p">B.TECH is the #1 place for all your needs, explore our wide range of products, flexible payments & offers!</span>
+                            <a asp-controller="Home" asp-action="Index" class="btn ShopNaw" type="button">Shop Naw!</a>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
             <div class="container">
                 <div class="row carthome justify-content-center  ">
                 <div class=" row cart col-lg-11 ">
@@ -42,146 +47,102 @@
                         <div class="carousel-inner ">
                             <div class="carousel-item active">
                                 <div class=" row cols-sm-4 cols-md-2 cols-lg-4 ">
+                                    @foreach(var product in products)
+                                        {
 
-                                    <div class="card">
-                                        <div class="cart-img">
-                                            <img id="itemimg" src="./ImageCart/download.png" class="card-img-top" alt="...">
-                                        </div>
-                                        <div class="card-body">
-                                            <p id="itemtext" class="card-text">Some quick the bulk of the card's content.Some quick the bulk of the card's content Some quick the bulk of the card's content</p>
-                                            <p id="itemprice" class="cart-price">1111110000000.34<span class="cart-EGP">EGP</span></p>
-                                            <div class="btn-carts">
-                                                <button id="btn_mycart" class="btn">Add to Cart</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="spacer "></div>
-                                    <div class="card">
-                                        <div class="cart-img">
-                                            <img id="itemimg" src="./ImageCart/download.png" class="card-img-top" alt="...">
-                                        </div>
-                                        <div class="card-body">
-                                            <p id="itemtext" class="card-text">Somee up the bulk of the card's content.</p>
-                                            <p id="itemprice" class="cart-price">12.34<span class="cart-EGP">EGP</span></p>
-                                            <div class="btn-carts">
-                                                <button id="btn_mycart" class="btn">Add to Cart</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="spacer "></div>
-                                    <div class="card">
-                                        <div class="cart-img">
-                                            <img id="itemimg" src="./ImageCart/download.png" class="card-img-top" alt="...">
-                                        </div>
-                                        <div class="card-body">
-                                            <p id="itemtext" class="card-text">Some e up the bulk of the card's content.</p>
-                                            <p id="itemprice" class="cart-price">12.34<span class="cart-EGP">EGP</span></p>
-                                            <div class="btn-carts">
-                                                <button id="btn_mycart" class="btn">Add to Cart</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="spacer "></div>
-                                    <div class="card ">
-                                        <div class="cart-img">
-                                            <img id="itemimg" src="./ImageCart/download.png" class="card-img-top" alt="...">
-                                        </div>
-                                        <div class="card-body">
-                                            <p id="itemtext" class="card-text">Some  up the bulk of the card's content.</p>
-                                            <p id="itemprice" class="cart-price">12.34<span class="cart-EGP">EGP</span></p>
-                                            <div class="btn-carts">
-                                                <button id="btn_mycart" class="btn">Add to Cart</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="spacer "></div>
-                                    <div class="card">
-                                        <div class="cart-img">
-                                            <img id="itemimg" src="./ImageCart/download.png" class="card-img-top" alt="...">
-                                        </div>
-                                        <div class="card-body">
-                                            <p id="itemtext" class="card-text">Some quick the bulk of the card's content.</p>
-                                            <p id="itemprice" class="cart-price">12.34<span class="cart-EGP">EGP</span></p>
-                                            <div class="btn-carts">
-                                                <button id="btn_mycart" class="btn">Add to Cart</button>
-                                            </div>
-                                        </div>
+        string formattedPrice = string.Format("{0:#,0}", product.Price);
+        
+    
+    
+                                            <div class="card">
+                                                <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@product.Id">
+                                                    <div class="cart-img">
+                                                        <img src="@((product.Images.Count > 0) ? product.Images[0] : string.Empty)" class="card-img-top" alt="..." style="width:100%; height:auto;">
+                                                    </div>
+                                                </a>
+                                                <div class="card-body">
+                                                    <p id="itemtext" class="card-text">@product.Description</p>
+                                                    <div class="price-and-button">
+                                                        @if (product.DiscountValue > 0)
+                                                        {
+                                                            string formattedDiscountedPrice = string.Format("{0:#,0}", product.DiscountedPrice);
 
-                                    </div>
+                                                            <p id="itemprice" class="cart-price">@formattedDiscountedPrice<span class="cart-EGP">EGP</span></p>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <p id="itemprice" class="cart-price">@formattedPrice<span class="cart-EGP">EGP</span></p>
+                                                        }                                                        <div class="btn-carts">
+                                                            <form asp-action="AddToCart" asp-controller="Cart" method="post">
+                                                                <input type="hidden" name="productId" value="@product.Id" />
+                                                                <input type="hidden" name="Description" value="@product.Description" />
+                                                                @* Check for discounts *@
+                                                                <input type="hidden" name="price" value="@product.Price" />
+                                                                <input type="hidden" name="DiscountValue" value="@product.DiscountValue" />
+                                                                <input type="hidden" name="DiscountedPrice" value="@product.DiscountedPrice" />
+                                                                <input type="hidden" name="CopyQuantity" value="@product.Quantity" />
+                                                                <input type="hidden" name="image" value="@((product.Images.Count > 0) ? product.Images[0] : string.Empty)" />
+                                                                <input type="hidden" name="quantity" value="1" min="1" />
+                                                                <button id="btn_mycart" class="btn btn-dark">Add to Cart</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                    <div class="spacer "></div>
+                               }
                                 </div>
                             </div>
                             <div class="carousel-item">
                                 <div class=" row cols-1 cols-md-2 cols-lg-4">
 
-                                    <div class="card">
-                                        <div class="cart-img">
-                                            <img id="itemimg" src="./ImageCart/download.png" class="card-img-top" alt="...">
-                                        </div>
-                                        <div class="card-body">
-                                            <p id="itemtext" class="card-text">Some quick up the bulk of the card's content.</p>
-                                            <p id="itemprice" class="cart-price">12.34<span class="cart-EGP">EGP</span></p>
-                                            <div class="btn-carts">
-                                                <button id="btn_mycart" class="btn">Add to Cart</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="spacer "></div>
-                                    <div class="card">
-                                        <div class="cart-img">
-                                            <img id="itemimg" src="./ImageCart/download.png" class="card-img-top" alt="...">
-                                        </div>
-                                        <div class="card-body">
-                                            <p id="itemtext" class="card-text">Some quick examp the bulk of the card's content.</p>
-                                            <p id="itemprice" class="cart-price">12.34<span class="cart-EGP">EGP</span></p>
-                                            <div class="btn-carts">
-                                                <button id="btn_mycart" class="btn">Add to Cart</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="spacer "></div>
-                                    <div class="card">
-                                        <div class="cart-img">
-                                            <img id="itemimg" src="./ImageCart/download.png" class="card-img-top" alt="...">
-                                        </div>
-                                        <div class="card-body">
-                                            <p id="itemtext" class="card-text">Some quick up the bulk of the card's content.</p>
-                                            <p id="itemprice" class="cart-price">12.34<span class="cart-EGP">EGP</span></p>
-                                            <div class="btn-carts">
-                                                <button id="btn_mycart" class="btn">Add to Cart</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="spacer "></div>
-                                    <div class="card">
-                                        <div class="cart-img">
-                                            <img id="itemimg" src="./ImageCart/download.png" class="card-img-top" alt="...">
-                                        </div>
-                                        <div class="card-body">
-                                            <p id="itemtext" class="card-text">Some quick d make up the bulk of the card's content.</p>
-                                            <p id="itemprice" class="cart-price">12.34<span class="cart-EGP">EGP</span></p>
-                                            <div class="btn-carts">
-                                                <button id="btn_mycart" class="btn">Add to Cart</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="spacer "></div>
-                                    <div class="card">
-                                        <div class="cart-img">
-                                            <img id="itemimg" src="./ImageCart/download.png" class="card-img-top" alt="...">
-                                        </div>
-                                        <div class="card-body">
+                                        @foreach (var product in products2)
+                                        {
 
-                                            <p id="itemtext" class="card-text">Some quick e and make up the bulk of the card's content.</p>
+                                            string formattedPrice = string.Format("{0:#,0}", product.Price);
 
-                                            <p id="itemprice" class="cart-price">
-                                                12.34
-                                                <span class="cart-EGP">EGP</span>
-                                            </p>
-                                            <div class="btn-carts">
-                                                <button id="btn_mycart" class="btn">Add to Cart</button>
+                                            <div class="card">
+                                                <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@product.Id">
+                                                    <div class="cart-img">
+                                                        <img src="@((product.Images.Count > 0) ? product.Images[0] : string.Empty)" class="card-img-top" alt="..." style="width:100%; height:auto;">
+                                                    </div>
+                                                </a>
+                                                <div class="card-body">
+                                                    <p id="itemtext" class="card-text">@product.Description</p>
+                                                    <div class="price-and-button">
+                                                        @if (product.DiscountValue>0)
+                                                        {
+                                                            string formattedDiscountedPrice = string.Format("{0:#,0}", product.DiscountedPrice);
+
+                                                            <p id="itemprice" class="cart-price">@formattedDiscountedPrice<span class="cart-EGP">EGP</span></p>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <p id="itemprice" class="cart-price">@formattedPrice<span class="cart-EGP">EGP</span></p>
+                                                        }
+                                                        <div class="btn-carts">
+                                                            <form asp-action="AddToCart" asp-controller="Cart" method="post">
+                                                                <input type="hidden" name="productId" value="@product.Id" />
+                                                                <input type="hidden" name="Description" value="@product.Description" />
+                                                                @* Check for discounts *@
+                                                                <input type="hidden" name="price" value="@product.Price" />
+                                                                <input type="hidden" name="DiscountValue" value="@product.DiscountValue" />
+                                                                <input type="hidden" name="DiscountedPrice" value="@product.DiscountedPrice" />
+                                                                <input type="hidden" name="CopyQuantity" value="@product.Quantity" />
+                                                                <input type="hidden" name="image" value="@((product.Images.Count > 0) ? product.Images[0] : string.Empty)" />
+                                                                <input type="hidden" name="quantity" value="1" min="1" />
+                                                                <button id="btn_mycart" class="btn btn-dark">Add to Cart</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
+
+                                            <div class="spacer "></div>
+                                        }
 
                                 </div>
                             </div>
@@ -211,71 +172,157 @@
                                 <div class="cart_itms">
                                     <div class="cart-number">
                                         <div>Cart</div>
-                                        <div class="number-product">2</div>
+                                        <div class="number-product">@Model.Count</div>
                                     </div>
                                     <div class="spac "></div>
                                     <div class="spac "></div>
-                                    <div class="row mb-3 ">
-                                        <div class="row col-9 Allproduct">
-                                            <div class="col-2 img_product">
-                                                <img id="productImg" src="./ImageCart/download.png" alt="...">
-                                            </div>
-                                            <div class="col-9 prag_cart">
-                                                <p id="productName">
-                                                    xcvbbbbbbbbbbbbbbbbbb xvcccccccccccc fgggggggg
-                                                </p>
-                                                <p>Vendor : Tech.Store</p>
-                                                <p><span class="underline">4,999</span> EGP Save 459 EGP (9%)</p>
-                                                <p id="productprices" style="font-weight: bold;">1111110000000.34EGP</p>
-                                            </div>
+                                    @foreach(var item in Model)
+                                    {
+                                        @if (item.DiscountValue > 0)
+                                        {
 
-                                        </div>
-                                        <div class="col-3 p-1 remove_cart">
-                                            <div>
-                                                <input class="Quantity" type="number">
-                                            </div>
-                                            <div class="Remove">
-                                                <i class="fa-regular fa-trash-can"></i>
-                                                <a>Remove</a>
-                                            </div>
-                                            <div class="Save_later">
-                                                <i class="fa-regular fa-heart"></i>
-                                                <a> Save for later</a>
-                                            </div>
-                                        </div>
 
-                                    </div>
-                                    <div class="spac "></div>
-                                    <div class="row mb-3">
-                                        <div class="row col-9  ">
-                                            <div class="col-2 img_product">
-                                                <img src="./ImageCart/download.png" alt="...">
-                                            </div>
-                                            <div class="col-9 prag_cart ">
-                                                <p>
-                                                    Oraimo Freepods Lite Bluetooth Earphones, Black - OTW-330
-                                                </p>
-                                                <p>Vendor : Tech.Store</p>
-                                                <p><span class="underline">4,999</span> EGP Save 459 EGP (9%)</p>
-                                                <p style="font-weight: bold;">3000.200EGP</p>
-                                            </div>
 
-                                        </div>
-                                        <div class="col-3 p-1 remove_cart">
-                                            <div>
-                                                <input class="Quantity" type="number">
-                                            </div>
-                                            <div class="Remove">
-                                                <i class="fa-regular fa-trash-can"></i>
-                                                <a>Remove</a>
-                                            </div>
-                                            <div class="Save_later">
-                                                <i class="fa-regular fa-heart"></i>
-                                                <a> Save for later</a>
-                                            </div>
-                                        </div>
+                                            <div class="row mb-3 ">
+                                                <div class="row col-9 Allproduct">
+                                                    <div class="col-2 img_product">
+                                                        <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@item.ProductId">
 
-                                    </div>
+                                                            <img id="productImg" src="@item.Image" alt="...">
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-9 prag_cart">
+                                                        <p id="productName">
+                                                            @item.Description
+                                                        </p>
+                                                        <p>Vendor : Tech.Store</p>
+                                                        <p>
+                                                            @{
+                                                                // Format the price with no decimal numbers under 1 and commas after every 3 digits
+                                                                string formattedPrice = string.Format("{0:#,0}", item.Price);
+                                                            }
+                                                            <span class="underline">@formattedPrice</span>   <span style="color:red">   @item.DiscountValue% of</span>
+                                                            @{
+                                                                // Format the discounted price with no decimal numbers under 1 and commas after every 3 digits
+                                                                string formattedDiscountedPrice = string.Format("{0:#,0}", item.DiscountedPrice);
+                                                            }
+                                                            <h3 id="productprices" style="font-weight: bold;">@formattedDiscountedPrice</h3>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-3 p-1 remove_cart">
+                                                    <form id="updateQuantityForm" asp-controller="Cart" asp-action="UpdateQuantity" method="post">
+                                                        <input type="hidden" name="productId" value="@item.ProductId" />
+                                                        <div class="custom-dropdown">
+                                                            <select id="quantityDropdown" name="quantity" class="form-control">
+
+                                                                @for (int i = 1; i <= item.CopyQuantity; i++)
+                                                                {
+                                                                    if (i == item.Quantity)
+                                                                    {
+                                                                        <option value="@i" selected>@i</option>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="@i">@i</option>
+                                                                    }
+
+                                                                }
+
+                                                            </select>
+
+                                                            <span id="dropdownIcon" class="dropdown-icon">&#9660;</span>
+                                                        </div>
+
+
+                                                    </form>
+                                                    <form asp-controller="Cart" asp-action="RemoveFromCart" method="post">
+                                                        <input type="hidden" name="productId" value="@item.ProductId" />
+                                                        <div class="Remove">
+
+                                                            <button type="submit" class="btn ">
+                                                                <i class="fa-regular fa-trash-can"></i>
+                                                                Remove
+                                                            </button>
+
+                                                        </div>
+                                                    </form>
+
+
+                                                </div>
+
+                                            </div>
+                                            <div class="spac "></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="row mb-3 ">
+                                                <div class="row col-9 Allproduct">
+                                                    <div class="col-2 img_product">
+                                                        <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@item.ProductId">
+
+                                                            <img id="productImg" src="@item.Image" alt="...">
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-9 prag_cart">
+                                                        <p id="productName">
+                                                            @item.Description
+                                                        </p>
+                                                        <p>Vendor : Tech.Store</p>
+                                                        <p>
+                                                            @{
+                                                                // Format the price with no decimal numbers under 1 and commas after every 3 digits
+                                                                string formattedPrice = string.Format("{0:#,0}", item.Price);
+                                                            }
+                                                            <h3 id="productprices" style="font-weight: bold;">@formattedPrice</h3>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-3 p-1 remove_cart">
+                                                    <form id="updateQuantityForm" asp-controller="Cart" asp-action="UpdateQuantity" method="post">
+                                                        <input type="hidden" name="productId" value="@item.ProductId" />
+                                                        <div class="custom-dropdown">
+                                                            <select id="quantityDropdown" name="quantity" class="form-control">
+
+                                                                @for (int i = 1; i <= item.CopyQuantity; i++)
+                                                                {
+                                                                    if (i == item.Quantity)
+                                                                    {
+                                                                        <option value="@i" selected>@i</option>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="@i">@i</option>
+                                                                    }
+
+                                                                }
+
+                                                            </select>
+
+                                                            <span id="dropdownIcon" class="dropdown-icon">&#9660;</span>
+                                                        </div>
+
+
+                                                    </form>
+                                                    <form asp-controller="Cart" asp-action="RemoveFromCart" method="post">
+                                                        <input type="hidden" name="productId" value="@item.ProductId" />
+                                                        <div class="Remove">
+
+                                                            <button type="submit" class="btn ">
+                                                                <i class="fa-regular fa-trash-can"></i>
+                                                                Remove
+                                                            </button>
+
+                                                        </div>
+                                                    </form>
+
+
+                                                </div>
+
+                                            </div>
+                                            <div class="spac "></div>
+                                        }
+                                    }                           
                                     <div class="spac "></div>
 
                                 </div>
@@ -286,11 +333,29 @@
                                     <div id="part1" class=" row">
 
                                         <div id="Quan" class="col-6   ">Quantity</div>
-                                        <div id="pro" class="col-6  ">items</div>
+                                        <div id="pro" class="col-6  ">@Model.Count items</div>
                                         <div id="Subt" class="col-6   ">Subtotal</div>
                                         <div id="Egp" class="col-6   ">
+                                            @{
+                                                // Calculate total price
+                                                decimal totalprice = 0;
+                                                foreach (var item in Model)
+                                                {
+                                                    if (item.DiscountValue > 0)
+                                                    {
+                                                        totalprice += item.DiscountedPrice * item.Quantity;
+                                                    }
+                                                    else
+                                                    {
+                                                        totalprice += item.Price * item.Quantity;
+                                                    }
+                                                }
+
+                                                // Format the total price with no decimal numbers under 1 and commas after every 3 digits
+                                                string formattedTotalPrice = string.Format("{0:#,0}", totalprice);
+                                            }
                                             <p class="cart-price">
-                                                12.34
+                                                @(formattedTotalPrice)
                                                 <span class="cart-EGP">EGP</span>
                                             </p>
                                         </div>
@@ -327,24 +392,28 @@
                         </div>
                     </div>
                 </div>
-                <div class="container">
-                    <div class="col-12 total">
-                        <div class="col-8 total_product ">
-                            <div>
-                                <h5>
-                                    Moulinex La Moulinette Blender With Chopper 800 Watt, White - AR6801EG
-                                </h5>
-                            </div>
-                            <div><p>Moulinex La Moulinette Blender With Chopper 800 Watt, White - AR6801EG</p></div>
-                            <div class="row col-12">
-                                <div class="img_prototal col-1"><img src="./ImageCart/download.png" alt=""></div>
-                                <div class="img_prototal col-1"><img src="./ImageCart/download.png" alt=""></div>
+                @foreach(var item in Model)
+                {
+
+
+                    <div class="container">
+                        <div class="col-12 total">
+                            <div class="col-8 total_product">
+                                <div class="row col-12">
+                                    <a class="listingWrapperSection" style="text-decoration:none; color:black" onclick="toggleDescription()">
+                                        <div class="img_prototal col-1">
+                                            <img id="productImg" src="@item.Image" alt="Product Image">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div id="productDescription" style="">
+                                    <h5>@item.Description</h5>
+                                    <p>@item.Description</p>
+                                </div>
                             </div>
                         </div>
-
                     </div>
-                </div>
-
+                }
 
                 <!-- Modal -->
                 <div class="container">
@@ -371,90 +440,29 @@
                 </div>
             </div>
         }
-        <div class="container">
-            <div class="row carthome justify-content-center ">
-                <div class=" row cart col-lg-11 ">
-                    <h5>Recently viewed items</h5>
-                    <div class="card">
-                        <div class="cart-img">
-                            <img id="itemimg" src="./ImageCart/download.png" class="card-img-top" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <p id="itemtext" class="card-text">Some quick example text to of the card's content.</p>
-                            <p id="itemprice" class="cart-price">12.34<span class="cart-EGP">EGP</span></p>
-                            <div class="btn-carts">
-                                <button id="btn_mycart" class="btn">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="spacer "></div>
-                    <div class="card">
-                        <div class="cart-img">
-                            <img id="itemimg" src="./ImageCart/download.png" class="card-img-top" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <p id="itemtext" class="card-text">Some quick example text to bui and make uprd's content.</p>
-                            <p id="itemprice" class="cart-price">12.34<span class="cart-EGP">EGP</span></p>
-                            <div class="btn-carts">
-                                <button id="btn_mycart" class="btn">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="spacer "></div>
-                    <div class="card">
-                        <div class="cart-img">
-                            <img id="itemimg" src="./ImageCart/download.png" class="card-img-top" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <p id="itemtext" class="card-text">Some quick exthe bulk of the card's content.</p>
-                            <p id="itemprice" class="cart-price">12.34<span class="cart-EGP">EGP</span></p>
-                            <div class="btn-carts">
-                                <button id="btn_mycart" class="btn">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="spacer "></div>
-                    <div class="card">
-                        <div class="cart-img">
-                            <img id="itemimg" src="./ImageCart/download.png" class="card-img-top" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <p id="itemtext" class="card-text">Some quick example text to build on the he card's content.</p>
-                            <p id="itemprice" class="cart-price">12.34<span class="cart-EGP">EGP</span></p>
-                            <div class="btn-carts">
-                                <button id="btn_mycart" class="btn">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="spacer "></div>
-                    <div class="card">
-                        <div class="cart-img">
-                            <img id="itemimg" src="./ImageCart/download.png" class="card-img-top" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <p id="itemtext" class="card-text">Some quick example text to p the bulk of the card's content.</p>
-                            <p id="itemprice" class="cart-price">
-                                12.34
-                                <span class="cart-EGP">EGP</span>
-                            </p>
-                            <div class="btn-carts">
-                                <button id="btn_mycart" class="btn">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
 
 
 
-
-    <!-- mycart -->
     
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var quantityDropdown = document.getElementById("quantityDropdown");
+
+        quantityDropdown.addEventListener("change", function () {
+            document.getElementById("updateQuantityForm").submit();
+        });
+
+        $(document).ready(function () {
+            $('#quantityDropdown').hide();
+
+            $('#dropdownIcon').click(function () {
+                $('#quantityDropdown').toggle();
+            });
+        });
+    </script>
     <script src="~/js/Cart.js">
 
     </script>

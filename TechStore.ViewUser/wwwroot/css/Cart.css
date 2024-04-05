@@ -10,6 +10,32 @@
     padding: 20px;
 }
 
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+    .custom-dropdown select {
+        width: 60px; /* Adjust the width as needed */
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        padding-right: 20px;
+        cursor: pointer;
+    }
+
+    .custom-dropdown .dropdown-icon {
+        font-size: 13px;
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+    }
+
+
+        .custom-dropdown .dropdown-icon:hover {
+            cursor: pointer;
+        }
 
 .cartelement{
 text-align: center;

@@ -602,5 +602,55 @@ namespace TechStore.Application.Services
             return brands.ToList();
         }
 
+        public async Task<ResultDataList<GetAllProductsDtos>> FilterNewlyAddedProducts(int count)
+        {
+            try
+            {
+                if (count <= 0)
+                {
+                    throw new ArgumentException("The count must be greater than zero");
+                }
+
+
+                var products = (await _productRepository.GetNewlyAddedProducts(count))
+                               .Where(p => p.IsDeleted == false)
+                               .Select(p => new GetAllProductsDtos
+                               {
+                                   Id = p.Id,
+                                   ModelName = p.ModelName,
+                                   Description = p.Description,
+                                   Brand = p.Brand,
+                                   CategoryId = p.CategoryId,
+                                   DateAdded = p.DateAdded,
+                                   Price = p.Price,
+                                   Quantity =p.Quantity,
+                                   DiscountValue = p.DiscountValue,
+                                   DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
+                                   IsDeleted = p.IsDeleted,
+                                   Images = p.Images.Select(i => i.Name).ToList()
+
+                               }).ToList();
+
+                var ProductsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
+                var resultDataLists = new ResultDataList<GetAllProductsDtos>()
+                {
+                    Entities = ProductsDto,
+                    Count = ProductsDto.Count()
+                };
+                return resultDataLists;
+            }
+            catch (Exception ex)
+            {
+                var resultDataLists = new ResultDataList<GetAllProductsDtos>()
+                {
+                    Entities = null,
+                    Count = 0
+                };
+                return resultDataLists;
+            }
+
+
+        }
+
     }
 }

@@ -25,7 +25,8 @@ namespace TechStore.ViewUser.Controllers
         }
         public async Task<IActionResult> Mobile(int pageNumber = 1, int pageSize = 3)
         {
-            var brands = await _productService.GetAllBrands();
+            ViewBag.CategoryId = 1;
+            var brands = await _productService.GetBrands(1);
             ViewBag.Brands = brands;       
             var products = await _productService.FilterProductsByCategory(1, pageSize, pageNumber);
             ViewBag.PageNumber = pageNumber;
@@ -34,6 +35,10 @@ namespace TechStore.ViewUser.Controllers
         }
         public async Task<IActionResult> Laptop(int pageNumber = 1, int pageSize = 3)
         {
+            ViewBag.CategoryId = 2;
+
+            var brands = await _productService.GetBrands(2);
+            ViewBag.Brands = brands;
             var products = await _productService.FilterProductsByCategory(2, pageSize, pageNumber);
             ViewBag.PageNumber = pageNumber;
             ViewBag.ActionName = "Laptop";
@@ -41,6 +46,10 @@ namespace TechStore.ViewUser.Controllers
         } 
         public async Task<IActionResult> Screen(int pageNumber = 1, int pageSize = 3)
         {
+            ViewBag.CategoryId = 3;
+
+            var brands = await _productService.GetBrands(3);
+            ViewBag.Brands = brands;
             var products = await _productService.FilterProductsByCategory(3, pageSize, pageNumber);
             ViewBag.PageNumber = pageNumber;
             ViewBag.ActionName = "Screen";
@@ -48,6 +57,9 @@ namespace TechStore.ViewUser.Controllers
         } 
         public async Task<IActionResult> SmartWatch(int pageNumber = 1, int pageSize = 3)
         {
+            ViewBag.CategoryId = 4;
+            var brands = await _productService.GetBrands(4);
+            ViewBag.Brands = brands;
             var products = await _productService.FilterProductsByCategory(4, pageSize, pageNumber);
             ViewBag.PageNumber = pageNumber;
             ViewBag.ActionName = "SmartWatch";
@@ -72,11 +84,11 @@ namespace TechStore.ViewUser.Controllers
 
         }
     
-        public async Task<IActionResult> Filter(FillterProductsDtos criteria, int itemsPerPage = 10, int pageNumber = 1)
+        public async Task<IActionResult> Filter(FillterProductsDtos criteria,int categoryId, int itemsPerPage = 10, int pageNumber = 1)
         {
             try
             {
-                var brands = await _productService.GetAllBrands();
+                var brands = await _productService.GetBrands(categoryId);
                 ViewBag.Brands = brands;
 
                 if (ViewBag.Brands == null)
