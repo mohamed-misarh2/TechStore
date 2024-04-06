@@ -85,22 +85,24 @@
                             @if (pageNumber > 1)
                             {
                                 <li class="page-item">
-                                    <a class="page-link" href="@Url.Action("Search", new { pageNumber = pageNumber - 1 })">Previous</a>
+                                    <a class="page-link" href="@Url.Action("Search", new { name = ViewBag.Name, pageNumber = pageNumber - 1 })">Previous</a>
                                 </li>
                             }
                             @for (int i = 1; i <= Math.Ceiling((double)Model.Count / pageSize); i++)
                             {
                                 <li class="page-item @(i == pageNumber ? "active" : "")">
-                                    <a class="page-link" href="@Url.Action("Search", new { pageNumber = i })">@i</a>
+                                    <a class="page-link" href="@Url.Action("Search", new { name = ViewBag.Name, pageNumber = i })">@i</a>
                                 </li>
                             }
 
                             @if (pageNumber < Math.Ceiling((double)Model.Count / pageSize))
                             {
                                 <li class="page-item">
-                                    <a class="page-link" href="@Url.Action("Search", new { pageNumber = pageNumber + 1 })">Next</a>
+                                    <a class="page-link" href="@Url.Action("Search", new { name = ViewBag.Name, pageNumber = pageNumber + 1 })">Next</a>
                                 </li>
                             }
+
+
                         </ul>
                     </section>
                 }

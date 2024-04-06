@@ -15,12 +15,17 @@ namespace TechStore.ViewUser.Controllers
         {
             _productService = productService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var sessionCartItems = HttpContext.Session.Get<List<CartItemDto>>("Cart") ?? new List<CartItemDto>();
-            ////ViewBag.Products = _productService.GetAllPagination(10,1).
+            var productsResultTask = _productService.FilterNewlyAddedProducts(10);
+            var productsResult = await productsResultTask;
+
+            ViewBag.Products = productsResult.Entities.Take(5);
+            ViewBag.Products2 = productsResult.Entities.Skip(5).Take(5);
             return View("CartTest", sessionCartItems);
         }
+
 
 
         public IActionResult AddToCart(CartItemDto cartItemDto)
@@ -40,7 +45,7 @@ namespace TechStore.ViewUser.Controllers
 
             HttpContext.Session.Set("Cart", cart);
 
-            return RedirectToAction("Cart", "Cart");
+            return RedirectToAction("Index", "Cart");
 
         }
 
@@ -62,7 +67,7 @@ namespace TechStore.ViewUser.Controllers
                 HttpContext.Session.Set("Cart", cart);
             }
 
-            return RedirectToAction("Cart", "Cart");
+            return RedirectToAction("Index", "Cart");
         }
 
         public IActionResult UpdateQuantity(int productId, int quantity)
@@ -77,7 +82,7 @@ namespace TechStore.ViewUser.Controllers
                 HttpContext.Session.Set("Cart", cart);
             }
 
-            return RedirectToAction("Cart");
+            return RedirectToAction("Index","Cart");
         }
 
         public IActionResult Cart()
