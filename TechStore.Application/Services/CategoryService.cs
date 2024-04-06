@@ -72,7 +72,6 @@ namespace TechStore.Application.Services
         public async Task<ResultView<CategoryDto>> UpdateCategory(CategoryDto updatedcategory)
         {
             var existingCategory = await _categoryRepository.GetByIdAsync(updatedcategory.Id);
-            await _categoryRepository.DetachEntityAsync(existingCategory);
 
             if (existingCategory == null)
             {
@@ -92,14 +91,20 @@ namespace TechStore.Application.Services
             return new ResultView<CategoryDto> { Entity = catDto, IsSuccess = true, Message = "Updated Successfully" };
         }
 
-        public async Task<ResultView<CategorySpecificationDto>> DeleteSpecFromCategory(int CategoryId,int SpecID)
+        public async Task<ResultView<CategorySpecificationDto>> DeleteSpecFromCategory(int CategoryId, int SpecID)
         {
             //update spec
-            var Specfication = await _categorySpecificationsRepository.GetSpecByCategoryAndSpecId(CategoryId, SpecID);
-            var DeletedSpecfication = await _categorySpecificationsRepository.DeleteAsync(Specfication);
+            var Specfication =  _categorySpecificationsRepository.GetSpecByCategoryAndSpecId(CategoryId, SpecID);
+            var DeletedSpecfication = await _categorySpecificationsRepository.DeleteAsync(await Specfication);
             await _categorySpecificationsRepository.SaveChangesAsync();
             var DeletedSpecDto = _mapper.Map<CategorySpecificationDto>(DeletedSpecfication);
-            return new ResultView<CategorySpecificationDto> { Entity = DeletedSpecDto, IsSuccess = true, Message = "Deleted Successfully" };
+            var category = await _categoryRepository.GetByIdAsync(CategoryId);
+            var SpecList = await _specificationsRepository.GetSpecificationsByCategory(CategoryId);
+            var CategoryDto = _mapper.Map<CategoryDto>(category);
+            var SpecListDto = _mapper.Map<List<SpecificationsDto>>(SpecList);
+
+            var CategorySpec = new CategorySpecificationDto { Category = CategoryDto, SpecificationsDtos = SpecListDto };
+            return new ResultView<CategorySpecificationDto> { Entity = CategorySpec, IsSuccess = true, Message = "Deleted Successfully" };
         }
 
         public async Task<ResultView<CategorySpecificationDto>> AddSpecToCategory(int CategoryId, SpecificationsDto specificationsDto)

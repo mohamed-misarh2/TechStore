@@ -21,11 +21,11 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpGet("GetAll")]//create update delete getone getall
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int pageIteme=10 , int pageNumber=1)
         {
             try
             { 
-                var products = await _productService.GetAllPagination(5,1);
+                var products = await _productService.GetAllPagination(pageIteme , pageNumber);
 
                 if(products.Count == 0)
                 {

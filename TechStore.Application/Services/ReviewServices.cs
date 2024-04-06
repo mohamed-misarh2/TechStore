@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,22 +38,23 @@ namespace TechStore.Application.Services
 
         public async Task<ResultDataList<GetAllReviewDto>> GetAllPaginationReview(int items, int pagenumber)
         {
-            var AllData = await _reviewRepository.GetAllAsync();
-            var Reviews = AllData.Where(R=>R.IsDeleted==false).Skip(items * pagenumber ).Take(items).
+            var AllData = (await _reviewRepository.GetAllAsync()).Include(r=>r.User).Include(r=>r.Product);
+            var Reviews = AllData.Where(R => R.IsDeleted == false); 
+            var AllReviews=Reviews.Skip(items * (pagenumber-1) ).Take(items).
                 Select(p => new GetAllReviewDto
                 {
-                   Id = p.Id,
-                // TechUserId = p.TechUserId,
-                    Comment=p.Comment,
-                  //  ProductId=p.ProductId,
-                     Rating=p.Rating,
+                    Id = p.Id,
+                    UserName = p.User.FirstName + " " +p.User.LastName,
+                    Comment = p.Comment,
+                    ProductName = p.Product.ModelName,
+                    Rating =p.Rating,
                      ReviewDate= (DateTime)p.ReviewDate,
                 }).ToList();
 
 
             ResultDataList<GetAllReviewDto> resultDataList = new ResultDataList<GetAllReviewDto>();
-            resultDataList.Entities = Reviews;
-            resultDataList.Count = AllData.Count();
+            resultDataList.Entities = AllReviews;
+            resultDataList.Count = Reviews.Count();
             return resultDataList;
         }
 

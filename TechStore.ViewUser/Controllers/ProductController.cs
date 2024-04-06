@@ -40,11 +40,11 @@ namespace TechStore.ViewUser.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Search(string name, int itemsPerPage = 10, int pageNumber = 1)
+        public async Task<IActionResult> Search(string name)
         {
             try
             {
-                var result = await _productService.SearchProduct(name, itemsPerPage, pageNumber);
+                var result = await _productService.SearchProduct(name);
                 return View(result);
             }
             catch (ArgumentException ex)

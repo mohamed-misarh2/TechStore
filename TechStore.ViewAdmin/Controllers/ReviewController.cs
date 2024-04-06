@@ -8,7 +8,7 @@ namespace TechStore.ViewAdmin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
 
     public class ReviewController : ControllerBase
     {
@@ -20,9 +20,9 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<IActionResult> GetAllAsync(int pageItem = 10 , int pageNumber=1)
         {
-            var data = await _reviewServices.GetAllPaginationReview(5, 0);
+            var data = await _reviewServices.GetAllPaginationReview(pageItem,pageNumber);
             return Ok(data);
         }
         [HttpDelete]
