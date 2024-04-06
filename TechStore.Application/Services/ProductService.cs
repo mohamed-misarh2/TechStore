@@ -408,9 +408,9 @@ namespace TechStore.Application.Services
 
 
         //sort 
-        public async Task<ResultDataList<GetAllProductsDtos>> SortProductsByDesending(int ItemsPerPage, int PageNumber)
+        public async Task<ResultDataList<GetAllProductsDtos>> SortProductsByDesending(int categoryId, int ItemsPerPage, int PageNumber)
         {
-            var products = (await _productRepository.GetProductsByDescending())
+            var products = (await _productRepository.GetProductsByDescending(categoryId))
                             .Where(p => p.IsDeleted == false)
                             .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
                             .Select(p => new GetAllProductsDtos
@@ -427,6 +427,8 @@ namespace TechStore.Application.Services
                                 IsDeleted = p.IsDeleted,
                                 Images = p.Images.Select(i => i.Name).ToList()
                             }).ToList();
+            var totalcount = (await _productRepository.GetProductsByDescending(categoryId))
+                          .Where(p => p.IsDeleted == false).Count();
             var productsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
             ResultDataList<GetAllProductsDtos> res;
             if(products != null)
@@ -434,7 +436,7 @@ namespace TechStore.Application.Services
                 res = new ResultDataList<GetAllProductsDtos>()
                 {
                     Entities = productsDto,
-                    Count = products.Count()
+                    Count = totalcount
                 };
             }
             else
@@ -448,9 +450,9 @@ namespace TechStore.Application.Services
             return res;
         }
 
-        public async Task<ResultDataList<GetAllProductsDtos>> SortProductsByAscending(int ItemsPerPage, int PageNumber)
+        public async Task<ResultDataList<GetAllProductsDtos>> SortProductsByAscending(int categoryId,int ItemsPerPage, int PageNumber)
         {
-            var products = (await _productRepository.GetProductsByAscending())
+            var products = (await _productRepository.GetProductsByAscending(categoryId))
                             .Where(p => p.IsDeleted == false)
                             .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
                             .Select(p => new GetAllProductsDtos
@@ -467,6 +469,8 @@ namespace TechStore.Application.Services
                                 IsDeleted = p.IsDeleted,
                                 Images = p.Images.Select(i => i.Name).ToList()
                             }).ToList();
+            var totalcount = (await _productRepository.GetProductsByAscending(categoryId))
+                            .Where(p => p.IsDeleted == false).Count();
             var productsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
             ResultDataList<GetAllProductsDtos> res;
             if(products != null)
@@ -474,7 +478,7 @@ namespace TechStore.Application.Services
                 res = new ResultDataList<GetAllProductsDtos>()
                 {
                     Entities = productsDto,
-                    Count = products.Count()
+                    Count = totalcount
                 };
             }
             else
@@ -549,9 +553,9 @@ namespace TechStore.Application.Services
 
 
         //filter
-        public async Task<ResultDataList<GetAllProductsDtos>> FilterProducts(FillterProductsDtos fillterProductsDto,int ItemsPerPage, int PageNumber)
+        public async Task<ResultDataList<GetAllProductsDtos>> FilterProducts(FillterProductsDtos fillterProductsDto, int categoryId, int ItemsPerPage, int PageNumber)
         {
-            var products = (await _productRepository.FilterProducts(fillterProductsDto))
+            var products = (await _productRepository.FilterProducts(fillterProductsDto,categoryId))
                             .Where(p => p.IsDeleted == false)
                             .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
                             .Select(p => new GetAllProductsDtos
@@ -568,6 +572,8 @@ namespace TechStore.Application.Services
                                 IsDeleted = p.IsDeleted,
                                 Images = p.Images.Select(i => i.Name).ToList()
                             }).ToList();
+            var totalcount = (await _productRepository.FilterProducts(fillterProductsDto, categoryId))
+                          .Where(p => p.IsDeleted == false).Count();
             var productsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
             ResultDataList<GetAllProductsDtos> resultDataList;
             if(products != null)
@@ -575,7 +581,7 @@ namespace TechStore.Application.Services
                 resultDataList = new ResultDataList<GetAllProductsDtos>()
                 {
                     Entities = productsDto,
-                    Count = productsDto.Count()
+                    Count = totalcount
                 };
             }
             else
