@@ -8,6 +8,7 @@ namespace TechStore.Application.Services
     public interface ICategoryService
     {
         Task<ResultView<CategorySpecificationDto>> CreateCategory(CategoryDto category,List<SpecificationsDto> specificationsDto);
+        Task<ResultView<CategorySpecificationDto>> UpdateCategory(CategoryDto updatedcategory, List<SpecificationsDto> specificationsDtos);
         Task<ResultDataList<CategoryDto>> GetAllCategory();
         Task<CategorySpecificationDto> GetCategoryById(int id);
         Task<List<CategoryDto>> GetCategoryByName(string name);
