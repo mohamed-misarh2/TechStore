@@ -4,98 +4,7 @@
 @{
 }
 @model ResultView<GetProductSpecificationNameValueDtos>
-<html>
-    <head>
-        <style>
-            .image {
-                flex: 0 1 20%;
-            }
 
-            .image img {
-                width: 80%;
-                height:15%;
-                transition: 0.5s;
-            }
-            .container{
-                width:90%;
-            }
-            .controller {
-                position: absolute;
-                left: 50%;
-                bottom: 0px;
-                transform: translateX(-50%);
-                padding: 10px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: fit-content;
-                flex-wrap: wrap;
-                min-width: 320px;
-            }
-
-            .controller img {
-                width: 50px;
-                height: 50px;
-                border: 1px solid white;
-                box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-                border-radius: 15px;
-                padding: 5px;
-                margin: 10px;
-                object-fit: contain;
-                cursor: pointer;
-                transition: 0.3s;
-            }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        table {
-            border-collapse: collapse;
-            margin: 50px auto;
-            width: 80%;
-            font-size: 20px;
-        }
-
-        table,
-        th,
-        td {
-            border-bottom: 1px solid;
-            text-align: left;
-            padding: 15px;
-        }
-
-        thead th {
-            font-size: 30px;
-            border: none;
-        }
-
-        .Discrp{
-            font-size:1.2vw;
-        }
-
-        .price{
-            font-size:1vw;
-        }
-
-        button{
-            width:100%;
-            margin-top:1vw;
-        }
-        .name{
-            font-size:1vw;
-        }
-
-        .row{
-            padding-top:1.1vw;
-        }
-
-        .content{
-            margin-top:5vw;
-        }
-        </style>
-    </head>
-    <body>
     @if (Model.Entity != null && Model.Entity.productsDtos != null)
 {
     <div class="container">
@@ -151,7 +60,7 @@
                         <input type="hidden" name="CopyQuantity" value="@Model.Entity.productsDtos.Quantity" />
                         <input type="hidden" name="image" value="@Model.Entity.productsDtos.Images.FirstOrDefault()" />
                         <input type="hidden" name="quantity" value="1" min="1" />
-                        <button id="addToCartButton" style="width:30vw;height:7vh; " class="btn btn-dark">Add To Cart</button>
+                        <button id="addToCartButton" style="width:30vw;height:7vh; " class="btn btn-dark"><i class="fas fa-shopping-cart"></i> Add To Cart</button>
                     </form>
                 
                     
@@ -187,44 +96,3 @@ else
             </table>
         }
     </div>
-
-    <script>
-        window.onload = function () {
-            var imgs = document.querySelectorAll(".controller img");
-            var mainImage = document.querySelector(".image img");
-            var hs = document.querySelector("h2");
-
-            imgs.forEach((ele) => {
-                ele.onclick = function () {
-                    mainImage.src = ele.dataset.src; // Change the source of the main image
-                };
-            });
-        };
-
-        document.getElementById('addToCartButton').addEventListener('click', function (event) {
-            event.preventDefault(); // Prevent default form submission
-
-            var form = document.getElementById('addToCartForm');
-            var formData = new FormData(form);
-
-            // Make an AJAX request to submit the form data
-            fetch(form.action, {
-                method: form.method,
-                body: formData
-            })
-                .then(response => {
-                    if (response.ok) {
-                        // Handle success response here (e.g., show a success message)
-                        console.log('Item added to cart successfully.');
-                    } else {
-                        // Handle error response here (e.g., show an error message)
-                        console.error('Error adding item to cart.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error adding item to cart:', error);
-                });
-        });
-    </script>
-</body>
-</html>

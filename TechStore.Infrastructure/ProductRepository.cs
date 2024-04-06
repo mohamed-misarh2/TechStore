@@ -33,7 +33,7 @@ namespace TechStore.Infrastructure
 
         public async Task<IQueryable<Product>> GetDiscountedProducts()
         {
-            return await Task.FromResult(_entities.Where(p => p.DiscountedPrice < p.Price));
+            return await Task.FromResult(_entities.Where(p => p.DiscountValue > 0).OrderBy(p=>p.DiscountValue));
         }
 
         public async Task DetachEntityAsync(Product entity)
