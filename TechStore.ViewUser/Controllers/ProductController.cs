@@ -27,7 +27,7 @@ namespace TechStore.ViewUser.Controllers
         {
             var brands = await _productService.GetAllBrands();
             ViewBag.Brands = brands;       
-            var products = await _productService.FilterProductsByCategory(1, pageSize, pageNumber);
+            var products = await _productService.FilterProductsByCategory(16, pageSize, pageNumber);
             ViewBag.PageNumber = pageNumber;
             ViewBag.ActionName = "Mobile";
             return View("ProductsByCategory", products);

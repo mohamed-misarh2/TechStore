@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using TechStore.Application.Services;
 using TechStore.ViewUser.Models;
 
 namespace TechStore.ViewUser.Controllers
@@ -7,14 +8,17 @@ namespace TechStore.ViewUser.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+             private IProductService _productService;
+        public HomeController(ILogger<HomeController> logger, IProductService productService)
         {
             _logger = logger;
+            _productService = productService;
         }
 
         public IActionResult Index()
         {
+            //var product = _productService.n
+
             return View();
         }
         public IActionResult Cart()
