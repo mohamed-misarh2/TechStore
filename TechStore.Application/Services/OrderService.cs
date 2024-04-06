@@ -242,6 +242,7 @@ namespace TechStore.Application.Services
                 var orders = (await _orderRepository.GetAllAsync())
                             .Where(order=>order.IsDeleted == false)
                             .Include(order => order.User);
+
                 var PaginatedOrders = orders
                                       .Skip(ItemsPerPage * (PageNumber - 1))
                                       .Take(ItemsPerPage)
