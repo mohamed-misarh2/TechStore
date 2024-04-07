@@ -76,7 +76,7 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
 
-        [HttpDelete("{id}")]
+        [HttpDelete("HardDeleteProduct")]
         public async Task<ActionResult> HardDeleteProduct(int id)
         {
             if (id > 0)
@@ -92,7 +92,7 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
 
-        [HttpDelete]
+        [HttpDelete("SoftDeleteProduct")]
         public async Task<IActionResult> SoftDeleteProduct(int ProductId)
         {
             if (!ModelState.IsValid)
