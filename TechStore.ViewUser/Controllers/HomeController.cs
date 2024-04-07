@@ -15,9 +15,14 @@ namespace TechStore.ViewUser.Controllers
             _productService = productService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult>  Index()
         {
-            //var product = _productService.n
+            var productsResultTask = _productService.FilterNewlyAddedProducts(10);
+            var productsResult = await productsResultTask;
+
+            ViewBag.Products = productsResult.Entities.Take(5);
+            ViewBag.Products2 = productsResult.Entities.Skip(5).Take(5);
+
 
             return View();
         }

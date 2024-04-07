@@ -56,11 +56,11 @@ main {
     margin: 2vh 10vh;
 }
 
-.text-center {
+
+.footer-bg {
     background-color: #0e001a;
     color: rgb(255, 255, 255);
 }
-
 .text-reset {
     text-decoration: none;
 }
