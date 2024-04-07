@@ -70,12 +70,20 @@ namespace TechStore.ViewAdmin
             builder.Services.AddScoped<IReviewService, ReviewServices>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
             builder.Services.AddScoped<IspecificationsRepository, SpecificationsRepository>();
-            builder.Services.AddScoped<IproductCategorySpecifications, ProductCategorySpecificationsRepository>();
+            builder.Services.AddScoped<ISpecificationService, SpecificationService>();
+            builder.Services.AddScoped<ICategorySpecificationsRepository, CategorySpecificationsRepository>();
+            builder.Services.AddScoped<IproductCategorySpecifications,ProductCategorySpecificationsRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+
+            //builder.Services.AddScoped<IProductItemService, ProductItemService>();
+            //builder.Services.AddScoped<IUserServices, UserServices>();
+            //builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+
 
             builder.Services.AddDbContext<TechStoreContext>(options =>
                options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));

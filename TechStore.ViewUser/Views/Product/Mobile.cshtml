@@ -186,23 +186,45 @@
             <div class="col-md-9">
 
                 <div class="row">
-                    @for (int i = 0; i <= 2; i++)
-                    {
+                  
+                    
                         @if (Model != null && Model.Entities != null)
                         {
                             @foreach (var product in Model.Entities)
                             {
+                            @if (product.DiscountValue > 0)
+                            {
                                 <div class="col-md-4 mt-4">
-                                    <div class="item">
-                                        <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
-                                        <p class="mt-3">@product.Description</p>
-                                        <h3 class="mt-3">@product.Price EGP</h3>
-                                    </div>
-
+                                    <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
+                                        <div class="item">
+                                            <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
+                                            <p class="mt-3">@product.Description</p>
+                                            <h3 class="mt-3">@product.DiscountedPrice EGP</h3>
+                                            <span class="price-container">
+                                                <span id="product-price-@(product.Id)" data-price-amount="@product.Price" data-price-type="finalPrice" class="price-wrapper" style="text-decoration:line-through">
+                                                    @product.Price <span class="currency"></span>
+                                                </span>
+                                                <span style="color:red">@product.DiscountValue% of</span>
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-4 mt-4">
+                                    <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
+                                        <div class="item">
+                                            <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
+                                            <p class="mt-3">@product.Description</p>
+                                            <h3 class="mt-3">@product.Price EGP</h3>
+                                        </div>
+                                    </a>
                                 </div>
                             }
                         }
-                    }
+                        }
+                    
                 </div>
 
             </div>

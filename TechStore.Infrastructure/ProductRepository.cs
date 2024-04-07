@@ -119,10 +119,10 @@ namespace TechStore.Infrastructure
             return await Task.FromResult(query);
         }
 
-        public async Task<List<string>> GetBrands()
+        public async Task<List<string>> GetBrands(int categoryid)
         {
             var brands = await _context.Products
-                .Where(p => p.Brand != null)
+                .Where(p => p.Brand != null&&p.CategoryId== categoryid)
                 .Select(p => p.Brand)
                 .Distinct()
                 .ToListAsync();
@@ -139,6 +139,9 @@ namespace TechStore.Infrastructure
         }
 
             
-
+        public async Task<IQueryable<string>> GetAllBrands()
+        {
+            return _entities.Select(b => b.Brand);
+        }
     }
 }

@@ -32,9 +32,9 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllOrdersAsync()
+        public async Task<IActionResult> GetAllOrdersAsync(int ItemsPerPage, int PageNumber)
         {
-            var result = await _orderService.GetAllOrdersAsync();
+            var result = await _orderService.GetAllPaginationOrders(ItemsPerPage, PageNumber);
             return Ok(result);
         }
 

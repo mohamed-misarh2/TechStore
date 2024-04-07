@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TechStore.Application.Services;
 using TechStore.Dtos.CategoryDtos;
+using TechStore.Dtos.ProductDtos;
 
 namespace TechStore.ViewAdmin.Controllers
 {
@@ -36,9 +37,16 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update( CategoryDto category)
+        public async Task<IActionResult> Update([FromBody] CategorySpecificationDto data)
         {
-            var data = await _categoryService.UpdateCategory(category);
+            var result = await _categoryService.UpdateCategory(data.Category, data.SpecificationsDtos);
+            return Ok(result);
+        }
+
+        [HttpDelete("HardDelete")]
+        public async Task<IActionResult> HardDelete(int id)
+        {
+            var data = await _categoryService.HardDeleteCategory(id);
             return Ok(data);
         }
 
@@ -71,6 +79,28 @@ namespace TechStore.ViewAdmin.Controllers
         {
             var data = await _categoryService.GetCategoryByName(Name);
             return Ok(data);
+        }
+
+
+        [HttpDelete("DeleteSpec")]
+        public async Task<IActionResult> DeleteSpec(int CategoryId, int SpecID)
+        {
+            var res = await _categoryService.DeleteSpecFromCategory(CategoryId, SpecID);
+            return Ok(res);
+        }
+
+        [HttpPost("CreateSpec")]
+        public async Task<IActionResult> CreateSpec(int CategoryId, SpecificationsDto specificationsDto)
+        {
+            var res = await _categoryService.AddSpecToCategory(CategoryId, specificationsDto);
+            return Ok(res);
+        }
+
+        [HttpGet("GetSpecficationsByCategoryId")]
+        public async Task<IActionResult> GetSpecficationsByCategoryId(int CategoryId)
+        {
+            var res = await _categoryService.GetSpecificationsByCategoryId(CategoryId);
+            return Ok(res);
         }
     }
 }
