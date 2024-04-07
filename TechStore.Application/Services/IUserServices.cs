@@ -19,7 +19,7 @@ namespace TechStore.Application.Services
 
         Task<ResultDataList<UserDto>> SearchByNameUser(string Name);//add this function 
         Task<ResultView<UserDto>> DeleteUser(string UserId);
-        Task<ResultView<RegisterDto>> RegisterUser(RegisterDto model , string RoleName);
+        Task<ResultView<RegisterDto>> RegisterUser(RegisterDto model , string RoleName="User");
         Task<ResultView<LoginDto>> LoginUser(LoginDto model);
         Task<bool> LogoutUser();
         Task<bool> AddRole(string name); 
