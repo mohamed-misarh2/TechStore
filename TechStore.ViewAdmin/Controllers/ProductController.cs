@@ -21,11 +21,11 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpGet("GetAll")]//create update delete getone getall
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int pageItem=10 , int pageNumber=1)
         {
             try
             { 
-                var products = await _productService.GetAllPagination(5,1);
+                var products = await _productService.GetAllPagination(pageItem ,pageNumber);
 
                 if(products.Count == 0)
                 {
@@ -110,7 +110,7 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpPut]
-        public async Task<ActionResult> Update([FromBody] ProductCategorySpecificationsListDto product)
+        public async Task<ActionResult> Update(ProductCategorySpecificationsListDto product)
         {
             if (ModelState.IsValid)
             {
@@ -182,7 +182,7 @@ namespace TechStore.ViewAdmin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var products = await _productService.SearchProduct(Name);
+                var products = await _productService.SearchProduct(Name , ItemsPerPage ,PageNumber);
                 return Ok(products);
             }
             return BadRequest(ModelState);

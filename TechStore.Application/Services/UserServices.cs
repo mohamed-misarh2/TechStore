@@ -112,8 +112,9 @@ namespace TechStore.Application.Services
         }
         public async Task<ResultDataList<UserDto>> GetAllPaginationUser(int items, int pagenumber) 
         {
-            var AlldAta = (await _userRepository.GetAllAsync());
-            var UserSer = AlldAta.Where(u=>u.IsDeleted==false).Skip(items * pagenumber).Take(items)
+            var AllData = (await _userRepository.GetAllAsync());
+            var Users = AllData.Where(u => u.IsDeleted == false);
+            var AllUsers=Users.Skip(items * (pagenumber-1)).Take(items)
                                               .Select(u => new UserDto()
                                               {
                                                   Id=u.Id,
@@ -127,8 +128,8 @@ namespace TechStore.Application.Services
                                                  
                                               }).ToList();
             ResultDataList<UserDto> resultDataList = new ResultDataList<UserDto>();
-            resultDataList.Entities = UserSer;
-            resultDataList.Count = AlldAta.Count();
+            resultDataList.Entities = AllUsers;
+            resultDataList.Count = Users.Count();
             return resultDataList;
         }
 

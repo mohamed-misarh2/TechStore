@@ -490,7 +490,7 @@ namespace TechStore.Application.Services
 
 
         //search
-        public async Task<ResultDataList<GetAllProductsDtos>> SearchProduct(string Name)
+        public async Task<ResultDataList<GetAllProductsDtos>> SearchProduct(string Name, int itemsPerPage, int pageNumber)
         {
             try
             {
@@ -498,9 +498,9 @@ namespace TechStore.Application.Services
                 {
                     throw new ArgumentException("Name cannot be empty or whitespace.");
                 }
-                var products = (await _productRepository.SearchProduct(Name))
-                               .Where(p => p.IsDeleted == false)
-                               .Select(p => new GetAllProductsDtos
+                var products = (await _productRepository.SearchProduct(Name));
+                var paginatedProducts = products.Where(p => p.IsDeleted == false);
+                   var allProducts=paginatedProducts.Select(p => new GetAllProductsDtos
                                {
                                     Id = p.Id,
                                     ModelName = p.ModelName,
@@ -511,15 +511,14 @@ namespace TechStore.Application.Services
                                     Price = p.Price,
                                     DiscountValue = p.DiscountValue,
                                     DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
-                                    IsDeleted = p.IsDeleted,
                                     Image = p.Images.Select(i => i.Name).FirstOrDefault()
                                }).ToList();
 
-                var ProductsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
-                var resultDataList = new ResultDataList<GetAllProductsDtos>()
+/*                var ProductsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
+*/                var resultDataList = new ResultDataList<GetAllProductsDtos>()
                 {
-                    Entities = ProductsDto,
-                    Count = ProductsDto.Count()
+                    Entities = allProducts,
+                    Count = paginatedProducts.Count()
                 };
                 return resultDataList;
             }
@@ -584,5 +583,6 @@ namespace TechStore.Application.Services
             return brands;
         }
 
+       
     }
 }
