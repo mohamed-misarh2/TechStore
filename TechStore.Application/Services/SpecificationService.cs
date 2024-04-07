@@ -14,10 +14,12 @@ namespace TechStore.Application.Services
     public class SpecificationService : ISpecificationService
     {
         private readonly IspecificationsRepository _specificationsRepository;
+        private readonly ICategorySpecificationsRepository _categorySpecificationsRepository;
         private readonly IMapper _mapper;
 
-        public SpecificationService(IspecificationsRepository specificationsRepository, IMapper mapper) {
+        public SpecificationService(IspecificationsRepository specificationsRepository,ICategorySpecificationsRepository categorySpecificationsRepository, IMapper mapper) {
             _specificationsRepository = specificationsRepository;
+            _categorySpecificationsRepository = categorySpecificationsRepository;
             _mapper = mapper;
         }
         public async Task<ResultView<SpecificationsDto>> Create(SpecificationsDto specificationsDto)
@@ -49,22 +51,26 @@ namespace TechStore.Application.Services
             var ExistingSpecification = await _specificationsRepository.GetByIdAsync(id);
             if(ExistingSpecification != null)
             {
-                ExistingSpecification.IsDeleted = true;
-                await _specificationsRepository.SaveChangesAsync();
-                var DeletedSpecificationDto = _mapper.Map<SpecificationsDto>(ExistingSpecification);
-                return new ResultView<SpecificationsDto>()
+                var ExistingSpecInCategory = ((await _categorySpecificationsRepository.GetAllAsync()).Where(cs=>cs.SpecificationId == id)).ToList();
+                if(ExistingSpecInCategory.Count() == 0)
                 {
-                    Entity = DeletedSpecificationDto,
-                    IsSuccess = true,
-                    Message = "Specification Deleted Successfully"
-                };
+                    ExistingSpecification.IsDeleted = true;
+                    await _specificationsRepository.SaveChangesAsync();
+                    var DeletedSpecificationDto = _mapper.Map<SpecificationsDto>(ExistingSpecification);
+                    return new ResultView<SpecificationsDto>()
+                    {
+                        Entity = DeletedSpecificationDto,
+                        IsSuccess = true,
+                        Message = "Specification Deleted Successfully"
+                    };
+                }  
             }
 
             return new ResultView<SpecificationsDto>()
             {
                 Entity = null,
                 IsSuccess = false,
-                Message = "Faild To Delete Specification"
+                Message = "Faild To Delete Specification ,It's Related To Category"
             };
         }
 
