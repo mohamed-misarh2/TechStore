@@ -15,6 +15,6 @@ namespace TechStore.Dtos.OrderDtos
         public string? Image { get; set; }//product
         public string? Description { get; set; }//product
         public decimal? Price { get; set; }//product
-        public int? Quantity { get; set; }//product
+        public int? Quantity { get; set; }//OrderItem
     }
 }

@@ -17,7 +17,5 @@ namespace TechStore.Dtos.OrderDtos
         public string PaymentStatus { get; set; }
         public decimal TotalPrice { get; set; }
 
-        // Include order items
-        //public List<GetAllOrderItemDto> OrderItems { get; set; }
     }
 }

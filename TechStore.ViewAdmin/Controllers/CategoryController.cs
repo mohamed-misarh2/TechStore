@@ -32,14 +32,21 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update( CategoryDto category)
+        public async Task<IActionResult> Update([FromBody] CategorySpecificationDto data)
         {
-            var data = await _categoryService.UpdateCategory(category);
+            var result = await _categoryService.UpdateCategory(data.Category, data.SpecificationsDtos);
+            return Ok(result);
+        }
+
+        [HttpDelete("HardDelete")]
+        public async Task<IActionResult> HardDelete(int id)
+        {
+            var data = await _categoryService.HardDeleteCategory(id);
             return Ok(data);
         }
 
-        [HttpDelete("DeleteCategory")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("SoftDelete")]
+        public async Task<IActionResult> SoftDelete(int id)
         {
             var data = await _categoryService.SoftDeleteCategory(id);
             return Ok(data);

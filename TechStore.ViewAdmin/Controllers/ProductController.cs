@@ -65,7 +65,7 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> Create(ProductCategorySpecificationsListDto product)
+        public async Task<ActionResult> Create([FromForm] ProductCategorySpecificationsListDto product)//spec doesn't take from form??
         {
             if (ModelState.IsValid)
             {
@@ -76,7 +76,7 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
 
-        [HttpDelete("{id}")]
+        [HttpDelete("HardDeleteProduct")]
         public async Task<ActionResult> HardDeleteProduct(int id)
         {
             if (id > 0)
@@ -92,7 +92,7 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
 
-        [HttpDelete]
+        [HttpDelete("SoftDeleteProduct")]
         public async Task<IActionResult> SoftDeleteProduct(int ProductId)
         {
             if (!ModelState.IsValid)

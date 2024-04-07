@@ -23,13 +23,15 @@ namespace TechStore.Application.Services
         private readonly IProductRepository _productRepository;
         private readonly IproductCategorySpecifications _productCategorySpecifications;
         private readonly IspecificationsRepository _specificationsRepository;
+        private readonly IOrderItemRepository _orderItemRepository;
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public ProductService(IProductRepository productRepository,IproductCategorySpecifications productCategorySpecifications,IspecificationsRepository specificationsRepository,IMapper mapper,IWebHostEnvironment webHostEnvironment) {
+        public ProductService(IProductRepository productRepository,IproductCategorySpecifications productCategorySpecifications,IspecificationsRepository specificationsRepository,IOrderItemRepository orderItemRepository,IMapper mapper,IWebHostEnvironment webHostEnvironment) {
 
             _productRepository = productRepository;
             _productCategorySpecifications = productCategorySpecifications;
             _specificationsRepository = specificationsRepository;
+            _orderItemRepository = orderItemRepository;
             _mapper = mapper;
             _webHostEnvironment = webHostEnvironment;
         }
@@ -121,7 +123,7 @@ namespace TechStore.Application.Services
             };
         }
         
-        public async Task<ResultView<GetProductSpecificationNameValueDtos>> GetOne(int id) //values only ?? new func for big table??
+        public async Task<ResultView<GetProductSpecificationNameValueDtos>> GetOne(int id) 
         {
             var ProductModel = await _productRepository.GetProductWithImages(id);
             if (ProductModel != null)
@@ -253,43 +255,48 @@ namespace TechStore.Application.Services
             var product = await _productRepository.GetByIdAsync(productId);
             if (product != null)
             {
+                var OrdersRelatedToProdutc = ((await _orderItemRepository.GetAllAsync())
+                                              .Where(o => o.ProductId == productId)
+                                              .ToList());
 
-                var ProductCatSpec = (await _productCategorySpecifications.GetProductCategorySpecifications(productId)).ToList();
-
-                var productCategorySpecificationsList = new List<ProductCategorySpecifications>();
-                foreach (var productCatSpec in ProductCatSpec)
+                if(OrdersRelatedToProdutc.Count() == 0)
                 {
-                    var DeletedproductCategorySpecifications = await _productCategorySpecifications.DeleteAsync(productCatSpec);
-                    productCategorySpecificationsList.Add(DeletedproductCategorySpecifications);
-                }
+                    var ProductCatSpec = (await _productCategorySpecifications.GetProductCategorySpecifications(productId)).ToList();
 
-                await _productCategorySpecifications.SaveChangesAsync();
+                    var productCategorySpecificationsList = new List<ProductCategorySpecifications>();
+                    foreach (var productCatSpec in ProductCatSpec)
+                    {
+                        var DeletedproductCategorySpecifications = await _productCategorySpecifications.DeleteAsync(productCatSpec);
+                        productCategorySpecificationsList.Add(DeletedproductCategorySpecifications);
+                    }
 
-                var DeletedProductModel = await _productRepository.DeleteAsync(product);
-                await _productRepository.SaveChangesAsync();
+                    await _productCategorySpecifications.SaveChangesAsync();
 
-                var DeletedProductDto = _mapper.Map<CreateOrUpdateProductDtos>(DeletedProductModel);
-                var productCategorySpecificationsListtDtos = _mapper.Map<List<ProductCategorySpecificationsDto>>(productCategorySpecificationsList);
+                    var DeletedProductModel = await _productRepository.DeleteAsync(product);
+                    await _productRepository.SaveChangesAsync();
 
-                var productCategorySpecificationsListDto = new ProductCategorySpecificationsListDto
-                {
-                    CreateOrUpdateProductDtos = DeletedProductDto,
-                    ProductCategorySpecifications = productCategorySpecificationsListtDtos
-                };
+                    var DeletedProductDto = _mapper.Map<CreateOrUpdateProductDtos>(DeletedProductModel);
+                    var productCategorySpecificationsListtDtos = _mapper.Map<List<ProductCategorySpecificationsDto>>(productCategorySpecificationsList);
 
-                return new ResultView<ProductCategorySpecificationsListDto>
-                {
+                    var productCategorySpecificationsListDto = new ProductCategorySpecificationsListDto
+                    {
+                        CreateOrUpdateProductDtos = DeletedProductDto,
+                        ProductCategorySpecifications = productCategorySpecificationsListtDtos
+                    };
+                    return new ResultView<ProductCategorySpecificationsListDto>
+                    {
                         Entity = productCategorySpecificationsListDto,
                         IsSuccess = true,
                         Message = "Product Deleted Sucessfully"
-                };
+                    };
+                }
             }
 
             return new ResultView<ProductCategorySpecificationsListDto>
             {
                 Entity = null,
                 IsSuccess = false,
-                Message = "Product Not Found"
+                Message = "Faild To Delete Product , It's Related To Order"
             };
         }
                                                                         
@@ -574,10 +581,16 @@ namespace TechStore.Application.Services
             return resultDataList;
         }
        
-        public async Task<List<string>> GetBrands()
+        public async Task<List<string>> GetBrands(int categoryid)
         {
-            var brands = await _productRepository.GetBrands();
+            var brands = await _productRepository.GetBrands(categoryid);
             return brands;
+        }
+
+        public async Task<List<string>> GetAllBrands()
+        {
+            var brands = await _productRepository.GetAllBrands();
+            return brands.ToList();
         }
 
     }
