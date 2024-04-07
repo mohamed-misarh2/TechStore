@@ -1,0 +1,88 @@
+﻿
+.image {
+    flex: 0 1 20%;
+}
+
+    .image img {
+        width: 80%;
+        height: 15%;
+        transition: 0.5s;
+    }
+
+.container {
+    width: 90%;
+}
+
+.controller {
+    position: absolute;
+    left: 50%;
+    bottom: 0px;
+    transform: translateX(-50%);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    flex-wrap: wrap;
+    min-width: 320px;
+}
+
+    .controller img {
+        width: 50px;
+        height: 50px;
+        border: 1px solid white;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+        border-radius: 15px;
+        padding: 5px;
+        margin: 10px;
+        object-fit: contain;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+* {
+    box-sizing: border-box;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 50px auto;
+    width: 80%;
+    font-size: 20px;
+}
+
+table,
+th,
+td {
+    border-bottom: 1px solid;
+    text-align: left;
+    padding: 15px;
+}
+
+thead th {
+    font-size: 30px;
+    border: none;
+}
+
+.Discrp {
+    font-size: 1.2vw;
+}
+
+.price {
+    font-size: 1vw;
+}
+
+button {
+    width: 100%;
+    margin-top: 1vw;
+}
+
+.name {
+    font-size: 1vw;
+}
+
+
+
+.content {
+    margin-top: 5vw;
+}

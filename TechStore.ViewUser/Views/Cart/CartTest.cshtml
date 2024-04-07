@@ -41,39 +41,38 @@
             </div>
             <div class="container">
                 <div class="row carthome justify-content-center  ">
+                    <h3>Recently Added </h3>
+
                 <div class=" row cart col-lg-11 ">
-                    <h5>Recently Added </h5>
                     <div id="carouselExampleControls" class="carousel slide carousel-dark " data-bs-ride="carousel">
                         <div class="carousel-inner ">
                             <div class="carousel-item active">
                                 <div class=" row cols-sm-4 cols-md-2 cols-lg-4 ">
-                                    @foreach(var product in products)
+                                        @foreach (var product in products)
                                         {
+                                            string formattedPrice = string.Format("{0:#,0}", product.Price);
+                                            string formattedDiscountedPrice = string.Format("{0:#,0}", product.DiscountedPrice);
 
-                                     string formattedPrice = string.Format("{0:#,0}", product.Price);
-        
-    
-    
-                                            <div class="card">
+                                            <div class="card mb-3">
                                                 <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@product.Id">
                                                     <div class="cart-img">
                                                         <img src="@((product.Images.Count > 0) ? product.Images[0] : string.Empty)" class="card-img-top" alt="..." style="width:100%; height:auto;">
                                                     </div>
                                                 </a>
                                                 <div class="card-body">
-                                                    <p id="itemtext" class="card-text">@product.Description</p>
-                                                    <div class="price-and-button">
+                                                    <div class="product details product-item-details">
+                                                        <span data-bind="text: item.name">@product.Description</span>
+                                                    </div>
+                                                    <div class="price-and-button mt-auto">
                                                         @if (product.DiscountValue > 0)
                                                         {
-                                                            string formattedDiscountedPrice = string.Format("{0:#,0}", product.DiscountedPrice);
-
                                                             <p id="itemprice" class="cart-price">@formattedDiscountedPrice<span class="cart-EGP">EGP</span></p>
-
                                                         }
                                                         else
                                                         {
                                                             <p id="itemprice" class="cart-price">@formattedPrice<span class="cart-EGP">EGP</span></p>
-                                                        }                                                        <div class="btn-carts">
+                                                        }
+                                                        <div class="btn-carts">
                                                             <form asp-action="AddToCart" asp-controller="Cart" method="post">
                                                                 <input type="hidden" name="productId" value="@product.Id" />
                                                                 <input type="hidden" name="Description" value="@product.Description" />
@@ -90,6 +89,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        
+
 
                                     <div class="spacer"></div>
                                }

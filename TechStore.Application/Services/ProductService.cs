@@ -658,5 +658,40 @@ namespace TechStore.Application.Services
 
         }
 
+
+        public async Task<ResultDataList<GetAllProductsDtos>> FilterDiscountedProducts()
+        {
+            try
+            {
+              
+                var products = (await _productRepository.GetDiscountedProducts())
+                               .Where(p => p.IsDeleted != false)
+                               .ToList();
+
+                if (products is null)
+                {
+                    throw new ArgumentException("No discounted products found");
+                }
+
+                var productsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
+                var resultDataList = new ResultDataList<GetAllProductsDtos>()
+                {
+                    Entities = productsDto,
+                    Count = productsDto.Count()
+                };
+                return resultDataList;
+            }
+            catch (Exception ex)
+            {
+                var resultDataList = new ResultDataList<GetAllProductsDtos>()
+                {
+                    Entities = null,
+                    Count = 0
+                };
+                return resultDataList;
+            }
+
+        }
+
     }
 }
