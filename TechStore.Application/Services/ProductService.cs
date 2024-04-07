@@ -23,15 +23,13 @@ namespace TechStore.Application.Services
         private readonly IProductRepository _productRepository;
         private readonly IproductCategorySpecifications _productCategorySpecifications;
         private readonly IspecificationsRepository _specificationsRepository;
-        private readonly IOrderItemRepository _orderItemRepository;
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public ProductService(IProductRepository productRepository,IproductCategorySpecifications productCategorySpecifications,IspecificationsRepository specificationsRepository,IOrderItemRepository orderItemRepository,IMapper mapper,IWebHostEnvironment webHostEnvironment) {
+        public ProductService(IProductRepository productRepository,IproductCategorySpecifications productCategorySpecifications,IspecificationsRepository specificationsRepository,IMapper mapper,IWebHostEnvironment webHostEnvironment) {
 
             _productRepository = productRepository;
             _productCategorySpecifications = productCategorySpecifications;
             _specificationsRepository = specificationsRepository;
-            _orderItemRepository = orderItemRepository;
             _mapper = mapper;
             _webHostEnvironment = webHostEnvironment;
         }
@@ -46,21 +44,17 @@ namespace TechStore.Application.Services
             {
                 if (image != null && image.Length > 0)
                 {
-                    // create file name
-                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+                    var datastream = new MemoryStream();
+                    await image.CopyToAsync(datastream);
+                    var Img1Byts = datastream.ToArray();
+                    string img1Base64String = Convert.ToBase64String(Img1Byts);
 
-                    //  where images will be saved => wwwroot/images
-                    var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "ImageProduct", fileName);
 
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await image.CopyToAsync(stream);
-                    }
-
-                    imagePaths.Add("/ImageProduct/" + fileName); 
+                    imagePaths.Add(img1Base64String); 
                     
                 }
             }
+            
 
             return imagePaths;
         }
@@ -127,7 +121,7 @@ namespace TechStore.Application.Services
             };
         }
         
-        public async Task<ResultView<GetProductSpecificationNameValueDtos>> GetOne(int id) 
+        public async Task<ResultView<GetProductSpecificationNameValueDtos>> GetOne(int id) //values only ?? new func for big table??
         {
             var ProductModel = await _productRepository.GetProductWithImages(id);
             if (ProductModel != null)
@@ -259,48 +253,43 @@ namespace TechStore.Application.Services
             var product = await _productRepository.GetByIdAsync(productId);
             if (product != null)
             {
-                var OrdersRelatedToProdutc = ((await _orderItemRepository.GetAllAsync())
-                                              .Where(o => o.ProductId == productId)
-                                              .ToList());
 
-                if(OrdersRelatedToProdutc.Count() == 0)
+                var ProductCatSpec = (await _productCategorySpecifications.GetProductCategorySpecifications(productId)).ToList();
+
+                var productCategorySpecificationsList = new List<ProductCategorySpecifications>();
+                foreach (var productCatSpec in ProductCatSpec)
                 {
-                    var ProductCatSpec = (await _productCategorySpecifications.GetProductCategorySpecifications(productId)).ToList();
+                    var DeletedproductCategorySpecifications = await _productCategorySpecifications.DeleteAsync(productCatSpec);
+                    productCategorySpecificationsList.Add(DeletedproductCategorySpecifications);
+                }
 
-                    var productCategorySpecificationsList = new List<ProductCategorySpecifications>();
-                    foreach (var productCatSpec in ProductCatSpec)
-                    {
-                        var DeletedproductCategorySpecifications = await _productCategorySpecifications.DeleteAsync(productCatSpec);
-                        productCategorySpecificationsList.Add(DeletedproductCategorySpecifications);
-                    }
+                await _productCategorySpecifications.SaveChangesAsync();
 
-                    await _productCategorySpecifications.SaveChangesAsync();
+                var DeletedProductModel = await _productRepository.DeleteAsync(product);
+                await _productRepository.SaveChangesAsync();
 
-                    var DeletedProductModel = await _productRepository.DeleteAsync(product);
-                    await _productRepository.SaveChangesAsync();
+                var DeletedProductDto = _mapper.Map<CreateOrUpdateProductDtos>(DeletedProductModel);
+                var productCategorySpecificationsListtDtos = _mapper.Map<List<ProductCategorySpecificationsDto>>(productCategorySpecificationsList);
 
-                    var DeletedProductDto = _mapper.Map<CreateOrUpdateProductDtos>(DeletedProductModel);
-                    var productCategorySpecificationsListtDtos = _mapper.Map<List<ProductCategorySpecificationsDto>>(productCategorySpecificationsList);
+                var productCategorySpecificationsListDto = new ProductCategorySpecificationsListDto
+                {
+                    CreateOrUpdateProductDtos = DeletedProductDto,
+                    ProductCategorySpecifications = productCategorySpecificationsListtDtos
+                };
 
-                    var productCategorySpecificationsListDto = new ProductCategorySpecificationsListDto
-                    {
-                        CreateOrUpdateProductDtos = DeletedProductDto,
-                        ProductCategorySpecifications = productCategorySpecificationsListtDtos
-                    };
-                    return new ResultView<ProductCategorySpecificationsListDto>
-                    {
+                return new ResultView<ProductCategorySpecificationsListDto>
+                {
                         Entity = productCategorySpecificationsListDto,
                         IsSuccess = true,
                         Message = "Product Deleted Sucessfully"
-                    };
-                }
+                };
             }
 
             return new ResultView<ProductCategorySpecificationsListDto>
             {
                 Entity = null,
                 IsSuccess = false,
-                Message = "Faild To Delete Product , It's Related To Order"
+                Message = "Product Not Found"
             };
         }
                                                                         
@@ -310,9 +299,9 @@ namespace TechStore.Application.Services
             if (PageNumber > 0)
             {
 
-                var products = (await _productRepository.GetAllAsync())
-                               .Where(p => p.IsDeleted == false)
-                               .Skip(ItemsPerPage * (PageNumber - 1))
+                var AllData = (await _productRepository.GetAllAsync());
+                var products = AllData.Where(p => p.IsDeleted == false);
+                var Allproducts  =products.Skip(ItemsPerPage * (PageNumber - 1))
                                .Take(ItemsPerPage)
                                .Select(p => new GetAllProductsDtos
                                {
@@ -333,7 +322,7 @@ namespace TechStore.Application.Services
 
                 var resultDataList = new ResultDataList<GetAllProductsDtos>()
                 {
-                    Entities = products,
+                    Entities = Allproducts,
                     Count = products.Count()
                 };
                 return resultDataList;

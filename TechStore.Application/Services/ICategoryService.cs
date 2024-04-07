@@ -14,6 +14,7 @@ namespace TechStore.Application.Services
         Task<CategoryDto> GetCategoryByName(string name);
         Task<ResultView<CategoryDto>> HardDeleteCategory(int id);
         Task<ResultView<CategoryDto>> SoftDeleteCategory(int id);
+        Task<ResultView<CategoryDto>> UpdateCategory(CategoryDto updatedcategory);
         Task<ResultView<CategorySpecificationDto>> DeleteSpecFromCategory(int CategoryId, int SpecID);
         Task<ResultView<CategorySpecificationDto>> AddSpecToCategory(int CategoryId, SpecificationsDto specificationsDto);
         Task<ResultDataList<SpecificationsDto>> GetSpecificationsByCategoryId(int CategoryId);

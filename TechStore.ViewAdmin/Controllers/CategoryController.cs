@@ -18,12 +18,7 @@ namespace TechStore.ViewAdmin.Controllers
         {
             _categoryService = categoryService;
         }
-/*        [HttpPost]
-        public async Task<IActionResult> Create(CategoryDto category, List<SpecificationsDto> specificationsDtos)
-        {
-            var data = await _categoryService.CreateCategory(category, specificationsDtos);
-            return Ok(data);
-        }*/
+
 
         [HttpPost]
         public async Task<IActionResult> Create( CategorySpecificationDto data)

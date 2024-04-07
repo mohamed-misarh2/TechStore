@@ -148,11 +148,12 @@ namespace TechStore.Application.Services
              return new ResultView<UserDto> { Entity = userDeleted, IsSuccess = true, Message = "User Deleted" };
         }
 
-        public async Task<ResultView<RegisterDto>> RegisterUser(RegisterDto model , string RoleName="User")
+        public async Task<ResultView<RegisterDto>> RegisterUser(RegisterDto model , string RoleName= "User")
         {
-
-            var newImageString = model.Image.Split(",");
-            var newImage= newImageString[1];
+            using var datastream = new MemoryStream();
+            await model.Image.CopyToAsync(datastream);
+            var Img1Byts = datastream.ToArray();
+            string img1Base64String = Convert.ToBase64String(Img1Byts);
             var user = new TechUser
                 {
                     UserName = model.UserName,
@@ -160,7 +161,7 @@ namespace TechStore.Application.Services
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Address = model.Address,
-                    Image = newImage,
+                    Image = img1Base64String,
                     PhoneNumber = model.PhoneNumber,
 
                 };

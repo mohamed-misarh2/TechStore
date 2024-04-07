@@ -42,6 +42,7 @@ namespace TechStore.Application.Mapper
 
             CreateMap<UserDto, TechUser>().ReverseMap();
             CreateMap<CategoryDto, Category>().ReverseMap();
+            CreateMap<CategorySpecificationDto, CategorySpecifications > ().ReverseMap();
             CreateMap<CreateOrUpdateReviewDto, Review>().ReverseMap();
             CreateMap<GetAllReviewDto, Review>().ReverseMap();
 

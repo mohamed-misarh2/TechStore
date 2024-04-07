@@ -61,10 +61,9 @@ namespace TechStore.Application.Services
             }
         }
 
-        public async Task<ResultView<CategorySpecificationDto>> UpdateCategory(CategoryDto updatedcategory, List<SpecificationsDto> specificationsDtos) 
+        public async Task<ResultView<CategorySpecificationDto>> UpdateCategory(CategoryDto updatedcategory, List<SpecificationsDto> specificationsDtos)
         {
             var existingCategory = await _categoryRepository.GetByIdAsync(updatedcategory.Id);
-            await _categoryRepository.DetachEntityAsync(existingCategory);
 
             if (existingCategory == null)
             {
@@ -85,12 +84,6 @@ namespace TechStore.Application.Services
             var categorySpecifications = ((await _categorySpecificationsRepository.GetAllAsync())
                                         .Where(cs=>cs.CategoryId == updatedcategory.Id)).ToList();
 
-            //delete old catspec
-            foreach (var RemoveCateSpec in categorySpecifications)
-            {
-                await _categorySpecificationsRepository.DeleteAsync(RemoveCateSpec);
-            }
-
             //add new catspec
             foreach (var specificationDto in specificationsDtos)
             {
@@ -101,7 +94,13 @@ namespace TechStore.Application.Services
                 };
                 await _categorySpecificationsRepository.CreateAsync(categorySpec);
             }
-            
+
+            //delete old catspec
+            foreach (var RemoveCateSpec in categorySpecifications)
+            {
+                await _categorySpecificationsRepository.DeleteAsync(RemoveCateSpec);
+            }
+
             await _categorySpecificationsRepository.SaveChangesAsync();
 
             var catDto = _mapper.Map<CategoryDto>(UpdatedCategory);
@@ -119,11 +118,11 @@ namespace TechStore.Application.Services
             };
         }
 
-        public async Task<ResultView<CategorySpecificationDto>> DeleteSpecFromCategory(int CategoryId,int SpecID)
+        public async Task<ResultView<CategorySpecificationDto>> DeleteSpecFromCategory(int CategoryId, int SpecID)
         {
             //update spec
-            var Specfication = await _categorySpecificationsRepository.GetSpecByCategoryAndSpecId(CategoryId, SpecID);
-            var DeletedSpecfication = await _categorySpecificationsRepository.DeleteAsync(Specfication);
+            var Specfication =  _categorySpecificationsRepository.GetSpecByCategoryAndSpecId(CategoryId, SpecID);
+            var DeletedSpecfication = await _categorySpecificationsRepository.DeleteAsync(await Specfication);
             await _categorySpecificationsRepository.SaveChangesAsync();
             
             var DeletedSpecDto = _mapper.Map<CategorySpecificationDto>(DeletedSpecfication);
