@@ -25,7 +25,7 @@ namespace PaypalCore.Controllers
         IConfiguration _configuration;
         private readonly IOrderService _orderService;
 
-        public PayPalController(ILogger<PayPalController> logger, IHttpContextAccessor context, IConfiguration iconfiguration,IOrderService orderService)
+        public PayPalController(ILogger<PayPalController> logger, IHttpContextAccessor context, IConfiguration iconfiguration, IOrderService orderService)
         {
             _logger = logger;
             httpContextAccessor = context;
@@ -50,19 +50,19 @@ namespace PaypalCore.Controllers
             {
                 string payerId = PayerID;
                 if (string.IsNullOrEmpty(payerId))
-                { 
-                    string baseURI = this.Request.Scheme + "://" + this.Request.Host + "/PayPal/PaymentWithPayPal?"; 
+                {
+                    string baseURI = this.Request.Scheme + "://" + this.Request.Host + "/PayPal/PaymentWithPayPal?";
                     var guidd = Convert.ToString((new Random()).Next(100000));
-                    guid = guidd; 
+                    guid = guidd;
                     var createdPayment = this.CreatePayment(apiContext, baseURI + "guid=" + guid, blogId);
                     var links = createdPayment.links.GetEnumerator();
                     var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                     decimal TotalPrice = 0;
                     var orderItems = new List<OrderItemDto>();
-                    foreach(var item in cart)
+                    foreach (var item in cart)
                     {
-                        var orderItem = new OrderItemDto { ProductId = item.ProductId , Quantity = item.Quantity};
+                        var orderItem = new OrderItemDto { ProductId = item.ProductId, Quantity = item.Quantity };
                         TotalPrice += (item.Price * item.Quantity);
                         orderItems.Add(orderItem);
                     }
@@ -72,7 +72,7 @@ namespace PaypalCore.Controllers
                         UserId = userId,
                         //ShippingAddress = createdPayment.ShippingAddress,
                         //ShippingMethod = createdPayment.ShippingMethod,
-                        OrderStatus = "Pending" ,
+                        OrderStatus = "Pending",
                         OrderItems = orderItems,
                         TotalPrice = TotalPrice,
                     };
@@ -138,7 +138,7 @@ namespace PaypalCore.Controllers
                 items = new List<Item>()
             };
 
-            foreach(var item in cart)
+            foreach (var item in cart)
             {
                 itemList.items.Add(new Item()
                 {
@@ -165,8 +165,8 @@ namespace PaypalCore.Controllers
 
             decimal subtotal = cart.Sum(item => item.Price * item.Quantity);
 
-            decimal tax = subtotal * 0.07m; 
-            decimal shipping = 5.00m; 
+            decimal tax = subtotal * 0.07m;
+            decimal shipping = 5.00m;
 
             var details = new Details()
             {
@@ -189,10 +189,10 @@ namespace PaypalCore.Controllers
             transactionList.Add(new Transaction()
             {
                 description = "Transaction description",
-                invoice_number = Guid.NewGuid().ToString(),  
+                invoice_number = Guid.NewGuid().ToString(),
                 amount = amount,
                 item_list = itemList,
-                
+
             });
             this.payment = new Payment()
             {

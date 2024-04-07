@@ -123,12 +123,12 @@ namespace TechStore.Application.Services
         {
             //update spec
             var Specfication = await _categorySpecificationsRepository.GetSpecByCategoryAndSpecId(CategoryId, SpecID);
-            var DeletedSpecfication = await _categorySpecificationsRepository.DeleteAsync(Specfication);
+            await _categorySpecificationsRepository.DeleteAsync(Specfication);
             await _categorySpecificationsRepository.SaveChangesAsync();
-            
-            var DeletedSpecDto = _mapper.Map<CategorySpecificationDto>(DeletedSpecfication);
+                       
             var category = await _categoryRepository.GetByIdAsync(CategoryId);
             var SpecList = await _specificationsRepository.GetSpecificationsByCategory(CategoryId);
+
             var CategoryDto = _mapper.Map<CategoryDto>(category);
             var SpecListDto = _mapper.Map<List<SpecificationsDto>>(SpecList);
 
@@ -139,36 +139,54 @@ namespace TechStore.Application.Services
         public async Task<ResultView<CategorySpecificationDto>> AddSpecToCategory(int CategoryId, SpecificationsDto specificationsDto)
         {
             var ExistingCategory = await _categoryRepository.GetByIdAsync(CategoryId);
-            if(ExistingCategory == null)
+            if (ExistingCategory != null)
             {
-                return new ResultView<CategorySpecificationDto> { Entity = null, IsSuccess = false, Message = "Category Doesn't Exist" };
+                var ExistingCategoryDto = _mapper.Map<CategoryDto>(ExistingCategory);
+                var SpecModel = _mapper.Map<Specification>(specificationsDto);
+
+                var ExistingSpecification = await _specificationsRepository.SearchByName(specificationsDto.Name);
+
+                if (ExistingSpecification == null)
+                {
+                    var AddedSpec = await _specificationsRepository.CreateAsync(SpecModel);
+                    await _specificationsRepository.SaveChangesAsync();
+
+                    await _categorySpecificationsRepository.CreateAsync(new CategorySpecifications { CategoryId = ExistingCategory.Id, SpecificationId = AddedSpec.Id });
+                    await _categorySpecificationsRepository.SaveChangesAsync();
+
+                    var SpecList = await _specificationsRepository.GetSpecificationsByCategory(CategoryId);
+                    var SpecListDto = _mapper.Map<List<SpecificationsDto>>(SpecList);
+
+                    var Result = new CategorySpecificationDto { Category = ExistingCategoryDto, SpecificationsDtos = SpecListDto };
+
+                    return new ResultView<CategorySpecificationDto>
+                    {
+                        Entity = Result,
+                        IsSuccess = true,
+                        Message = "CategoryAndSpecifications Retrived Successfully After Adding"
+                    };
+                }
+                else
+                {
+                    var existingCategorySpec = await _categorySpecificationsRepository.GetSpecByCategoryAndSpecId(CategoryId, ExistingSpecification.Id);
+                    if (existingCategorySpec == null)
+                    {
+                        await _categorySpecificationsRepository.CreateAsync(new CategorySpecifications { CategoryId = ExistingCategory.Id, SpecificationId = ExistingSpecification.Id });
+                        await _categorySpecificationsRepository.SaveChangesAsync();
+                        return new ResultView<CategorySpecificationDto>
+                        {
+                            IsSuccess = true,
+                            Message = "Specification Already Exists, Added to Category Successfully"
+                        };
+                    }
+                }                
             }
-
-            var ExistingCategoryDto = _mapper.Map<CategoryDto>(ExistingCategory);
-            var SpecModel = _mapper.Map<Specification>(specificationsDto);
-
-            var ExistingSpecification = await _specificationsRepository.SearchByName(specificationsDto.Name);
-
-            if(ExistingSpecification == null) 
-            {
-                var AddedSpec = await _specificationsRepository.CreateAsync(SpecModel);
-                await _specificationsRepository.SaveChangesAsync();
-                await _categorySpecificationsRepository.CreateAsync(new CategorySpecifications { CategoryId = ExistingCategory.Id , SpecificationId = AddedSpec.Id });
-            }
-            else
-            {
-                await _categorySpecificationsRepository.CreateAsync(new CategorySpecifications { CategoryId = ExistingCategory.Id, SpecificationId = ExistingSpecification.Id });
-            }
-
-            await _categorySpecificationsRepository.SaveChangesAsync();
-
-            var SpecList = await _specificationsRepository.GetSpecificationsByCategory(CategoryId);
-            var SpecListDto = _mapper.Map<List<SpecificationsDto>>(SpecList);
-
-            var Result = new CategorySpecificationDto { Category = ExistingCategoryDto, SpecificationsDtos = SpecListDto };
-
-            return new ResultView<CategorySpecificationDto> { Entity = Result, IsSuccess = true, Message = "CategoryAndSpecifications Retrived Successfully" };
-
+            return new ResultView<CategorySpecificationDto> 
+            { 
+                Entity = null, 
+                IsSuccess = false,
+                Message = "Category Doesn't Exist | Specification Already Exists"
+            };
         }
 
         public async Task<ResultView<CategoryDto>> HardDeleteCategory(int id)
