@@ -112,8 +112,9 @@ namespace TechStore.Application.Services
         }
         public async Task<ResultDataList<UserDto>> GetAllPaginationUser(int items, int pagenumber) 
         {
-            var AlldAta = (await _userRepository.GetAllAsync());
-            var UserSer = AlldAta.Where(u=>u.IsDeleted==false).Skip(items * pagenumber).Take(items)
+            var AllData = (await _userRepository.GetAllAsync());
+            var Users = AllData.Where(u => u.IsDeleted == false); 
+            var allUsers=Users.Skip(items * (pagenumber-1)).Take(items)
                                               .Select(u => new UserDto()
                                               {
                                                   Id=u.Id,
@@ -127,8 +128,8 @@ namespace TechStore.Application.Services
                                                  
                                               }).ToList();
             ResultDataList<UserDto> resultDataList = new ResultDataList<UserDto>();
-            resultDataList.Entities = UserSer;
-            resultDataList.Count = AlldAta.Count();
+            resultDataList.Entities = allUsers;
+            resultDataList.Count = Users.Count();
             return resultDataList;
         }
 
@@ -147,11 +148,12 @@ namespace TechStore.Application.Services
              return new ResultView<UserDto> { Entity = userDeleted, IsSuccess = true, Message = "User Deleted" };
         }
 
-        public async Task<ResultView<RegisterDto>> RegisterUser(RegisterDto model , string RoleName="User")
+        public async Task<ResultView<RegisterDto>> RegisterUser(RegisterDto model , string RoleName= "User")
         {
-
-            var newImageString = model.Image.Split(",");
-            var newImage= newImageString[1];
+            using var datastream = new MemoryStream();
+            await model.Image.CopyToAsync(datastream);
+            var Img1Byts = datastream.ToArray();
+            string img1Base64String = Convert.ToBase64String(Img1Byts);
             var user = new TechUser
                 {
                     UserName = model.UserName,
@@ -159,7 +161,7 @@ namespace TechStore.Application.Services
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Address = model.Address,
-                    Image = newImage,
+                    Image = img1Base64String,
                     PhoneNumber = model.PhoneNumber,
 
                 };
