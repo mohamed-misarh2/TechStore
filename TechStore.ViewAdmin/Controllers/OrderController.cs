@@ -18,7 +18,7 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> create([FromBody] OrderDto orderDto)
+        public async Task<IActionResult> create(OrderDto orderDto)
         {
             var product = await _orderService.CreateOrderAsync(orderDto);
             return Ok(product);
@@ -32,9 +32,9 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllOrdersAsync()
+        public async Task<IActionResult> GetAllOrdersAsync(int ItemsPerPage, int PageNumber)
         {
-            var result = await _orderService.GetAllOrdersAsync();
+            var result = await _orderService.GetAllPaginationOrders(ItemsPerPage, PageNumber);
             return Ok(result);
         }
 

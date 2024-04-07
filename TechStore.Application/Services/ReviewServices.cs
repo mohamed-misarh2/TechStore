@@ -52,8 +52,8 @@ namespace TechStore.Application.Services
 
 
             ResultDataList<GetAllReviewDto> resultDataList = new ResultDataList<GetAllReviewDto>();
-            resultDataList.Entities = Reviews;
-            resultDataList.Count = AllData.Count();
+            resultDataList.Entities = AllReviews;
+            resultDataList.Count = Reviews.Count();
             return resultDataList;
         }
 

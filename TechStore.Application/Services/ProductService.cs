@@ -44,21 +44,17 @@ namespace TechStore.Application.Services
             {
                 if (image != null && image.Length > 0)
                 {
-                    // create file name
-                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+                    var datastream = new MemoryStream();
+                    await image.CopyToAsync(datastream);
+                    var Img1Byts = datastream.ToArray();
+                    string img1Base64String = Convert.ToBase64String(Img1Byts);
 
-                    //  where images will be saved => wwwroot/images
-                    var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "ImageProduct", fileName);
 
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await image.CopyToAsync(stream);
-                    }
-
-                    imagePaths.Add("/ImageProduct/" + fileName); 
+                    imagePaths.Add(img1Base64String); 
                     
                 }
             }
+            
 
             return imagePaths;
         }
@@ -296,16 +292,16 @@ namespace TechStore.Application.Services
                 Message = "Product Not Found"
             };
         }
-
+                                                                        
         public async Task<ResultDataList<GetAllProductsDtos>> GetAllPagination(int ItemsPerPage, int PageNumber)
         {
 
             if (PageNumber > 0)
             {
 
-                var products = (await _productRepository.GetAllAsync())
-                               .Where(p => p.IsDeleted == false)
-                               .Skip(ItemsPerPage * (PageNumber - 1))
+                var AllData = (await _productRepository.GetAllAsync());
+                var products = AllData.Where(p => p.IsDeleted == false);
+                var Allproducts  =products.Skip(ItemsPerPage * (PageNumber - 1))
                                .Take(ItemsPerPage)
                                .Select(p => new GetAllProductsDtos
                                {
@@ -326,7 +322,7 @@ namespace TechStore.Application.Services
 
                 var resultDataList = new ResultDataList<GetAllProductsDtos>()
                 {
-                    Entities = products,
+                    Entities = Allproducts,
                     Count = products.Count()
                 };
                 return resultDataList;
@@ -379,7 +375,7 @@ namespace TechStore.Application.Services
                                     DiscountValue = p.DiscountValue,
                                     DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                     IsDeleted = p.IsDeleted,
-                                    Image = p.Images.Select(i => i.Name).FirstOrDefault()
+                                    Images = p.Images.Select(i => i.Name).ToList()
 
                                }).ToList();
 
@@ -423,7 +419,7 @@ namespace TechStore.Application.Services
                                 DiscountValue = p.DiscountValue,
                                 DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                 IsDeleted = p.IsDeleted,
-                                Image = p.Images.Select(i => i.Name).FirstOrDefault()
+                                Images = p.Images.Select(i => i.Name).ToList()
                             }).ToList();
             var productsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
             ResultDataList<GetAllProductsDtos> res;
@@ -553,7 +549,7 @@ namespace TechStore.Application.Services
                                 DiscountValue = p.DiscountValue,
                                 DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                 IsDeleted = p.IsDeleted,
-                                Image = p.Images.Select(i => i.Name).FirstOrDefault()
+                                Images = p.Images.Select(i => i.Name).ToList()
                             }).ToList();
             var productsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
             ResultDataList<GetAllProductsDtos> resultDataList;
@@ -577,9 +573,9 @@ namespace TechStore.Application.Services
             return resultDataList;
         }
        
-        public async Task<List<string>> GetBrands()
+        public async Task<List<string>> GetBrands(int categoryid)
         {
-            var brands = await _productRepository.GetBrands();
+            var brands = await _productRepository.GetBrands(categoryid);
             return brands;
         }
 

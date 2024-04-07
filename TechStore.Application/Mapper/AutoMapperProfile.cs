@@ -33,6 +33,7 @@ namespace TechStore.Application.Mapper
             CreateMap<CreateOrUpdateProductDtos, Product>().ReverseMap();
             CreateMap<SpecificationsDto, Specification>().ReverseMap();
             CreateMap<ProductCategorySpecificationsDto, ProductCategorySpecifications>().ReverseMap();
+            CreateMap<CategorySpecificationDto, CategorySpecifications>().ReverseMap();
             CreateMap<GetAllProductsDtos, Product>().ReverseMap();
             CreateMap<GetAllProductsForUserDto, Product>().ReverseMap();
             CreateMap<IFormFile, Image>()
@@ -41,6 +42,7 @@ namespace TechStore.Application.Mapper
 
             CreateMap<UserDto, TechUser>().ReverseMap();
             CreateMap<CategoryDto, Category>().ReverseMap();
+            CreateMap<CategorySpecificationDto, CategorySpecifications > ().ReverseMap();
             CreateMap<CreateOrUpdateReviewDto, Review>().ReverseMap();
             CreateMap<GetAllReviewDto, Review>().ReverseMap();
 

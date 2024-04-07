@@ -7,7 +7,7 @@ namespace TechStore.Application.Services
     public interface IOrderService
     {
         Task<ResultView<OrderDto>> CreateOrderAsync(OrderDto orderDto);
-        Task<ResultDataList<GetAllOrderDto>> GetAllOrdersAsync();
+        Task<ResultDataList<GetAllOrderDto>> GetAllPaginationOrders(int ItemsPerPage, int PageNumber);
         Task<ResultView<GetAllOrderDto>> GetOrderByIdAsync(int orderId);
         Task<ResultView<OrderDto>> HardDeleteOrderAsync(int orderId);
         Task<ResultView<OrderDto>> SoftDeleteOrderAsync(int orderId);
