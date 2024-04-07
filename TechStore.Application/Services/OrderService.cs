@@ -238,7 +238,7 @@ namespace TechStore.Application.Services
 
             try
             {
-                var orders = await _orderRepository.GetAllAsync();
+                var orders = (await _orderRepository.GetAllAsync()).Include(o=>o.User);
                 //var allOrders = orders.Include(order=>order.OrderItems).ToListAsync();
                 var orderDtos = _mapper.Map<List<GetAllOrderDto>>(orders);
 

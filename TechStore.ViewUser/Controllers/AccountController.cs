@@ -20,14 +20,14 @@ namespace TechStore.ViewUser.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> RegisterAsync(RegisterDto register, string RoleName="User")
+        public async Task<IActionResult> RegisterAsync(RegisterDto register)
         {
             if (!ModelState.IsValid)
             {
                 return View(register);
             }
 
-            var result= await _userServices.RegisterUser(register , RoleName);
+            var result= await _userServices.RegisterUser(register);
             if (result.IsSuccess)
             {
                 return RedirectToAction("Login");
