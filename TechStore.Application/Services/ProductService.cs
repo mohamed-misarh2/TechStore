@@ -303,9 +303,9 @@ namespace TechStore.Application.Services
             if (PageNumber > 0)
             {
 
-                var products = (await _productRepository.GetAllAsync())
-                               .Where(p => p.IsDeleted == false)
-                               .Skip(ItemsPerPage * (PageNumber - 1))
+                var products = (await _productRepository.GetAllAsync());
+                var paginatedProducts = products.Where(p => p.IsDeleted == false);
+                var allproducts = paginatedProducts.Skip(ItemsPerPage * (PageNumber - 1))
                                .Take(ItemsPerPage)
                                .Select(p => new GetAllProductsDtos
                                {
@@ -326,8 +326,8 @@ namespace TechStore.Application.Services
 
                 var resultDataList = new ResultDataList<GetAllProductsDtos>()
                 {
-                    Entities = products,
-                    Count = products.Count()
+                    Entities = allproducts,
+                    Count = paginatedProducts.Count()
                 };
                 return resultDataList;
 
@@ -490,7 +490,7 @@ namespace TechStore.Application.Services
 
 
         //search
-        public async Task<ResultDataList<GetAllProductsDtos>> SearchProduct(string Name)
+        public async Task<ResultDataList<GetAllProductsDtos>> SearchProduct(string Name, int itemsPerPage, int pageNumber)
         {
             try
             {
@@ -498,9 +498,9 @@ namespace TechStore.Application.Services
                 {
                     throw new ArgumentException("Name cannot be empty or whitespace.");
                 }
-                var products = (await _productRepository.SearchProduct(Name))
-                               .Where(p => p.IsDeleted == false)
-                               .Select(p => new GetAllProductsDtos
+                var products = (await _productRepository.SearchProduct(Name));
+                var paginatedProducts = products.Where(p => p.IsDeleted == false);
+                var allproducts=paginatedProducts.Select(p => new GetAllProductsDtos
                                {
                                     Id = p.Id,
                                     ModelName = p.ModelName,
@@ -515,11 +515,10 @@ namespace TechStore.Application.Services
                                     Image = p.Images.Select(i => i.Name).FirstOrDefault()
                                }).ToList();
 
-                var ProductsDto = _mapper.Map<List<GetAllProductsDtos>>(products);
                 var resultDataList = new ResultDataList<GetAllProductsDtos>()
                 {
-                    Entities = ProductsDto,
-                    Count = ProductsDto.Count()
+                    Entities = allproducts,
+                    Count = paginatedProducts.Count()
                 };
                 return resultDataList;
             }
@@ -584,5 +583,6 @@ namespace TechStore.Application.Services
             return brands;
         }
 
+     
     }
 }
