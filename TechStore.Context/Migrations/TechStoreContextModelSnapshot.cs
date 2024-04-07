@@ -243,13 +243,13 @@ namespace TechStore.Context.Migrations
                     b.Property<DateTime?>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PaymentStatus")
+                    b.Property<int?>("OrderStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ShippingAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShippingMethod")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("TotalPrice")
@@ -257,9 +257,6 @@ namespace TechStore.Context.Migrations
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("orderStatus")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

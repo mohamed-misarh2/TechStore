@@ -18,11 +18,10 @@ namespace TechStore.Models
         public string? UserId { get; set; }
         public DateTime? OrderDate { get; set; }= DateTime.Now;
         public string? ShippingAddress { get; set; }
-        public string? ShippingMethod { get; set; }
+        public string? Phone { get; set; }
         public decimal? TotalPrice { get; set; }
-        public OrderStatus? orderStatus { get; set; }
-        public string?  PaymentStatus { get; set; }
-        public DateTime? DeliveryDate { get; set; }      
+        public OrderStatus? OrderStatus { get; set; }
+        public DateTime? DeliveryDate { get; set; } = DateTime.Now.AddDays(3);
 
         // Define relationships
         public TechUser? User { get; set; }

@@ -137,11 +137,14 @@ namespace TechStore.Application.Services
 
             try
             {
-                var order = await _orderRepository.GetByIdAsync(orderId);
+                var order = (await _orderRepository.GetAllAsync())
+                            .Include(order=>order.User)
+                            .FirstOrDefault(order=>order.Id == orderId);
                 if (order == null)
                     throw new Exception($"Order with ID {orderId} not found.");
 
                 var orderDto = _mapper.Map<GetAllOrderDto>(order);
+                orderDto.UserName = $"{order.User.FirstName} {order.User.LastName}";
 
                 result.IsSuccess = true;
                 result.Message = "Order retrieved successfully.";
@@ -156,7 +159,7 @@ namespace TechStore.Application.Services
             return result;
         }
         
-        //  want to edit with getorderdetails dto
+        //  want to edit with getorderdetails dto   
         public async Task<ResultView<GetAllOrderDto>> GetOrderWithItems(int orderId)//admin
         {
             var result = new ResultView<GetAllOrderDto>();
@@ -201,7 +204,7 @@ namespace TechStore.Application.Services
                         ProductId = OrderItem.ProductId,
                         Description = OrderItem.Product.Description,
                         Price = OrderItem.Product.Price,
-                        Quantity = OrderItem.Product.Quantity,
+                        Quantity = OrderItem.Quantity,
                         Image = product.Images.Select(i => i.Name).FirstOrDefault()
                     };
                     list.Add(obj);
@@ -232,7 +235,7 @@ namespace TechStore.Application.Services
         }
 
         //
-        public async Task<ResultDataList<GetAllOrderDto>> GetAllOrdersAsync()//admin
+        public async Task<ResultDataList<GetAllOrderDto>> GetAllPaginationOrders(int ItemsPerPage, int PageNumber)//admin
         {
             var result = new ResultDataList<GetAllOrderDto>();
 
@@ -240,9 +243,25 @@ namespace TechStore.Application.Services
             {
                 var orders = (await _orderRepository.GetAllAsync()).Include(o=>o.User);
                 //var allOrders = orders.Include(order=>order.OrderItems).ToListAsync();
+                var orders = (await _orderRepository.GetAllAsync())
+                            .Where(order=>order.IsDeleted == false)
+                            .Include(order => order.User);
+                var PaginatedOrders = orders
+                                      .Skip(ItemsPerPage * (PageNumber - 1))
+                                      .Take(ItemsPerPage)
+                                      .Select(order => new GetAllOrderDto
+                                      {
+                                          Id = order.Id,
+                                          UserName = $"{order.User.FirstName} {order.User.LastName}",
+                                          OrderDate = order.OrderDate,
+                                          OrderStatus = order.OrderStatus.ToString(),
+                                          Phone = order.Phone,
+                                          ShippingAddress = order.ShippingAddress,
+                                          TotalPrice = order.TotalPrice
+                                      }).ToList();
                 var orderDtos = _mapper.Map<List<GetAllOrderDto>>(orders);
 
-                result.Entities = orderDtos;
+                result.Entities = PaginatedOrders;
                 result.Count = orderDtos.Count;
             }
             catch (Exception ex)
@@ -355,7 +374,7 @@ namespace TechStore.Application.Services
             return result;
         }
 
-        //
+        //paginated?
         public async Task<ResultDataList<GetAllOrderDto>> GetOrdersSortedByDateAscendingAsync()//user & admin
         {
             var result = new ResultDataList<GetAllOrderDto>();
@@ -377,7 +396,7 @@ namespace TechStore.Application.Services
             return result;
         }
 
-        //
+        //paginated?
         public async Task<ResultDataList<GetAllOrderDto>> GetOrdersSortedByDateDescendingAsync()//user & admin
         {
             var result = new ResultDataList<GetAllOrderDto>();
@@ -399,7 +418,7 @@ namespace TechStore.Application.Services
             return result;
         }
 
-        
+        //paginated?
         public async Task<ResultDataList<GetAllOrderDto>> SearchOrdersAsync(string searchTerm)//user & admin
         {
             var result = new ResultDataList<GetAllOrderDto>();
@@ -421,7 +440,7 @@ namespace TechStore.Application.Services
             return result;
         }
 
-        //
+        //paginated?
         public async Task<ResultDataList<GetAllOrderDto>> GetOrdersByUserIdAsync(string userId) //user
         {
             var result = new ResultDataList<GetAllOrderDto>();
@@ -452,7 +471,7 @@ namespace TechStore.Application.Services
             var result = new ResultView<OrderDto>();
             if (ExistingOrder != null)
             {
-                ExistingOrder.orderStatus = NewOrderStatus;
+                ExistingOrder.OrderStatus = NewOrderStatus;
                 await _orderRepository.UpdateAsync(ExistingOrder);
                 await _orderRepository.SaveChangesAsync();
                 var orderItems =await _orderItemRepository.GetOrders(OrderId);
@@ -472,7 +491,6 @@ namespace TechStore.Application.Services
             return result;
         }
 
-      
     }
 
 }
