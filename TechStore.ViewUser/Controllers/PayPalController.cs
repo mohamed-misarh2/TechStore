@@ -38,7 +38,7 @@ namespace PaypalCore.Controllers
             return View();
         }
 
-        public async Task<ActionResult> PaymentWithPaypal(string Cancel = null, string blogId = "", string PayerID = "", string guid = "")
+        public async Task<ActionResult> PaymentWithPaypal(OrderDto order,string Cancel = null, string blogId = "", string PayerID = "", string guid = "")
         {
             var cart = HttpContext.Session.Get<List<CartItemDto>>("Cart") ?? new List<CartItemDto>();
             //getting the apiContext  
@@ -69,9 +69,11 @@ namespace PaypalCore.Controllers
 
                     var orderdto = new OrderDto
                     {
-                        UserId = userId,
-                        //ShippingAddress = createdPayment.ShippingAddress,
+                        UserId = order.UserId,
+                        ShippingAddress = order.ShippingAddress,
+                        Phone = order.Phone,
                         //ShippingMethod = createdPayment.ShippingMethod,
+                        
                         OrderStatus = "Pending",
                         OrderItems = orderItems,
                         TotalPrice = TotalPrice,

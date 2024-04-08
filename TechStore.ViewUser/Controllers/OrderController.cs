@@ -1,7 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TechStore.Application.Services;
+using TechStore.Dtos.ProductDtos;
+using TechStore.Models;
+using TechStore.ViewUser.ExtenstionMethods;
 
 
 namespace TechStore.ViewUser.Controllers
@@ -10,14 +15,27 @@ namespace TechStore.ViewUser.Controllers
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
+        private readonly UserManager<TechUser> _userManager;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService, UserManager<TechUser> userManager)
         {
             _orderService = orderService;
+            _userManager = userManager;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View("checkout");
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+
+            // Get user's address and phone number
+            var address = user.Address;
+            var phone = user.PhoneNumber;
+            ViewBag.Address = address;
+            ViewBag.Phone = phone;
+            ViewBag.UserId = userId;
+            var cartItems = HttpContext.Session.Get<List<CartItemDto>>("Cart") ?? new List<CartItemDto>();
+         
+            return View("checkout",cartItems);
         }
 
         public async Task<IActionResult> GetAllOrders(string UserId)
