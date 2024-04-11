@@ -248,3 +248,38 @@ span {
 .pagination {
     padding:20px;
 }
+
+
+
+@media (max-width: 768px) {
+    .radio-label,
+    .radio-text {
+        font-size: 14px; /* Adjust font size as needed */
+    }
+}
+
+/* Adjust icon size for smaller screens */
+@media (max-width: 768px) {
+    .plus-icon i {
+        font-size: 18px; /* Adjust icon size as needed */
+    }
+}
+
+/* Adjust radio button size for smaller screens */
+@media (max-width: 768px) {
+    input[type="radio"] {
+        transform: scale(1.5); /* Adjust radio button size as needed */
+        margin-right: 5px; /* Adjust margin as needed */
+    }
+}
+@media (max-width: 768px) {
+    .discount{
+        font-size: 16px; /* Adjust font size as needed */
+    }
+}
+
+@media (max-width: 576px) {
+    .discount{
+        font-size: 16px; /* Adjust font size as needed */
+    }
+}

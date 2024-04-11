@@ -12,11 +12,11 @@
             <div class="col-6">
                     <div class="row">
                         <div class="col-2">
-                            <div class="controller" style="display: flex; flex-direction: column;">
+                        <div class="controller"style="flex-direction:column">
                                 @foreach (var image in Model.Entity.productsDtos.Images)
                                 {
                                     <div class="controller-image">
-                                        <img class="product-image-photo" data-src="@image">
+                                    <img class="product-image-photo" src="@image" data-src="@image">
                                     </div>
                                 }
                             </div>

@@ -4,27 +4,23 @@
 }
 
     .image img {
-        width: 80%;
-        height: 15%;
+        width: auto; /* Adjust based on aspect ratio */
+        height: 150px; /* Set a fixed height */
         transition: 0.5s;
     }
-
 .container {
     width: 90%;
+    margin: 0 auto;
 }
 
 .controller {
-    position: absolute;
-    left: 50%;
-    bottom: 0px;
-    transform: translateX(-50%);
-    padding: 10px;
+    position: relative; /* Change position to relative */
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: fit-content;
+    width: 100%; /* Take full width */
     flex-wrap: wrap;
-    min-width: 320px;
 }
 
     .controller img {
@@ -35,7 +31,7 @@
         border-radius: 15px;
         padding: 5px;
         margin: 10px;
-        object-fit: contain;
+        object-fit: cover;
         cursor: pointer;
         transition: 0.3s;
     }
@@ -85,4 +81,17 @@ button {
 
 .content {
     margin-top: 5vw;
+    padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+    .image img {
+        height: 100px; /* Adjust height for smaller screens */
+    }
+}
+
+@media (max-width: 576px) {
+    .image img {
+        height: 80px; /* Further adjust height for smaller screens */
+    }
 }

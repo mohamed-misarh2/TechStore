@@ -138,43 +138,43 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
 
-        [HttpPut("Filterr")]
-        public async Task<IActionResult> Filterr(FillterProductsDtos fillterProductsDtos, int ItemsPerPage, int PageNumber)
-        {
-            if (ModelState.IsValid)
-            {
-                var products = await _productService.FilterProducts(fillterProductsDtos, ItemsPerPage, PageNumber);
-                return Ok(products);
-            }
-            return BadRequest(ModelState);
+        //[HttpPut("Filterr")]
+        //public async Task<IActionResult> Filterr(FillterProductsDtos fillterProductsDtos, int ItemsPerPage, int PageNumber)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var products = await _productService.FilterProducts(fillterProductsDtos, ItemsPerPage, PageNumber);
+        //        return Ok(products);
+        //    }
+        //    return BadRequest(ModelState);
             
-        }
+        //}
 
 
-        [HttpGet("SortProductsByDescending")]
-        public async Task<IActionResult> SortProductsByDescending(int ItemsPerPage, int PageNumber)
-        {
-            if (ModelState.IsValid)
-            {
-                var products = await _productService.SortProductsByDesending(ItemsPerPage, PageNumber);
-                return Ok(products);
-            }
-            return BadRequest(ModelState);
+        //[HttpGet("SortProductsByDescending")]
+        //public async Task<IActionResult> SortProductsByDescending(int ItemsPerPage, int PageNumber)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var products = await _productService.SortProductsByDesending(ItemsPerPage, PageNumber);
+        //        return Ok(products);
+        //    }
+        //    return BadRequest(ModelState);
 
-        }
+        //}
 
 
-        [HttpGet("SortProductsByAscending")]
-        public async Task<IActionResult> SortProductsByAscending(int ItemsPerPage, int PageNumber)
-        {
-            if (ModelState.IsValid)
-            {
-                var products = await _productService.SortProductsByAscending(ItemsPerPage, PageNumber);
-                return Ok(products);
-            }
-            return BadRequest(ModelState);
+        //[HttpGet("SortProductsByAscending")]
+        //public async Task<IActionResult> SortProductsByAscending(int ItemsPerPage, int PageNumber)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var products = await _productService.SortProductsByAscending(ItemsPerPage, PageNumber);
+        //        return Ok(products);
+        //    }
+        //    return BadRequest(ModelState);
 
-        }
+        //}
 
 
         //search
