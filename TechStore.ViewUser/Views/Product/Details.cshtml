@@ -131,8 +131,8 @@
 {
        
     <div class="container">
-        <div class="row">
-                <div class="col-8">
+        <div class="row" style="padding-top:2vw;">
+            <div class="col-6">
                     <div class="row">
                         <div class="col-2">
                             <div class="hidden" ><p id="productId">@Model.Entity.productsDtos.Id</p> </div>
@@ -150,9 +150,10 @@
                                 <img id="productImg" width="500" height="500" alt="" src="@Model.Entity.productsDtos.Images.FirstOrDefault()">
                             </div>
                         </div>
-                    </div>
                 </div>
-            <div class="col-4">
+            </div>
+
+            <div class="col-6 content">
                     @if (@Model.Entity.productsDtos.DiscountValue > 0)
                     {
                         
@@ -173,7 +174,21 @@
                         <p id="Description" style="font-size:25px">@Model.Entity.productsDtos.Description</p>
                         <h2>@Model.Entity.productsDtos.Price EGP</h2>
                     }
-                    <button style="width:30vw;height:7vh; " class="btn btn-dark">Add To Cart</button>
+                    <!-- Form for adding product to the cart -->
+                    <form id="addToCartForm" asp-action="AddToCart" asp-controller="Cart" method="post">
+                        <input type="hidden" name="productId" value="@Model.Entity.productsDtos.Id" />
+                        <input type="hidden" name="Description" value="@Model.Entity.productsDtos.Description" />
+                        @* checkdiscount *@
+                        <input type="hidden" name="price" value="@Model.Entity.productsDtos.Price" />
+                        <input type="hidden" name="DiscountValue" value="@Model.Entity.productsDtos.DiscountValue" />
+                        <input type="hidden" name="DiscountedPrice" value="@Model.Entity.productsDtos.DiscountedPrice" />
+                        <input type="hidden" name="CopyQuantity" value="@Model.Entity.productsDtos.Quantity" />
+                        <input type="hidden" name="image" value="@Model.Entity.productsDtos.Images.FirstOrDefault()" />
+                        <input type="hidden" name="quantity" value="1" min="1" />
+                        <button id="addToCartButton" style="width:30vw;height:7vh; " class="btn btn-dark"><i class="fas fa-shopping-cart"></i> Add To Cart</button>
+                    </form>
+                
+                    
             </div>
         </div>
     </div>
@@ -192,15 +207,16 @@ else
                 <thead>
                 <th>Specification</th>
                 </thead>
+
                 <tbody>
-                @foreach (var specification in Model.Entity.specificationsNameValueDtos)
-                {
+                    @foreach (var specification in Model.Entity.specificationsNameValueDtos)
+                    {
                   
-                    <tr>
-                      <th>@specification.Name</th>
-                      <td>@specification.Value</td>
-                    </tr>
-                }
+                        <tr>
+                          <th>@specification.Name</th>
+                          <td>@specification.Value</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         }

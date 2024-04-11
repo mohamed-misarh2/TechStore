@@ -1,0 +1,285 @@
+﻿body {
+}
+.item {
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    transition: box-shadow 0.3s ease;
+}
+
+    .item p {
+        font-size: 0.9vw;
+        max-width: 100%;
+    }
+
+    .item h3 {
+        font-size: 0.9vw;
+        font-weight: 800;
+    }
+
+    .item:hover {
+        box-shadow: 0 0 7px rgba(0, 0, 0, 0.5);
+    }
+
+    .item img {
+        width: 90%;
+        height: 30vh;
+    }
+
+span {
+    font-size: 0.7vw;
+}
+
+.Discount {
+    font-size: 0.7vw;
+    margin-left: 0.1vw;
+}
+
+
+.radio-label {
+    display: inline-block;
+    position: relative;
+    margin-right: 10px;
+}
+
+
+    .radio-label input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+.radio-custom {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+
+.radio-label input[type="radio"]:checked + .radio-custom {
+    background-color: black;
+    cursor: pointer;
+}
+
+.radio-label:hover {
+    cursor: pointer;
+}
+
+.radio-text {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 30px;
+    font-size: 1vw;
+}
+
+.brand p {
+    font-weight: 700;
+    font-size: 1.2vw;
+}
+
+.fa-plus {
+    font-size: 1vw;
+}
+
+.plus-icon {
+    cursor: pointer;
+}
+
+    .plus-icon:hover {
+        cursor: pointer;
+    }
+
+.sort-options {
+    margin-bottom: 20px;
+}
+
+    .sort-options label {
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .sort-options select {
+        padding: 8px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        cursor: pointer;
+    }
+
+        .sort-options select:hover {
+            border-color: #999;
+        }
+
+        .sort-options select:focus {
+            outline: none;
+            border-color: #66afe9;
+            box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
+        }
+
+@media (max-width: 768px) {
+    /* Adjust font sizes for smaller screens */
+    .item p,
+    .item h3,
+    .radio-text,
+    .brand p,
+    .fa-plus {
+        font-size: 1.2vw; /* Adjust the font size as needed */
+    }
+}
+
+@media (max-width: 576px) {
+    /* Further adjust font sizes for extra small screens */
+    .item p,
+    .item h3,
+    .radio-text,
+    .brand p,
+    .fa-plus {
+        font-size: 1vw; /* Adjust the font size as needed */
+    }
+}
+
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+    .item {
+        padding: 10px;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    .item {
+        padding: 15px;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .item {
+        padding: 20px;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .item {
+        padding: 25px;
+    }
+}
+
+/* Adjust image size */
+.product-image-photo {
+    width: 100%; /* Make the image fill the container width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Adjust font sizes */
+.item p,
+.item h3 {
+    font-size: 16px; /* Adjust the font size as needed */
+}
+
+/* Adjust discounted price font size */
+.discounted-price {
+    font-size: 18px; /* Adjust the font size as needed */
+}
+.price-container {
+    font-size: 14px; /* Set initial font size */
+    display: block; /* Ensure the container takes full width */
+    margin-top: 5px; /* Add margin for spacing */
+}
+
+.price-wrapper {
+    text-decoration: line-through;
+}
+
+.Discount {
+    font-size: 14px; /* Set font size for the discount label */
+    color: red;
+}
+
+/* Adjust font sizes and spacing for smaller screens */
+@media screen and (max-width: 767px) {
+    .price-container {
+        font-size: 12px; /* Reduce font size for smaller screens */
+    }
+
+    .Discount {
+        font-size: 12px; /* Reduce font size for smaller screens */
+    }
+}
+.price-wrapper {
+    font-size: 16px; /* Set initial font size */
+    text-decoration: line-through;
+}
+
+/* Adjust font size for smaller screens */
+@media screen and (max-width: 767px) {
+    .price-wrapper {
+        font-size: 14px; /* Reduce font size for smaller screens */
+    }
+}
+
+
+.radio-label input[type="radio"] {
+    font-size: 16px; /* Adjust the font size as needed */
+}
+
+/* Font size for smaller screens */
+@media (max-width: 768px) {
+    .radio-label input[type="radio"] {
+        font-size: 14px; /* Adjust the font size for smaller screens */
+    }
+}
+
+/* Font size for even smaller screens */
+@media (max-width: 576px) {
+    .radio-label input[type="radio"] {
+        font-size: 12px; /* Adjust the font size for even smaller screens */
+    }
+}
+
+.pagination {
+    padding:20px;
+}
+
+
+
+@media (max-width: 768px) {
+    .radio-label,
+    .radio-text {
+        font-size: 14px; /* Adjust font size as needed */
+    }
+}
+
+/* Adjust icon size for smaller screens */
+@media (max-width: 768px) {
+    .plus-icon i {
+        font-size: 18px; /* Adjust icon size as needed */
+    }
+}
+
+/* Adjust radio button size for smaller screens */
+@media (max-width: 768px) {
+    input[type="radio"] {
+        transform: scale(1.5); /* Adjust radio button size as needed */
+        margin-right: 5px; /* Adjust margin as needed */
+    }
+}
+@media (max-width: 768px) {
+    .discount{
+        font-size: 16px; /* Adjust font size as needed */
+    }
+}
+
+@media (max-width: 576px) {
+    .discount{
+        font-size: 16px; /* Adjust font size as needed */
+    }
+}

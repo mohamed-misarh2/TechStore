@@ -27,10 +27,11 @@ namespace TechStore.Application.Contract
         Task<IQueryable<Product>> GetProductsByWarranty(string Warranty);
 
         //sort
-        Task<IQueryable<Product>> GetProductsByDescending();
-        Task<IQueryable<Product>> GetProductsByAscending();
-        Task<IQueryable<Product>> FilterProducts(FillterProductsDtos criteria);
+        Task<IQueryable<Product>> GetProductsByDescending(int categoryId);
+        Task<IQueryable<Product>> GetProductsByAscending(int categoryId);
+        Task<IQueryable<Product>> FilterProducts(FillterProductsDtos criteria, int categoryId);
         Task<List<string>> GetBrands(int categoryid);
         Task<IQueryable<Image>> GetImagesByProductId(int ProductId);
+        Task<IQueryable<string>> GetAllBrands();
     }
 }

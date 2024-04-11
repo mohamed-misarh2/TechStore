@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using TechStore.Application.Contract;
 using TechStore.Application.Services;
 using TechStore.Context;
@@ -39,7 +40,18 @@ namespace TechStore.ViewUser
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
             builder.Services.AddScoped<IspecificationsRepository, SpecificationsRepository>();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddSession(options =>
+            {
+                options.Cookie.Name = "TechStore.Session";
+                options.IdleTimeout = TimeSpan.FromDays(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+                options.Cookie.MaxAge = TimeSpan.FromDays(30);
+            });
 
+
+       
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -48,10 +60,14 @@ namespace TechStore.ViewUser
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
-
             app.UseRouting();
+            app.UseSession();
+
+
+           
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",

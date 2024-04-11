@@ -32,7 +32,6 @@ namespace TechStore.Models
         public Order()
         {
             OrderItems = new List<OrderItem>();
-            Payments = new List<Payment>();
         }
     }
 }

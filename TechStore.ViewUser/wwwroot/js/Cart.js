@@ -187,7 +187,28 @@ document.querySelectorAll(".btn").forEach(btn => {
      
   });
 });
+function toggleDescription() {
+    var description = document.getElementById('productDescription');
+    if (description.style.display === 'none') {
+        description.style.display = 'block';
+    } else {
+        description.style.display = 'none';
+    }
+}
 
+var quantityDropdown = document.getElementById("quantityDropdown");
+
+quantityDropdown.addEventListener("change", function () {
+    document.getElementById("updateQuantityForm").submit();
+});
+
+$(document).ready(function () {
+    $('#quantityDropdown').hide();
+
+    $('#dropdownIcon').click(function () {
+        $('#quantityDropdown').toggle();
+    });
+});
 
 // var cartItems = JSON.parse(localStorage.getItem('mycartapp')) || [];
 

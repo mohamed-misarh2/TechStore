@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <BaseOutputPath>C:\Users\A\source\repos\TechStore\TechStore.Models\obj\Debug\net8.0\ref</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
