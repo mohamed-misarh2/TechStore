@@ -139,7 +139,7 @@ window.onload = function() {
 
 
 
-// localStorage.setItem('mycartapp', JSON.stringify(null)); 
+ /*localStorage.setItem('mycartapp', JSON.stringify(null)); */
 
 //Relod page////////////////
 window.onload = function() {
