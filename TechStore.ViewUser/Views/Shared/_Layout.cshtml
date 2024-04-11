@@ -14,11 +14,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="~/css/ProductsByCategory.css" />
     <link rel="stylesheet" href="~/css//Details.css"/>
+    <link rel="stylesheet" href="~/css/home.css" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    
+
 </head>
     
     
 
-<body>
+<body >
     <div class="nav-top-style">
         <div class="container navbar-top_contet">
             <div class="row ">
@@ -35,85 +41,80 @@
         </div>
 
     </div>
-    <div>
-        <div class="container ofset">
-            <span></span>
-
-
-        </div>
-    </div>
-    <header class="navbar navbar-expand-lg navbar-light container">
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- <div class="col-1"></div> -->
-        <div class="col-12 collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <img class="nav-link mr-sm-5" src="~/imag-slide/tech-02.png" alt="" width="150">
-                </li>
-                <li class="nav-item dropdown mr-sm-3">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
-                        Categories
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" asp-controller="Product" asp-action="Mobile">Mobile & Tablet</a>
-                        <a class="dropdown-item" asp-controller="Product" asp-action="Laptop">Labtop </a>
-                        <a class="dropdown-item" asp-controller="Product" asp-action="Screen">Screen </a>
-                        <a class="dropdown-item" asp-controller="Product" asp-action="SmartWatch">Smart Watch</a>
-                    </div>
-                </li>
-
-                <li class="nav-item">
-                    <form asp-controller="Product" asp-action="Search" method="get" class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-5 custom-search-width" style="width: 500px;" type="text"
-                               placeholder="Search For Products Or brands" name="name">
-                        <button class="btn btn-outline-success my-2 my-sm-0 d-none" type="submit">Search</button>
-                    </form>
-                </li>
-
-
-                 @if (User.Identity.IsAuthenticated)
-                {
-                    <li class="nav-item d-none">
-                        <a class="nav-link mr-sm-5 fas fa-user" asp-area="" asp-controller="Account" asp-action="Login">My account</a>
-
-                    </li>
-                }
-                else
-                {
-                    <li class="nav-item">
-                        <a class="nav-link mr-sm-5 fas fa-user" asp-area="" asp-controller="Account" asp-action="Login">My account</a>
-
-                    </li>
-                }
-                <li class="nav-item">
-                    <a class="nav-link mr-sm-2" asp-controller="Cart" asp-action="Index"><i class="fas fa-shopping-cart"></i> Cart</a>
-                </li>
-
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <li class="nav-item">
-                        <a class="nav-link mr-sm-5 " asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-
-                    </li>
-                }
-            </ul>
-        </div>
-
-    </header>
    
-    <div class="container-fluid">
+		<header class="navbar navbar-expand-lg navbar-light container  ">
+
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+					aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<!-- <div class="col-1"></div> -->
+			<div class="col-12 collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<img class="nav-link mr-sm-5" src="~/imag-slide/tech-02.png" alt="" width="150">
+					</li>
+					<li class="nav-item dropdown mr-sm-3">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+						   aria-haspopup="true" aria-expanded="false">
+							Categories
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" asp-controller="Product" asp-action="Mobile">Mobile & Tablet</a>
+							<a class="dropdown-item" asp-controller="Product" asp-action="Laptop">Labtop </a>
+							<a class="dropdown-item" asp-controller="Product" asp-action="Screen">Screen </a>
+							<a class="dropdown-item" asp-controller="Product" asp-action="SmartWatch">Smart Watch</a>
+						</div>
+					</li>
+
+					<li class="nav-item">
+						<form asp-controller="Product" asp-action="Search" method="get" class="form-inline my-2 my-lg-0">
+							<input class="form-control mr-sm-5 custom-search-width" style="width: 500px;" type="text"
+								   placeholder="Search For Products Or brands" name="name">
+							<button class="btn btn-outline-success my-2 my-sm-0 d-none" type="submit">Search</button>
+						</form>
+					</li>
+
+
+					@if (User.Identity.IsAuthenticated)
+					{
+						<li class="nav-item d-none">
+							<a class="nav-link mr-sm-5 fas fa-user" asp-area="" asp-controller="Account" asp-action="Login">My account</a>
+
+						</li>
+					}
+					else
+					{
+						<li class="nav-item">
+							<a class="nav-link mr-sm-5 fas fa-user" asp-area="" asp-controller="Account" asp-action="Login">My account</a>
+
+						</li>
+					}
+					<li class="nav-item">
+						<a class="nav-link mr-sm-2" asp-controller="Cart" asp-action="Index"><i class="fas fa-shopping-cart"></i> Cart</a>
+					</li>
+
+					@if (User.Identity.IsAuthenticated)
+					{
+						<li class="nav-item">
+							<a class="nav-link mr-sm-5 " asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+
+						</li>
+					}
+				</ul>
+			</div>
+
+		</header>
+
+
+   
+    <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
     <!-- Footer -->
-    <footer class="footer-bg text-center  text-lg-start  text-muted ">
-
+     <footer class="footer-bg text-center  text-lg-start  text-muted  ">
         <!-- Section: Social media -->
         <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom container">
 
@@ -243,7 +244,7 @@
             <a class="text-reset fw-bold" href="https://mdbootstrap.com/">Terms & Conditions</a>
         </div>
         <!-- Copyright -->
-    </footer>
+    </footer> 
 
 
 
@@ -273,7 +274,11 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <script src="./main.js"></script>
+
+
+    <script src="~/js/Home.js"></script>
+
+    <script src="~/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -665,7 +665,7 @@ namespace TechStore.Application.Services
             {
               
                 var products = (await _productRepository.GetDiscountedProducts())
-                               .Where(p => p.IsDeleted != false)
+                               .Where(p => p.IsDeleted == false)
                                .ToList();
 
                 if (products is null)
