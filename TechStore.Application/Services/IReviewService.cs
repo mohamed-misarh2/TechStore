@@ -15,8 +15,8 @@ namespace TechStore.Application.Services
         Task<ResultView<CreateOrUpdateReviewDto>> UpdateReview(CreateOrUpdateReviewDto createOrUpdateReview);
         Task<ResultView<CreateOrUpdateReviewDto>> HardDeleteReview(CreateOrUpdateReviewDto createOrUpdateReview);
         Task<ResultView<CreateOrUpdateReviewDto>> SoftDeleteReview(CreateOrUpdateReviewDto createOrUpdateReview);
-        Task<ResultDataList<GetAllReviewDto>> GetAllPaginationReview(int items, int pagenumber);
-
+        Task<ResultDataList<GetAllReviewDto>> GetAllPaginationReview(int items, int pagenumber );
+        Task<ResultDataList<GetAllReviewDto>> GetAllReviewByProduct(int items, int pagenumber, int id);
         Task<CreateOrUpdateReviewDto> GetOneReview(int id);
 
 

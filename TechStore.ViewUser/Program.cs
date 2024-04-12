@@ -71,7 +71,7 @@ namespace TechStore.ViewUser
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Cart}/{id?}");
            
 
             app.Run();

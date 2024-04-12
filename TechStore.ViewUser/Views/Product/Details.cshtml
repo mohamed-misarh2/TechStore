@@ -1,12 +1,135 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+
 @{
+   
 }
 @model ResultView<GetProductSpecificationNameValueDtos>
+<html>
+    <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            .image {
+                flex: 0 1 20%;
+            }
 
-    @if (Model.Entity != null && Model.Entity.productsDtos != null)
+            .image img {
+                width: 100%;
+                transition: 0.5s;
+            }
+
+            .controller {
+                position: absolute;
+                left: 50%;
+                bottom: 0px;
+                transform: translateX(-50%);
+                padding: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: fit-content;
+                flex-wrap: wrap;
+                min-width: 320px;
+            }
+
+            .controller img {
+                width: 80px;
+                height: 80px;
+                border: 1px solid white;
+                box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+                border-radius: 15px;
+                padding: 5px;
+                margin: 10px;
+                object-fit: contain;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 50px auto;
+            width: 80%;
+            font-size: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border-bottom: 1px solid;
+            text-align: left;
+            padding: 15px;
+        }
+
+        thead th {
+            font-size: 30px;
+            border: none;
+        }
+
+        .number-product {
+            background-color: rgb(231, 232, 232);
+            border: 1px rgb(241, 241, 241) solid;
+            font-weight: 100;
+            padding: 3px;
+            border-radius: 46%;
+            width: 30px;
+            text-align: center;
+            height: 30px;
+            margin-left: 4px;
+        }
+
+        .cart-number {
+            font-weight: bold;
+            margin-left: 0.4rem;
+            display: flex;
+            padding: 1rem;
+        }
+
+
+        .hidden{
+            display:none
+        }
+
+      
+
+        .pagination_review{
+           display:flex;
+           justify-content:center;
+           justify-items:center;
+          margin:0;
+          
+        }
+
+        .reviews_product {
+           justify-content:center;
+           margin:0;
+           padding:0;
+         
+        }
+
+        .Review {
+            border: 1px rgb(241, 241, 241) solid;
+            box-shadow: 0px 0px 10px rgba(190, 189, 189, 0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        
+          justify-content:center;
+        }
+
+       
+           
+        </style>
+
+    </head>
+    <body>
+ 
+        @if (Model.Entity != null && Model.Entity.productsDtos != null)
 {
+       
     <div class="container">
         <div class="row" style="padding-top:2vw;">
             <div class="col-6">
@@ -23,7 +146,7 @@
                         </div>
                         <div class="col-10">
                             <div class="image">
-                                <img alt="" src="@Model.Entity.productsDtos.Images.FirstOrDefault()">
+                                <img id="productImg" width="500" height="500" alt="" src="@Model.Entity.productsDtos.Images.FirstOrDefault()">
                             </div>
                         </div>
                 </div>
@@ -32,9 +155,10 @@
             <div class="col-6 content">
                     @if (@Model.Entity.productsDtos.DiscountValue > 0)
                     {
-                        <h4 class="name">@Model.Entity.productsDtos.ModelName</h4>
-                        <p class="Discrp">@Model.Entity.productsDtos.Description</p>
-                        <h3 class="price">@String.Format("{0:#,0}", Model.Entity.productsDtos.DiscountedPrice) EGP</h3>
+                        
+                        <h4>@Model.Entity.productsDtos.ModelName</h4>
+                        <p id="Description" style="font-size:25px">@Model.Entity.productsDtos.Description</p>
+                        <h3 id="descount">@Model.Entity.productsDtos.DiscountedPrice EGP</h3>
                         <span class="price-container">
                             <span id="product-price-@(Model.Entity.productsDtos.Id)" data-price-amount="@Model.Entity.productsDtos.Price" data-price-type="finalPrice" class="price-wrapper" style="text-decoration:line-through">
                                 @Model.Entity.productsDtos.Price <span class="currency"></span>
@@ -45,9 +169,9 @@
                     }
                     else
                     {
-                        <h2 class="name">@Model.Entity.productsDtos.ModelName</h2>
-                        <p class="Discrp">@Model.Entity.productsDtos.Description</p>
-                        <h2 class="price">@String.Format("{0:#,0}",Model.Entity.productsDtos.Price) EGP</h2>
+                        <h2>@Model.Entity.productsDtos.ModelName</h2>
+                        <p id="Description" style="font-size:25px">@Model.Entity.productsDtos.Description</p>
+                        <h2>@Model.Entity.productsDtos.Price EGP</h2>
                     }
                     <!-- Form for adding product to the cart -->
                     <form id="addToCartForm" asp-action="AddToCart" asp-controller="Cart" method="post">
@@ -96,3 +220,176 @@ else
             </table>
         }
     </div>
+ 
+
+
+
+    <div class="container">
+        <div class="reviews_product col-12">
+            <div class=" Review col-11 col-sm-12">
+    @if (Model.Entity != null && Model.Entity.productsDtos.Id != null)
+    { 
+      
+        <div id="Review"></div>
+    }
+                <div class="row col-lg-12 col-sm-12  col-md-6  pagination_review">
+        <div class="row col-lg-6 col-md-6 col-sm-12 col-12">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination" id="paginationList">
+                </ul>
+            </nav>
+        </div>
+                </div>
+        </div>
+    </div>
+    </div>
+    <div id="sidebar"></div>
+
+
+   
+   
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+   
+
+    <script>
+        $(document).ready(function () {
+       
+        
+             var _productId = parseInt($('#productId').text());
+          
+            if (_productId !== 0) {
+                $.ajax({
+                    url: '/Review/IndexReview', 
+                    type: 'GET',
+                        data: { id: _productId },
+                success: function(response) {
+                       
+                    $('#Review').html(response);
+                    },
+            error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                }); 
+        }
+       }
+    
+        );
+
+
+
+        var pages = ["1", "2", "3", "4", "5", "6", "7"];
+        var currentPageIndex = 0;
+
+        // Function to create pagination elements
+        function createPageElements() {
+            var paginationList = document.getElementById("paginationList");
+            paginationList.innerHTML = ""; // Clear previous elements
+
+            // Add new page items to the pagination
+            for (var i = currentPageIndex; i < currentPageIndex + 3; i++) {
+                if (i >= pages.length) break; // Check if index is within array bounds
+                var pageItem = document.createElement("li");
+                pageItem.className = "page-item";
+                var pageNumber = pages[i];
+                pageItem.innerHTML = `<a class="page-link" onclick="sendPageNumber(${pageNumber})">${pageNumber}</a>`;
+                paginationList.appendChild(pageItem);
+            }
+
+            // Add "Next" button
+            var nextButton = document.createElement("li");
+            nextButton.className = "page-item";
+            nextButton.innerHTML = '<a class="page-link" >Next</a>';
+            nextButton.onclick = nextPage;
+            paginationList.appendChild(nextButton);
+
+            // Add "Previous" button
+            var prevButton = document.createElement("li");
+            prevButton.className = "page-item";
+            prevButton.innerHTML = '<a class="page-link">Previous</a>';
+            prevButton.onclick = previousPage;
+            paginationList.insertBefore(prevButton, paginationList.firstChild);
+        }
+
+        // Function to navigate to next page
+        function nextPage() {
+            if (currentPageIndex + 3 < pages.length) {
+                currentPageIndex++;
+                createPageElements();
+            } else {
+                increasePageNumbers();
+                currentPageIndex++;
+                createPageElements();
+            }
+        }
+
+        // Function to navigate to previous page
+        function previousPage() {
+            if (currentPageIndex > 0) {
+                currentPageIndex--;
+                createPageElements();
+            }
+        }
+
+        // Function to increase page numbers
+        function increasePageNumbers() {
+            var lastPage = parseInt(pages[pages.length - 1]);
+            for (var i = 1; i <= 3; i++) {
+                pages.push((lastPage + i).toString());
+            }
+        }
+
+        // Function to send selected page number to controller using AJAX
+        function sendPageNumber(pageNumber) {
+
+
+            var _page = pageNumber-1 ;
+            var _productId = parseInt($('#productId').text());
+            console.log(_page)
+            console.log(_productId)
+            $.ajax({
+                type: "GET",
+                url: "/Review/IndexReview?id=" + _productId + "&page=" + _page,
+               // data: { id: _productId, count: _count },
+                success: function (response) {
+                 
+                    $('#Review').html(response);
+                    console.log("Page number sent successfully:", _page);
+                
+                
+                },
+                error: function (xhr, status, error) {
+
+                    console.error("Error sending page number:", error);
+                }
+            });
+        }
+
+        // Initial creation of pagination elements
+        createPageElements();
+       
+        createPageElements();
+        createPageElements();
+        createPageElements();
+        window.onload = function () {
+            var imgs = document.querySelectorAll(".controller img");
+            var mainImage = document.querySelector(".image img");
+            var hs = document.querySelector("h2");
+
+            imgs.forEach((ele) => {
+                ele.onclick = function () {
+                    mainImage.src = ele.dataset.src; // Change the source of the main image
+                };
+            });
+        };
+       
+      
+      
+     
+
+    </script>
+
+</body>
+</html>
+

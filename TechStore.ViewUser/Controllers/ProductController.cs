@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Security.Claims;
 using TechStore.Application.Services;
 using TechStore.Dtos.ProductDtos;
+using TechStore.Models;
+using TechStore.Dtos.ReviewDtos;
+using TechStore.Dtos.ViewResult;
 using TechStore.Models;
 using TechStore.ViewUser.Models;
 using Microsoft.AspNetCore.Http;
@@ -12,10 +16,13 @@ namespace TechStore.ViewUser.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
+        private readonly IReviewService _ReviewService;
 
         public ProductController(IProductService productService,IHttpContextAccessor httpContextAccessor)
+        public ProductController(IProductService productService ,IReviewService reviewService)
         {
             _productService = productService;
+            _ReviewService= reviewService;
         }
         public IActionResult Index()
         {
@@ -114,11 +121,16 @@ namespace TechStore.ViewUser.Controllers
             }
         }
         
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id )
         {
+            
+           
             try
             {
+                string UserId = User.Identity.Name;
+             
                 var result = await _productService.GetOne(id);
+                     
                 return View("Details",result);
             }
             catch (Exception ex)
