@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TechStore.Application.Services;
+using TechStore.Dtos.ProductDtos;
+using TechStore.ViewUser.ExtenstionMethods;
 
 
 namespace TechStore.ViewUser.Controllers
@@ -17,6 +20,7 @@ namespace TechStore.ViewUser.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.cart = HttpContext.Session.Get<List<CartItemDto>>("Cart") ?? new List<CartItemDto>();
             return View("checkout");
         }
 

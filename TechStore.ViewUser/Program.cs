@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using TechStore.Application.Contract;
 using TechStore.Application.Services;
 using TechStore.Context;
@@ -28,7 +29,7 @@ namespace TechStore.ViewUser
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<ICategorySpecificationsRepository, CategorySpecificationsRepository>();
-            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IProductService, Application.Services.ProductService>();//ambigous
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IproductCategorySpecifications,ProductCategorySpecificationsRepository>();
             builder.Services.AddScoped<IUserServices, UserServices>();
@@ -60,9 +61,12 @@ namespace TechStore.ViewUser
             app.UseStaticFiles();
 
             app.UseRouting();
+            StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
+
+            
 
             app.MapControllerRoute(
                 name: "default",
