@@ -1,0 +1,165 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    color: #0E001A !important;
+}
+
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.custom-dropdown select {
+    width: 60px; /* Adjust the width as needed */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 20px;
+    cursor: pointer;
+}
+
+.custom-dropdown .dropdown-icon {
+    font-size: 13px;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+.custom-dropdown .dropdown-icon:hover {
+    cursor: pointer;
+}
+
+h2 {
+    padding: 20px 0px;
+    color: #0E001A !important;
+}
+
+.order-card {
+    border-radius: 10px;
+    padding: 40px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3)
+}
+
+.order-header h3 {
+    margin-top: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.order-header p {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.order-details p {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.butnon {
+    padding-top: 10px;
+    text-align: end;
+}
+
+.btn {
+    background-color: #0E001A !important;
+    color:white;
+}
+
+
+@media (max-width: 768px) {
+    .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    .order-card {
+        padding: 25px;
+        margin-bottom: 20px;
+    }
+    .order-header h3 {
+        font-size: 15px;
+    }
+
+    .order-header p {
+        font-size: 12px;
+    }
+
+    .order-details p {
+        font-size: 12px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .butnon {
+        padding-top: 10px;
+        text-align: end;
+    }
+    .btn{
+        font-size:12px !important; 
+    }
+    body{
+        margin:0px !important;
+    }
+    .container {
+        max-width: 600px;
+    }
+    
+}
+
+
+@media (max-width: 576px) {
+    .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    .order-card {
+        padding: 25px;
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 900px) {
+    .order-card {
+        padding: 25px;
+        margin-bottom: 20px;
+    }
+
+    .order-header h3 {
+        font-size: 15px;
+    }
+
+    .order-header p {
+        font-size: 12px;
+    }
+
+    .order-details p {
+        font-size: 12px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .butnon {
+        padding-top: 10px;
+        text-align: end;
+    }
+
+    .btn {
+        font-size: 12px !important;
+    }
+  
+}
+
+
+

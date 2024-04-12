@@ -8,12 +8,12 @@ namespace TechStore.Application.Services
     {
         Task<ResultView<OrderDto>> CreateOrderAsync(OrderDto orderDto);
         Task<ResultDataList<GetAllOrderDto>> GetAllPaginationOrders(int ItemsPerPage, int PageNumber);
+        Task<ResultDataList<GetOrderDetailsDto>> GetOrderItems(int orderId);
         Task<ResultView<GetAllOrderDto>> GetOrderByIdAsync(int orderId);
         Task<ResultView<OrderDto>> HardDeleteOrderAsync(int orderId);
         Task<ResultView<OrderDto>> SoftDeleteOrderAsync(int orderId);
         Task<ResultView<OrderItemDto>> SoftDeleteOrderItemAsync(int orderItemId);
         Task<ResultView<OrderItemDto>> UpdateOrderItemQuantityAsync(int orderId, int orderItemId, int newQuantity);
-        Task<ResultView<GetAllOrderDto>> GetOrderWithItems(int orderId);
         Task<ResultView<GetOrderWithItemsDto>> GetOrderDetails(int orderId);
         Task<ResultView<OrderDto>> updateStatus(int OrderId, OrderStatus NewOrderStatus);
 
