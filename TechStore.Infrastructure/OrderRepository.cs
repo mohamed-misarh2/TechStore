@@ -28,9 +28,7 @@ namespace TechStore.Infrastructure
                     UserId = order.UserId,
                     OrderDate = order.OrderDate,
                     ShippingAddress = order.ShippingAddress,
-                    ShippingMethod = order.ShippingMethod,
-                    orderStatus = order.orderStatus,
-                    PaymentStatus = order.PaymentStatus,
+                    OrderStatus = order.OrderStatus,
                     TotalPrice = order.TotalPrice,
                     OrderItems = order.OrderItems.Select(orderitem => new OrderItem
                     {
@@ -63,9 +61,7 @@ namespace TechStore.Infrastructure
             var filteredOrders = _context.Orders
                 .Where(order =>
                        order.ShippingAddress.ToLower().Contains(searchTerm) ||
-                       order.ShippingMethod.ToLower().Contains(searchTerm) ||
-                       order.orderStatus.Value.ToString() == searchTerm ||
-                       order.PaymentStatus.ToLower().Contains(searchTerm)
+                       order.OrderStatus.Value.ToString() == searchTerm 
                 ).ToList();
 
             return Task.FromResult( filteredOrders);

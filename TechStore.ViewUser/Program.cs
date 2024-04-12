@@ -64,14 +64,11 @@ namespace TechStore.ViewUser
             }
             app.UseStaticFiles();
             app.UseRouting();
-<<<<<<< HEAD
             app.UseSession();
 
 
            
-=======
             StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
->>>>>>> origin/OmniaEzz
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
