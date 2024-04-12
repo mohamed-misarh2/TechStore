@@ -34,3 +34,6 @@ document.getElementById('addToCartButton').addEventListener('click', function (e
             console.error('Error adding item to cart:', error);
         });
 });
+
+
+
