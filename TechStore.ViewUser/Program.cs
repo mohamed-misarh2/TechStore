@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Stripe;
 using Microsoft.Extensions.Options;
+using Stripe;
 using TechStore.Application.Contract;
 using TechStore.Application.Services;
 using TechStore.Context;
@@ -63,9 +63,15 @@ namespace TechStore.ViewUser
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
-
             app.UseRouting();
+<<<<<<< HEAD
+            app.UseSession();
+
+
+           
+=======
             StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
+>>>>>>> origin/OmniaEzz
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
