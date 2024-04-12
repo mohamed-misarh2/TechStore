@@ -42,7 +42,7 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromForm] LoginDto model )
+        public async Task<IActionResult> Login( LoginDto model )
         {
             var data = await _userServices.LoginUser(model);
             if (data.IsSuccess)

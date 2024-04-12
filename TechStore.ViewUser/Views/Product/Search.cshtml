@@ -1,6 +1,8 @@
 ﻿@model ResultDataList<GetAllProductsDtos>
 @{
     ViewData["Title"] = "Search";
+    int pageSize = 6; // Assuming a default page size of 10
+    var pageNumber = ViewBag.PageNumber ?? 1;
 }
 
 <style>
@@ -78,7 +80,33 @@
                             </div>
                         }
                     }
+                    <section aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            @if (pageNumber > 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Search", new { name = ViewBag.Name, pageNumber = pageNumber - 1 })">Previous</a>
+                                </li>
+                            }
+                            @for (int i = 1; i <= Math.Ceiling((double)Model.Count / pageSize); i++)
+                            {
+                                <li class="page-item @(i == pageNumber ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("Search", new { name = ViewBag.Name, pageNumber = i })">@i</a>
+                                </li>
+                            }
+
+                            @if (pageNumber < Math.Ceiling((double)Model.Count / pageSize))
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Search", new { name = ViewBag.Name, pageNumber = pageNumber + 1 })">Next</a>
+                                </li>
+                            }
+
+
+                        </ul>
+                    </section>
                 }
+               
                 else
                 {
                     <p>No products found.</p>

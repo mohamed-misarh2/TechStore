@@ -1,118 +1,53 @@
 ﻿@model ResultDataList<GetAllProductsDtos>
+
 @{
-    ViewData["Title"] = "Mobile";
+    var categoryId = ViewBag.CategoryId;
+
+    int pageSize = 3; // Assuming a default page size of 10
+    var pageNumber = ViewBag.PageNumber ?? 1; // Retrieve the current page number from ViewBag
+    string actionName = ViewBag.ActionName ;
+}
+@{
+    ViewData["Title"] = @actionName;
 }
 
-<style>
-        .item {
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
-            transition: box-shadow 0.3s ease;
-        }
+@if(categoryId==1)
+{
+    <h1>Mobile</h1>
+}
+@if(categoryId==2)
+{
+    <h1>Laptop</h1>
+}
+@if(categoryId==3)
+{
+    <h1>Screen</h1>
+}
+@if(categoryId==4)
+{
+    <h1>SmartWatch</h1>
+}
 
-        .item p {
-            font-size: 0.9vw;
-            max-width:100%;
-        }
-
-        .item h3 {
-            font-size: 0.9vw;
-            font-weight: 800;
-        }
-
-        .item:hover {
-            box-shadow: 0 0 7px rgba(0, 0, 0, 0.5);
-        }
-
-        .item img {
-            width: 90%;
-            height:30vh;
-        }
-
-        span{
-            font-size:0.7vw;
-        }
-
-       .Discount{
-           font-size:0.7vw;
-           margin-left:0.1vw;
-       }
-
-
-        .radio-label {
-            display: inline-block;
-            position: relative;
-            margin-right: 10px;
-        }
-
-
-        .radio-label input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .radio-custom {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            left: 0;
-            width: 20px;
-            height: 20px;
-            background-color: white; 
-            border: 1px solid black; 
-            border-radius: 50%;
-        }
-
-        .radio-label input[type="radio"]:checked + .radio-custom {
-            background-color: black;
-            cursor:pointer;
-        }
-
-        .radio-label:hover {
-            cursor: pointer;
-        }
-
-        .radio-text {
-            display: inline-block;
-            vertical-align: middle;
-            margin-left: 30px;
-            font-size: 1vw;
-        }
-
-        .brand p{
-            font-weight:700;
-            font-size:1.2vw;
-        }
-
-        .fa-plus {
-            font-size: 1vw;
-        }
-
-        .plus-icon {
-            cursor: pointer; 
-        }
-
-        .plus-icon:hover {
-            cursor: pointer; 
-        }
-</style>
-
-<h1>Mobile</h1>
+<div class="sort-options">
+    <label for="sort-select">Sort by:</label>
+    <select id="sort-select">
+        <option value="">-- Select --</option>
+        <option value="ascending">Price (Low to High)</option>
+        <option value="descending">Price (High to Low)</option>
+    </select>
+</div>
 <div class="container">
     <div class="row">
 
-        <div class="col-md-4 mt-5">
+        <div class="col-lg-4 col-md-6 col-sm-12 mt-5">
             <div class="filter">
-
                 <form id="filterForm" action="/Product/Filter" method="post">
                     <div class="row">
                         <div class="col-md-7 brand">
-                            <p>Brand</p>
-
-                            <div class="radio-container d-none">
-                                @foreach(var brand in ViewBag.Brands){
+                            <h4 class="discount">Brand</h4>
+                            <div class="radio-container d-none" id="brandRadioContainer">
+                                @foreach (var brand in ViewBag.Brands)
+                                {
                                     <div>
                                         <label class="radio-label">
                                             <input type="radio" name="brand" onclick="check(this)" value="@brand" class="form-check-input" id="rad" />
@@ -120,85 +55,174 @@
                                             <span class="radio-text">@brand</span>
                                         </label>
                                     </div>
-                                    
                                 }
-                              
                             </div>
-                       
-
+                            <input type="hidden" name="categoryId" value="@categoryId" />
                         </div>
-
                         <div class="col-md-5">
-                            <span class="plus-icon" onclick="toggleRadioContainer()"><i class="fa fa-plus"></i></span>
+                            <span class="plus-icon" onclick="toggleRadioContainer('#brandRadioContainer')"><i class="fa fa-plus"></i></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7 brand">
+                            <h4 class="discount">Warranty</h4>
+                            <div class="radio-container d-none" id="warrantyRadioContainer">
+                                @foreach (var warranty in ViewBag.WarrantyOptions)
+                                {
+                                    <div>
+                                        <label class="radio-label">
+                                            <input type="radio" name="warranty" onclick="check(this)" value="@warranty" class="form-check-input" id="rad" />
+                                            <span class="radio-custom"></span> =
+                                            <span class="radio-text">@warranty</span>
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                            <input type="hidden" name="categoryId" value="@categoryId" />
+                        </div>
+                        <div class="col-md-5">
+                            <span class="plus-icon" onclick="toggleRadioContainer('#warrantyRadioContainer')"><i class="fa fa-plus"></i></span>
+                        </div>
+                    </div>
+                   
+                    <div class="row">
+                        <!-- Discount value filter -->
+                        <div class="col-md-7 brand">
+                            <h4 class="discount">Discount Value</h4>
+                            <div class="radio-container d-none" id="discountRadioContainer">
+                                <!-- Discount value options -->
+                                <div>
+                                    <label class="radio-label">
+                                        <input type="radio" name="discountValue" onclick="check(this)" value="5" class="form-check-input" id="rad" />
+                                        <span class="radio-custom"></span> =
+                                        <span class="radio-text">5%</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="radio-label">
+                                        <input type="radio" name="discountValue" onclick="check(this)" value="10" class="form-check-input" id="rad" />
+                                        <span class="radio-custom"></span> =
+                                        <span class="radio-text">10%</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="radio-label">
+                                        <input type="radio" name="discountValue" onclick="check(this)" value="15" class="form-check-input" id="rad" />
+                                        <span class="radio-custom"></span> =
+                                        <span class="radio-text">15%</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="radio-label">
+                                        <input type="radio" name="discountValue" onclick="check(this)" value="20" class="form-check-input" id="rad" />
+                                        <span class="radio-custom"></span> =
+                                        <span class="radio-text">20%</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="radio-label">
+                                        <input type="radio" name="discountValue" onclick="check(this)" value="25" class="form-check-input" id="rad" />
+                                        <span class="radio-custom"></span> =
+                                        <span class="radio-text">25%</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <input type="hidden" name="categoryId" value="@categoryId" />
+                        </div>
+                        <div class="col-md-5">
+                            <span class="plus-icon" onclick="toggleRadioContainer('#discountRadioContainer')"><i class="fa fa-plus"></i></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Min price filter -->
+                        <div class="col-md-6">
+                            <label for="minPrice">Min Price:</label>
+                            <input type="number" id="minPrice" name="minPrice" class="form-control" />
+                        </div>
+                        <!-- Max price filter -->
+                        <div class="col-md-6">
+                            <label for="maxPrice">Max Price:</label>
+                            <input type="number" id="maxPrice" name="maxPrice" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary btn-block">Apply</button>
                         </div>
                     </div>
                 </form>
             </div>
-
         </div>
-        <div class="col-md-8" >
-            <div class="row">
 
+
+        <div class="col-lg-8 col-md-6 col-sm-12">
+            <div class="row">
                 @if (Model != null && Model.Entities != null)
                 {
-                    for(int x = 0; x < 3; x++)
+                    @foreach (var product in Model.Entities)
                     {
-                        @foreach (var product in Model.Entities)
-                        {
-                            @if (product.DiscountValue > 0)
-                            {
-
-                                <div class="col-md-4 mt-4">
-                                    <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
-                                        <div class="item">
-                                            @if (product.Images != null && product.Images.Any())
-                                            {
-                                                <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
-                                            }                                        <p class="mt-3">@product.Description</p>
-                                            <h3 class="mt-3">@String.Format("{0:F2}", product.DiscountedPrice) EGP</h3>
-                                            
-                                            <span class="price-container">
-                                                <span id="product-price-@(product.Id)" data-price-amount="@product.Price" data-price-type="finalPrice" class="price-wrapper" style="text-decoration:line-through">
-                                                    @product.Price <span class="currency"></span>
-                                                </span>
-                                                <span class="Discount" style="color:red">   @product.DiscountValue% of</span>
+                        <div class="col-lg-4 col-md-6 col-sm-12 mt-4">
+                            <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
+                                <div class="item">
+                                    @if (product.Images != null && product.Images.Any())
+                                    {
+                                        <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
+                                    }
+                                    <p class="mt-3">@product.Description</p>
+                                    @if (product.DiscountValue > 0)
+                                    {
+                                        <h3 class="mt-3 discounted-price">@String.Format("{0:#,0}", product.DiscountedPrice) EGP</h3>
+                                        <span class="price-container">
+                                            <span id="product-price-@(product.Id)" data-price-amount="@product.Price" data-price-type="finalPrice" class="price-wrapper" style="text-decoration:line-through">
+                                                @product.Price <span class="currency"></span>
                                             </span>
-
-                                        </div>
-                                    </a>
+                                            <span class="Discount" style="color:red">@product.DiscountValue% off</span>
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <h3 class="mt-3">@String.Format("{0:#,0}", product.Price) EGP</h3>
+                                    }
                                 </div>
-
-                            }
-                            else
-                            {
-
-                                <div class="col-md-4 mt-4">
-                                    <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
-                                        <div class="item">
-                                            @if (product.Images != null && product.Images.Any())
-                                            {
-                                                <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
-                                            }
-                                            <p class="mt-3">@product.Description</p>
-                                            <h3 class="mt-3">@String.Format("{0:F2}", product.Price) EGP</h3>
-                                        </div>
-                                    </a>
-                                </div>
-
-                            }
-                        }
+                            </a>
+                        </div>
                     }
-                    
-                }
-                else
-                {
-                    <p>No products found.</p>
                 }
             </div>
         </div>
-    </div>
-</div>
 
+        <br />
+                <section aria-label="Page navigation" >
+            <!-- Pagination links -->
+                    <ul class="pagination justify-content-center">
+                        @if (pageNumber > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action(actionName, new { categoryId = ViewBag.CategoryId, pageNumber = pageNumber - 1, criteria = ViewBag.Criteria })">Previous</a>
+                            </li>
+                        }
+                        @for (int i = 1; i <= Math.Ceiling((double)Model.Count / pageSize); i++)
+                        {
+                            <li class="page-item @(i == pageNumber ? "active" : "")">
+                                <a class="page-link" href="@Url.Action(actionName, new { categoryId = ViewBag.CategoryId, pageNumber = i, criteria = ViewBag.Criteria })">@i</a>
+                            </li>
+                        }
+
+                        @if (pageNumber < Math.Ceiling((double)Model.Count / pageSize))
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action(actionName, new { categoryId = ViewBag.CategoryId, pageNumber = pageNumber + 1, criteria = ViewBag.Criteria })">Next</a>
+                            </li>
+                        }
+                    </ul>
+
+                </section>
+
+                 
+                
+            </div>
+        </div>
+ 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -221,9 +245,9 @@
         radioButton.checked = true;
     }
 
-    function toggleRadioContainer() {
-        var radioContainer = document.querySelector('.radio-container');
-        var plusIcon = document.querySelector('.plus-icon i');
+    function toggleRadioContainer(containerId) {
+        var radioContainer = document.querySelector(containerId);
+        var plusIcon = radioContainer.parentElement.nextElementSibling.querySelector('.plus-icon i');
 
         // Toggle visibility of the radio container
         radioContainer.classList.toggle('d-none');
@@ -238,6 +262,26 @@
         }
     }
 
+    $(document).ready(function () {
+        $(document).on('click', '.radio-label input[type="radio"]', function () {
+            var formId = $(this).closest('form').attr('id');
+            $('#' + formId).submit(); // Submit the form when a radio button is clicked
+        });
+});
 
+
+    $(document).ready(function () {
+        $('#sort-select').change(function () {
+            var selectedOption = $(this).val();
+            var categoryId = @ViewBag.CategoryId;
+            var pageNumber = @ViewBag.PageNumber;
+
+            if (selectedOption === 'ascending') {
+                window.location.href = '@Url.Action("SortByAscending", new { categoryId = ViewBag.CategoryId, pageNumber = ViewBag.PageNumber })';
+            } else if (selectedOption === 'descending') {
+                window.location.href = '@Url.Action("SortByDescending", new { categoryId = ViewBag.CategoryId, pageNumber = ViewBag.PageNumber })';
+            }
+        });
+    });
 </script>
 

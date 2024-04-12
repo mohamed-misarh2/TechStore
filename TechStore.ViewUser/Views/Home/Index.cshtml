@@ -1,34 +1,576 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Home Page";
+
+    var Products1 = ViewBag.Products1;
+
+    var Products2 = ViewBag.Products2;
+
+    var Products3 = ViewBag.Products3;
+
+    
+    var TopOfers1 = ViewBag.TopOfers1;
 }
 
-<div class="text-center">
-</div>
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
-<main>
-    <section class="main_slide container">
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img class="d-block w-100" src="./imag-slide/website_en_2368x800_galaxy_a15_partner_ftp_en_copy_1.jpg"
-                         alt="First slide">
-                </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="./imag-slide/website2368x800_en.jpg" alt="Second slide">
-                </div>
+       <style>
 
+        .swiper-container {
+            width: 100%;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+         .swiper-slide {
+          
+          
+        } 
+
+        .card {
+            width: 100%;
+            height: 30vh;
+            border:   1px solid #ddd;
+            
+            transition: box-shadow 0.3s ease;
+            margin-bottom: 20px;
+            
+        }
+
+           
+
+        .card-img-top {
+            
+            width: 100%;
+            height: 15vh;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .card-body {
+            padding: 10px;
+            
+        }
+
+   .card-body p{
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+   }
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .card-text {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .cart-price {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .cart-EGP {
+            font-size: 14px;
+            margin-left: 3px;
+        }
+
+       
+        
+
+        .swiper-pagination-bullet {
+            display: none;
+        }
+
+       
+        .swiper-slide{
+
+        }
+
+
+    </style>     
+   
+
+
+    <main class="main-container">
+
+        <!-- slider Home -->
+        <section class="container">
+            <div id="carouselExampleControlsHome" class="carousel slide  " data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" src="~/imag-slide/website_en_2368x800_galaxy_a15_partner_ftp_en_copy_1.jpg" alt="First slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="./imag-slide/website2368x800_en.jpg" alt="Second slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="./imag-slide/beko_april2368x800_web_banners_en.jpg" alt="Second slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="./imag-slide/nners_en.jpg" alt="Second slide">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControlsHome" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControlsHome" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
-            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
+        </section>  
+
+        <!-- Categories -->
+         <section class="container  ">
+            <div class="  p-2 text-center">
+                <div class="categories col-12 d-inline-block p-1 shadow">
+
+                    <div class="d-inline-block mx-4 text-center">
+                        <a asp-controller="Product" asp-action="Mobile" class="image-item">
+                            <img class="p-2" src="./image-Categories-slide/Mobile.webp" alt="" style="width: 125%;">
+                        </a>
+                        <h5 class="text-center" style="margin-top: 10px;">Mobile&Tablet</h5>
+                    </div>
+
+                    <div class="d-inline-block mx-4 text-center">
+                        <a asp-controller="Product" asp-action="Laptop" class="image-item">
+                            <img class="p-2" src="./image-Categories-slide/laptop.webp" alt="" style="width: 130%;">
+                        </a>
+                        <h5 class="text-center" style="margin-top: 10px;">Laptop</h5>
+                    </div>
+
+                    <div class="d-inline-block mx-4 text-center">
+                        <a asp-controller="Product" asp-action="SmartWatch" class="image-item">
+                            <img class="p-2" src="./image-Categories-slide/Smart Watch.webp" alt="" style="width: 130%;">
+                        </a>
+                        <h5 class="text-center" style="margin-top: 10px;">Smart Watch</h5>
+                    </div>
+
+                    <div class="d-inline-block mx-4 text-center">
+                        <a asp-controller="Product" asp-action="Screen" class="image-item">
+                            <img class="p-2" src="./image-Categories-slide/tv.webp" alt="" style="width: 130%;">
+                        </a>
+                        <h5 class="text-center" style="margin-top: 10px;">Screen</h5>
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+ 
+        
+        <!-- Product section 1 New arrivals -->
+
+        <section class="Product_section_1">
+            <div class="container container_wrapper">
+                <div class="swiper  p-2">
+                    <h1>New arrivals</h1>
+                    <div class="swiper-wrapper ">
+                        <!-- Slides -->
+                        @foreach (var pro1 in Products1)
+                        {
+
+                            <div class="swiper-slide m-1  " >
+                                <div class="card  ">
+                                    <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@pro1.Id">
+                                        <img src="@((pro1.Images.Count > 0) ? pro1.Images[0] : string.Empty)" class="card-img-top" alt="...">
+                                    </a>
+                                    <div class="card-body">
+                                        <p class=""> @pro1.Description</p>
+                                        @if (pro1.DiscountValue > 0)
+                                        {
+                                            string formattedDiscountedPrice = string.Format("{0:#,0}", pro1.DiscountedPrice);
+
+                                            <p id="itemprice" class="cart-price">@formattedDiscountedPrice<span class="cart-EGP">EGP</span></p>
+
+                                        }
+                                        else
+                                        {
+                                            string formattedPrice = string.Format("{0:#,0}", pro1.Price);
+                                            <p id="itemprice" class="cart-price">@formattedPrice<span class="cart-EGP">EGP</span></p>
+                                        }
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+
+                    </div>
+                    <!-- If we need pagination -->
+                    <div class="swiper-pagination"></div>
+
+                    <!-- If we need navigation buttons -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+
+                    <!-- If we need scrollbar -->
+
+                </div>
+            </div>
+        </section>
+        
+        <!-- Product section Top offers -->
+        <section class="Product_section_2  ">
+            <div class="container container_wrapper">
+                <div class="swiper  m-1  p-2 ">
+                    <h1>Top offers</h1>
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper ">
+                        <!-- Slides -->
+                        @foreach (var TOfers in TopOfers1)
+                        {
+
+                            <div class="swiper-slide m-0 w-25">
+                                <div class="card  ">
+                                    <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@TOfers.Id">
+                                        <img src="@((TOfers.Images.Count > 0) ? TOfers.Images[0] : string.Empty)" class="card-img-top" alt="...">
+                                    </a>
+                                    <div class="card-body">
+                                        <p class=""> @TOfers.Description</p>
+                                        @if (TOfers.DiscountValue > 0)
+                                        {
+                                            string formattedDiscountedPrice = string.Format("{0:#,0}", TOfers.DiscountedPrice);
+
+                                            <p id="itemprice" class="cart-price">@formattedDiscountedPrice<span class="cart-EGP">EGP</span></p>
+
+                                        }
+                                        else
+                                        {
+                                            string formattedPrice = string.Format("{0:#,0}", TOfers.Price);
+                                            <p id="itemprice" class="cart-price">@formattedPrice<span class="cart-EGP">EGP</span></p>
+                                        }
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+
+                    </div>
+                    <!-- If we need pagination -->
+                    <div class="swiper-pagination"></div>
+
+                    <!-- If we need navigation buttons -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+
+                    <!-- If we need scrollbar -->
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Why TechStoer -->
+        <section class="container">
+            <div class="m-1 p-1 shadow">
+                <h3>Why TechStoer</h3>
+                <div class="row justify-content-center">
+                    <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+                        <div class="categories text-center shadow">
+                            <a asp-controller="" asp-action="" class="image-item">
+                                <img src="~/why techstoer/pickup_banners__3_en.webp" class="img-fluid" alt="" />
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+                        <div class="categories text-center shadow">
+                            <a asp-controller="" asp-action="" class="image-item">
+                                <img src="~/why techstoer/ramadan2024_generic_bottom_banners__2_en.webp" class="img-fluid" alt="" />
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+                        <div class="categories text-center shadow">
+                            <a asp-controller="Product" asp-action="" class="image-item">
+                                <img src="~/why techstoer/ramadan2024_generic_bottom_banners__4_en.webp" class="img-fluid" alt="" />
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+                        <div class="categories text-center shadow">
+                            <a asp-controller="" asp-action="" class="image-item">
+                                <img src="~/why techstoer/ramadan2024_generic_bottom_banners__7_en.webp" class="img-fluid" alt="" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product section 2 Based on your preference -->
+        <section class="Product_section_2">
+            <div class="container container_wrapper">
+                <div class="swiper  p-2">
+                    <h1>Based on your preference</h1>
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper ">
+                        <!-- Slides -->
+                        @foreach (var pro2 in Products2)
+                        {
+
+                            <div class="swiper-slide m-1 w-auto ">
+                                <div class="card  ">
+                                    <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@pro2.Id">
+                                        <img src="@((pro2.Images.Count > 0) ? pro2.Images[0] : string.Empty)" class="card-img-top" alt="...">
+                                    </a>
+                                    <div class="card-body">
+                                        <p class=""> @pro2.Description</p>
+                                        @if (pro2.DiscountValue > 0)
+                                        {
+                                            string formattedDiscountedPrice = string.Format("{0:#,0}", pro2.DiscountedPrice);
+
+                                            <p id="itemprice" class="cart-price">@formattedDiscountedPrice<span class="cart-EGP">EGP</span></p>
+
+                                        }
+                                        else
+                                        {
+                                            string formattedPrice = string.Format("{0:#,0}", pro2.Price);
+                                            <p id="itemprice" class="cart-price">@formattedPrice<span class="cart-EGP">EGP</span></p>
+                                        }
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+
+                    </div>
+                    <!-- If we need pagination -->
+                    <div class="swiper-pagination"></div>
+
+                    <!-- If we need navigation buttons -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+
+                    <!-- If we need scrollbar -->
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Popular brands  -->
+        <div class="container col-12 mt-5 p-2 ">
+            <div class="row">
+                <div class=" m-0 p-1 shadow">
+                    <div id="carouselExampleControlsbrands" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/ariston.webp" alt="First slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/brands_logos_180x120__kenwood.webp" alt="Second slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/babyliss.webp" alt="Third slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/brands_logos_180x120__kiriazi.webp" alt="Fourth slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/brands_logos_180x120__mienta.webp" alt="Fifth slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/brands_logos_180x120__toshiba.webp" alt="Sixth slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/braun.webp" alt="Seventh slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/huawei.webp" alt="Eighth slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/lenovo.webp" alt="Ninth slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/lg.webp" alt="Tenth slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/xiaomi.webp" alt="Eleventh slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/ariston.webp" alt="Twelfth slide">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item ">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/samsung.webp" alt="Thirteenth slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/sbs.webp" alt="Fourteenth slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/tornado.webp" alt="Fifteenth slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/ultra.webp" alt="Sixteenth slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/white_whale.webp" alt="Seventeenth slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/xiaomi.webp" alt="Eighteenth slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/oppo.webp" alt="Nineteenth slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/msi-dragon_spirit_logo_h_4c_b.webp" alt="Twentieth slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/oppo.webp" alt="Twenty-First slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/msi-dragon_spirit_logo_h_4c_b.webp" alt="Twenty-Second slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/brands_logos_180x120__mienta.webp" alt="Twenty-Third slide">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <img class="d-block w-100" src="./Popular brands/ultra.webp" alt="Twenty-Fourth slide">
+                                    </div>
+                                    <!-- Add more columns with images here -->
+                                </div>
+                            </div>
+                            <!-- Add more carousel items here -->
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControlsbrands" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span style="color:brown" class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControlsbrands" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
 
+        <!-- Product section 3 Based on your views -->
 
-    </section>
 
-</main>
+        <section class="Product_section_3">
+            <div class="container container_wrapper">
+                <div class="swiper  p-2">
+                    <h1>Based on your views</h1>   
+                    <div class="swiper-wrapper ">
+                        <!-- Slides -->
+                        @foreach (var pro3 in Products3)
+                        {
+
+                            <div class="swiper-slide m-0 w-25" >
+                                <div class="card  ">
+                                    <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@pro3.Id">
+                                        <img src="@((pro3.Images.Count > 0) ? pro3.Images[0] : string.Empty)" class="card-img-top" alt="...">
+                                    </a>
+                                    <div class="card-body">
+                                        <p class=""> @pro3.Description</p>
+                                        @if (pro3.DiscountValue > 0)
+                                        {
+                                            string formattedDiscountedPrice = string.Format("{0:#,0}", pro3.DiscountedPrice);
+
+                                            <p id="itemprice" class="cart-price">@formattedDiscountedPrice<span class="cart-EGP">EGP</span></p>
+
+                                        }
+                                        else
+                                        {
+                                            string formattedPrice = string.Format("{0:#,0}", pro3.Price);
+                                            <p id="itemprice" class="cart-price">@formattedPrice<span class="cart-EGP">EGP</span></p>
+                                        }
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+
+                    </div>
+                    <!-- If we need pagination -->
+                    <div class="swiper-pagination"></div>
+
+                    <!-- If we need navigation buttons -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+
+                    <!-- If we need scrollbar -->
+
+                </div>
+            </div>
+        </section>
+
+
+      
+        
+
+    </main>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+   
+<script>
+
+
+
+    const swiper = new Swiper('.swiper', {
+
+        loop: true,
+
+        pagination: {
+            el: '.swiper-pagination',
+        },
+
+
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+
+        slidesPerView: 1,
+        spaceBetween: 10,
+        breakpoints: {
+            320: {
+                slidesPerView: 1,
+                spaceBetween: 10
+            },
+            480: {
+                slidesPerView: 2,
+                spaceBetween: 20
+            },
+            640: {
+                slidesPerView: 4,
+                spaceBetween: 30
+            }
+        }
+    });
+
+</script>
