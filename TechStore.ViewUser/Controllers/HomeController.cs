@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Linq;
 using TechStore.Application.Services;
+using TechStore.Models;
 using TechStore.ViewUser.Models;
 
 namespace TechStore.ViewUser.Controllers
@@ -41,7 +42,7 @@ namespace TechStore.ViewUser.Controllers
         }
         public IActionResult Cart()
         {
-            return View("Cart");
+            return View("CartTest");
         }
 
         public IActionResult Privacy()

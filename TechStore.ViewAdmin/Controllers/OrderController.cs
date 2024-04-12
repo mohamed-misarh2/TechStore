@@ -31,17 +31,10 @@ namespace TechStore.ViewAdmin.Controllers
             return Ok(product);
         }
 
-        [HttpGet("GetAllOrdersAsync")]
-        public async Task<IActionResult> GetAllOrdersAsync(int ItemsPerPage, int PageNumber)
+        [HttpGet]
+        public async Task<IActionResult> GetAllOrdersAsync()
         {
-            var result = await _orderService.GetAllPaginationOrders(ItemsPerPage, PageNumber);
-            return Ok(result);
-        }
-
-        [HttpGet("GetOrderItems")]
-        public async Task<IActionResult> GetOrderItems(int orderId)
-        {
-            var result = await _orderService.GetOrderItems(orderId);
+            var result = await _orderService.GetAllOrdersAsync();
             return Ok(result);
         }
 

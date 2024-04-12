@@ -62,7 +62,6 @@ namespace TechStore.Infrastructure
                 .Where(order =>
                        order.ShippingAddress.ToLower().Contains(searchTerm) ||
                        order.OrderStatus.Value.ToString() == searchTerm 
-                       //order.PaymentStatus.ToLower().Contains(searchTerm)
                 ).ToList();
 
             return Task.FromResult( filteredOrders);

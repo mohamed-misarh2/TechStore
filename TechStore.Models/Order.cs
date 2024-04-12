@@ -16,7 +16,7 @@ namespace TechStore.Models
     public class Order : BaseEntity
     {
         public string? UserId { get; set; }
-        public DateTime? OrderDate { get; set; }= DateTime.Now;
+        public DateTime? OrderDate { get; set; } = DateTime.Now;
         public string? ShippingAddress { get; set; }
         public string? Phone { get; set; }
         public decimal? TotalPrice { get; set; }

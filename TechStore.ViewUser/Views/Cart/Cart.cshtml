@@ -4,10 +4,10 @@
 @{
 }
 
-@* @{
+@{
     decimal totalprice = 0;
 }
- *@
+
 @model List<CartItemDto>
 
 <html>
@@ -65,7 +65,6 @@
                     <th>Action</th>
                 </tr>
             </thead>
-
             <tbody>
                 @foreach (var item in Model)
                 {
@@ -91,6 +90,7 @@
                                             {
                                                 <option value="@i">@i</option>
                                             }
+                                            
                                         }
 
                                     </select>
@@ -113,7 +113,7 @@
         </table>
     }
 
-    @* <div>
+    <div>
 
 
         @foreach (var item in Model)
@@ -122,9 +122,7 @@
         }
 
         <h2>Total Price: @(totalprice.ToString("C"))</h2>
-    </div> *@
-
-    <a asp-action="CheckOut" asp-controller="Payment" class="btn btn-dark">Pay Now</a>
+    </div>
     </body>
 </html>
 

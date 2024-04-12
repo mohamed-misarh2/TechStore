@@ -51,7 +51,7 @@ namespace TechStore.ViewUser.Controllers
             {
                 return View("Login",login);
             }
-
+            
             var result = await _userServices.LoginUser(login);
             if (result.IsSuccess)
             {

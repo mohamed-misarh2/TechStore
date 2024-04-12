@@ -17,15 +17,13 @@ namespace TechStore.Application.Services
         private readonly ICategoryRepository _categoryRepository;
         private readonly IspecificationsRepository _specificationsRepository;
         private readonly ICategorySpecificationsRepository _categorySpecificationsRepository;
-        private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
-        public CategoryService(ICategoryRepository categoryRepository,IspecificationsRepository specificationsRepository,ICategorySpecificationsRepository categorySpecificationsRepository,IProductRepository productRepository, IMapper mapper)
+        public CategoryService(ICategoryRepository categoryRepository,IspecificationsRepository specificationsRepository,ICategorySpecificationsRepository categorySpecificationsRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _specificationsRepository = specificationsRepository;
             _categorySpecificationsRepository = categorySpecificationsRepository;
-            _productRepository = productRepository;
             _mapper = mapper;
         }
 
@@ -47,11 +45,21 @@ namespace TechStore.Application.Services
                 foreach (var specificationn in specificationsDtos)
                 {
                     var specificationModel = _mapper.Map<Specification>(specificationn);
-                    await _categorySpecificationsRepository.CreateAsync(new CategorySpecifications { CategoryId = newCat.Id, SpecificationId = specificationn.Id });
+                    var ExistingSpec = await _specificationsRepository.SearchByName(specificationModel.Name);
+                    if(ExistingSpec == null)
+                    {
+                        var CreatedSpc =  await _specificationsRepository.CreateAsync(specificationModel);
+                        await _specificationsRepository.SaveChangesAsync();
+                        await _categorySpecificationsRepository.CreateAsync(new CategorySpecifications { CategoryId = newCat.Id, SpecificationId = CreatedSpc.Id });
+                    }
+                    else
+                    {
+                        await _categorySpecificationsRepository.CreateAsync(new CategorySpecifications { CategoryId = newCat.Id, SpecificationId = ExistingSpec.Id });
+                    }
                 }
                 
                 await _categorySpecificationsRepository.SaveChangesAsync();
-                var SpecList = (await _specificationsRepository.GetSpecificationsByCategory(newCat.Id)).ToList();
+                List<Specification>  SpecList = (await _specificationsRepository.GetSpecificationsByCategory(newCat.Id)).ToList();
 
                 var catDto = _mapper.Map<CategoryDto>(newCat);
                 var SpecListDto = _mapper.Map<List<SpecificationsDto>>(SpecList);
@@ -61,74 +69,38 @@ namespace TechStore.Application.Services
             }
         }
 
-        public async Task<ResultView<CategorySpecificationDto>> UpdateCategory(CategoryDto updatedcategory, List<SpecificationsDto> specificationsDtos) 
+        public async Task<ResultView<CategoryDto>> UpdateCategory(CategoryDto updatedcategory)
         {
             var existingCategory = await _categoryRepository.GetByIdAsync(updatedcategory.Id);
             await _categoryRepository.DetachEntityAsync(existingCategory);
 
             if (existingCategory == null)
             {
-                return new ResultView<CategorySpecificationDto> 
-                {
-                    Entity = null,
-                    IsSuccess = false, 
-                    Message = "Category not found"
-                };
+                return new ResultView<CategoryDto> { Entity = null, IsSuccess = false, Message = "Category not found" };
             }
-
-            //updateCategory
             var updatedcategoryModel = _mapper.Map<Category>(updatedcategory);
             var UpdatedCategory = await _categoryRepository.UpdateAsync(updatedcategoryModel);
             await _categoryRepository.SaveChangesAsync();
 
-            //GetAllCatSpec
-            var categorySpecifications = ((await _categorySpecificationsRepository.GetAllAsync())
-                                        .Where(cs=>cs.CategoryId == updatedcategory.Id)).ToList();
-
-            //delete old catspec
-            foreach (var RemoveCateSpec in categorySpecifications)
+            if (UpdatedCategory == null)
             {
-                await _categorySpecificationsRepository.DeleteAsync(RemoveCateSpec);
+                return new ResultView<CategoryDto> { Entity = null, IsSuccess = false, Message = "updateCategory Faild" };
             }
-
-            //add new catspec
-            foreach (var specificationDto in specificationsDtos)
-            {
-                var categorySpec = new CategorySpecifications
-                {
-                    CategoryId = existingCategory.Id,
-                    SpecificationId = specificationDto.Id
-                };
-                await _categorySpecificationsRepository.CreateAsync(categorySpec);
-            }
-            
-            await _categorySpecificationsRepository.SaveChangesAsync();
 
             var catDto = _mapper.Map<CategoryDto>(UpdatedCategory);
-            var CategorySpecifications = new CategorySpecificationDto
-            {
-                Category = catDto,
-                SpecificationsDtos = specificationsDtos
-            };
 
-            return new ResultView<CategorySpecificationDto> 
-            { 
-                Entity = CategorySpecifications,
-                IsSuccess = true, 
-                Message = "Category & Specifications Updated Successfully"
-            };
+            return new ResultView<CategoryDto> { Entity = catDto, IsSuccess = true, Message = "Updated Successfully" };
         }
 
         public async Task<ResultView<CategorySpecificationDto>> DeleteSpecFromCategory(int CategoryId,int SpecID)
         {
             //update spec
             var Specfication = await _categorySpecificationsRepository.GetSpecByCategoryAndSpecId(CategoryId, SpecID);
-            await _categorySpecificationsRepository.DeleteAsync(Specfication);
+            var DeletedSpecfication = await _categorySpecificationsRepository.DeleteAsync(Specfication);
             await _categorySpecificationsRepository.SaveChangesAsync();
-                       
+            var DeletedSpecDto = _mapper.Map<CategorySpecificationDto>(DeletedSpecfication);
             var category = await _categoryRepository.GetByIdAsync(CategoryId);
             var SpecList = await _specificationsRepository.GetSpecificationsByCategory(CategoryId);
-
             var CategoryDto = _mapper.Map<CategoryDto>(category);
             var SpecListDto = _mapper.Map<List<SpecificationsDto>>(SpecList);
 
@@ -139,127 +111,73 @@ namespace TechStore.Application.Services
         public async Task<ResultView<CategorySpecificationDto>> AddSpecToCategory(int CategoryId, SpecificationsDto specificationsDto)
         {
             var ExistingCategory = await _categoryRepository.GetByIdAsync(CategoryId);
-            if (ExistingCategory != null)
+            if(ExistingCategory == null)
             {
-                var ExistingCategoryDto = _mapper.Map<CategoryDto>(ExistingCategory);
-                var SpecModel = _mapper.Map<Specification>(specificationsDto);
-
-                var ExistingSpecification = await _specificationsRepository.SearchByName(specificationsDto.Name);
-
-                if (ExistingSpecification == null)
-                {
-                    var AddedSpec = await _specificationsRepository.CreateAsync(SpecModel);
-                    await _specificationsRepository.SaveChangesAsync();
-
-                    await _categorySpecificationsRepository.CreateAsync(new CategorySpecifications { CategoryId = ExistingCategory.Id, SpecificationId = AddedSpec.Id });
-                    await _categorySpecificationsRepository.SaveChangesAsync();
-
-                    var SpecList = await _specificationsRepository.GetSpecificationsByCategory(CategoryId);
-                    var SpecListDto = _mapper.Map<List<SpecificationsDto>>(SpecList);
-
-                    var Result = new CategorySpecificationDto { Category = ExistingCategoryDto, SpecificationsDtos = SpecListDto };
-
-                    return new ResultView<CategorySpecificationDto>
-                    {
-                        Entity = Result,
-                        IsSuccess = true,
-                        Message = "CategoryAndSpecifications Retrived Successfully After Adding"
-                    };
-                }
-                else
-                {
-                    var existingCategorySpec = await _categorySpecificationsRepository.GetSpecByCategoryAndSpecId(CategoryId, ExistingSpecification.Id);
-                    if (existingCategorySpec == null)
-                    {
-                        await _categorySpecificationsRepository.CreateAsync(new CategorySpecifications { CategoryId = ExistingCategory.Id, SpecificationId = ExistingSpecification.Id });
-                        await _categorySpecificationsRepository.SaveChangesAsync();
-                        return new ResultView<CategorySpecificationDto>
-                        {
-                            IsSuccess = true,
-                            Message = "Specification Already Exists, Added to Category Successfully"
-                        };
-                    }
-                }                
+                return new ResultView<CategorySpecificationDto> { Entity = null, IsSuccess = false, Message = "Category Doesn't Exist" };
             }
-            return new ResultView<CategorySpecificationDto> 
-            { 
-                Entity = null, 
-                IsSuccess = false,
-                Message = "Category Doesn't Exist | Specification Already Exists"
-            };
+
+            var ExistingCategoryDto = _mapper.Map<CategoryDto>(ExistingCategory);
+            var SpecModel = _mapper.Map<Specification>(specificationsDto);
+
+            var ExistingSpecification = await _specificationsRepository.SearchByName(specificationsDto.Name);
+
+            if(ExistingSpecification == null) 
+            {
+                var AddedSpec = await _specificationsRepository.CreateAsync(SpecModel);
+                await _specificationsRepository.SaveChangesAsync();
+                await _categorySpecificationsRepository.CreateAsync(new CategorySpecifications { CategoryId = ExistingCategory.Id , SpecificationId = AddedSpec.Id });
+            }
+            else
+            {
+                await _categorySpecificationsRepository.CreateAsync(new CategorySpecifications { CategoryId = ExistingCategory.Id, SpecificationId = ExistingSpecification.Id });
+            }
+
+            await _categorySpecificationsRepository.SaveChangesAsync();
+
+            var SpecList = await _specificationsRepository.GetSpecificationsByCategory(CategoryId);
+            var SpecListDto = _mapper.Map<List<SpecificationsDto>>(SpecList);
+
+            var Result = new CategorySpecificationDto { Category = ExistingCategoryDto, SpecificationsDtos = SpecListDto };
+
+            return new ResultView<CategorySpecificationDto> { Entity = Result, IsSuccess = true, Message = "CategoryAndSpecifications Retrived Successfully" };
+
         }
 
-        public async Task<ResultView<CategoryDto>> HardDeleteCategory(int id)
+        public async Task<ResultView<CategoryDto>> HardDeleteCategory(CategoryDto category)
         {
-            var existingCategory = await _categoryRepository.GetByIdAsync(id);
-            if (existingCategory != null)
+            try
             {
-                var GetProducts = (await _productRepository.GetProductsByCategory(id)).ToList();
-                if (GetProducts.Count() == 0)
-                {
-                    //delete specifications then delete category if it's not belong to any product
-                    var CategorySpecifications = ((await _categorySpecificationsRepository.GetAllAsync()).Where(c=>c.CategoryId == id)).ToList();
-                    foreach(var categorySpec in CategorySpecifications)
-                    {
-                        await _categorySpecificationsRepository.DeleteAsync(categorySpec);
-                    }
-                    await _categorySpecificationsRepository.SaveChangesAsync();
-
-                    var DeletedCategory = await _categoryRepository.DeleteAsync(existingCategory);
-                    await _categoryRepository.SaveChangesAsync();
-
-                    var catDto = _mapper.Map<CategoryDto>(DeletedCategory);
-                    return new ResultView<CategoryDto>
-                    {
-                        Entity = catDto,
-                        IsSuccess = true,
-                        Message = "Deleted Successfully"
-                    };
-                }
+                var existingCategory = await _categoryRepository.GetByIdAsync((int)category.Id);
+                var mCat = _mapper.Map<Category>(existingCategory);
+                var oldCat = _categoryRepository.DeleteAsync(mCat);
+                await _categoryRepository.SaveChangesAsync();
+                var catDto = _mapper.Map<CategoryDto>(oldCat);
+                return new ResultView<CategoryDto> { Entity = catDto, IsSuccess = true, Message = "Deleted Successfully" };
             }
-            return new ResultView<CategoryDto>
+            catch (Exception ex)
             {
-                Entity = null,
-                IsSuccess = false,
-                Message = "Faild To Delete This Category, It's Related To Products"
-            };
-            
+                return new ResultView<CategoryDto> { Entity = null, IsSuccess = false, Message = ex.Message };
+
+            }
         }
         
-        public async Task<ResultView<CategoryDto>> SoftDeleteCategory(int id)
+        public async Task<ResultView<CategoryDto>> SoftDeleteCategory(CategoryDto category)
         {
-            var existingCategory = await _categoryRepository.GetByIdAsync(id);
-            if (existingCategory != null)
+            try
             {
-                var GetProducts = (await _productRepository.GetProductsByCategory(id)).ToList();
-                if (GetProducts.Count() == 0)
-                {
-                    //delete specifications then delete category if it's not belong to any product
-                    var CategorySpecifications = ((await _categorySpecificationsRepository.GetAllAsync()).Where(c => c.CategoryId == id)).ToList();
-                    foreach (var categorySpec in CategorySpecifications)
-                    {
-                        categorySpec.IsDeleted = true;
-                    }
-                    await _categorySpecificationsRepository.SaveChangesAsync();
+                var mCat = _mapper.Map<Category>(category);
+                var oldCat = (await _categoryRepository.GetAllAsync()).FirstOrDefault(b => b.Id == category.Id);
+                oldCat.IsDeleted = true;
+                await _categoryRepository.SaveChangesAsync();
 
-                    existingCategory.IsDeleted = true;
-                    await _categoryRepository.SaveChangesAsync();
-
-                    var catDto = _mapper.Map<CategoryDto>(existingCategory);
-                    return new ResultView<CategoryDto>
-                    {
-                        Entity = catDto,
-                        IsSuccess = true,
-                        Message = "Deleted Successfully"
-                    };
-                }
+                var catDto = _mapper.Map<CategoryDto>(oldCat);
+                return new ResultView<CategoryDto> { Entity = catDto, IsSuccess = true, Message = "Deleted Successfully" };
             }
-            return new ResultView<CategoryDto>
+            catch (Exception ex)
             {
-                Entity = null,
-                IsSuccess = false,
-                Message = "Faild To Delete This Category, It's Related To Products"
-            };
+                return new ResultView<CategoryDto> { Entity = null, IsSuccess = false, Message = ex.Message };
+
+            }
         }
 
         public async Task<ResultDataList<CategoryDto>> GetAllCategory()
