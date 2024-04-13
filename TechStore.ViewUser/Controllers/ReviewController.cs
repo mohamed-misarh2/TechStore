@@ -46,7 +46,7 @@ namespace TechStore.ViewUser.Controllers
                 {
                     // Handle case where there are no entities in the review
                     // For example, return an empty view or a message indicating no reviews found
-                    return View("Details", "Product");
+                    return PartialView(review);
                 }
             }
             catch (Exception ex)
