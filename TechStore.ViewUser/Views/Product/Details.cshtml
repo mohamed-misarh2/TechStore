@@ -3,37 +3,63 @@
 *@
 
 @{
-   
 }
 @model ResultView<GetProductSpecificationNameValueDtos>
-
- 
-        @if (Model.Entity != null && Model.Entity.productsDtos != null)
+  
+    @if (Model.Entity != null && Model.Entity.productsDtos != null)
 {
        
     <div class="container">
         <div class="row" style="padding-top:2vw;">
-            <div class="col-6">
+            <div class="col-lg-6 col-md-12">
                     <div class="row">
-                        <div class="col-2">
-                        <div class="controller"style="flex-direction:column">
+                    <div class="col-2 small_screen">
+                        <div class="controller" style="flex-direction: column">
+                            <div class="slider">
                                 @foreach (var image in Model.Entity.productsDtos.Images)
                                 {
                                     <div class="controller-image">
-                                    <img class="product-image-photo" src="@image" data-src="@image">
+                                        <img class="product-image-photo" src="@image" data-src="@image">
                                     </div>
+                                   
                                 }
                             </div>
                         </div>
-                        <div class="col-10">
-                            <div class="image">
-                                <img id="productImg" width="500" height="500" alt="" src="@Model.Entity.productsDtos.Images.FirstOrDefault()">
-                            </div>
+                    </div>
+
+                    @* //----------- show-on-medium and small ---------------------------------- *@
+
+                    <div id="carousel-detils" class="carousel slide d-lg-none w-75 my-md-2 w-75" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            @for (int i = 0; i < Model.Entity.productsDtos.Images.Count; i++)
+                            {
+                                <button type="button" data-bs-target="#carousel-detils" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" aria-current="true" aria-label="Slide @(i + 1)"></button>
+                            }
                         </div>
+                        <div class="carousel-inner">
+                            @for (int i = 0; i < Model.Entity.productsDtos.Images.Count; i++)
+                            {
+                                <div class="carousel-item @(i == 0 ? "active" : "")">
+                                    <img src="@Model.Entity.productsDtos.Images[i]" class="d-block w-100" alt="Slide @(i + 1)">
+                                </div>
+                               
+                            }
+                        </div>
+                    </div>
+
+
+                    @* //------------------------------------------ *@
+
+                    <div class="col-lg-9 col-sm-12 small_screen">
+                        <div class="image w-75">
+                            <img class="w-100" alt="" src="@Model.Entity.productsDtos.Images.FirstOrDefault()">
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <div class="col-6 content">
+            <div class="col-lg-6 col-md-12 content show-on-medium-large">
                     @if (@Model.Entity.productsDtos.DiscountValue > 0)
                     {
                         
@@ -65,7 +91,7 @@
                         <input type="hidden" name="CopyQuantity" value="@Model.Entity.productsDtos.Quantity" />
                         <input type="hidden" name="image" value="@Model.Entity.productsDtos.Images.FirstOrDefault()" />
                         <input type="hidden" name="quantity" value="1" min="1" />
-                        <button id="addToCartButton" style="width:30vw;height:7vh; " class="btn btn-dark"><i class="fas fa-shopping-cart"></i> Add To Cart</button>
+                        <button id="addToCartButton"  class="btn btn-dark w-100 full-width-small-sceen"><i class="fas fa-shopping-cart"></i> Add To Cart</button>
                     </form>
                 
                     
@@ -80,12 +106,12 @@ else
 
 
 
-    <div>
+    <div class="container">
         @if (Model.Entity != null && Model.Entity.specificationsNameValueDtos != null)
         {
             <table>
                 <thead>
-                <th>Specification</th>
+                     <th>Specification</th>
                 </thead>
 
                 <tbody>

@@ -26,20 +26,28 @@ namespace TechStore.ViewUser.Controllers
         public async Task<IActionResult>IndexReview(int id ,int page)
         {
            
-            int PageNamber = 1+ page;
+            int PageNumber = 1+ page;
             int pageSize = 4;
             try
             {
          
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                 var  review = await _reviewService.GetAllReviewByProduct(pageSize, PageNamber, id);
-                var product = review.Entities.FirstOrDefault().ProductId;
-                ViewBag.pageSize= pageSize;
-              //  ViewBag.page = _page;
-              ViewBag.ProductId = product;
-                 ViewBag.PageNamber = PageNamber;
-                ViewBag.UserId = userId;
-                return PartialView(review);
+                 var  review = await _reviewService.GetAllReviewByProduct(pageSize, PageNumber, id);
+                if (review.Entities != null && review.Entities.Any())
+                {
+                    var product = review.Entities.First().ProductId; // Use First() instead of FirstOrDefault() since you've already checked if it's not empty
+                    ViewBag.pageSize = pageSize;
+                    ViewBag.ProductId = product;
+                    ViewBag.PageNumber = PageNumber;
+                    ViewBag.UserId = userId;
+                    return PartialView(review);
+                }
+                else
+                {
+                    // Handle case where there are no entities in the review
+                    // For example, return an empty view or a message indicating no reviews found
+                    return View("Details", "Product");
+                }
             }
             catch (Exception ex)
             {
@@ -47,7 +55,8 @@ namespace TechStore.ViewUser.Controllers
             }
            ;
         }
-            [Authorize]
+
+        [Authorize]
         [HttpGet]
         public IActionResult AddReview(string Description, string imgproduct ,int productid)
         {

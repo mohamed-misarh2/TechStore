@@ -101,9 +101,10 @@
 
 
 .nav-top-style {
-    background-color: rgb(16,0,26);
+    background-color: #0e001a;
+    color: rgb(255, 255, 255);
     height: 4vh;
-    color: #fff;
+   
     padding: 1vh 0;
 }
 
@@ -211,4 +212,11 @@ button.accept-policy {
     width: 100%;
     white-space: nowrap;
     line-height: 60px;
+}
+
+
+@media (max-width: 1000px) { 
+    .nav-top-style {
+        display: none;
+    }
 }
