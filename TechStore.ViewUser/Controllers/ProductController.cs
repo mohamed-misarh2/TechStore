@@ -18,7 +18,7 @@ namespace TechStore.ViewUser.Controllers
         private readonly IProductService _productService;
         private readonly IReviewService _ReviewService;
 
-        public ProductController(IProductService productService,IHttpContextAccessor httpContextAccessor)
+     //   public ProductController(IProductService productService,IHttpContextAccessor httpContextAccessor)
         public ProductController(IProductService productService ,IReviewService reviewService)
         {
             _productService = productService;

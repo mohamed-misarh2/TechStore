@@ -89,6 +89,13 @@ namespace TechStore.ViewUser.Controllers
             return RedirectToAction("Index", "Home");
 
         }
-
+        public IActionResult Accounthome()
+        {
+            return View();
+        }
+        public IActionResult Order()
+        {
+            return View() ;
+        }
     }
 }
