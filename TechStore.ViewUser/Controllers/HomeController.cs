@@ -42,7 +42,7 @@ namespace TechStore.ViewUser.Controllers
         }
         public IActionResult Cart()
         {
-            return View("CartTest");
+            return View("Details","Product");
         }
 
         public IActionResult Privacy()

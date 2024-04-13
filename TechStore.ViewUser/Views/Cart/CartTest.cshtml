@@ -19,10 +19,10 @@
         
         @if ( Model.Count == 0)
         {
-            <div class="container">
+            
                 <div class="row carthome justify-content-center ">
-                    <div class=" row cart col-lg-11 ">
-                        <div class="cartelement col-12 col-md-4">
+                    <div class=" row cart col-lg-12 ">
+                    <div class="cartelement col-12 col-md-4">
                             <div class="cart_Img">   <img src="./ImageCart/download.png" alt="img Cart"></div>
                             <div class="cart-empty"><p>Your shopping cart is empty!</p></div>
                             <span class="cart-p">B.TECH is the #1 place for all your needs, explore our wide range of products, flexible payments & offers!</span>
@@ -34,8 +34,7 @@
                     </div>
 
                 </div>
-            </div>
-            <div class="container">
+          
                 <div class="row carthome justify-content-center  ">
                     <h3>Recently Added </h3>
 
@@ -43,7 +42,7 @@
                     <div id="carouselExampleControls" class="carousel slide carousel-dark " data-bs-ride="carousel">
                         <div class="carousel-inner ">
                             <div class="carousel-item active">
-                                <div class=" row cols-sm-4 cols-md-2 cols-lg-4 ">
+                                <div class=" cbn row cols-sm-1 cols-md-2 cols-lg-4 ">
                                         @foreach (var product in products)
                                         {
                                             string formattedPrice = string.Format("{0:#,0}", product.Price);
@@ -93,7 +92,7 @@
                                 </div>
                             </div>
                             <div class="carousel-item">
-                                <div class=" row cols-1 cols-md-2 cols-lg-4">
+                                <div class="cbn row cols-1 cols-md-2 cols-lg-4">
 
                                         @foreach (var product in products2)
                                         {
@@ -155,15 +154,15 @@
                     </div>
                 </div>
             </div>
-            </div>
+          
         }
         else
         {
             <div id="mycart" class=" mycart">
                 <div class="container">
                     <div class="row carthome2 justify-content-around ">
-                        <div class=" row  col-lg-12  ">
-                            <div class=" col-8 part0_cart">
+
+                        <div class="col-lg-7 col-md-9 col-sm-12 part0_cart">
 
                                 <div class="cart_itms">
                                     <div class="cart-number">
@@ -171,7 +170,7 @@
                                         <div class="number-product">@Model.Count</div>
                                     </div>
                                     <div class="spac "></div>
-                                    <div class="spac "></div>
+                                  
                                     @foreach(var item in Model)
                                     {
                                         @if (item.DiscountValue > 0)
@@ -179,15 +178,15 @@
 
 
 
-                                            <div class="row mb-3 ">
-                                                <div class="row col-9 Allproduct">
-                                                    <div class="col-2 img_product">
+                                            <div class="row">
+                                            <div class="row col-lg-8 col-md-8 col-sm-8 Allproduct">
+                                                <div class="col-lg-2 col-md-4 col-sm-4 img_product">
                                                         <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@item.ProductId">
 
                                                             <img id="productImg" src="@item.Image" alt="...">
                                                         </a>
                                                     </div>
-                                                    <div class="col-9 prag_cart">
+                                                <div class="" col-lg-8 col-md-7 col-sm-7 prag_cart">
                                                         <p id="productName">
                                                             @item.Description
                                                         </p>
@@ -206,7 +205,7 @@
                                                     </div>
 
                                                 </div>
-                                                <div class="col-3 p-1 remove_cart">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 remove_cart">
                                                     <form id="updateQuantityForm" asp-controller="Cart" asp-action="UpdateQuantity" method="post">
                                                         <input type="hidden" name="productId" value="@item.ProductId" />
                                                         <div class="custom-dropdown">
@@ -252,15 +251,15 @@
                                         }
                                         else
                                         {
-                                            <div class="row mb-3 ">
-                                                <div class="row col-9 Allproduct">
-                                                    <div class="col-2 img_product">
+                                        <div class="row">
+                                            <div class="col-lg-8 col-md-8 col-sm-12 Allproduct">
+                                                <div class="row">
+                                                    <div class="col-lg-3 col-md-4 col-sm-4 img_product">
                                                         <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@item.ProductId">
-
                                                             <img id="productImg" src="@item.Image" alt="...">
                                                         </a>
                                                     </div>
-                                                    <div class="col-9 prag_cart">
+                                                    <div class="col-lg-9 col-md-8 col-sm-8 prag_cart">
                                                         <p id="productName">
                                                             @item.Description
                                                         </p>
@@ -271,60 +270,57 @@
                                                                 string formattedPrice = string.Format("{0:#,0}", item.Price);
                                                             }
                                                             <h3 id="productprices" style="font-weight: bold;">@formattedPrice</h3>
+                                                        </p>
                                                     </div>
-
                                                 </div>
-                                                <div class="col-3 p-1 remove_cart">
-                                                    <form id="updateQuantityForm" asp-controller="Cart" asp-action="UpdateQuantity" method="post">
-                                                        <input type="hidden" name="productId" value="@item.ProductId" />
-                                                        <div class="custom-dropdown">
-                                                            <select id="quantityDropdown" name="quantity" class="form-control">
-
-                                                                @for (int i = 1; i <= item.CopyQuantity; i++)
-                                                                {
-                                                                    if (i == item.Quantity)
-                                                                    {
-                                                                        <option value="@i" selected>@i</option>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <option value="@i">@i</option>
-                                                                    }
-
-                                                                }
-
-                                                            </select>
-
-                                                            <span id="dropdownIcon" class="dropdown-icon">&#9660;</span>
-                                                        </div>
-
-
-                                                    </form>
-                                                    <form asp-controller="Cart" asp-action="RemoveFromCart" method="post">
-                                                        <input type="hidden" name="productId" value="@item.ProductId" />
-                                                        <div class="Remove">
-
-                                                            <button type="submit" class="btn ">
-                                                                <i class="fa-regular fa-trash-can"></i>
-                                                                Remove
-                                                            </button>
-
-                                                        </div>
-                                                    </form>
-
-
-                                                </div>
-
                                             </div>
-                                            <div class="spac "></div>
+                                            <div class="col-lg-4 col-md-4 col-sm-12 remove_cart">
+                                                <form id="updateQuantityForm" asp-controller="Cart" asp-action="UpdateQuantity" method="post">
+                                                    <input type="hidden" name="productId" value="@item.ProductId" />
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="custom-dropdown">
+                                                                <select id="quantityDropdown" name="quantity" class="form-control">
+                                                                    @for (int i = 1; i <= item.CopyQuantity; i++)
+                                                                    {
+                                                                        if (i == item.Quantity)
+                                                                        {
+                                                                            <option value="@i" selected>@i</option>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <option value="@i">@i</option>
+                                                                        }
+                                                                    }
+                                                                </select>
+                                                                <span id="dropdownIcon" class="dropdown-icon">&#9660;</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <form asp-controller="Cart" asp-action="RemoveFromCart" method="post">
+                                                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                                                <div class="Remove">
+                                                                    <button type="submit" class="btn">
+                                                                        <i class="fa-regular fa-trash-can"></i>
+                                                                        <span> Remove</span>
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                         
                                         }
                                     }                           
-                                    <div class="spac "></div>
+                                  
 
                                 </div>
 
                             </div>
-                            <div class="col-4 part1_cart ">
+                        <div class="col-lg-4 col-md-9 col-sm-12 part1_cart">
                                 <div class="section1 row">
                                     <div id="part1" class=" row">
 
@@ -385,19 +381,19 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                      
                     </div>
                 </div>
                 @foreach(var item in Model)
                 {
 
 
-                    <div class="container">
+                
                         <div class="col-12 total">
-                            <div class="col-8 total_product">
+                            <div class="col-lg-12 col-md-12 col-sm-12 total_product">
                                 <div class="row col-12">
                                     <a class="listingWrapperSection" style="text-decoration:none; color:black" onclick="toggleDescription()">
-                                        <div class="img_prototal col-1">
+                                        <div class="img_prototal col-2">
                                             <img id="productImg" src="@item.Image" alt="Product Image">
                                         </div>
                                     </a>
@@ -408,7 +404,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                
                 }
 
                 <!-- Modal -->
