@@ -6,7 +6,6 @@ using TechStore.Dtos.ProductDtos;
 using TechStore.Models;
 using TechStore.Dtos.ReviewDtos;
 using TechStore.Dtos.ViewResult;
-using TechStore.Models;
 using TechStore.ViewUser.Models;
 using Microsoft.AspNetCore.Http;
 using TechStore.ViewUser.ExtenstionMethods;

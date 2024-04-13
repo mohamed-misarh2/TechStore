@@ -23,6 +23,7 @@
     <ProjectReference Include="..\TechStore.Context\TechStore.Context.csproj" />
     <ProjectReference Include="..\TechStore.Dtos\TechStore.Dtos.csproj" />
     <ProjectReference Include="..\TechStore.Infrastructure\TechStore.Infrastructure.csproj" />
+    <ProjectReference Include="..\TechStore.Models\TechStore.Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>
