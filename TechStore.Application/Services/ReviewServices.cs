@@ -146,7 +146,7 @@ namespace TechStore.Application.Services
 
 
             var totalCount = (await _reviewRepository.GetAllAsync())
-                .Where(review => review.ProductId == productId);
+                .Where(review => review.ProductId == productId && review.IsDeleted == false);
 
 
             ResultDataList<GetAllReviewDto> resultDataList = new ResultDataList<GetAllReviewDto>();

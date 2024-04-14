@@ -122,11 +122,20 @@
             text-align: center;
         }
 
-        .comm{
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+        #comm{
+           
+            width:100%;
+           
+        }
+
+        .Nameuser{
+           
+            width:100%
+        }
+
+        .NameUsser{
+           background-color:aqua;
+          
         }
     </style>
 
@@ -134,8 +143,8 @@
 <body>
 
   @*   ReviewUser *@
-   @*  <div class="container"> *@
-      @*   <div class="reviews_product col-12"> *@
+    <div id="reviewContainer">
+        <div class="reviews_product col-12">
             <div class="cart-number">
                 <div><h4>Reviews</h4></div>
                 <div class="number-product">@Model.Count</div>
@@ -178,7 +187,9 @@
 
                             <div class="Review col-11">
                                 <div class="Date"><span>@Itms.ReviewDate</span></div>
-                                <h6 class="Nameuser"><span>by</span> @Itms.UserName</h6>
+                            <div>
+                                <div class="Nameuser">  <h6><span>by</span> @Itms.UserName</h6></div>
+                                </div>
                                 @if (@ViewBag.UserId == @Itms.UserId)
                                 {
                                     <div class="RemoveBtn">
@@ -209,56 +220,39 @@
                                     </div>
                                 </div>
                                 <div class="space"></div>
-                                <div >
-                                <p id="comm">@Itms.Comment</p>
+                                <div>
+                                <div> <p id="comm">@Itms.Comment</p></div>
 
                                 </div>
                             </div>
                         }
                     </div>
+                  
+
+                 <!-- Add pagination section -->
+                <div id="pagination" class="col-12">
+                    <ul class="pagination flex-wrap justify-content-center">
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(ViewBag.PageNumber == i ? "active" : "")">
+                                <a class="page-link" href="#" onclick="loadPage(@i)">@i</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
 
 
-                   @*  <div class="row col-12 pagination_review">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination" id="paginationList">
-                            </ul>
-                        </nav>
-                    </div>
- *@
 
-                   @*  <section aria-label="Page navigation">
-                        <!-- Pagination links -->
-                        <ul class="pagination justify-content-center">
-                            @if (@ViewBag.PageNamber > 1)
-                            {
-                                <li class="page-item">
-                                    <a class="page-link" href="@Url.Action("IndexReview", new { id =  @ViewBag.ProductId, pageNumber =  @ViewBag.PageNamber - 1, criteria = ViewBag.Criteria })">Previous</a>
-                                </li>
-                            }
-                            @for (int i = 1; i <= Math.Ceiling((double)Model.Count / ViewBag.pageSize); i++)
-                            {
-                                <li class="page-item @(i ==  @ViewBag.PageNamber ? "active" : "")">
-                                    <a class="page-link" href="@Url.Action("IndexReview", new {id =  @ViewBag.ProductId, pageNumber = i, criteria = ViewBag.Criteria })">@i</a>
-                                </li>
-                            }
+ 
 
-                            @if (@ViewBag.PageNamber < Math.Ceiling((double)Model.Count / ViewBag.pageSize))
-                            {
-                                <li class="page-item">
-                                    <a class="page-link" href="@Url.Action("IndexReview", new { categoryId = ViewBag.CategoryId, pageNumber =  @ViewBag.PageNamber + 1, criteria = ViewBag.Criteria })">Next</a>
-                                </li>
-                            }
-                        </ul>
 
-                    </section>
- *@
 
-             @*    </div> *@
+               
             }
            
 
-     @*    </div> *@
-   @*  </div> *@
+        </div> 
+     </div>
 
 
    
@@ -372,9 +366,9 @@
                 var _Description = $('#Description').text();
 
                 var _imgproduct = $('#productImg').attr('src');
-
+                console.log(_imgproduct)
                 var _productId = parseInt($('#productId').text());
-
+                console.log(_productId)
 
                 if (_productId === 0) {
                     console.error('Please provide a review before submitting.');
@@ -406,7 +400,19 @@
                 });
             });
         });
-       
+        function loadPage(pageNumber) {
+            $.ajax({
+                url: "/Review/IndexReview?id=@ViewBag.ProductId&page=" + pageNumber,
+                type: "GET",
+                success: function (response) {
+                    console.log(response);
+                    $("#reviewContainer").html(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading page:", error);
+                }
+            });
+        }
     </script>
 
 </body>

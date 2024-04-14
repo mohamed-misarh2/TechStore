@@ -23,31 +23,34 @@ namespace TechStore.ViewUser.Controllers
             _userManager = userManager;
         }
         [HttpGet]
-        public async Task<IActionResult>IndexReview(int id ,int page)
+        public async Task<IActionResult> IndexReview(int id, int page)
         {
-           
-            int PageNamber = 1+ page;
+            int pageNumber = page > 0 ? page : 1; 
             int pageSize = 4;
+
             try
             {
-         
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                 var  review = await _reviewService.GetAllReviewByProduct(pageSize, PageNamber, id);
-                var product = review.Entities.FirstOrDefault().ProductId;
-                ViewBag.pageSize= pageSize;
-              //  ViewBag.page = _page;
-              ViewBag.ProductId = product;
-                 ViewBag.PageNamber = PageNamber;
+                var review = await _reviewService.GetAllReviewByProduct(pageSize, pageNumber, id);
+                var product = review.Entities.FirstOrDefault()?.ProductId;
+
+              
+                int totalReviews = review.Count;
+                int totalPages = (int)Math.Ceiling((double)totalReviews / pageSize);
+
+                ViewBag.ProductId = product;
+                ViewBag.PageNumber = pageNumber;
+                ViewBag.TotalPages = totalPages;
                 ViewBag.UserId = userId;
+
                 return PartialView(review);
             }
             catch (Exception ex)
             {
                 return View("Error", new ErrorViewModel { Message = ex.Message });
             }
-           ;
         }
-            [Authorize]
+        [Authorize]
         [HttpGet]
         public IActionResult AddReview(string Description, string imgproduct ,int productid)
         {
