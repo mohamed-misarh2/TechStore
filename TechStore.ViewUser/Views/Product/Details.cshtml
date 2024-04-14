@@ -14,6 +14,7 @@
             <div class="col-lg-6 col-md-12">
                     <div class="row">
                     <div class="col-2 small_screen">
+                        <div class="hidden"><p id="productId">@Model.Entity.productsDtos.Id</p> </div>
                         <div class="controller" style="flex-direction: column">
                             <div class="slider">
                                 @foreach (var image in Model.Entity.productsDtos.Images)
@@ -52,7 +53,7 @@
 
                     <div class="col-lg-9 col-sm-12 small_screen">
                         <div class="image w-75">
-                            <img class="w-100" alt="" src="@Model.Entity.productsDtos.Images.FirstOrDefault()">
+                            <img id="productImg" class="w-100" alt="" src="@Model.Entity.productsDtos.Images.FirstOrDefault()">
                         </div>
                     </div>
 
