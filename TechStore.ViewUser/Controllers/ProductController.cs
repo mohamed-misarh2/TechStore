@@ -6,7 +6,6 @@ using TechStore.Dtos.ProductDtos;
 using TechStore.Models;
 using TechStore.Dtos.ReviewDtos;
 using TechStore.Dtos.ViewResult;
-using TechStore.Models;
 using TechStore.ViewUser.Models;
 using Microsoft.AspNetCore.Http;
 using TechStore.ViewUser.ExtenstionMethods;
@@ -18,7 +17,7 @@ namespace TechStore.ViewUser.Controllers
         private readonly IProductService _productService;
         private readonly IReviewService _ReviewService;
 
-     //   public ProductController(IProductService productService,IHttpContextAccessor httpContextAccessor)
+       
         public ProductController(IProductService productService ,IReviewService reviewService)
         {
             _productService = productService;

@@ -3,157 +3,64 @@
 *@
 
 @{
-   
 }
 @model ResultView<GetProductSpecificationNameValueDtos>
-<html>
-    <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <style>
-            .image {
-                flex: 0 1 20%;
-            }
-
-            .image img {
-                width: 100%;
-                transition: 0.5s;
-            }
-
-            .controller {
-                position: absolute;
-                left: 50%;
-                bottom: 0px;
-                transform: translateX(-50%);
-                padding: 10px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: fit-content;
-                flex-wrap: wrap;
-                min-width: 320px;
-            }
-
-            .controller img {
-                width: 80px;
-                height: 80px;
-                border: 1px solid white;
-                box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-                border-radius: 15px;
-                padding: 5px;
-                margin: 10px;
-                object-fit: contain;
-                cursor: pointer;
-                transition: 0.3s;
-            }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        table {
-            border-collapse: collapse;
-            margin: 50px auto;
-            width: 80%;
-            font-size: 20px;
-        }
-
-        table,
-        th,
-        td {
-            border-bottom: 1px solid;
-            text-align: left;
-            padding: 15px;
-        }
-
-        thead th {
-            font-size: 30px;
-            border: none;
-        }
-
-        .number-product {
-            background-color: rgb(231, 232, 232);
-            border: 1px rgb(241, 241, 241) solid;
-            font-weight: 100;
-            padding: 3px;
-            border-radius: 46%;
-            width: 30px;
-            text-align: center;
-            height: 30px;
-            margin-left: 4px;
-        }
-
-        .cart-number {
-            font-weight: bold;
-            margin-left: 0.4rem;
-            display: flex;
-            padding: 1rem;
-        }
-
-
-        .hidden{
-            display:none
-        }
-
-      
-
-        .pagination_review{
-           display:flex;
-           justify-content:center;
-           justify-items:center;
-          margin:0;
-          
-        }
-
-        .reviews_product {
-           justify-content:center;
-           margin:0;
-           padding:0;
-         
-        }
-
-        .Review {
-            border: 1px rgb(241, 241, 241) solid;
-            box-shadow: 0px 0px 10px rgba(190, 189, 189, 0.1);
-            border-radius: 10px;
-            margin-bottom: 20px;
-        
-          justify-content:center;
-        }
-
-       
-           
-        </style>
-
-    </head>
-    <body>
- 
-        @if (Model.Entity != null && Model.Entity.productsDtos != null)
+  
+    @if (Model.Entity != null && Model.Entity.productsDtos != null)
 {
        
     <div class="container">
         <div class="row" style="padding-top:2vw;">
-            <div class="col-6">
+            <div class="col-lg-6 col-md-12">
                     <div class="row">
-                        <div class="col-2">
-                            <div class="hidden" ><p id="productId">@Model.Entity.productsDtos.Id</p> </div>
-                            <div class="controller" style="display: flex; flex-direction: column;">
+                    <div class="col-2 small_screen">
+                        <div class="hidden"><p id="productId">@Model.Entity.productsDtos.Id</p> </div>
+                        <div class="controller" style="flex-direction: column">
+                            <div class="slider">
                                 @foreach (var image in Model.Entity.productsDtos.Images)
                                 {
                                     <div class="controller-image">
-                                        <img class="product-image-photo" data-src="@image">
+                                        <img class="product-image-photo" src="@image" data-src="@image">
                                     </div>
+                                   
                                 }
                             </div>
                         </div>
-                        <div class="col-10">
-                            <div class="image">
-                                <img id="productImg" width="500" height="500" alt="" src="@Model.Entity.productsDtos.Images.FirstOrDefault()">
-                            </div>
+                    </div>
+
+                    @* //----------- show-on-medium and small ---------------------------------- *@
+
+                    <div id="carousel-detils" class="carousel slide d-lg-none w-75 my-md-2 w-75" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            @for (int i = 0; i < Model.Entity.productsDtos.Images.Count; i++)
+                            {
+                                <button type="button" data-bs-target="#carousel-detils" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" aria-current="true" aria-label="Slide @(i + 1)"></button>
+                            }
                         </div>
+                        <div class="carousel-inner">
+                            @for (int i = 0; i < Model.Entity.productsDtos.Images.Count; i++)
+                            {
+                                <div class="carousel-item @(i == 0 ? "active" : "")">
+                                    <img src="@Model.Entity.productsDtos.Images[i]" class="d-block w-100" alt="Slide @(i + 1)">
+                                </div>
+                               
+                            }
+                        </div>
+                    </div>
+
+
+                    @* //------------------------------------------ *@
+
+                    <div class="col-lg-9 col-sm-12 small_screen">
+                        <div class="image w-75">
+                            <img id="productImg" class="w-100" alt="" src="@Model.Entity.productsDtos.Images.FirstOrDefault()">
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <div class="col-6 content">
+            <div class="col-lg-6 col-md-12 content show-on-medium-large">
                     @if (@Model.Entity.productsDtos.DiscountValue > 0)
                     {
                         
@@ -185,7 +92,7 @@
                         <input type="hidden" name="CopyQuantity" value="@Model.Entity.productsDtos.Quantity" />
                         <input type="hidden" name="image" value="@Model.Entity.productsDtos.Images.FirstOrDefault()" />
                         <input type="hidden" name="quantity" value="1" min="1" />
-                        <button id="addToCartButton" style="width:30vw;height:7vh; " class="btn btn-dark"><i class="fas fa-shopping-cart"></i> Add To Cart</button>
+                        <button id="addToCartButton"  class="btn btn-dark w-100 full-width-small-sceen"><i class="fas fa-shopping-cart"></i> Add To Cart</button>
                     </form>
                 
                     
@@ -200,12 +107,12 @@ else
 
 
 
-    <div>
+    <div class="container">
         @if (Model.Entity != null && Model.Entity.specificationsNameValueDtos != null)
         {
             <table>
                 <thead>
-                <th>Specification</th>
+                     <th>Specification</th>
                 </thead>
 
                 <tbody>
@@ -248,149 +155,5 @@ else
 
 
    
+
    
-
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/jquery/dist/jquery.js"></script>
-   
-
-    <script>
-        $(document).ready(function () {
-       
-        
-             var _productId = parseInt($('#productId').text());
-          
-            if (_productId !== 0) {
-                $.ajax({
-                    url: '/Review/IndexReview', 
-                    type: 'GET',
-                        data: { id: _productId },
-                success: function(response) {
-                       
-                    $('#Review').html(response);
-                    },
-            error: function(xhr, status, error) {
-                        console.error('Error:', error);
-                    }
-                }); 
-        }
-       }
-    
-        );
-
-
-
-        var pages = ["1", "2", "3", "4", "5", "6", "7"];
-        var currentPageIndex = 0;
-
-        // Function to create pagination elements
-        function createPageElements() {
-            var paginationList = document.getElementById("paginationList");
-            paginationList.innerHTML = ""; // Clear previous elements
-
-            // Add new page items to the pagination
-            for (var i = currentPageIndex; i < currentPageIndex + 3; i++) {
-                if (i >= pages.length) break; // Check if index is within array bounds
-                var pageItem = document.createElement("li");
-                pageItem.className = "page-item";
-                var pageNumber = pages[i];
-                pageItem.innerHTML = `<a class="page-link" onclick="sendPageNumber(${pageNumber})">${pageNumber}</a>`;
-                paginationList.appendChild(pageItem);
-            }
-
-            // Add "Next" button
-            var nextButton = document.createElement("li");
-            nextButton.className = "page-item";
-            nextButton.innerHTML = '<a class="page-link" >Next</a>';
-            nextButton.onclick = nextPage;
-            paginationList.appendChild(nextButton);
-
-            // Add "Previous" button
-            var prevButton = document.createElement("li");
-            prevButton.className = "page-item";
-            prevButton.innerHTML = '<a class="page-link">Previous</a>';
-            prevButton.onclick = previousPage;
-            paginationList.insertBefore(prevButton, paginationList.firstChild);
-        }
-
-        // Function to navigate to next page
-        function nextPage() {
-            if (currentPageIndex + 3 < pages.length) {
-                currentPageIndex++;
-                createPageElements();
-            } else {
-                increasePageNumbers();
-                currentPageIndex++;
-                createPageElements();
-            }
-        }
-
-        // Function to navigate to previous page
-        function previousPage() {
-            if (currentPageIndex > 0) {
-                currentPageIndex--;
-                createPageElements();
-            }
-        }
-
-        // Function to increase page numbers
-        function increasePageNumbers() {
-            var lastPage = parseInt(pages[pages.length - 1]);
-            for (var i = 1; i <= 3; i++) {
-                pages.push((lastPage + i).toString());
-            }
-        }
-
-        // Function to send selected page number to controller using AJAX
-        function sendPageNumber(pageNumber) {
-
-
-            var _page = pageNumber-1 ;
-            var _productId = parseInt($('#productId').text());
-            console.log(_page)
-            console.log(_productId)
-            $.ajax({
-                type: "GET",
-                url: "/Review/IndexReview?id=" + _productId + "&page=" + _page,
-               // data: { id: _productId, count: _count },
-                success: function (response) {
-                 
-                    $('#Review').html(response);
-                    console.log("Page number sent successfully:", _page);
-                
-                
-                },
-                error: function (xhr, status, error) {
-
-                    console.error("Error sending page number:", error);
-                }
-            });
-        }
-
-        // Initial creation of pagination elements
-        createPageElements();
-       
-        createPageElements();
-        createPageElements();
-        createPageElements();
-        window.onload = function () {
-            var imgs = document.querySelectorAll(".controller img");
-            var mainImage = document.querySelector(".image img");
-            var hs = document.querySelector("h2");
-
-            imgs.forEach((ele) => {
-                ele.onclick = function () {
-                    mainImage.src = ele.dataset.src; // Change the source of the main image
-                };
-            });
-        };
-       
-      
-      
-     
-
-    </script>
-
-</body>
-</html>
-

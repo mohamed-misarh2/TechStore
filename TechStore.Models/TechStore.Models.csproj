@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <BaseOutputPath>C:\Users\TheGenius\source\repos\TechStore\TechStore.Models\obj\Debug\net8.0\ref</BaseOutputPath>
+    <BaseOutputPath>C:\Users\A\source\repos\TechStore\TechStore.Models\obj\Debug\net8.0\ref\Debug\net8.0</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
