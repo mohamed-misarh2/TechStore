@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TechStore.Application.Services;
 using TechStore.Dtos.AccountDtos;
 using TechStore.Dtos.UserDTO;
@@ -69,7 +70,9 @@ namespace TechStore.ViewUser.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateAccount(string Id )
         {
-            var user =await _userServices.GetUserById(Id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var user =await _userServices.GetUserById(userId);
             return View(user) ;
         }
         
@@ -89,9 +92,13 @@ namespace TechStore.ViewUser.Controllers
             return RedirectToAction("Index", "Home");
 
         }
-        public IActionResult Accounthome()
+        public async Task<IActionResult> Accounthome()
         {
-            return View();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var user = await _userServices.GetUserById(userId);
+            
+            return View(user);
         }
         public IActionResult Order()
         {
