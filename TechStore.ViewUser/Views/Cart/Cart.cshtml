@@ -45,11 +45,11 @@
     </head>
 
     <body>
-    <h2>Your Cart</h2>
+    <h2>@Localizer["YourCart"]</h2>
 
     @if (Model.Count == 0)
     {
-        <p>Your cart is empty.</p>
+        <p>@Localizer["YourCartIsEmpty"]</p>
     }
     else
     {
@@ -57,12 +57,12 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Description</th>
-                    <th>Image</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>TotalPrice</th>
-                    <th>Action</th>
+                    <th>@Localizer["Description"]</th>
+                    <th>@Localizer["Image"] </th>
+                    <th>@Localizer["Price"]</th>
+                    <th>@Localizer["Quantity"]</th>
+                    <th>@Localizer["TotalPrice"]</th>
+                    <th>@Localizer["Action"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -104,7 +104,7 @@
                         <td>
                             <form asp-controller="Cart" asp-action="RemoveFromCart" method="post">
                                 <input type="hidden" name="productId" value="@item.ProductId" />
-                                <button type="submit" class="btn btn-dark">Remove</button>
+                                <button type="submit" class="btn btn-dark"> @Localizer["Remove"] </button>
                             </form>
                         </td>
                     </tr>

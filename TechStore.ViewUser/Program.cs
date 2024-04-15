@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Globalization;
 using TechStore.Application.Contract;
 using TechStore.Application.Services;
 using TechStore.Context;
@@ -40,6 +43,35 @@ namespace TechStore.ViewUser
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
             builder.Services.AddScoped<IspecificationsRepository, SpecificationsRepository>();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            // Inside ConfigureServices method in Startup.cs
+            // Add localization services
+
+            ///-------------------------
+            builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+            builder.Services.AddControllersWithViews()
+                .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();
+
+            builder.Services.AddSession();
+
+            builder.Services.Configure<RequestLocalizationOptions>(options =>
+            {
+                     var supportedCultures = new[]
+                {
+                    new CultureInfo("en-US"),
+                    new CultureInfo("ar-EG"), 
+                };
+                options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture(culture: "en-US", uiCulture: "en-US");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
+
+           
+
+            ///-----------------------------
+
             builder.Services.AddSession(options =>
             {
                 options.Cookie.Name = "TechStore.Session";
@@ -59,16 +91,17 @@ namespace TechStore.ViewUser
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseSession();
-
-
-           
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseSession();
 
+            var options = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(options.Value);
+
+            app.UseSession();
+           
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

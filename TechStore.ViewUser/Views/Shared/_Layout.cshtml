@@ -20,86 +20,119 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-    
+
+
+
+    <style>
+    ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    }
+    </style>
 
 </head>
     
     
 
-<body >
-    <div class="nav-top-style">
-        <div class="container navbar-top_contet">
-            <div class="row ">
-                <div class="col-sm">
-                    My delivery area: Cairo
-                </div>
-                <div class="col-sm">
-                </div>
-                <div class="col-sm">
-                    <a href="#"> Sell on TECH Stoer</a>
-                    <a href="#"> <i class="fas fa-phone"></i> Call 19966</a>
-                </div>
-            </div>
-        </div>
+<body dir="@ViewData["PageDirection"]">
 
+    <div dir="auto" class="nav-top-style">
+        <div class="container navbar-top_contet col-12 d-flex">
+            <div class="col-2 "></div>
+                <div class="col-3 ">
+                    @Localizer["MydeliveryareaCairo"] 
+                </div>
+                <div class="col-1">
+                </div>
+                <div class="col-4 ">
+                    <a class="col-2" href="#">  @Localizer["SellonTECHStoer"]</a>
+                <a class="col-2" href="#"> <i class="fas fa-phone"></i> @Localizer["Call"]</a>
+                </div>
+            <div class="col-2 "></div>
+        </div>
     </div>
    
-		<header class="navbar navbar-expand-lg navbar-light container  ">
+   
+    <div class="container-fluid col-12 shadow d-flex">
+        <div class="col-1" >
+            <ul class="">
+
+                <li dir="auto" class="nav-item  ">
+                    <i class="arrow_carrot-down " style="font-size: 0.8rem; margin:5px ">
+                            <partial name="_selectLanguage" />
+                        </i>
+                </li>
+                </ul>
+       </div>
+		<header dir="auto" class="container col-11 navbar navbar-expand-lg navbar-light   ">
+
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 					aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<!-- <div class="col-1"></div> -->
+
 			<div class="col-12 collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
 				<ul class="navbar-nav">
+
+					@* <li dir="auto" class="nav-item dropdown mr-sm-5">
+						<i class="arrow_carrot-down " style="font-size: 0.8rem; margin-right: 5px;">
+							<partial name="_selectLanguage" />
+						</i>
+					</li> *@
+
 					<li class="nav-item">
-						<img class="nav-link mr-sm-5" src="~/imag-slide/tech-02.png" alt="" width="150">
+						<img class="nav-link mr-sm-5" src="~/imag-slide/tech-02.png" alt="" width="110px">
+					</li>
+					<li>
+
 					</li>
 					<li class="nav-item dropdown mr-sm-3">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
 						   aria-haspopup="true" aria-expanded="false">
-							Categories
+							@Localizer["Categories"]
 						</a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" asp-controller="Product" asp-action="Mobile">Mobile & Tablet</a>
-							<a class="dropdown-item" asp-controller="Product" asp-action="Laptop">Labtop </a>
-							<a class="dropdown-item" asp-controller="Product" asp-action="Screen">Screen </a>
-							<a class="dropdown-item" asp-controller="Product" asp-action="SmartWatch">Smart Watch</a>
+						<div dir="auto" class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a dir="auto" class="dropdown-item" asp-controller="Product" asp-action="Mobile">@Localizer["Mobile&Tablet"]</a>
+							<a dir="auto" class="dropdown-item" asp-controller="Product" asp-action="Laptop">@Localizer["Laptop"] </a>
+							<a dir="auto" class="dropdown-item" asp-controller="Product" asp-action="Screen">@Localizer["Screens"] </a>
+							<a dir="auto" class="dropdown-item" asp-controller="Product" asp-action="SmartWatch">@Localizer["SmartWatch"]</a>
 						</div>
 					</li>
 
-					<li class="nav-item">
+					 <li class="nav-item">
 						<form asp-controller="Product" asp-action="Search" method="get" class="form-inline my-2 my-lg-0">
-							<input class="form-control mr-sm-5 custom-search-width" style="width: 500px;" type="text"
-								   placeholder="Search For Products Or brands" name="name">
+							<input class="form-control mr-sm-5 custom-search-width" style="width: 400px;" type="text"
+								   placeholder="@Localizer["SearchForProductsOrbrands"]" name="name">
 							<button class="btn btn-outline-success my-2 my-sm-0 d-none" type="submit">Search</button>
 						</form>
-					</li>
+					</li> 
 
 
 					@if (User.Identity.IsAuthenticated)
 					{
 						<li class="nav-item d-none">
-							<a class="nav-link mr-sm-5 fas fa-user" asp-area="" asp-controller="Account" asp-action="Login">My account</a>
+							<a class="nav-link mr-sm-5 fas fa-user" asp-area="" asp-controller="Account" asp-action="Login">@Localizer["Myaccount"]</a>
 
 						</li>
 					}
 					else
 					{
 						<li class="nav-item">
-							<a class="nav-link mr-sm-5 fas fa-user" asp-area="" asp-controller="Account" asp-action="Login">My account</a>
+							<a class="nav-link mr-sm-2 fas fa-user" asp-area="" asp-controller="Account" asp-action="Login"> @Localizer["Myaccount"] </a>
 
 						</li>
 					}
 					<li class="nav-item">
-						<a class="nav-link mr-sm-2" asp-controller="Cart" asp-action="Index"><i class="fas fa-shopping-cart"></i> Cart</a>
+						<a class="nav-link mr-sm-2" asp-controller="Cart" asp-action="Index"><i class="fas fa-shopping-cart"></i> @Localizer["Cart"] </a>
 					</li>
 
 					@if (User.Identity.IsAuthenticated)
 					{
 						<li class="nav-item">
-							<a class="nav-link mr-sm-5 " asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+							<a class="nav-link mr-sm-5 " asp-area="" asp-controller="Account" asp-action="Logout"> @Localizer["Logout"] </a>
 
 						</li>
 					}
@@ -107,22 +140,27 @@
 			</div>
 
 		</header>
-
-
-   
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
     </div>
+
+
+
+
+
+	@RenderBody()
+   
+   @*  <div class="">
+        <main role="main" class="pb-3">
+          
+        </main>
+    </div> *@
     <!-- Footer -->
-     <footer class="footer-bg text-center  text-lg-start  text-muted  ">
+    <footer dir="auto" class="footer-bg text-center  text-lg-start  text-muted  ">
         <!-- Section: Social media -->
         <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom container">
 
             <div class="col-12">
                 <DIV class="col-3 text-coloer " style="color: aliceblue;">
-                    <p><i class="fas fa-phone"></i>Call support </p>
+                    <p dir="auto"><i class="fas fa-phone"></i>@Localizer["Callsupport"] </p>
                     <p>19966</p>
                 </DIV>
 
@@ -139,21 +177,21 @@
                     <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                         <!-- Content -->
 
-                        <h5> TECHSTORE warranty</h5>
+                        <h5> @Localizer["TECHSTOREwarranty"] </h5>
                             <p>
-                                <a href="#!" class="text-reset" style="text-decoration: none;">Ultra</a>
+                            <a  href="#!" class="text-reset" style="text-decoration: none;">@Localizer["Ultra"]</a>
                             </p>
                             <p>
-                                <a href="#!" class="text-reset">Ariston</a>
+                            <a href="#!" class="text-reset">@Localizer["Ariston"]</a>
                             </p>
                             <p>
-                                <a href="#!" class="text-reset">Indesit</a>
+                            <a href="#!" class="text-reset">@Localizer["Indesit"]</a>
                             </p>
                             <p>
-                                <a href="#!" class="text-reset">Babyliss</a>
+                            <a href="#!" class="text-reset">@Localizer["Babyliss"]</a>
                             </p>
                             <p>
-                                <a href="#!" class="text-reset">Miele</a>
+                            <a href="#!" class="text-reset">@Localizer["Miele"]</a>
                             </p>
 
                     </div>
@@ -163,13 +201,14 @@
                     <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
                         <!-- Links -->
                         <h6 class="text-uppercase fw-bold mb-4">
-                            TECHSTORE services
+                           
+                            @Localizer["TECHSTOREservices"]
                         </h6>
                         <p>
-                            <a href="#!" class="text-reset">Minicash</a>
+                            <a href="#!" class="text-reset">@Localizer["Minicash"]</a>
                         </p>
                         <p>
-                            <a href="#!" class="text-reset">TECH CARE</a>
+                            <a href="#!" class="text-reset">@Localizer["TECHCARE"]</a>
                         </p>
                         <p>
 
@@ -178,43 +217,41 @@
                     <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
                         <!-- Links -->
                         <h6 class="text-uppercase fw-bold mb-4">
-                            Trending now
+                             @Localizer["Trendingnow"]
                         </h6>
 
-
+                        
                         <p>
-                            <a href="#!" class="text-reset">Everyday Deals</a>
+                            <a href="#!" class="text-reset">@Localizer["EverydayDeals"]</a>
                         </p>
                         <p>
-                            <a href="#!" class="text-reset">Mobile</a>
+                            <a href="#!" class="text-reset"> @Localizer["Mobile"]</a>
                         </p>
                         <p>
-                            <a href="#!" class="text-reset">Braun offers</a>
+                            <a href="#!" class="text-reset">@Localizer["Braunoffers"]</a>
                         </p>
                         <p>
-                            <a href="#!" class="text-reset">TVs</a>
+                            <a href="#!" class="text-reset">@Localizer["TVs"]</a>
                         </p>
                         <p>
-                            <a href="#!" class="text-reset">Accessories</a>
+                            <a href="#!" class="text-reset">@Localizer["Accessories"]</a>
                         </p>
                         <p>
-                            <a href="#!" class="text-reset">Oppo</a>
+                            <a href="#!" class="text-reset">@Localizer["Oppo"]</a>
                         </p>
                         <p>
-                            <a href="#!" class="text-reset ">Samsung</a>
+                            <a href="#!" class="text-reset ">@Localizer["Samsung"]</a>
                         </p>
+                       
                         <p>
-                            <a href="#!" class="text-reset">Oppo</a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">Apple</a>
+                            <a href="#!" class="text-reset">@Localizer["Apple"]</a>
                         </p>
                     </div>
                     <!-- Grid column -->
                     <!-- Grid column -->
                     <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
                         <!-- Links -->
-                        <h6 class="text-uppercase fw-bold mb-4">Connect with us</h6>
+                        <h6 class="text-uppercase fw-bold mb-4">@Localizer["Connectwithus"]</h6>
                         <!-- Social media icons -->
                         <div class="social-media-icons">
                             <a href=""><img class="facebook" src="~/image-social-media/social-fb-filled.webp" alt="Facebook"></a>
@@ -224,7 +261,7 @@
 
 
                         <div class="app-download-icons">
-                            <h5>Download the TECHSTORE app</h5>
+                            <h5>@Localizer["DownloadTheTECHSTOREapp"]</h5>
                             <a href=""><img class="google-play" src="~/image-social-media/Huawei.webp" alt="Huawei AppGallery"></a>
                             <a href=""><img class="google-play" src="~/image-social-media/IOS.webp" alt="Apple App Store"></a>
                             <a href=""><img class="google-play" src="~/image-social-media/Google.webp" alt="Google.webp"></a>
@@ -239,11 +276,11 @@
         </section>
         <!-- Section: Links  -->
         <!-- Copyright -->
+        <hr />
         <div class="text-coloer footer-bg text-center   p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-            © TECHSTORE for Trade and Distribution, all rights reserved.
-
-            Terms & Conditions
-            <a class="text-reset fw-bold" href="https://mdbootstrap.com/">Terms & Conditions</a>
+            @Localizer["©TECHSTOREForTradeAndDistribution,AllRightsReserved"]
+            
+            <a class="text-reset fw-bold" href="https://mdbootstrap.com/">@Localizer["Terms&Conditions"] </a>
         </div>
         <!-- Copyright -->
     </footer> 

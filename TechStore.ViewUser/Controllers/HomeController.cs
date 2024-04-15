@@ -1,5 +1,7 @@
+﻿using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using TechStore.Application.Services;
 using TechStore.ViewUser.Models;
@@ -33,12 +35,25 @@ namespace TechStore.ViewUser.Controllers
 
             var TopOfers = _productService.FilterDiscountedProducts();
             var TopOfersResult = await TopOfers;
-
             ViewBag.TopOfers1 = TopOfersResult.Entities.Take(10);
-            
+
+
+            // تحديد اتجاه الصفحة بناءً على اللغة المحددة
+            if (CultureInfo.CurrentCulture.TextInfo.IsRightToLeft)
+            {
+                ViewData["PageDirection"] = "rtl";
+            }
+            else
+            {
+                ViewData["PageDirection"] = "ltr";
+            }
 
             return View();
-        }
+            }
+
+
+
+           
         public IActionResult Cart()
         {
             return View("Cart");
@@ -53,6 +68,17 @@ namespace TechStore.ViewUser.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpPost]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddMonths(1) });
+            return LocalRedirect(returnUrl);
         }
     }
 }
