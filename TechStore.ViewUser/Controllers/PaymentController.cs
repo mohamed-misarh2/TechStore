@@ -76,15 +76,10 @@ namespace TechStore.ViewUser.Controllers
                 SuccessUrl = domain + $"Payment/OrderConfirmation",
                 CancelUrl = domain + $"Payment/OrderConfirmation",
                 LineItems = new List<SessionLineItemOptions>(),
-                Mode = "payment",
-                BillingAddressCollection = "re", // Collect billing address
-                //ShippingAddressCollection = new SessionShippingAddressCollectionOptions
-                //{
-                //    AllowedCountries = new List<string>(), // Allow all countries
-                //}
+                Mode = "payment"
             };
 
-            foreach(var item in CartItems)
+            foreach (var item in CartItems)
             {
                 var sessionLineItem = new SessionLineItemOptions
                 {

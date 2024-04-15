@@ -3,6 +3,7 @@
 *@
 @{
 }
+@model UpdateUserDTO
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,15 +77,15 @@ img{
                         <span>Account Home</span>
                     </a>
                   
-                    <a href="#" class="list-group-item list-group-item-action">
+                    <a asp-action="UpdateAccount"  class="list-group-item list-group-item-action">
                         <i class="far fa-smile"></i>
                         <span>update Profile</span>
                     </a>
-                    <a href="Order" class="list-group-item list-group-item-action" target="_self">
+                    <a asp-controller="Order" asp-action="GetAllOrders" class="list-group-item list-group-item-action" target="_self">
                         <i class="fas fa-box"></i>
                         <span>Order History</span>
                     </a>
-                    <a href="#" class="list-group-item list-group-item-action log_out">Log out</a>
+                    <a asp-action="Logout" class="list-group-item list-group-item-action log_out">Log out</a>
                 </div>
                 <div id="list">
                     <div class="part" >
@@ -103,8 +104,8 @@ img{
                     <h6>Use our app</h6>
                     <p>Enjoy benefits & features use B.TECH app</p>
                      <div class="img">
-                        <img src="./image-social-media/Google.webp">
-                        <img src="./image-social-media/IOS.webp">
+                        <img src="~/image-social-media/Google.webp">
+                        <img src="~/image-social-media/IOS.webp">
                 </div> 
                 </div>
                     
@@ -118,9 +119,9 @@ img{
             <!-- Main Content -->
             <div id="content" class="col-md-8">
                 <div id="x">
-                    <h2>Good Evening,</h2>
-                    <h2>Mahmoud Abdelmoty</h2>
-                    <p>+0114812610</p>
+                    <h2>Hello,</h2>
+                    <h2>@Model.FirstName @Model.LastName</h2>
+                    <p>@Model.PhoneNumber</p>
                 </div>
             </div>
         </div>
