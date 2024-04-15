@@ -450,7 +450,7 @@ namespace TechStore.Application.Services
             var result = new ResultView<OrderDto>();
             if (ExistingOrder != null)
             {
-                ExistingOrder.orderStatus = NewOrderStatus;
+                ExistingOrder.OrderStatus = NewOrderStatus;
                 await _orderRepository.UpdateAsync(ExistingOrder);
                 await _orderRepository.SaveChangesAsync();
                 var orderItems =await _orderItemRepository.GetOrders(OrderId);

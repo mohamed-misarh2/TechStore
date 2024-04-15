@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using TechStore.Application.Services;
+using TechStore.Models;
 using TechStore.ViewUser.Models;
 
 namespace TechStore.ViewUser.Controllers
@@ -56,7 +57,7 @@ namespace TechStore.ViewUser.Controllers
            
         public IActionResult Cart()
         {
-            return View("Cart");
+            return View("Details","Product");
         }
 
         public IActionResult Privacy()

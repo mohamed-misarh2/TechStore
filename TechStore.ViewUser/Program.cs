@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Stripe;
 using System.Globalization;
 using TechStore.Application.Contract;
 using TechStore.Application.Services;
@@ -21,7 +22,6 @@ namespace TechStore.ViewUser
             var builder = WebApplication.CreateBuilder(args);
 
 
-
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<TechStoreContext>(options =>
@@ -30,11 +30,10 @@ namespace TechStore.ViewUser
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
 
-
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<ICategorySpecificationsRepository, CategorySpecificationsRepository>();
-            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IProductService, Application.Services.ProductService>();//ambigous
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IproductCategorySpecifications,ProductCategorySpecificationsRepository>();
             builder.Services.AddScoped<IUserServices, UserServices>();
@@ -42,6 +41,10 @@ namespace TechStore.ViewUser
             builder.Services.AddScoped<IReviewService, ReviewServices>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
             builder.Services.AddScoped<IspecificationsRepository, SpecificationsRepository>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // Inside ConfigureServices method in Startup.cs
@@ -100,8 +103,14 @@ namespace TechStore.ViewUser
             var options = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(options.Value);
 
-            app.UseSession();
            
+            StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseSession();
+
+            
+
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -1,8 +1,8 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
 
+@{
 }
 @model ResultView<GetProductSpecificationNameValueDtos>
   
@@ -13,6 +13,7 @@
             <div class="col-lg-6 col-md-12">
                     <div class="row">
                     <div class="col-2 small_screen">
+                        <div class="hidden"><p id="productId">@Model.Entity.productsDtos.Id</p> </div>
                         <div class="controller" style="flex-direction: column">
                             <div class="slider">
                                 @foreach (var image in Model.Entity.productsDtos.Images)
@@ -51,7 +52,7 @@
 
                     <div class="col-lg-9 col-sm-12 small_screen">
                         <div class="image w-75">
-                            <img class="w-100" alt="" src="@Model.Entity.productsDtos.Images.FirstOrDefault()">
+                            <img id="productImg" class="w-100" alt="" src="@Model.Entity.productsDtos.Images.FirstOrDefault()">
                         </div>
                     </div>
 
@@ -61,9 +62,10 @@
             <div class="col-lg-6 col-md-12 content show-on-medium-large">
                     @if (@Model.Entity.productsDtos.DiscountValue > 0)
                     {
-                        <h4 class="name">@Model.Entity.productsDtos.ModelName</h4>
-                        <p class="Discrp">@Model.Entity.productsDtos.Description</p>
-                        <h3 class="price">@String.Format("{0:#,0}", Model.Entity.productsDtos.DiscountedPrice) EGP</h3>
+                        
+                        <h4>@Model.Entity.productsDtos.ModelName</h4>
+                        <p id="Description" style="font-size:25px">@Model.Entity.productsDtos.Description</p>
+                        <h3 id="descount">@Model.Entity.productsDtos.DiscountedPrice EGP</h3>
                         <span class="price-container">
                             <span id="product-price-@(Model.Entity.productsDtos.Id)" data-price-amount="@Model.Entity.productsDtos.Price" data-price-type="finalPrice" class="price-wrapper" style="text-decoration:line-through">
                                 @Model.Entity.productsDtos.Price <span class="currency"></span>
@@ -74,9 +76,9 @@
                     }
                     else
                     {
-                        <h2 class="name">@Model.Entity.productsDtos.ModelName</h2>
-                        <p class="Discrp">@Model.Entity.productsDtos.Description</p>
-                        <h2 class="price">@String.Format("{0:#,0}",Model.Entity.productsDtos.Price) EGP</h2>
+                        <h2>@Model.Entity.productsDtos.ModelName</h2>
+                        <p id="Description" style="font-size:25px">@Model.Entity.productsDtos.Description</p>
+                        <h2>@Model.Entity.productsDtos.Price EGP</h2>
                     }
                     <!-- Form for adding product to the cart -->
                     <form id="addToCartForm" asp-action="AddToCart" asp-controller="Cart" method="post">
@@ -125,4 +127,32 @@ else
             </table>
         }
     </div>
+ 
 
+
+
+    <div class="container">
+        <div class="reviews_product col-12">
+            <div class=" Review col-11 col-sm-12">
+    @if (Model.Entity != null && Model.Entity.productsDtos.Id != null)
+    { 
+      
+        <div id="Review"></div>
+    }
+                <div class="row col-lg-12 col-sm-12  col-md-6  pagination_review">
+        <div class="row col-lg-6 col-md-6 col-sm-12 col-12">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination" id="paginationList">
+                </ul>
+            </nav>
+        </div>
+                </div>
+        </div>
+    </div>
+    </div>
+    <div id="sidebar"></div>
+
+
+   
+
+   
