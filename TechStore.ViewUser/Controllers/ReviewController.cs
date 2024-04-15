@@ -25,6 +25,7 @@ namespace TechStore.ViewUser.Controllers
         [HttpGet]
         public async Task<IActionResult> IndexReview(int id, int page)
         {
+
             int pageNumber = page > 0 ? page : 1; 
             int pageSize = 4;
 
