@@ -116,10 +116,8 @@
 
 					@if (User.Identity.IsAuthenticated)
 					{
-						<li class="nav-item d-none">
-							<a class="nav-link mr-sm-5 fas fa-user" asp-area="" asp-controller="Account" asp-action="Login">@Localizer["Myaccount"]</a>
 						<li class="nav-item ">
-                        <a class="nav-link mr-sm-5 fas fa-user" asp-area="" asp-controller="Account" asp-action="Accounthome">My account</a>
+                            <a class="nav-link mr-sm-5 fas fa-user" asp-area="" asp-controller="Account" asp-action="Accounthome">@Localizer["Myaccount"]</a>
 
 						</li>
 					}
