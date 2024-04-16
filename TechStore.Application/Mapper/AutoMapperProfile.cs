@@ -36,6 +36,8 @@ namespace TechStore.Application.Mapper
             CreateMap<GetAllProductsForUserDto, Product>().ReverseMap();
             CreateMap<IFormFile, Image>()
            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FileName)).ReverseMap();
+            CreateMap<ProductWithSpecificationsDto,Product>().ReverseMap();
+            
 
 
             CreateMap<UserDto, TechUser>().ReverseMap();

@@ -126,9 +126,7 @@
         <h2>Total Price: @(totalprice.ToString("C"))</h2>
     </div> *@
 
-    <div class="row">
-    <a class="btn btn-dark w-50" href="/PayPal/PaymentWithPaypal">pay now</a>
-     </div>
+    <a asp-action="CheckOut" asp-controller="Payment" class="btn btn-dark">Pay Now</a>
     </body>
 </html>
 

@@ -12,11 +12,11 @@ namespace TechStore.Application.Services
 {
     public interface IProductService
     {
-        Task<ResultView<ProductCategorySpecificationsListDto>> Create(CreateOrUpdateProductDtos productDto, List<ProductCategorySpecificationsDto> ProductCategorySpecificationsDto);
+        Task<ResultView<ProductCategorySpecificationsListDto>> Create(ProductWithSpecificationsDto productDto);
 
         Task<ResultView<GetProductSpecificationNameValueDtos>> GetOne(int id);
 
-        Task<ResultView<ProductCategorySpecificationsListDto>> Update(CreateOrUpdateProductDtos productDto, List<ProductCategorySpecificationsDto> ProductCategorySpecificationsDto);
+        Task<ResultView<ProductWithSpecificationsDto>> Update(ProductWithSpecificationsDto productDto);
 
         Task<ResultView<ProductCategorySpecificationsListDto>> SoftDelete(int productId);
 
