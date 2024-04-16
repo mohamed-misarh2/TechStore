@@ -11,64 +11,80 @@
 
 
 <div class="container">
-    <div class="form-container">
-        <form id="register-form" class="form" asp-action="Register" asp-controller="Account" method="post"
+    <div class="form-container " >
+        <form  id="register-form" class="form" asp-action="Register" asp-controller="Account" method="post"
               enctype="multipart/form-data">
-            <h2>Register</h2>
+            <h2>@Localizer["Register"]</h2>
             <div class="form-group" hidden>
                 <label asp-for="Id" class="control-label"></label>
                 <input asp-for="Id" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
+                <label dir="auto" class="control-label">@Localizer["FirstName"]</label>
+                @* <label asp-for="FirstName" class="control-label"></label> *@
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
+                <label dir="rtl" class="control-label">@Localizer["LastName"]</label>
+                @* <label asp-for="LastName" class="control-label"></label> *@
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
+                <label dir="auto" class="control-label">@Localizer["UserName"]</label>
+                @* <label asp-for="UserName" class="control-label"></label> *@
                 <input asp-for="UserName" class="form-control" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
+                <label dir="auto" class="control-label">@Localizer["Password"]</label>
+                @* <label asp-for="Password" class="control-label"></label> *@
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
+                <label dir="auto" class="control-label">@Localizer["PhoneNumber"]</label>
+                @* <label asp-for="PhoneNumber" class="control-label"></label> *@
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
+                <label dir="auto" class="control-label">@Localizer["Email"]</label>
+                @* <label asp-for="Email" class="control-label"></label> *@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
+                <label dir="auto" class="control-label">@Localizer["Address"]</label>
+                @* <label asp-for="Address" class="control-label"></label> *@
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
+                <label dir="auto" class="control-label">@Localizer["Image"]</label>
+                @* <label asp-for="Image" class="control-label"></label> *@
                 <input type="file" name="Image" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Signup</button>
+            <button type="submit" class="btn btn-primary btn-block">@Localizer["SignUp"]</button>
 
-            <p>Already have an account? <a asp-action="Login" asp-controller="Account">Login here</a></p>
+            <p>@Localizer["Already"] <a asp-action="Login" asp-controller="Account">@Localizer["Loginhere"] </a></p>
 
         </form>
     </div>
+   
+       
+    
 </div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
+<span>
+    <form asp-action="Index" asp-controller="Home">
+        <button type="submit" class="btn  btn-block " style="max-width:auto">@Localizer["BacktoList"]</button>
+    </form>
+</span>
+
 
 @section Scripts {
     @{

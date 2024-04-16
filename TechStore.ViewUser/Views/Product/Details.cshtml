@@ -8,8 +8,7 @@
   
     @if (Model.Entity != null && Model.Entity.productsDtos != null)
 {
-       
-    <div class="container">
+    <div dir="auto" class="container">
         <div class="row" style="padding-top:2vw;">
             <div class="col-lg-6 col-md-12">
                     <div class="row">
@@ -92,7 +91,7 @@
                         <input type="hidden" name="CopyQuantity" value="@Model.Entity.productsDtos.Quantity" />
                         <input type="hidden" name="image" value="@Model.Entity.productsDtos.Images.FirstOrDefault()" />
                         <input type="hidden" name="quantity" value="1" min="1" />
-                        <button id="addToCartButton"  class="btn btn-dark w-100 full-width-small-sceen"><i class="fas fa-shopping-cart"></i> Add To Cart</button>
+                    <button id="addToCartButton" class="btn btn-dark w-100 full-width-small-sceen"><i class="fas fa-shopping-cart"></i> @Localizer["AddToCart"] </button>
                     </form>
                 
                     
@@ -102,17 +101,17 @@
 }
 else
 {
-    <p>Error: Product data is unavailable.</p>
+    <p>@Localizer["Error"]</p>
 }
 
 
 
-    <div class="container">
+<div dir="auto" class="container">
         @if (Model.Entity != null && Model.Entity.specificationsNameValueDtos != null)
         {
-            <table>
+        <table dir="auto">
                 <thead>
-                     <th>Specification</th>
+                       <th dir="auto">@Localizer["Specification"]</th>
                 </thead>
 
                 <tbody>

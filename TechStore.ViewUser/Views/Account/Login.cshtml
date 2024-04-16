@@ -9,32 +9,49 @@
 
 }
 
-<div class="navbar-top container ">
-    <div class="imag-">
-        <img src="/imag-slide/tech-02.png" alt="" width="200"> </a>
+<div dir="auto" class="navbar-top container ">
+    <div class="row">
+        <div class="imag- col-9">
+            <img src="/imag-slide/tech-02.png" alt="" width="200">
+
+        </div>
+       
+
     </div>
+   
 </div>
-<div class="container">
+<div class="">
+    <i class="arrow_carrot-down " style="font-size: 0.8rem; margin-right: 5px;">
+        <partial name="_selectLanguage" />
+    </i>
+</div>
+
+<div dir="auto" class="container ">
     <img src="/imag-slide/image.png" alt="">
-    <form id="login-form" class="form" asp-action="Login" asp-controller="Account" method="post">
-        <h2>Let's get started!</h2>
+    <form  id="login-form" class="form" asp-action="Login" asp-controller="Account" method="post">
+        <h2>@Localizer["Let'sgetstarted!"]</h2>
         <div class="form-group">
-            <label asp-for="UserName" class="control-label"></label>
+            <label dir="auto" class="control-label">@Localizer["UserName"]</label>
+            @* <label asp-for="UserName" class="control-label"></label> *@
             <input asp-for="UserName" class="form-control" />
             <span asp-validation-for="UserName" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="Password" class="control-label"></label>
+            <label dir="auto" class="control-label">@Localizer["Password"]</label>
+            @* <label asp-for="Password" class="control-label"></label> *@
             <input asp-for="Password" class="form-control" />
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
-        <div class="form-group">
-            <input type="submit" value="Login"/>
+        <div class="form-group ">
+            <input dir="auto" type="submit" value="@Localizer["login"]"/>
         </div>
-        <p>Don't have an account? <a asp-action="Register" asp-controller="Account">Register here</a></p>
+        <p>@Localizer["Don'thaveanaccount?"] <a asp-action="Register" asp-controller="Account">@Localizer["Registerhere"]</a></p>
     </form>
 
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+
+
