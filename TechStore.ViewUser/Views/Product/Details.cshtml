@@ -62,13 +62,14 @@
             <div class="col-lg-6 col-md-12 content show-on-medium-large">
                     @if (@Model.Entity.productsDtos.DiscountValue > 0)
                     {
-                        
-                        <h4>@Model.Entity.productsDtos.ModelName</h4>
+                    string formattedDiscountedPrice = string.Format("{0:#,0}", @Model.Entity.productsDtos.DiscountedPrice);
+                    string formattedPrice = string.Format("{0:#,0}", @Model.Entity.productsDtos.Price);
+                    <h4>@Model.Entity.productsDtos.ModelName</h4>
                         <p id="Description" style="font-size:25px">@Model.Entity.productsDtos.Description</p>
-                        <h3 id="descount">@Model.Entity.productsDtos.DiscountedPrice EGP</h3>
+                    <h3 id="descount">@formattedDiscountedPrice EGP</h3>
                         <span class="price-container">
                             <span id="product-price-@(Model.Entity.productsDtos.Id)" data-price-amount="@Model.Entity.productsDtos.Price" data-price-type="finalPrice" class="price-wrapper" style="text-decoration:line-through">
-                                @Model.Entity.productsDtos.Price <span class="currency"></span>
+                            @formattedPrice <span class="currency"></span>
                             </span>
                             <span style="color:red">   @Model.Entity.productsDtos.DiscountValue% of</span>
                         </span>
@@ -76,9 +77,11 @@
                     }
                     else
                     {
+                    string formattedPrice = string.Format("{0:#,0}", @Model.Entity.productsDtos.Price);
+
                         <h2>@Model.Entity.productsDtos.ModelName</h2>
                         <p id="Description" style="font-size:25px">@Model.Entity.productsDtos.Description</p>
-                        <h2>@Model.Entity.productsDtos.Price EGP</h2>
+                        <h2>@formattedPrice EGP</h2>
                     }
                     <!-- Form for adding product to the cart -->
                     <form id="addToCartForm" asp-action="AddToCart" asp-controller="Cart" method="post">

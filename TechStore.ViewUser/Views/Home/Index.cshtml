@@ -232,8 +232,8 @@
                             <div class="swiper-slide m-1 w-25">
                                 <div class="card  ">
                                     <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@TOfers.Id">
-                                        <img src="@((TOfers.Images.Count > 0) ? TOfers.Images[0] : string.Empty)" class="card-img-top" alt="...">
-                                    </a>
+                                    <img src="@((TOfers.Images.Count > 0) ? TOfers.Images[0] : string.Empty)" class="card-img-top" alt="...">
+                                </a>
                                     <div class="card-body">
                                         <p class=""> @TOfers.Description</p>
                                         @if (TOfers.DiscountValue > 0)
