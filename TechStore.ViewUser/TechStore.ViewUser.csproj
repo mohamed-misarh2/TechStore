@@ -19,8 +19,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
-    <PackageReference Include="PayPal" Version="1.9.1" />
-    <PackageReference Include="Stripe.net" Version="43.22.0" />
+    <PackageReference Include="Stripe.net" Version="44.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +31,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\ImageUser\" />
+    <Folder Include="wwwroot\image-Categories-slide\" />
   </ItemGroup>
 
 </Project>

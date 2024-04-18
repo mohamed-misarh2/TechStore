@@ -14,6 +14,8 @@ namespace TechStore.Dtos.ProductDtos
         public decimal Price { get; set; }
         public string? Image { get; set; }
         public int Quantity { get; set; }
+        public decimal DiscountValue { get; set; }
+        public decimal DiscountedPrice { get; set; }
         public int?CopyQuantity { get; set; }
     }
 }

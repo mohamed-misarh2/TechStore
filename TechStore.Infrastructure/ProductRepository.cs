@@ -33,7 +33,7 @@ namespace TechStore.Infrastructure
 
         public async Task<IQueryable<Product>> GetDiscountedProducts()
         {
-            return await Task.FromResult(_entities.Where(p => p.DiscountedPrice < p.Price));
+            return await Task.FromResult(_entities.Where(p => p.DiscountValue > 0).OrderByDescending(p=>p.DiscountValue));
         }
 
         public async Task DetachEntityAsync(Product entity)
@@ -76,29 +76,31 @@ namespace TechStore.Infrastructure
             return Task.FromResult(_entities.Where(p => p.Warranty == Warranty));
         }
 
-        public async Task<IQueryable<Product>> GetProductsByDescending()
+        public async Task<IQueryable<Product>> GetProductsByDescending(int categoryId)
         {
-            return await Task.FromResult(_entities.OrderByDescending(p => p.Price));
+            return await Task.FromResult(_entities.OrderByDescending(p => p.Price).Where(p=>p.CategoryId==categoryId));
         }
 
-        public async Task<IQueryable<Product>> GetProductsByAscending()
+        public async Task<IQueryable<Product>> GetProductsByAscending(int categoryId)
         {
-            return await Task.FromResult(_entities.OrderBy(p => p.Price));
+            return await Task.FromResult(_entities.OrderBy(p => p.Price).Where(p => p.CategoryId == categoryId));
         }
 
-        public async Task<IQueryable<Product>> FilterProducts(FillterProductsDtos criteria)
+        public async Task<IQueryable<Product>> FilterProducts(FillterProductsDtos criteria,int categoryId)
         {
-            IQueryable<Product> query = _entities;
+            IQueryable<Product> query = _entities.Where(p=>p.CategoryId== categoryId);
 
             if (criteria.Brand != null && criteria.Brand.Any())
             {
-                query = query.Where(p => p.Brand == criteria.Brand);
+                query = query.Where(p => criteria.Brand.Contains(p.Brand));
             }
 
+            // Filter by warranty if specified
             if (criteria.Warranty != null && criteria.Warranty.Any())
             {
-                query = query.Where(p => p.Warranty == criteria.Warranty);
+                query = query.Where(p => criteria.Warranty.Contains(p.Warranty));
             }
+
 
             if (criteria.DiscountValue != null && criteria.DiscountValue.HasValue)
             {

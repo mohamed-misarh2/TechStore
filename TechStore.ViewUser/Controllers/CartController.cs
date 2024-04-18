@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using TechStore.Application.Services;
 using TechStore.Dtos.ProductDtos;
 using TechStore.ViewUser.ExtenstionMethods;
 
@@ -8,10 +9,23 @@ namespace TechStore.ViewUser.Controllers
 {
     public class CartController : Controller
     {
-        public IActionResult Index()
+        private readonly IProductService _productService;
+
+        public CartController(IProductService productService)
         {
-            return View();
+            _productService = productService;
         }
+        public async Task<IActionResult> Index()
+        {
+            var sessionCartItems = HttpContext.Session.Get<List<CartItemDto>>("Cart") ?? new List<CartItemDto>();
+            var productsResultTask = _productService.FilterNewlyAddedProducts(10);
+            var productsResult = await productsResultTask;
+
+            ViewBag.Products = productsResult.Entities.Take(5);
+            ViewBag.Products2 = productsResult.Entities.Skip(5).Take(5);
+            return View("CartTest", sessionCartItems);
+        }
+
 
 
         public IActionResult AddToCart(CartItemDto cartItemDto)
@@ -31,7 +45,7 @@ namespace TechStore.ViewUser.Controllers
 
             HttpContext.Session.Set("Cart", cart);
 
-            return RedirectToAction("Cart", "Cart");
+            return RedirectToAction("Index", "Cart");
 
         }
 
@@ -53,7 +67,7 @@ namespace TechStore.ViewUser.Controllers
                 HttpContext.Session.Set("Cart", cart);
             }
 
-            return RedirectToAction("Cart", "Cart");
+            return RedirectToAction("Index", "Cart");
         }
 
         public IActionResult UpdateQuantity(int productId, int quantity)
@@ -68,13 +82,13 @@ namespace TechStore.ViewUser.Controllers
                 HttpContext.Session.Set("Cart", cart);
             }
 
-            return RedirectToAction("Cart");
+            return RedirectToAction("Index","Cart");
         }
 
         public IActionResult Cart()
         {
-            var sessionCartItems =  HttpContext.Session.Get<List<CartItemDto>>("Cart");
-            return View(sessionCartItems);
+            var sessionCartItems = HttpContext.Session.Get<List<CartItemDto>>("Cart") ?? new List<CartItemDto>();
+            return View("Cart", sessionCartItems);
         }
 
     }

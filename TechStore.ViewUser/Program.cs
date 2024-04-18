@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Stripe;
 using TechStore.Application.Contract;
 using TechStore.Application.Services;
@@ -45,12 +46,15 @@ namespace TechStore.ViewUser
             builder.Services.AddSession(options =>
             {
                 options.Cookie.Name = "TechStore.Session";
-                options.IdleTimeout = TimeSpan.MaxValue;
+                options.IdleTimeout = TimeSpan.FromDays(10);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
+                options.Cookie.MaxAge = TimeSpan.FromDays(30);
             });
 
 
+       
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -59,6 +63,11 @@ namespace TechStore.ViewUser
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
+            app.UseRouting();
+            app.UseSession();
+
+
+           
 
             app.UseRouting();
             StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
@@ -71,6 +80,7 @@ namespace TechStore.ViewUser
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+           
 
             app.Run();
         }

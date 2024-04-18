@@ -70,7 +70,6 @@ namespace TechStore.ViewAdmin
             builder.Services.AddScoped<IUserServices, UserServices>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IspecificationsRepository, SpecificationsRepository>();
-            builder.Services.AddScoped<ISpecificationService, SpecificationService>();
             builder.Services.AddScoped<ICategorySpecificationsRepository, CategorySpecificationsRepository>();
             builder.Services.AddScoped<IproductCategorySpecifications,ProductCategorySpecificationsRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
@@ -78,7 +77,6 @@ namespace TechStore.ViewAdmin
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
-
 
             //builder.Services.AddScoped<IProductItemService, ProductItemService>();
             //builder.Services.AddScoped<IUserServices, UserServices>();
@@ -117,7 +115,7 @@ namespace TechStore.ViewAdmin
                 options.AddPolicy("AllowOrigin",
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:4200/")
+                        builder.AllowAnyOrigin()
                                .AllowAnyHeader()
                                .AllowAnyMethod();
                     });

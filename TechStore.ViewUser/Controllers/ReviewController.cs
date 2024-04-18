@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using TechStore.Application.Services;
 using TechStore.Dtos.ReviewDtos;
+using TechStore.Dtos.ViewResult;
 using TechStore.Models;
+using TechStore.ViewUser.Models;
 
 namespace TechStore.ViewUser.Controllers
 {
@@ -14,26 +17,59 @@ namespace TechStore.ViewUser.Controllers
         private readonly IReviewService _reviewService;
         private readonly UserManager<TechUser> _userManager;
 
-        public ReviewController(IReviewService reviewService  , UserManager<TechUser> userManager)
+        public ReviewController(IReviewService reviewService, UserManager<TechUser> userManager)
         {
-            _reviewService = reviewService;         
+            _reviewService = reviewService;
             _userManager = userManager;
         }
-        [Authorize]
         [HttpGet]
-        public IActionResult AddReview()
+        public async Task<IActionResult>IndexReview(int id ,int page)
         {
-            return View();
+           
+            int PageNamber = 1+ page;
+            int pageSize = 4;
+            try
+            {
+         
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                 var  review = await _reviewService.GetAllReviewByProduct(pageSize, PageNamber, id);
+                var product = review.Entities.FirstOrDefault().ProductId;
+                ViewBag.pageSize= pageSize;
+              //  ViewBag.page = _page;
+              ViewBag.ProductId = product;
+                 ViewBag.PageNamber = PageNamber;
+                ViewBag.UserId = userId;
+                return PartialView(review);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel { Message = ex.Message });
+            }
+           ;
+        }
+            [Authorize]
+        [HttpGet]
+        public IActionResult AddReview(string Description, string imgproduct ,int productid)
+        {
+
+            string Descript = Description;
+            string img = imgproduct;
+            int id = productid;
+            ViewBag.img = img;
+            ViewBag.Descript = Descript;
+            ViewBag.productId= id;
+            return PartialView();
         }
         [HttpPost]
-        public async Task<IActionResult>AddReviewAsync(CreateOrUpdateReviewDto review)
+        public async Task<IActionResult> AddReview(CreateOrUpdateReviewDto review)
         {
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
              review.UserId = userId;
-             review.ProductId=1;
+            
              var data = await _reviewService.CreateReview(review);
-             return View("AddReview" , review);
+             int _id = data.Entity.ProductId;
+             return RedirectToAction("Details", "Product", new {id=_id} );
         }
         [HttpGet]
         [Authorize]
@@ -58,5 +94,17 @@ namespace TechStore.ViewUser.Controllers
 
             return View("UpdateReview" , review);
         }
+
+       
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> DeleteReview(int reviewId)
+        {
+            var review = await _reviewService.GetOneReview(reviewId);
+            var data = await _reviewService.SoftDeleteReview(review);
+            int _id = data.Entity.ProductId;
+            return RedirectToAction("Details", "Product", new { id = _id });
+        }
+
     }
 }
