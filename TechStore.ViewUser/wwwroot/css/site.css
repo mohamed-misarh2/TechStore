@@ -68,19 +68,9 @@
 }
 
 
-
-
-
-
-
 .hidden {
     display: none;
 }
-
-
-
-
-
 
 .swiper-button-prev::after,
 .swiper-button-next::after {
@@ -101,18 +91,19 @@
 
 
 .nav-top-style {
-    background-color: rgb(16,0,26);
-    height: 4vh;
-    color: #fff;
+    background-color: #0e001a;
+    color: rgb(255, 255, 255);
+    height: 5vh;
+   
     padding: 1vh 0;
 }
 
 
 
 
-.navbar-top_contet span {
+/*.navbar-top_contet span {
     margin-right: 25vh;
-}
+}*/
 
 .navbar-top_contet a {
     color: #fff;
@@ -141,6 +132,7 @@ main {
 .footer-bg {
     background-color: #0e001a;
     color: rgb(255, 255, 255);
+    text-align: right;
 }
 
 .text-reset {
@@ -212,3 +204,13 @@ button.accept-policy {
     white-space: nowrap;
     line-height: 60px;
 }
+
+
+@media (max-width: 1200px) { 
+    .nav-top-style {
+        display: none;
+    }
+}
+
+
+

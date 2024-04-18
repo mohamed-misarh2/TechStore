@@ -1,11 +1,11 @@
 ﻿
-.image {
+/*.image {
     flex: 0 1 20%;
 }
 
     .image img {
-        width: auto; /* Adjust based on aspect ratio */
-        height: 150px; /* Set a fixed height */
+        width: auto;  
+        height: 150px;  
         transition: 0.5s;
     }
 .container {
@@ -14,12 +14,12 @@
 }
 
 .controller {
-    position: relative; /* Change position to relative */
+    position: relative;  
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%; /* Take full width */
+    width: 100%;  
     flex-wrap: wrap;
 }
 
@@ -75,7 +75,7 @@ button {
 
 .name {
     font-size: 1vw;
-}
+}*/
 
 
 
@@ -86,13 +86,60 @@ button {
 
 @media (max-width: 768px) {
     .image img {
-        height: 100px; /* Adjust height for smaller screens */
+        height: 100px;  Adjust height for smaller screens 
     }
 }
 
 @media (max-width: 576px) {
     .image img {
-        height: 80px; /* Further adjust height for smaller screens */
+        height: 80px;  Further adjust height for smaller screens 
+    }
+}
+
+
+
+@media only screen and (max-width: 1000px) {
+    .small_screen 
+    {
+        display: none;
+    }
+}
+.controller-image{
+    margin-top:5px
+
+}
+    .controller-image :hover {
+        border: 2px solid #000;
+        border-radius: 10px;
+    }
+
+
+
+
+
+/* Media query for small screens */
+@media only screen and (max-width: 600px) {
+    .row {
+        flex-direction: column; /* Stack columns vertically */
+    }
+
+    .col-2.small_screen {
+        width: 100%; /* Full width for the column containing the image */
+        margin-top:20px
+
+    }
+    .name {
+        margin-top: 50px
+    }
+    
+}
+
+@media only screen and (min-width: 600px) {
+   
+
+    .name {
+        margin-top: 20px
+       
     }
 }
 

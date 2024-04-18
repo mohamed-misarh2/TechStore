@@ -7,7 +7,9 @@
 
 <html>
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <style>
 
 
@@ -121,14 +123,48 @@
         .pagination_review {
             text-align: center;
         }
+
+        #comm {
+            word-wrap: break-word;
+            font-size:13px;
+            font-weight:400;
+           
+        }
+
+        .Nameuser {
+            width: auto;
+        }
+
+            .Nameuser span {
+                overflow-wrap: break-word;
+                font-weight:bold;
+                font-size:15px;
+            }
+
+
+     
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+
+        }
+       .body{
+            font-family: "Raleway", sans-serif;
+       }
+
+        .date{
+            font-weight: 600;
+            font-size: 15px;
+        }
     </style>
 
 </head>
 <body>
 
   @*   ReviewUser *@
-   @*  <div class="container"> *@
-      @*   <div class="reviews_product col-12"> *@
+    <div id="reviewContainer">
+        <div class="reviews_product col-12">
             <div class="cart-number">
                 <div><h4>Reviews</h4></div>
                 <div class="number-product">@Model.Count</div>
@@ -170,8 +206,10 @@
                             int coloredStars = (int)Math.Ceiling((double)rating / maxRating * 5);
 
                             <div class="Review col-11">
-                                <div class="Date"><span>@Itms.ReviewDate</span></div>
-                                <h6 class="Nameuser"><span>by</span> @Itms.UserName</h6>
+                                <div class="Date"><span class="date">@Itms.ReviewDate</span></div>
+                            <div class="col-11">
+                                <div class="Nameuser col-12">  <span><span>by</span> @Itms.UserName</span></div>
+                                </div>
                                 @if (@ViewBag.UserId == @Itms.UserId)
                                 {
                                     <div class="RemoveBtn">
@@ -191,7 +229,7 @@
                                 <div class="cart-numbers col-12">
                                     <div class="row">
                                         <div class="number-product col-sm-auto mb-2 mb-md-0">
-                                            <span>@rating/5</span>
+                                            <span style="font-weight:bold;font-size:11px">@rating/5</span>
                                         </div>
                                         <div class="number-products  col-sm">
                                             @for (int i = 1; i <= 5; i++)
@@ -202,56 +240,39 @@
                                     </div>
                                 </div>
                                 <div class="space"></div>
-                                <div>
-                                <p id="comm">@Itms.Comment</p>
+                                <div class="col-12">
+                                <div class="col-12 m-2"> <span id="comm">@Itms.Comment</span></div>
 
                                 </div>
                             </div>
                         }
                     </div>
+                  
+
+                 <!-- Add pagination section -->
+                <div id="pagination" class="col-12">
+                    <ul class="pagination flex-wrap justify-content-center">
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(ViewBag.PageNumber == i ? "active" : "")">
+                                <a class="page-link" href="#" onclick="loadPage(@i)">@i</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
 
 
-                   @*  <div class="row col-12 pagination_review">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination" id="paginationList">
-                            </ul>
-                        </nav>
-                    </div>
- *@
 
-                   @*  <section aria-label="Page navigation">
-                        <!-- Pagination links -->
-                        <ul class="pagination justify-content-center">
-                            @if (@ViewBag.PageNamber > 1)
-                            {
-                                <li class="page-item">
-                                    <a class="page-link" href="@Url.Action("IndexReview", new { id =  @ViewBag.ProductId, pageNumber =  @ViewBag.PageNamber - 1, criteria = ViewBag.Criteria })">Previous</a>
-                                </li>
-                            }
-                            @for (int i = 1; i <= Math.Ceiling((double)Model.Count / ViewBag.pageSize); i++)
-                            {
-                                <li class="page-item @(i ==  @ViewBag.PageNamber ? "active" : "")">
-                                    <a class="page-link" href="@Url.Action("IndexReview", new {id =  @ViewBag.ProductId, pageNumber = i, criteria = ViewBag.Criteria })">@i</a>
-                                </li>
-                            }
+ 
 
-                            @if (@ViewBag.PageNamber < Math.Ceiling((double)Model.Count / ViewBag.pageSize))
-                            {
-                                <li class="page-item">
-                                    <a class="page-link" href="@Url.Action("IndexReview", new { categoryId = ViewBag.CategoryId, pageNumber =  @ViewBag.PageNamber + 1, criteria = ViewBag.Criteria })">Next</a>
-                                </li>
-                            }
-                        </ul>
 
-                    </section>
- *@
 
-             @*    </div> *@
+               
             }
            
 
-     @*    </div> *@
-   @*  </div> *@
+        </div> 
+     </div>
 
 
    
@@ -271,91 +292,7 @@
 
     <script>
 
-        // var pages = ["1", "2", "3", "4", "5", "6", "7"];
-        // var currentPageIndex = 0;
-
-        // // Function to create pagination elements
-        // function createPageElements() {
-        //     var paginationList = document.getElementById("paginationList");
-        //     paginationList.innerHTML = ""; // Clear previous elements
-
-        //     // Add new page items to the pagination
-        //     for (var i = currentPageIndex; i < currentPageIndex + 3; i++) {
-        //         if (i >= pages.length) break; // Check if index is within array bounds
-        //         var pageItem = document.createElement("li");
-        //         pageItem.className = "page-item";
-        //         var pageNumber = pages[i];
-        //         pageItem.innerHTML = `<a class="page-link" onclick="sendPageNumber(${pageNumber})">${pageNumber}</a>`;
-        //         paginationList.appendChild(pageItem);
-        //     }
-
-        //     // Add "Next" button
-        //     var nextButton = document.createElement("li");
-        //     nextButton.className = "page-item";
-        //     nextButton.innerHTML = '<a class="page-link" >Next</a>';
-        //     nextButton.onclick = nextPage;
-        //     paginationList.appendChild(nextButton);
-
-        //     // Add "Previous" button
-        //     var prevButton = document.createElement("li");
-        //     prevButton.className = "page-item";
-        //     prevButton.innerHTML = '<a class="page-link" href="#">Previous</a>';
-        //     prevButton.onclick = previousPage;
-        //     paginationList.insertBefore(prevButton, paginationList.firstChild);
-        // }
-
-        // // Function to navigate to next page
-        // function nextPage() {
-        //     if (currentPageIndex + 3 < pages.length) {
-        //         currentPageIndex++;
-        //         createPageElements();
-        //     } else {
-        //         increasePageNumbers();
-        //         currentPageIndex++;
-        //         createPageElements();
-        //     }
-        // }
-
-        // // Function to navigate to previous page
-        // function previousPage() {
-        //     if (currentPageIndex > 0) {
-        //         currentPageIndex--;
-        //         createPageElements();
-        //     }
-        // }
-
-        // // Function to increase page numbers
-        // function increasePageNumbers() {
-        //     var lastPage = parseInt(pages[pages.length - 1]);
-        //     for (var i = 1; i <= 3; i++) {
-        //         pages.push((lastPage + i).toString());
-        //     }
-        // }
-
-        // // Function to send selected page number to controller using AJAX
-        // function sendPageNumber(pageNumber) {
-        //     var _page = pageNumber - 1;
-        //     var _productId = parseInt($('#productId').text());
-        //     console.log(_page)
-        //     console.log(_productId)
-        //     $.ajax({
-        //         type: "GET",
-        //         url: "/Review/IndexReview?id=" + _productId + "&page=" + _page,
-        //         // data: { id: _productId, count: _count },
-        //         success: function (response) {
-        //             console.log(response)
-        //             $('#Review').html(response);
-        //             console.log("Page number sent successfully:", _page);
-
-
-        //         },
-        //         error: function (xhr, status, error) {
-        //             console.error("Error sending page number:", error);
-        //         }
-        //     });
-        // }
-
-
+       
 
         // sidebar
         $(document).ready(function () {
@@ -365,9 +302,9 @@
                 var _Description = $('#Description').text();
 
                 var _imgproduct = $('#productImg').attr('src');
-
+                console.log(_imgproduct)
                 var _productId = parseInt($('#productId').text());
-
+                console.log(_productId)
 
                 if (_productId === 0) {
                     console.error('Please provide a review before submitting.');
@@ -399,7 +336,19 @@
                 });
             });
         });
-       
+        function loadPage(pageNumber) {
+            $.ajax({
+                url: "/Review/IndexReview?id=@ViewBag.ProductId&page=" + pageNumber,
+                type: "GET",
+                success: function (response) {
+                    console.log(response);
+                    $("#reviewContainer").html(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading page:", error);
+                }
+            });
+        }
     </script>
 
 </body>

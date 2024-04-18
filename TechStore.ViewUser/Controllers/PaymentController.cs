@@ -79,7 +79,7 @@ namespace TechStore.ViewUser.Controllers
                 Mode = "payment"
             };
 
-            foreach(var item in CartItems)
+            foreach (var item in CartItems)
             {
                 var sessionLineItem = new SessionLineItemOptions
                 {

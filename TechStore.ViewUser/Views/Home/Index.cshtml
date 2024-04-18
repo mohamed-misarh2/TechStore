@@ -1,4 +1,7 @@
 ﻿
+
+
+
 @{
     ViewData["Title"] = "Home Page";
 
@@ -22,14 +25,11 @@
             background-color: #f9f9f9;
         }
 
-         .swiper-slide {
-          
-          
-        } 
+         
 
         .card {
             width: 100%;
-            height: 30vh;
+            height: auto;
             border:   1px solid #ddd;
             
             transition: box-shadow 0.3s ease;
@@ -42,7 +42,7 @@
         .card-img-top {
             
             width: 100%;
-            height: 15vh;
+            height: auto;
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
         }
@@ -59,23 +59,23 @@
             -webkit-box-orient: vertical;
    }
         .card-title {
-            font-size: 18px;
+            /* font-size: 18px; */
             font-weight: bold;
         }
 
         .card-text {
-            font-size: 16px;
+            /* font-size: 16px; */
             line-height: 1.5;
             margin-bottom: 10px;
         }
 
         .cart-price {
-            font-size: 18px;
+            /* font-size: 18px; */
             font-weight: bold;
         }
 
         .cart-EGP {
-            font-size: 14px;
+            /* font-size: 14px; */
             margin-left: 3px;
         }
 
@@ -135,28 +135,28 @@
                         <a asp-controller="Product" asp-action="Mobile" class="image-item">
                             <img class="p-2" src="./image-Categories-slide/Mobile.webp" alt="" style="width: 125%;">
                         </a>
-                        <h5 class="text-center" style="margin-top: 10px;">Mobile&Tablet</h5>
+                    <h5 class="text-center" style="margin-top: 10px;">@Localizer["Mobile&Tablet"]</h5>
                     </div>
 
                     <div class="d-inline-block mx-4 text-center">
                         <a asp-controller="Product" asp-action="Laptop" class="image-item">
                             <img class="p-2" src="./image-Categories-slide/laptop.webp" alt="" style="width: 130%;">
                         </a>
-                        <h5 class="text-center" style="margin-top: 10px;">Laptop</h5>
+                    <h5 class="text-center" style="margin-top: 10px;">@Localizer["Laptop"]</h5>
                     </div>
 
                     <div class="d-inline-block mx-4 text-center">
                         <a asp-controller="Product" asp-action="SmartWatch" class="image-item">
                             <img class="p-2" src="./image-Categories-slide/Smart Watch.webp" alt="" style="width: 130%;">
                         </a>
-                        <h5 class="text-center" style="margin-top: 10px;">Smart Watch</h5>
+                    <h5 class="text-center" style="margin-top: 10px;">@Localizer["SmartWatch"]</h5>
                     </div>
 
                     <div class="d-inline-block mx-4 text-center">
                         <a asp-controller="Product" asp-action="Screen" class="image-item">
                             <img class="p-2" src="./image-Categories-slide/tv.webp" alt="" style="width: 130%;">
                         </a>
-                        <h5 class="text-center" style="margin-top: 10px;">Screen</h5>
+                    <h5 class="text-center" style="margin-top: 10px;">@Localizer["Screens"]</h5>
                     </div>
                 </div>
             </div>
@@ -170,7 +170,7 @@
         <section class="Product_section_1">
             <div class="container container_wrapper">
                 <div class="swiper  p-2">
-                    <h1>New arrivals</h1>
+                <h4>@Localizer["Newarrivals"]</h4>
                     <div class="swiper-wrapper ">
                         <!-- Slides -->
                         @foreach (var pro1 in Products1)
@@ -223,18 +223,17 @@
         <section class="Product_section_2  ">
             <div class="container container_wrapper">
                 <div class="swiper  m-1  p-2 ">
-                    <h1>Top offers</h1>
+                <h4>@Localizer["Topoffers"]</h4>
                     <!-- Additional required wrapper -->
                     <div class="swiper-wrapper ">
                         <!-- Slides -->
                         @foreach (var TOfers in TopOfers1)
                         {
-
-                            <div class="swiper-slide m-0 w-25">
+                            <div class="swiper-slide m-1 w-25">
                                 <div class="card  ">
                                     <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@TOfers.Id">
-                                        <img src="@((TOfers.Images.Count > 0) ? TOfers.Images[0] : string.Empty)" class="card-img-top" alt="...">
-                                    </a>
+                                    <img src="@((TOfers.Images.Count > 0) ? TOfers.Images[0] : string.Empty)" class="card-img-top" alt="...">
+                                </a>
                                     <div class="card-body">
                                         <p class=""> @TOfers.Description</p>
                                         @if (TOfers.DiscountValue > 0)
@@ -277,7 +276,7 @@
         <!-- Why TechStoer -->
         <section class="container">
             <div class="m-1 p-1 shadow">
-                <h3>Why TechStoer</h3>
+            <h4>@Localizer["WhyTechStoer"]</h4>
                 <div class="row justify-content-center">
                     <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
                         <div class="categories text-center shadow">
@@ -318,14 +317,14 @@
         <section class="Product_section_2">
             <div class="container container_wrapper">
                 <div class="swiper  p-2">
-                    <h1>Based on your preference</h1>
+                <h4>@Localizer["Basedonyourpreference"]</h4>
                     <!-- Additional required wrapper -->
                     <div class="swiper-wrapper ">
                         <!-- Slides -->
                         @foreach (var pro2 in Products2)
                         {
 
-                            <div class="swiper-slide m-1 w-auto ">
+                            <div class="swiper-slide m-1 w-25 ">
                                 <div class="card  ">
                                     <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@pro2.Id">
                                         <img src="@((pro2.Images.Count > 0) ? pro2.Images[0] : string.Empty)" class="card-img-top" alt="...">
@@ -370,9 +369,10 @@
 
 
         <!-- Popular brands  -->
-        <div class="container col-12 mt-5 p-2 ">
+        <div class="container  ">
             <div class="row">
-                <div class=" m-0 p-1 shadow">
+                <div class=" m-1 p-1 ">
+                <h4>@Localizer["Popularbrands"]</h4>
                     <div id="carouselExampleControlsbrands" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
@@ -477,8 +477,8 @@
         <section class="Product_section_3">
             <div class="container container_wrapper">
                 <div class="swiper  p-2">
-                    <h1>Based on your views</h1>   
-                    <div class="swiper-wrapper ">
+                <h4>@Localizer["Basedonyourviews"]</h4>
+                <div class="swiper-wrapper ">
                         <!-- Slides -->
                         @foreach (var pro3 in Products3)
                         {
@@ -567,7 +567,7 @@
                 spaceBetween: 20
             },
             640: {
-                slidesPerView: 4,
+                slidesPerView: 5,
                 spaceBetween: 30
             }
         }

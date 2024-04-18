@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using TechStore.Application.Services;
@@ -10,6 +11,7 @@ namespace TechStore.ViewUser.Controllers
     public class CartController : Controller
     {
         private readonly IProductService _productService;
+
 
         public CartController(IProductService productService)
         {
@@ -91,5 +93,15 @@ namespace TechStore.ViewUser.Controllers
             return View("Cart", sessionCartItems);
         }
 
+
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddMonths(1) });
+            return LocalRedirect(returnUrl);
+        }
     }
 }

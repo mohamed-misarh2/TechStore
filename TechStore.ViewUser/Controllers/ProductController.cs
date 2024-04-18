@@ -6,7 +6,6 @@ using TechStore.Dtos.ProductDtos;
 using TechStore.Models;
 using TechStore.Dtos.ReviewDtos;
 using TechStore.Dtos.ViewResult;
-using TechStore.Models;
 using TechStore.ViewUser.Models;
 using Microsoft.AspNetCore.Http;
 using TechStore.ViewUser.ExtenstionMethods;
@@ -28,7 +27,7 @@ namespace TechStore.ViewUser.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> Mobile(int pageNumber = 1, int pageSize = 3)
+        public async Task<IActionResult> Mobile(int pageNumber = 1, int pageSize = 9)
         {
             ViewBag.CategoryId = 1;
             var brands = await _productService.GetBrands(1);
@@ -40,38 +39,38 @@ namespace TechStore.ViewUser.Controllers
             ViewBag.ActionName = "Mobile";
             return View("ProductsByCategory", products);
         }
-        public async Task<IActionResult> Laptop(int pageNumber = 1, int pageSize = 3)
+        public async Task<IActionResult> Laptop(int pageNumber = 1, int pageSize = 9)
         {
             ViewBag.CategoryId = 2;
 
             var brands = await _productService.GetBrands(2);
             ViewBag.Brands = brands;
-            ViewBag.WarrantyOptions = new List<string> { "1 Year", "2 Years", "3 Years", "5 Years" };
+            ViewBag.WarrantyOptions = new List<string> { "1 Year", "2 Years", "3 Months", "6 Months", "30 Days" };
 
             var products = await _productService.FilterProductsByCategory(2, pageSize, pageNumber);
             ViewBag.PageNumber = pageNumber;
             ViewBag.ActionName = "Laptop";
             return View("ProductsByCategory", products);
         } 
-        public async Task<IActionResult> Screen(int pageNumber = 1, int pageSize = 3)
+        public async Task<IActionResult> Screen(int pageNumber = 1, int pageSize = 9)
         {
             ViewBag.CategoryId = 3;
 
             var brands = await _productService.GetBrands(3);
             ViewBag.Brands = brands;
-            ViewBag.WarrantyOptions = new List<string> { "1 Year", "2 Years", "3 Years", "5 Years" };
+            ViewBag.WarrantyOptions = new List<string> { "1 Year", "2 Years", "3 Months", "6 Months", "30 Days" };
 
             var products = await _productService.FilterProductsByCategory(3, pageSize, pageNumber);
             ViewBag.PageNumber = pageNumber;
             ViewBag.ActionName = "Screen";
             return View("ProductsByCategory", products);
         } 
-        public async Task<IActionResult> SmartWatch(int pageNumber = 1, int pageSize = 3)
+        public async Task<IActionResult> SmartWatch(int pageNumber = 1, int pageSize = 9)
         {
             ViewBag.CategoryId = 4;
             var brands = await _productService.GetBrands(4);
             ViewBag.Brands = brands;
-            ViewBag.WarrantyOptions = new List<string> { "1 Year", "2 Years", "3 Years", "5 Years" };
+            ViewBag.WarrantyOptions = new List<string> { "1 Year", "2 Years", "3 Months", "6 Months", "30 Days" };
 
             var products = await _productService.FilterProductsByCategory(4, pageSize, pageNumber);
             ViewBag.PageNumber = pageNumber;
@@ -80,7 +79,7 @@ namespace TechStore.ViewUser.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Search(string name, int pageSize = 6, int pageNumber = 1)
+        public async Task<IActionResult> Search(string name, int pageSize = 9, int pageNumber = 1)
         {
             try
             {
@@ -97,13 +96,13 @@ namespace TechStore.ViewUser.Controllers
 
         }
     
-        public async Task<IActionResult> Filter(FillterProductsDtos criteria, int categoryId, int itemsPerPage = 3, int pageNumber = 1)
+        public async Task<IActionResult> Filter(FillterProductsDtos criteria, int categoryId, int itemsPerPage = 9, int pageNumber = 1)
         {
             try
             {
                 var brands = await _productService.GetBrands(categoryId);
                 ViewBag.Brands = brands;
-                ViewBag.WarrantyOptions = new List<string> { "1 Year", "2 Years", "3 Years", "5 Years" };
+                ViewBag.WarrantyOptions = new List<string> { "1 Year", "2 Years", "3 Months", "6 Months", "30 Days" };
 
                 if (ViewBag.Brands == null)
                 {
@@ -142,26 +141,26 @@ namespace TechStore.ViewUser.Controllers
 
         public async Task<IActionResult> SortByAscending(int categoryId, int pageNumber = 1)
         {
-            var result = await _productService.SortProductsByAscending(categoryId, 3, pageNumber);
+            var result = await _productService.SortProductsByAscending(categoryId, 9, pageNumber);
             ViewBag.CategoryId = categoryId;
             ViewBag.PageNumber = pageNumber;
             var brands = await _productService.GetBrands(categoryId);
             ViewBag.Brands = brands;
-            ViewBag.WarrantyOptions = new List<string> { "1 Year", "2 Years", "3 Years", "5 Years" };
-           
-            
+            ViewBag.WarrantyOptions = new List<string> { "1 Year", "2 Years", "3 Months", "6 Months", "30 Days" };
+
+
             return View("ProductsByCategory", result);
         }
 
         public async Task<IActionResult> SortByDescending(int categoryId, int pageNumber = 1)
         {
 
-            var result = await _productService.SortProductsByDesending(categoryId, 3, pageNumber);
+            var result = await _productService.SortProductsByDesending(categoryId, 9, pageNumber);
             ViewBag.CategoryId = categoryId;
             ViewBag.PageNumber = pageNumber;
             var brands = await _productService.GetBrands(categoryId);
             ViewBag.Brands = brands;
-            ViewBag.WarrantyOptions = new List<string> { "1 Year", "2 Years", "3 Years", "5 Years" };
+            ViewBag.WarrantyOptions = new List<string> { "1 Year", "2 Years", "3 Months", "6 Months", "30 Days" };
 
             return View("ProductsByCategory", result);
         }
