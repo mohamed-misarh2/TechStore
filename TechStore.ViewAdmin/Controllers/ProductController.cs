@@ -139,11 +139,11 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpPut("Filterr")]
-        public async Task<IActionResult> Filterr(FillterProductsDtos fillterProductsDtos, int ItemsPerPage, int PageNumber)
+        public async Task<IActionResult> Filterr(FillterProductsDtos fillterProductsDtos, int CategoryId, int ItemsPerPage, int PageNumber)
         {
             if (ModelState.IsValid)
             {
-                var products = await _productService.FilterProducts(fillterProductsDtos, ItemsPerPage, PageNumber);
+                var products = await _productService.FilterProducts(fillterProductsDtos, CategoryId, ItemsPerPage, PageNumber);
                 return Ok(products);
             }
             return BadRequest(ModelState); 
@@ -151,11 +151,11 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpGet("SortProductsByDescending")]
-        public async Task<IActionResult> SortProductsByDescending(int ItemsPerPage, int PageNumber)
+        public async Task<IActionResult> SortProductsByDescending(int CategoryId,int ItemsPerPage, int PageNumber)
         {
             if (ModelState.IsValid)
             {
-                var products = await _productService.SortProductsByDesending(ItemsPerPage, PageNumber);
+                var products = await _productService.SortProductsByDesending(CategoryId, ItemsPerPage, PageNumber);
                 return Ok(products);
             }
             return BadRequest(ModelState);
@@ -163,11 +163,11 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpGet("SortProductsByAscending")]
-        public async Task<IActionResult> SortProductsByAscending(int ItemsPerPage, int PageNumber)
+        public async Task<IActionResult> SortProductsByAscending(int CategoryId, int ItemsPerPage, int PageNumber)
         {
             if (ModelState.IsValid)
             {
-                var products = await _productService.SortProductsByAscending(ItemsPerPage, PageNumber);
+                var products = await _productService.SortProductsByAscending(CategoryId,ItemsPerPage, PageNumber);
                 return Ok(products);
             }
             return BadRequest(ModelState);

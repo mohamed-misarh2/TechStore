@@ -145,5 +145,6 @@ namespace TechStore.Infrastructure
         {
             return _entities.Select(b => b.Brand);
         }
+
     }
 }
