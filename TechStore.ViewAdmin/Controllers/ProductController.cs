@@ -69,11 +69,11 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromForm] ProductCategorySpecificationsListDto product)//spec doesn't take from form??
+        public async Task<ActionResult> Create([FromBody] ProductWithSpecificationsDto productWithSpecificationsDto)//spec doesn't take from form??
         {
             if (ModelState.IsValid)
             {
-                var res =  await _productService.Create(product.CreateOrUpdateProductDtos,product.ProductCategorySpecifications);
+                var res =  await _productService.Create(productWithSpecificationsDto);
                 return Ok(res);
             }
             return BadRequest(ModelState);
@@ -114,11 +114,11 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpPut]
-        public async Task<ActionResult> Update([FromBody] ProductCategorySpecificationsListDto product)
+        public async Task<ActionResult> Update([FromBody] ProductWithSpecificationsDto productWithSpecificationsDto)
         {
             if (ModelState.IsValid)
             {
-                var Product = await _productService.Update(product.CreateOrUpdateProductDtos,product.ProductCategorySpecifications);
+                var Product = await _productService.Update(productWithSpecificationsDto);
                 return Ok("Updated Successfully!");
             }
             return BadRequest(ModelState);
@@ -138,43 +138,40 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
 
-        //[HttpPut("Filterr")]
-        //public async Task<IActionResult> Filterr(FillterProductsDtos fillterProductsDtos, int ItemsPerPage, int PageNumber)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var products = await _productService.FilterProducts(fillterProductsDtos, ItemsPerPage, PageNumber);
-        //        return Ok(products);
-        //    }
-        //    return BadRequest(ModelState);
-            
-        //}
+        [HttpPut("Filterr")]
+        public async Task<IActionResult> Filterr(FillterProductsDtos fillterProductsDtos, int CategoryId, int ItemsPerPage, int PageNumber)
+        {
+            if (ModelState.IsValid)
+            {
+                var products = await _productService.FilterProducts(fillterProductsDtos, CategoryId, ItemsPerPage, PageNumber);
+                return Ok(products);
+            }
+            return BadRequest(ModelState); 
+        }
 
 
-        //[HttpGet("SortProductsByDescending")]
-        //public async Task<IActionResult> SortProductsByDescending(int ItemsPerPage, int PageNumber)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var products = await _productService.SortProductsByDesending(ItemsPerPage, PageNumber);
-        //        return Ok(products);
-        //    }
-        //    return BadRequest(ModelState);
+        [HttpGet("SortProductsByDescending")]
+        public async Task<IActionResult> SortProductsByDescending(int CategoryId,int ItemsPerPage, int PageNumber)
+        {
+            if (ModelState.IsValid)
+            {
+                var products = await _productService.SortProductsByDesending(CategoryId, ItemsPerPage, PageNumber);
+                return Ok(products);
+            }
+            return BadRequest(ModelState);
+        }
 
-        //}
 
-
-        //[HttpGet("SortProductsByAscending")]
-        //public async Task<IActionResult> SortProductsByAscending(int ItemsPerPage, int PageNumber)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var products = await _productService.SortProductsByAscending(ItemsPerPage, PageNumber);
-        //        return Ok(products);
-        //    }
-        //    return BadRequest(ModelState);
-
-        //}
+        [HttpGet("SortProductsByAscending")]
+        public async Task<IActionResult> SortProductsByAscending(int CategoryId, int ItemsPerPage, int PageNumber)
+        {
+            if (ModelState.IsValid)
+            {
+                var products = await _productService.SortProductsByAscending(CategoryId,ItemsPerPage, PageNumber);
+                return Ok(products);
+            }
+            return BadRequest(ModelState);
+        }
 
 
         //search
@@ -189,8 +186,6 @@ namespace TechStore.ViewAdmin.Controllers
             }
             return BadRequest(ModelState);
         }
-
-      
 
     }
 }

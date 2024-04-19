@@ -18,6 +18,7 @@ namespace TechStore.Models
         public string? UserId { get; set; }
         public DateTime? OrderDate { get; set; } = DateTime.Now;
         public string? ShippingAddress { get; set; }
+        public string? PayMethod { get; set; }
         public string? Phone { get; set; }
         public decimal? TotalPrice { get; set; }
         public OrderStatus? OrderStatus { get; set; }

@@ -11,7 +11,7 @@ using TechStore.ViewUser.ExtenstionMethods;
 
 namespace TechStore.ViewUser.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
@@ -50,6 +50,12 @@ namespace TechStore.ViewUser.Controllers
         {
             var OrderItems = await _orderService.GetOrderDetails(OrderId);
             return View("OrderItems", OrderItems);
+        }
+
+        public async Task<IActionResult> CancelOrder(int OrderId)
+        {
+            await _orderService.SoftDeleteOrderAsync(OrderId);
+            return RedirectToAction("GetAllOrders");
         }
 
 

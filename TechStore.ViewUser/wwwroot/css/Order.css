@@ -36,9 +36,9 @@ h2 {
 
 .order-card {
     border-radius: 10px;
-    padding: 40px;
+    padding: 40px 40px 80px;
     margin-bottom: 20px;
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3)
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
 }
 
 .order-header h3 {
@@ -72,13 +72,75 @@ h2 {
 .btn {
     background-color: #0E001A !important;
     color:white;
+    margin-top:15px;
+}
+
+.cancel {
+    background-color: #e41f1f !important;
+    border: none !important;
+}
+
+span {
+    font-size: 12px;
+}
+
+button.btn.btn-outline-dark.cancel.float-end {
+    margin-right: 7px;
+}
+
+
+@media (max-width: 1000px) {
+
+    .order-card {
+        padding: 25px 25px 70px;
+        margin-bottom: 30px;
+    }
+
+    .btn {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 900px) {
+    .order-card {
+        padding: 25px 25px 70px;
+        margin-bottom: 30px;
+    }
+
+    .order-header h3 {
+        font-size: 15px;
+    }
+
+    .order-header p {
+        font-size: 12px;
+    }
+
+    .order-details p {
+        font-size: 12px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .butnon {
+        padding-top: 10px;
+        text-align: end;
+    }
+
+    .btn {
+        font-size: 12px !important;
+        
+    }
+  
 }
 
 
 @media (max-width: 768px) {
     .col-md-6 {
         flex: 0 0 100%;
-        max-width: 100%;
+        max-width: 90%;
+        margin:auto;
     }
     .order-card {
         padding: 25px;
@@ -110,56 +172,30 @@ h2 {
     body{
         margin:0px !important;
     }
-    .container {
-        max-width: 600px;
+
+    .order-card {
+        padding: 25px 25px 50px;
+        margin-bottom: 20px;
     }
-    
 }
 
 
 @media (max-width: 576px) {
+
     .col-md-6 {
         flex: 0 0 100%;
-        max-width: 100%;
+        max-width: 80%;
+        margin: auto;
     }
+
     .order-card {
-        padding: 25px;
+        padding: 25px 25px 50px ;
         margin-bottom: 30px;
     }
+
 }
 
-@media (max-width: 900px) {
-    .order-card {
-        padding: 25px;
-        margin-bottom: 20px;
-    }
 
-    .order-header h3 {
-        font-size: 15px;
-    }
-
-    .order-header p {
-        font-size: 12px;
-    }
-
-    .order-details p {
-        font-size: 12px;
-    }
-
-    h2 {
-        font-size: 20px;
-    }
-
-    .butnon {
-        padding-top: 10px;
-        text-align: end;
-    }
-
-    .btn {
-        font-size: 12px !important;
-    }
-  
-}
 
 
 

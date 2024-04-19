@@ -122,7 +122,9 @@
         }
 
         <h2>Total Price: @(totalprice.ToString("C"))</h2>
-    </div>
+    </div> 
+
+    <a asp-action="CheckOut" asp-controller="Payment" class="btn btn-dark">Pay Now</a>
     </body>
 </html>
 
