@@ -34,6 +34,7 @@ namespace TechStore.Application.Services
 
             try
             {
+                //problem here 
                 var order = _mapper.Map<Order>(orderDto);
                 order.OrderDate = DateTime.Now;
 
@@ -41,22 +42,21 @@ namespace TechStore.Application.Services
 
                 foreach (var orderItem in orderItems)
                 {
+                    var correspondingDto = orderDto.OrderItems.FirstOrDefault(dto => dto.Id == orderItem.Id);
+                    if (correspondingDto != null)
+                    {
+                        orderItem.UnitPrice = correspondingDto.UnitePrice;
+                    }
+
                     var product = await _productRepository.GetByIdAsync(orderItem.ProductId);
-                    if (product == null)
-                        throw new Exception($"Product with ID {orderItem.ProductId} not found.");
-
-                    // Set the unit price of the order item to the actual price of the product
-                    orderItem.UnitPrice = product.Price;
-
-                    // Adjust product quantity
+                    if(product.Quantity < orderItem.Quantity)
+                        throw new Exception($"Product'Quantity Isn't Valid");
                     product.Quantity -= orderItem.Quantity ?? 0;
                     await _productRepository.UpdateAsync(product);
                     await _productRepository.SaveChangesAsync();
                 }
 
-                // Calculate the total price based on order item quantities and unit prices
-                order.TotalPrice = orderItems.Sum(item => (item.Quantity ?? 0) * item.UnitPrice);
-
+                order.TotalPrice = orderDto.TotalPrice;
                 order.OrderItems = orderItems;
 
                 var createdOrder = await _orderRepository.CreateAsync(order);
@@ -229,7 +229,7 @@ namespace TechStore.Application.Services
                         ProductId = OrderItem.ProductId,
                         Description = OrderItem.Product.Description,
                         Price = OrderItem.Product.Price,
-                        Quantity = OrderItem.Product.Quantity,
+                        Quantity = OrderItem.Quantity,
                         Image = product.Images.Select(i => i.Name).FirstOrDefault()
                     };
                     list.Add(obj);

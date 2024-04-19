@@ -70,7 +70,7 @@ namespace TechStore.Infrastructure
         public async Task<List<Order>> GetOrdersByUserIdAsync(string userId)
         {
             return await _context.Orders
-                .Where(order => order.UserId == userId)
+                .Where(order => order.UserId == userId && order.IsDeleted == false)
                 .ToListAsync();
         }
     }

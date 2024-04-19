@@ -20,7 +20,7 @@
     @if (Model.Entities != null)
     {
         <div class="container">
-            <h2>Your Orders</h2>
+            <h2 class="mt-4">Your Orders</h2>
             <div class="row">
                 @foreach (var order in Model.Entities)
                 {
@@ -30,17 +30,28 @@
                                 <h3>Order ID: @order.Id</h3>
                             </div>
                             <div class="order-details">
-                                <p><span>Order Date:</span> @order.OrderDate</p>
-                                <p><span>Address:</span> @order.ShippingAddress</p>
-                                <p><span>Status:</span> @order.OrderStatus</p>
-                                <p><span>TotalPrice:</span> @order.TotalPrice EGP</p>
-                                <form asp-controller="Order" asp-action="GetAllOrderItems" method="get" class="butnon">
+                                <p><span>Order Date :</span> @order.OrderDate</p>
+                                <p><span>Address :</span> @order.ShippingAddress</p>
+                                <p><span>Status :</span> @order.OrderStatus</p>
+                                <p><span>PayMethod :</span> @order.PayMethod</p>
+                                <p><span>TotalPrice :</span> @order.TotalPrice EGP</p>
+
+
+                                <form asp-controller="Order" asp-action="GetAllOrderItems" method="get" class="butnon d-inline">
                                     <input type="hidden" name="OrderId" value="@order.Id" />
-                                    <button type="submit" class="btn btn-outline-dark">Details</button>
+                                    <button type="submit" class="btn btn-outline-dark float-end">Details</button>
                                 </form>
-                            </div>
-                        </div>
-                    </div>
+                                @if(order.OrderStatus == "Pending" && order.PayMethod == "Cash"){
+                                    <form asp-controller="Order" asp-action="CancelOrder" method="post" class="butnon d-inline">
+                                        <input type="hidden" name="OrderId" value="@order.Id" />
+                                        <button type="submit" class="btn btn-outline-dark cancel float-end">Cancel</button>
+                                    </form>
+                                }
+
+                                
+                          </div>
+                     </div>
+                   </div>
                 }
             </div>
         </div>
@@ -50,7 +61,9 @@
         <p>No orders found.</p>
     }
 
- </body>
+
+
+</body>
 
 
 
