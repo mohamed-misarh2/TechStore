@@ -6,6 +6,11 @@
     int pageSize = 3; // Assuming a default page size of 10
     var pageNumber = ViewBag.PageNumber ?? 1; // Retrieve the current page number from ViewBag
     string actionName = ViewBag.ActionName ;
+    var lan = "en";
+    if (CultureInfo.CurrentCulture.TextInfo.CultureName.StartsWith("ar"))
+    {
+        lan = "ar";
+    }
 }
 @{
     ViewData["Title"] = @actionName;
@@ -168,7 +173,16 @@
                                     {
                                         <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
                                     }
-                                    <p class="mt-3">@product.Description</p>
+                                    @if(lan=="ar")
+                                    {
+                                        <p class="mt-3">@product.Ar_Description</p>
+
+                                    }
+                                    else
+                                    {
+                                        <p class="mt-3">@product.Description</p>
+
+                                    }
                                     @if (product.DiscountValue > 0)
                                     {
                                         <h3 class="mt-3 discounted-price">@String.Format("{0:#,0}", product.DiscountedPrice) EGP</h3>

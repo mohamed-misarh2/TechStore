@@ -13,6 +13,11 @@
 
     
     var TopOfers1 = ViewBag.TopOfers1;
+    var lan = "en";
+    if (CultureInfo.CurrentCulture.TextInfo.CultureName.StartsWith("ar"))
+    {
+        lan = "ar";
+    }
 }
 
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
@@ -182,7 +187,14 @@
                                         <img src="@((pro1.Images.Count > 0) ? pro1.Images[0] : string.Empty)" class="card-img-top" alt="...">
                                     </a>
                                     <div class="card-body">
+                                    @if (lan == "ar")
+                                    {
+                                        <p class=""> @pro1.Ar_Description</p>
+                                    }
+                                    else
+                                    {
                                         <p class=""> @pro1.Description</p>
+                                    }
                                         @if (pro1.DiscountValue > 0)
                                         {
                                             string formattedDiscountedPrice = string.Format("{0:#,0}", pro1.DiscountedPrice);
@@ -235,8 +247,15 @@
                                     <img src="@((TOfers.Images.Count > 0) ? TOfers.Images[0] : string.Empty)" class="card-img-top" alt="...">
                                 </a>
                                     <div class="card-body">
+                                    @if (lan == "ar")
+                                    {
+                                        <p class=""> @TOfers.Ar_Description</p>
+                                    }
+                                    else
+                                    {
                                         <p class=""> @TOfers.Description</p>
-                                        @if (TOfers.DiscountValue > 0)
+                                    }                                 
+                                    @if (TOfers.DiscountValue > 0)
                                         {
                                             string formattedDiscountedPrice = string.Format("{0:#,0}", TOfers.DiscountedPrice);
 
@@ -330,8 +349,15 @@
                                         <img src="@((pro2.Images.Count > 0) ? pro2.Images[0] : string.Empty)" class="card-img-top" alt="...">
                                     </a>
                                     <div class="card-body">
+                                    @if (lan == "ar")
+                                    {
+                                        <p class=""> @pro2.Ar_Description</p>
+                                    }
+                                    else
+                                    {
                                         <p class=""> @pro2.Description</p>
-                                        @if (pro2.DiscountValue > 0)
+                                    }                       
+                                    @if (pro2.DiscountValue > 0)
                                         {
                                             string formattedDiscountedPrice = string.Format("{0:#,0}", pro2.DiscountedPrice);
 
@@ -489,8 +515,15 @@
                                         <img src="@((pro3.Images.Count > 0) ? pro3.Images[0] : string.Empty)" class="card-img-top" alt="...">
                                     </a>
                                     <div class="card-body">
+                                    @if (lan == "ar")
+                                    {
+                                        <p class=""> @pro3.Ar_Description</p>
+                                    }
+                                    else
+                                    {
                                         <p class=""> @pro3.Description</p>
-                                        @if (pro3.DiscountValue > 0)
+                                    }                             
+                                    @if (pro3.DiscountValue > 0)
                                         {
                                             string formattedDiscountedPrice = string.Format("{0:#,0}", pro3.DiscountedPrice);
 

@@ -30,8 +30,7 @@ namespace TechStore.ViewUser.Controllers
 
 
 
-        public IActionResult AddToCart(CartItemDto cartItemDto)
-        
+        public IActionResult AddToCart(CartItemDto cartItemDto)        
         {
             var cart = HttpContext.Session.Get<List<CartItemDto>>("Cart") ?? new List<CartItemDto>();
             var existingItem = cart.FirstOrDefault(item => item.ProductId == cartItemDto.ProductId);

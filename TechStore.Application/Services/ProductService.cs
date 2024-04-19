@@ -304,7 +304,7 @@ namespace TechStore.Application.Services
             {
 
                 var products = (await _productRepository.GetAllAsync())
-                               .Where(p => p.IsDeleted == false)
+                               .Where(p => p.IsDeleted == false&&p.Quantity>0)
                                .Skip(ItemsPerPage * (PageNumber - 1))
                                .Take(ItemsPerPage)
                                .Select(p => new GetAllProductsDtos
@@ -319,6 +319,8 @@ namespace TechStore.Application.Services
                                    DiscountValue = p.DiscountValue,
                                    DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                    IsDeleted = p.IsDeleted,
+                                   Ar_Description = p.Ar_Description,
+                                   Ar_ModelName = p.Ar_ModelName,
                                    Images = p.Images.Select(i => i.Name).ToList()
                                }).ToList();
 
@@ -363,7 +365,7 @@ namespace TechStore.Application.Services
                 }
 
                 var products = (await _productRepository.GetProductsByCategory(categoryId))
-                               .Where(p => p.IsDeleted == false)
+                               .Where(p => p.IsDeleted == false && p.Quantity > 0)
                                .Skip(ItemsPerPage * (PageNumber - 1))
                                .Take(ItemsPerPage)
                                .Select(p => new GetAllProductsDtos
@@ -378,7 +380,9 @@ namespace TechStore.Application.Services
                                     DiscountValue = p.DiscountValue,
                                     DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                     IsDeleted = p.IsDeleted,
-                                    Images = p.Images.Select(i => i.Name).ToList()
+                                   Ar_Description = p.Ar_Description,
+                                   Ar_ModelName = p.Ar_ModelName,
+                                   Images = p.Images.Select(i => i.Name).ToList()
 
                                }).ToList();
                 var totalCount = (await _productRepository.GetProductsByCategory(categoryId))
@@ -411,7 +415,7 @@ namespace TechStore.Application.Services
         public async Task<ResultDataList<GetAllProductsDtos>> SortProductsByDesending(int categoryId, int ItemsPerPage, int PageNumber)
         {
             var products = (await _productRepository.GetProductsByDescending(categoryId))
-                            .Where(p => p.IsDeleted == false)
+                            .Where(p => p.IsDeleted == false && p.Quantity > 0)
                             .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
                             .Select(p => new GetAllProductsDtos
                             {
@@ -425,6 +429,8 @@ namespace TechStore.Application.Services
                                 DiscountValue = p.DiscountValue,
                                 DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                 IsDeleted = p.IsDeleted,
+                                Ar_Description = p.Ar_Description,
+                                Ar_ModelName = p.Ar_ModelName,
                                 Images = p.Images.Select(i => i.Name).ToList()
                             }).ToList();
             var totalcount = (await _productRepository.GetProductsByDescending(categoryId))
@@ -453,7 +459,7 @@ namespace TechStore.Application.Services
         public async Task<ResultDataList<GetAllProductsDtos>> SortProductsByAscending(int categoryId,int ItemsPerPage, int PageNumber)
         {
             var products = (await _productRepository.GetProductsByAscending(categoryId))
-                            .Where(p => p.IsDeleted == false)
+                            .Where(p => p.IsDeleted == false && p.Quantity > 0)
                             .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
                             .Select(p => new GetAllProductsDtos
                             {
@@ -467,6 +473,8 @@ namespace TechStore.Application.Services
                                 DiscountValue = p.DiscountValue,
                                 DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                 IsDeleted = p.IsDeleted,
+                                Ar_Description = p.Ar_Description,
+                                Ar_ModelName = p.Ar_ModelName,
                                 Images = p.Images.Select(i => i.Name).ToList()
                             }).ToList();
             var totalcount = (await _productRepository.GetProductsByAscending(categoryId))
@@ -511,7 +519,7 @@ namespace TechStore.Application.Services
                 }
 
                 var products = (await _productRepository.SearchProduct(Name))
-                               .Where(p => p.IsDeleted == false)
+                               .Where(p => p.IsDeleted == false && p.Quantity > 0)
                                .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
                                .Select(p => new GetAllProductsDtos
                                {
@@ -525,7 +533,9 @@ namespace TechStore.Application.Services
                                     DiscountValue = p.DiscountValue,
                                     DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                     IsDeleted = p.IsDeleted,
-                                    Images = p.Images.Select(i => i.Name).ToList()
+                                   Ar_Description = p.Ar_Description,
+                                   Ar_ModelName = p.Ar_ModelName,
+                                   Images = p.Images.Select(i => i.Name).ToList()
                                }).ToList();
                 var totalCount = (await _productRepository.SearchProduct(Name))
                                .Where(p => !p.IsDeleted)
@@ -556,7 +566,7 @@ namespace TechStore.Application.Services
         public async Task<ResultDataList<GetAllProductsDtos>> FilterProducts(FillterProductsDtos fillterProductsDto, int categoryId, int ItemsPerPage, int PageNumber)
         {
             var products = (await _productRepository.FilterProducts(fillterProductsDto,categoryId))
-                            .Where(p => p.IsDeleted == false)
+                            .Where(p => p.IsDeleted == false && p.Quantity > 0)
                             .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
                             .Select(p => new GetAllProductsDtos
                             {
@@ -570,6 +580,8 @@ namespace TechStore.Application.Services
                                 DiscountValue = p.DiscountValue,
                                 DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                 IsDeleted = p.IsDeleted,
+                                Ar_Description = p.Ar_Description,
+                                Ar_ModelName = p.Ar_ModelName,
                                 Images = p.Images.Select(i => i.Name).ToList()
                             }).ToList();
             var totalcount = (await _productRepository.FilterProducts(fillterProductsDto, categoryId))
@@ -619,7 +631,7 @@ namespace TechStore.Application.Services
 
 
                 var products = (await _productRepository.GetNewlyAddedProducts(count))
-                               .Where(p => p.IsDeleted == false)
+                               .Where(p => p.IsDeleted == false && p.Quantity > 0)
                                .Select(p => new GetAllProductsDtos
                                {
                                    Id = p.Id,
@@ -633,6 +645,8 @@ namespace TechStore.Application.Services
                                    DiscountValue = p.DiscountValue,
                                    DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                    IsDeleted = p.IsDeleted,
+                                   Ar_Description = p.Ar_Description,
+                                   Ar_ModelName = p.Ar_ModelName,
                                    Images = p.Images.Select(i => i.Name).ToList()
 
                                }).ToList();
@@ -665,8 +679,25 @@ namespace TechStore.Application.Services
             {
               
                 var products = (await _productRepository.GetDiscountedProducts())
-                               .Where(p => p.IsDeleted == false)
-                               .ToList();
+                               .Where(p => p.IsDeleted == false && p.Quantity > 0)
+                                .Select(p => new GetAllProductsDtos
+                                {
+                                    Id = p.Id,
+                                    ModelName = p.ModelName,
+                                    Description = p.Description,
+                                    Brand = p.Brand,
+                                    CategoryId = p.CategoryId,
+                                    DateAdded = p.DateAdded,
+                                    Price = p.Price,
+                                    Quantity = p.Quantity,
+                                    DiscountValue = p.DiscountValue,
+                                    DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
+                                    IsDeleted = p.IsDeleted,
+                                    Ar_Description = p.Ar_Description,
+                                    Ar_ModelName = p.Ar_ModelName,
+                                    Images = p.Images.Select(i => i.Name).ToList()
+
+                                }).ToList();
 
                 if (products is null)
                 {
