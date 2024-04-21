@@ -4,6 +4,7 @@
     Layout = null;
 }
 
+<h1>@Localizer["AddReview"] </h1>
 @model TechStore.Dtos.ReviewDtos.CreateOrUpdateReviewDto 
 
 <html>
@@ -25,21 +26,23 @@
 
             #sidebars{
             height: 100%;
-            width: 0;
+        /*     width: 0; */
             position: fixed;
             top: 0;
-            right: 0;
+            right:0;
+           
             background-color:white;
-            overflow-x: hidden;
+            overflow:hidden;
             transition: 0.5s;
             padding-top: 10px;
             z-index: 1000;
-            width:360px;
+            width:382px;
             padding:10px;
             }
 
             body{
             background-color: white;
+          
             }
 
             #sidebar a {
@@ -144,7 +147,7 @@
     <body>
     
     <!-- Sidebar Review -->
-
+    
     <div id="sidebars" class="bg-light">
         <div class="row top_Items  ">
             <div class="col-7"> <h4>Review product</h4></div>
@@ -199,54 +202,21 @@
     </div>
 
 
-   
-
-
-
-
-
-
-  @*   <div class="row">
-        <div class="col-md-4">
-            <form asp-action="AddReview" asp-controller="Review" method="post" enctype="multipart/form-data">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Comment" class="control-label"></label>
-                    <input asp-for="Comment" class="form-control" />
-                    <span asp-validation-for="Comment" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Rating" class="control-label"></label>
-                    <input asp-for="Rating" class="form-control" />
-                    <span asp-validation-for="Rating" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Send" class="btn btn-primary" />
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
-
-    @section Scripts {
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        }
-    } *@
   
     <script>
         // Review
-        // function openSidebar() {
-        //     document.getElementById("sidebar").style.width = "400px";
-        // }
 
-        function closeSidebar() {
-            document.getElementById("sidebars").style.width = "0";
+      
+            function closeSidebar() {
+                var sidebar = document.getElementById("sidebars");
+                sidebar.style.width = "0";
 
-        }
+                setTimeout(function () {
+                    sidebar.style.display = "none"; 
+                }, 500); 
+            }
+
+
         function highlightStars(selectedRating) {
          
             var inputs = document.querySelectorAll('input[name="rating"]');
@@ -263,30 +233,7 @@
                 }
             }
         }
-        // console.log(Model);
-        // $(document).ready(function () {
-        //     $('#writeReviewBtn').click(function (e) {
-        //         e.preventDefault();
-
-        //         console.log(Model);
-                
-        //         $.ajax({
-        //             url: '/Review/AddReviewAsync',
-        //             type: 'Get',
-        //             data: Model;
-        //             success: function (response) {
-        //                 console.log(response)
-        //                 $('#sidebar').html(response);
-        //                 // openSidebar();
-        //             },
-        //             error: function (xhr, status, error) {
-        //                 console.error(xhr.responseText);
-        //             }
-        //         });
-        //     });
-        // });
-      
-      
+ 
     </script>
 
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using TechStore.Application.Services;
@@ -11,6 +12,7 @@ namespace TechStore.ViewUser.Controllers
     {
         private readonly IProductService _productService;
 
+
         public CartController(IProductService productService)
         {
             _productService = productService;
@@ -18,10 +20,10 @@ namespace TechStore.ViewUser.Controllers
         public async Task<IActionResult> Index()
         {
             var sessionCartItems = HttpContext.Session.Get<List<CartItemDto>>("Cart") ?? new List<CartItemDto>();
-            var productsResultTask = _productService.FilterNewlyAddedProducts(10);
+            var productsResultTask = _productService.FilterNewlyAddedProducts(30);
             var productsResult = await productsResultTask;
 
-            ViewBag.Products = productsResult.Entities.Take(5);
+            ViewBag.Products = productsResult.Entities.Take(7);
             ViewBag.Products2 = productsResult.Entities.Skip(5).Take(5);
             return View("CartTest", sessionCartItems);
         }
@@ -91,5 +93,15 @@ namespace TechStore.ViewUser.Controllers
             return View("Cart", sessionCartItems);
         }
 
+
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddMonths(1) });
+            return LocalRedirect(returnUrl);
+        }
     }
 }

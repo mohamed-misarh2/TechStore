@@ -7,7 +7,7 @@ using TechStore.Dtos.UserDTO;
 
 namespace TechStore.ViewUser.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController :Controller
     {
         private readonly IUserServices _userServices;
 
