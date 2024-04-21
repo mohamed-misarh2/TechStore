@@ -126,6 +126,9 @@
   <data name="CancelConfirmation" xml:space="preserve">
     <value>Are you sure you want to cancel the order?</value>
   </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Details</value>
   </data>

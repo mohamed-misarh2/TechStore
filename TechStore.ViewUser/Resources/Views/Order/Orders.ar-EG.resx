@@ -126,6 +126,9 @@
   <data name="CancelConfirmation" xml:space="preserve">
     <value>هل انت متاكد انك تريد الغاء الطلب ؟</value>
   </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>تاكيد</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>التفاصيل</value>
   </data>

@@ -174,6 +174,7 @@ namespace TechStore.Application.Services
                         OrderId = OrderItem.OrderId,
                         ProductId = OrderItem.ProductId,
                         Description = OrderItem.Product.Description,
+                        Ar_Description = OrderItem.Product.Ar_Description,
                         Price = OrderItem.Product.Price,
                         Quantity = OrderItem.Quantity,
                         Image = product.Images.Select(i => i.Name).FirstOrDefault()
@@ -200,8 +201,7 @@ namespace TechStore.Application.Services
                 };
             }
         }
-        
-        //
+
         public async Task<ResultView<GetOrderWithItemsDto>> GetOrderDetails(int orderId)
         { 
             var ExistingOrder = await _orderRepository.GetByIdAsync(orderId);
@@ -256,7 +256,7 @@ namespace TechStore.Application.Services
             }
         }
 
-        //
+
         public async Task<ResultDataList<GetAllOrderDto>> GetAllPaginationOrders(int ItemsPerPage, int PageNumber)
         {
             var result = new ResultDataList<GetAllOrderDto>();
