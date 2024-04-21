@@ -69,28 +69,66 @@ namespace TechStore.Application.Services
             }
         }
 
-        public async Task<ResultView<CategoryDto>> UpdateCategory(CategoryDto updatedcategory)
+
+        public async Task<ResultView<CategorySpecificationDto>> UpdateCategory(CategoryDto updatedcategory, List<SpecificationsDto> specificationsDtos)
         {
             var existingCategory = await _categoryRepository.GetByIdAsync(updatedcategory.Id);
             await _categoryRepository.DetachEntityAsync(existingCategory);
 
             if (existingCategory == null)
             {
-                return new ResultView<CategoryDto> { Entity = null, IsSuccess = false, Message = "Category not found" };
+                return new ResultView<CategorySpecificationDto>
+                {
+                    Entity = null,
+                    IsSuccess = false,
+                    Message = "Category not found"
+                };
             }
+
+            //updateCategory
             var updatedcategoryModel = _mapper.Map<Category>(updatedcategory);
             var UpdatedCategory = await _categoryRepository.UpdateAsync(updatedcategoryModel);
             await _categoryRepository.SaveChangesAsync();
 
-            if (UpdatedCategory == null)
+            //GetAllCatSpec
+            var categorySpecifications = ((await _categorySpecificationsRepository.GetAllAsync())
+                                        .Where(cs => cs.CategoryId == updatedcategory.Id)).ToList();
+
+            //delete old catspec
+            foreach (var RemoveCateSpec in categorySpecifications)
             {
-                return new ResultView<CategoryDto> { Entity = null, IsSuccess = false, Message = "updateCategory Faild" };
+                await _categorySpecificationsRepository.DeleteAsync(RemoveCateSpec);
             }
 
-            var catDto = _mapper.Map<CategoryDto>(UpdatedCategory);
+            //add new catspec
+            foreach (var specificationDto in specificationsDtos)
+            {
+                var categorySpec = new CategorySpecifications
+                {
+                    CategoryId = existingCategory.Id,
+                    SpecificationId = specificationDto.Id
+                };
+                await _categorySpecificationsRepository.CreateAsync(categorySpec);
+            }
 
-            return new ResultView<CategoryDto> { Entity = catDto, IsSuccess = true, Message = "Updated Successfully" };
+            await _categorySpecificationsRepository.SaveChangesAsync();
+
+            var catDto = _mapper.Map<CategoryDto>(UpdatedCategory);
+            var CategorySpecifications = new CategorySpecificationDto
+            {
+                Category = catDto,
+                SpecificationsDtos = specificationsDtos
+            };
+
+            return new ResultView<CategorySpecificationDto>
+            {
+                Entity = CategorySpecifications,
+                IsSuccess = true,
+                Message = "Category & Specifications Updated Successfully"
+            };
         }
+
+
 
         public async Task<ResultView<CategorySpecificationDto>> DeleteSpecFromCategory(int CategoryId,int SpecID)
         {

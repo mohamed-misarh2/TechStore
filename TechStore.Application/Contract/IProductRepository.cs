@@ -15,7 +15,8 @@ namespace TechStore.Application.Contract
     {
         Task<Product> GetProductWithImages(int id);
         Task DetachEntityAsync(Product entity);
-        
+        Task<Product> GetByIdWithSpecificationsAsync(int id);
+
         //search
         Task<IQueryable<Product>> SearchProduct(string Name);
 
