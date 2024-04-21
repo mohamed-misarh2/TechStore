@@ -20,10 +20,10 @@ namespace TechStore.ViewUser.Controllers
         public async Task<IActionResult> Index()
         {
             var sessionCartItems = HttpContext.Session.Get<List<CartItemDto>>("Cart") ?? new List<CartItemDto>();
-            var productsResultTask = _productService.FilterNewlyAddedProducts(10);
+            var productsResultTask = _productService.FilterNewlyAddedProducts(30);
             var productsResult = await productsResultTask;
 
-            ViewBag.Products = productsResult.Entities.Take(5);
+            ViewBag.Products = productsResult.Entities.Take(7);
             ViewBag.Products2 = productsResult.Entities.Skip(5).Take(5);
             return View("CartTest", sessionCartItems);
         }

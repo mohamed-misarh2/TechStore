@@ -5,9 +5,11 @@ body {
     padding: 0;
 
 }
-
+.cart_Img{
+    width:100%;
+    height:auto;
+}
 .cart {
-  
     margin-top: 20px;
     margin-bottom: 20px;
     justify-content: center;

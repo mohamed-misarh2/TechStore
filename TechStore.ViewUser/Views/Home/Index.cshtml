@@ -232,18 +232,16 @@
         </section>
         
         <!-- Product section Top offers -->
-        <section class="Product_section_2  ">
-            <div class="container container_wrapper">
-                <div class="swiper  m-1  p-2 ">
+    <section class="Product_section_2">
+        <div class="container container_wrapper">
+            <div class="swiper">
                 <h4>@Localizer["Topoffers"]</h4>
-                    <!-- Additional required wrapper -->
-                    <div class="swiper-wrapper ">
-                        <!-- Slides -->
-                        @foreach (var TOfers in TopOfers1)
-                        {
-                            <div class="swiper-slide m-1 w-25">
-                                <div class="card  ">
-                                    <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@TOfers.Id">
+                <div class="swiper-wrapper">
+                    @foreach (var TOfers in TopOfers1)
+                    {
+                        <div class="swiper-slide">
+                            <div class="card">
+                                <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@TOfers.Id">
                                     <img src="@((TOfers.Images.Count > 0) ? TOfers.Images[0] : string.Empty)" class="card-img-top" alt="...">
                                 </a>
                                     <div class="card-body">
@@ -286,10 +284,12 @@
                     <div class="swiper-button-next"></div>
 
                     <!-- If we need scrollbar -->
-
-                </div>
+          
+                
             </div>
-        </section>
+        </div>
+    </section>
+
 
 
         <!-- Why TechStoer -->
@@ -333,9 +333,9 @@
         </section>
 
         <!-- Product section 2 Based on your preference -->
-        <section class="Product_section_2">
-            <div class="container container_wrapper">
-                <div class="swiper  p-2">
+    <section class="Product_section_2">
+        <div class="container container_wrapper">
+            <div class="swiper">
                 <h4>@Localizer["Basedonyourpreference"]</h4>
                     <!-- Additional required wrapper -->
                     <div class="swiper-wrapper ">
@@ -343,8 +343,8 @@
                         @foreach (var pro2 in Products2)
                         {
 
-                            <div class="swiper-slide m-1 w-25 ">
-                                <div class="card  ">
+                        <div class="swiper-slide">
+                            <div class="card  ">
                                     <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@pro2.Id">
                                         <img src="@((pro2.Images.Count > 0) ? pro2.Images[0] : string.Empty)" class="card-img-top" alt="...">
                                     </a>
@@ -374,24 +374,22 @@
 
 
                                     </div>
-                                </div>
-                            </div>
+                                  
+               </div>
+               
+           </div>
+               }                   
+               </div>
+                <div class="swiper-pagination"></div>
 
-                        }
+                <!-- If we need navigation buttons -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+               </div>
+               </div>
 
-                    </div>
-                    <!-- If we need pagination -->
-                    <div class="swiper-pagination"></div>
+    </section>
 
-                    <!-- If we need navigation buttons -->
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
-
-                    <!-- If we need scrollbar -->
-
-                </div>
-            </div>
-        </section>
 
 
         <!-- Popular brands  -->
@@ -500,17 +498,17 @@
         <!-- Product section 3 Based on your views -->
 
 
-        <section class="Product_section_3">
-            <div class="container container_wrapper">
-                <div class="swiper  p-2">
+    <section class="Product_section_3">
+        <div class="container container_wrapper">
+            <div class="swiper">
                 <h4>@Localizer["Basedonyourviews"]</h4>
                 <div class="swiper-wrapper ">
                         <!-- Slides -->
                         @foreach (var pro3 in Products3)
                         {
 
-                            <div class="swiper-slide m-0 w-25" >
-                                <div class="card  ">
+                        <div class="swiper-slide">
+                            <div class="card  ">
                                     <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@pro3.Id">
                                         <img src="@((pro3.Images.Count > 0) ? pro3.Images[0] : string.Empty)" class="card-img-top" alt="...">
                                     </a>
@@ -557,13 +555,15 @@
 
                 </div>
             </div>
-        </section>
+                      
+         
+    </section>
 
 
       
         
 
-    </main>
+    
 
 
 
@@ -601,9 +601,9 @@
             },
             640: {
                 slidesPerView: 5,
-                spaceBetween: 30
+                spaceBetween: 10
             }
         }
     });
-
+    console.log(swiper)
 </script>

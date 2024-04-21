@@ -1,12 +1,12 @@
-document.getElementById('button1').addEventListener('click', function() {
-    document.getElementById('button1').classList.add('hidden');
-    document.getElementById('button2').classList.remove('hidden');
-  });
+//document.getElementById('button1').addEventListener('click', function() {
+//    document.getElementById('button1').classList.add('hidden');
+//    document.getElementById('button2').classList.remove('hidden');
+//  });
   
-  document.getElementById('button2').addEventListener('click', function() {
-    document.getElementById('button2').classList.add('hidden');
-    document.getElementById('button1').classList.remove('hidden');
-  });
+//  document.getElementById('button2').addEventListener('click', function() {
+//    document.getElementById('button2').classList.add('hidden');
+//    document.getElementById('button1').classList.remove('hidden');
+//  });
  
 
   ////////modal//////////////
@@ -47,9 +47,9 @@ btn.addEventListener('click', function(){
 })
 
 })
-cancelDeleteBtn.onclick = function() {
-  modal.style.display = "none";
-}
+//cancelDeleteBtn.onclick = function() {
+//  modal.style.display = "none";
+//}
 
 
 window.onclick = function(event) {
@@ -212,3 +212,35 @@ $(document).ready(function () {
 
 // var cartItems = JSON.parse(localStorage.getItem('mycartapp')) || [];
 
+//const swiper = new Swiper('.swiper', {
+
+//    loop: true,
+
+//    pagination: {
+//        el: '.swiper-pagination',
+//    },
+
+
+//    navigation: {
+//        nextEl: '.swiper-button-next',
+//        prevEl: '.swiper-button-prev',
+//    },
+
+//    slidesPerView: 1,
+//    spaceBetween: 10,
+//    breakpoints: {
+//        320: {
+//            slidesPerView: 1,
+//            spaceBetween: 10
+//        },
+//        480: {
+//            slidesPerView: 2,
+//            spaceBetween: 20
+//        },
+//        640: {
+//            slidesPerView: 5,
+//            spaceBetween: 10
+//        }
+//    }
+//});
+//window.alert(swiper)
