@@ -3,10 +3,98 @@
 @{
     ViewData["Title"] = "UpdateAccount";
 }
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: white;
+        margin: 0;
+        padding: 0;
+    }
 
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+    }
+
+    .form-container {
+        margin-top: 20px;
+        width: 400px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .form h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid rgb(173, 173, 173);
+        border-radius: 4px;
+      
+        width:fit-content;
+    }
+
+    .control-label {
+        color: rgb(29,19,240);
+    }
+
+    .form-control-file {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .form p {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .form a {
+        color: #0a0b0b;
+        text-decoration: none;
+    }
+
+        .form a:hover {
+            text-decoration: underline;
+        }
+
+    .btn {
+        margin-top: 10px;
+        background-color: rgb(146, 146, 146);
+    }
+
+        .btn:hover {
+            background-color: rgb(29,19,240);
+        }
+
+    .star {
+        color: rgb(255, 0, 0);
+        font-weight: bold;
+    }
+</style>
 <h1>@Localizer["UpdateAccount"]</h1>
 
 <hr />
+<div class="container">
+    <div class="form-container">
 <div class="row">
     <div class="col-md-4">
         <form asp-action="UpdateAccount" asp-controller="Account" method="post" enctype="multipart/form-data">
@@ -16,45 +104,45 @@
                 <input asp-for="Id" class="form-control" />
             </div>
             <div class="form-group">
-                <label dir="auto" class="control-label">@Localizer["FirstName"]</label>
+                        <label dir="auto" class="control-label">@Localizer["FirstName"]<span class="star">*</span></label>
                 @* <label asp-for="FirstName" class="control-label"></label> *@
                 <input asp-for="FirstName" class="form-control" value="@Model.FirstName" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label dir="auto" class="control-label">@Localizer["LastName"]</label>
+                        <label dir="auto" class="control-label">@Localizer["LastName"]<span class="star">*</span></label>
                 @* <label asp-for="LastName" class="control-label"></label> *@
                 <input asp-for="LastName" class="form-control" value="@Model.LastName" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label dir="auto" class="control-label">@Localizer["UserName"]</label>
+                        <label dir="auto" class="control-label">@Localizer["UserName"]<span class="star">*</span></label>
                 @* <label asp-for="UserName" class="control-label"></label> *@
                 <input asp-for="UserName" class="form-control" value="@Model.UserName" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label dir="auto" class="control-label">@Localizer["PhoneNumber"]</label>
+                        <label dir="auto" class="control-label">@Localizer["PhoneNumber"]<span class="star">*</span></label>
                 @* <label asp-for="PhoneNumber" class="control-label"></label> *@
                 <input asp-for="PhoneNumber" class="form-control" value="@Model.PhoneNumber" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label dir="auto" class="control-label">@Localizer["Email"]</label>
+                        <label dir="auto" class="control-label">@Localizer["Email"]<span class="star">*</span></label>
                 @* <label asp-for="Email" class="control-label"></label> *@
                 <input asp-for="Email" class="form-control" value="@Model.Email" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label dir="auto" class="control-label">@Localizer["Address"]</label>
+                        <label dir="auto" class="control-label">@Localizer["Address"]<span class="star">*</span></label>
                 @* <label asp-for="Address" class="control-label"></label> *@
                 <input asp-for="Address" class="form-control" value="@Model.Address" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label dir="auto" class="control-label">@Localizer["Image"]</label>
+                        <label dir="auto" class="control-label">@Localizer["Image"]<span class="star">*</span></label>
                 @* <label asp-for="Image" class="control-label"></label> *@
-                <img class="form-control img-fluid w-25 h-25" src="/ImageUser/@Model.Image" />
+                <img class="form-control img-fluid w-40 h-40" src="/ImageUser/@Model.Image" />
                 <input type="file" name="UrlImage" class="form-control" value="@Model.Image"/>
                 <span asp-validation-for="UrlImage" class="text-danger"></span>
             </div>
@@ -70,10 +158,13 @@
         <button type="submit" class="btn  btn-block " style="max-width:auto">@Localizer["BacktoList"]</button>
     </form>
 </span>
-
+</div>
+</div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
+

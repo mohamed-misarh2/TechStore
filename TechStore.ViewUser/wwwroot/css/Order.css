@@ -8,26 +8,26 @@
     display: inline-block;
 }
 
-.custom-dropdown select {
-    width: 60px; /* Adjust the width as needed */
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    padding-right: 20px;
-    cursor: pointer;
-}
+    .custom-dropdown select {
+        width: 60px; /* Adjust the width as needed */
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        padding-right: 20px;
+        cursor: pointer;
+    }
 
-.custom-dropdown .dropdown-icon {
-    font-size: 13px;
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-}
+    .custom-dropdown .dropdown-icon {
+        font-size: 13px;
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+    }
 
-.custom-dropdown .dropdown-icon:hover {
-    cursor: pointer;
-}
+        .custom-dropdown .dropdown-icon:hover {
+            cursor: pointer;
+        }
 
 h2 {
     padding: 20px 0px;
@@ -71,8 +71,8 @@ h2 {
 
 .btn {
     background-color: #0E001A !important;
-    color:white;
-    margin-top:15px;
+    color: white;
+    margin-top: 15px;
 }
 
 .cancel {
@@ -185,20 +185,6 @@ button.btn.btn-outline-dark.cancel.float-end {
 
     .btn {
         font-size: 12px !important;
-        
-    }
-
-    .modal-content {
-        margin: 30% auto;
-        padding: 30px;
-        width: 40%;
-    }
-
-
-    #confirmButton, #cancelButton {
-        margin: 0 4px;
-        padding: 8px;
-        border-radius: 8px;
     }
 }
 
@@ -207,12 +193,14 @@ button.btn.btn-outline-dark.cancel.float-end {
     .col-md-6 {
         flex: 0 0 100%;
         max-width: 90%;
-        margin:auto;
+        margin: auto;
     }
+
     .order-card {
         padding: 25px;
         margin-bottom: 20px;
     }
+
     .order-header h3 {
         font-size: 15px;
     }
@@ -233,11 +221,13 @@ button.btn.btn-outline-dark.cancel.float-end {
         padding-top: 10px;
         text-align: end;
     }
-    .btn{
-        font-size:12px !important; 
+
+    .btn {
+        font-size: 12px !important;
     }
-    body{
-        margin:0px !important;
+
+    body {
+        margin: 0px !important;
     }
 
     .order-card {
@@ -268,26 +258,8 @@ button.btn.btn-outline-dark.cancel.float-end {
     }
 
     .order-card {
-        padding: 25px 25px 50px ;
+        padding: 25px 25px 50px;
         margin-bottom: 30px;
     }
-
-    .modal-content {
-        margin: 50% auto;
-        padding: 30px;
-        width: 60%;
-    }
-
-    #confirmButton, #cancelButton {
-        margin: 0 4px;
-        padding: 8px;
-        border-radius: 8px;
-        font-size:14px;
-    }
-
 }
-
-
-
-
 

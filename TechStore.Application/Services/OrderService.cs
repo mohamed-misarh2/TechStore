@@ -174,6 +174,7 @@ namespace TechStore.Application.Services
                         OrderId = OrderItem.OrderId,
                         ProductId = OrderItem.ProductId,
                         Description = OrderItem.Product.Description,
+                        Ar_Description = OrderItem.Product.Ar_Description,
                         Price = OrderItem.Product.Price,
                         Quantity = OrderItem.Quantity,
                         Image = product.Images.Select(i => i.Name).FirstOrDefault()
@@ -200,9 +201,62 @@ namespace TechStore.Application.Services
                 };
             }
         }
-        
- 
-        
+
+        public async Task<ResultView<GetOrderWithItemsDto>> GetOrderDetails(int orderId)
+        { 
+            var ExistingOrder = await _orderRepository.GetByIdAsync(orderId);
+
+            if(ExistingOrder != null)
+            {
+                var OrderItems = await _orderItemRepository.GetOrders(orderId);
+
+                var list = new List<GetOrderDetailsDto>();
+
+
+                foreach (var OrderItem in OrderItems)
+                {
+                    var product = await _productRepository.GetByIdAsync(OrderItem.ProductId);
+                    var images = await _productRepository.GetImagesByProductId(OrderItem.ProductId);
+                    product.Images = images.ToList();
+                    var obj = new GetOrderDetailsDto
+                    {
+                        Id = OrderItem.Id,
+                        OrderId = OrderItem.OrderId,
+                        ProductId = OrderItem.ProductId,
+                        Description = OrderItem.Product.Description,
+                        Price = OrderItem.Product.Price,
+                        Quantity = OrderItem.Quantity,
+                        Ar_Description = OrderItem.Product.Ar_Description,
+                        Image = product.Images.Select(i => i.Name).FirstOrDefault()
+                    };
+                    list.Add(obj);
+                }
+
+                var orderDto = _mapper.Map<OrderWithoutItemsDto>(ExistingOrder);
+                var listDto = _mapper.Map<List<GetOrderDetailsDto>>(list);
+
+                var orderWithItemsDto = new GetOrderWithItemsDto { order = orderDto, Details = listDto };
+
+                return new ResultView<GetOrderWithItemsDto>()
+                {
+                    Entity = orderWithItemsDto,
+                    IsSuccess = true,
+                    Message = "Order Retrived Successfully"
+                };
+
+            }
+            else
+            {
+                return new ResultView<GetOrderWithItemsDto>()
+                {
+                    Entity = null,
+                    IsSuccess = false,
+                    Message = "Faild To Retrive Order"
+                };
+            }
+        }
+
+
         public async Task<ResultDataList<GetAllOrderDto>> GetAllPaginationOrders(int ItemsPerPage, int PageNumber)
         {
             var result = new ResultDataList<GetAllOrderDto>();

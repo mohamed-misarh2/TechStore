@@ -3,6 +3,11 @@
 *@
 
 @{
+    var lan = "en";
+    if (CultureInfo.CurrentCulture.TextInfo.CultureName.StartsWith("ar"))
+    {
+        lan = "ar";
+    }
 }
 @model ResultView<GetProductSpecificationNameValueDtos>
   
@@ -64,8 +69,24 @@
                     {
                     string formattedDiscountedPrice = string.Format("{0:#,0}", @Model.Entity.productsDtos.DiscountedPrice);
                     string formattedPrice = string.Format("{0:#,0}", @Model.Entity.productsDtos.Price);
-                    <h4>@Model.Entity.productsDtos.ModelName</h4>
-                        <p id="Description" style="font-size:25px">@Model.Entity.productsDtos.Description</p>
+                    @if (lan == "ar")
+                    {
+                        <h4>@Model.Entity.productsDtos.Ar_ModelName</h4>
+
+                    }
+                    else
+                    {
+                        <h4>@Model.Entity.productsDtos.ModelName</h4>
+
+                    }
+                    @if (lan == "ar")
+                    {
+                        <p id="Description" style="font-size:20px">@Model.Entity.productsDtos.Ar_Description</p>
+                    }
+                    else
+                    {
+                        <p id="Description" style="font-size:20px">@Model.Entity.productsDtos.Description</p>
+                    }
                     <h3 id="descount">@formattedDiscountedPrice EGP</h3>
                         <span class="price-container">
                             <span id="product-price-@(Model.Entity.productsDtos.Id)" data-price-amount="@Model.Entity.productsDtos.Price" data-price-type="finalPrice" class="price-wrapper" style="text-decoration:line-through">
@@ -79,14 +100,32 @@
                     {
                     string formattedPrice = string.Format("{0:#,0}", @Model.Entity.productsDtos.Price);
 
-                        <h2>@Model.Entity.productsDtos.ModelName</h2>
-                        <p id="Description" style="font-size:25px">@Model.Entity.productsDtos.Description</p>
-                        <h2>@formattedPrice EGP</h2>
+                    @if (lan == "ar")
+                    {
+                        <h4>@Model.Entity.productsDtos.Ar_ModelName</h4>
+
+                    }
+                    else
+                    {
+                        <h4>@Model.Entity.productsDtos.ModelName</h4>
+
+                    }          
+                    @if (lan == "ar")
+                    {
+                        <p id="Description" style="font-size:20px">@Model.Entity.productsDtos.Ar_Description</p>
+                    }
+                    else
+                    {
+                        <p id="Description" style="font-size:20px">@Model.Entity.productsDtos.Description</p>
+                    }                     
+                    <h2>@formattedPrice EGP</h2>
                     }
                     <!-- Form for adding product to the cart -->
                     <form id="addToCartForm" asp-action="AddToCart" asp-controller="Cart" method="post">
                         <input type="hidden" name="productId" value="@Model.Entity.productsDtos.Id" />
                         <input type="hidden" name="Description" value="@Model.Entity.productsDtos.Description" />
+                    <input type="hidden" name="Ar_Description" value="@Model.Entity.productsDtos.Ar_Description" />
+
                         @* checkdiscount *@
                         <input type="hidden" name="price" value="@Model.Entity.productsDtos.Price" />
                         <input type="hidden" name="DiscountValue" value="@Model.Entity.productsDtos.DiscountValue" />

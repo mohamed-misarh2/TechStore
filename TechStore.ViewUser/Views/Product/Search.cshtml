@@ -3,6 +3,11 @@
     ViewData["Title"] = "Search";
     int pageSize = 6; // Assuming a default page size of 10
     var pageNumber = ViewBag.PageNumber ?? 1;
+    var lan = "en";
+    if (CultureInfo.CurrentCulture.TextInfo.CultureName.StartsWith("ar"))
+    {
+        lan = "ar";
+    }
 }
 
 <style>
@@ -52,8 +57,17 @@
                                         @if (product.Images != null && product.Images.Any())
                                         {
                                             <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
-                                        }                                        <p class="mt-3">@product.Description</p>
-                                        <h3 class="mt-3">@product.DiscountedPrice EGP</h3>
+                                        }
+                                        @if (lan == "ar")
+                                        {
+                                            <p class="mt-3">@product.Ar_Description</p>
+
+                                        }
+                                        else
+                                        {
+                                            <p class="mt-3">@product.Description</p>
+
+                                        }                                        <h3 class="mt-3">@product.DiscountedPrice EGP</h3>
                                         <span class="price-container">
                                             <span id="product-price-@(product.Id)" data-price-amount="@product.Price" data-price-type="finalPrice" class="price-wrapper" style="text-decoration:line-through">
                                                 @product.Price <span class="currency"></span>

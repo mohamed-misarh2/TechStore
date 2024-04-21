@@ -24,5 +24,7 @@ namespace TechStore.Dtos.ProductDtos
         public int CategoryId { get; set; }
         public string UserId { get; set; }
         public List<IFormFile>? Images { get; set; }
+        public string? Ar_Description { get; set; }
+        public string? Ar_ModelName { get; set; }
     }
 }

@@ -22,7 +22,8 @@ namespace TechStore.Dtos.ProductDtos
         public int CategoryId { get; set; }
         public DateTime? DateAdded { get; set; }
         public bool IsDeleted { get; set; }
-       
+        public string? Ar_Description { get; set; }
+        public string? Ar_ModelName { get; set; }
     }
 
 }

@@ -73,10 +73,11 @@
                 border: 1px rgb(10, 10, 10) solid;
                 border-radius: 7px;
                 background-color: rgb(6, 5, 16);
-                width: 90%;
+                width: 79%;
                 font-weight: bold;
                 color: #fefefe;
                 height: 100%;
+                text-align:center;
             }
 
                 .Checkout button:hover {
@@ -133,6 +134,8 @@
 
         .Nameuser {
             width: auto;
+            margin:0;
+            padding:0;
         }
 
             .Nameuser span {
@@ -164,34 +167,34 @@
 
   @*   ReviewUser *@
     <div id="reviewContainer">
-        <div class="reviews_product col-12">
+        <div class="reviews_product col-12" dir="auto">
             <div class="cart-number">
-                <div><h4>Reviews</h4></div>
+                <div><h4>@Localizer["Reviews"]</h4></div>
                 <div class="number-product">@Model.Count</div>
             </div>
 
             @if (Model.Count == 0)
             {
                 <div>
-                    <h5>No reviews yet</h5>
-                    <p>Be the first to leave a review on this product and share your thoughts with other customers.</p>
+                    <h5>@Localizer["No reviews yet"]</h5>
+                    <p>@Localizer[" first to leave a review"].</p>
           
-                    <div class="Checkout col-3 ">
-
-                        <button type="button" id="writeReviewBtn">Write a Review </button>
+                    <div class="Checkout col-12 col-md-4">
+                        <button type="button" id="writeReviewBtn">@Localizer["Write a Review"] </button>
 
                     </div>
+
                 </div>
 
             }
             else
             {
               @*   <div class=" Review col-11"> *@
-                    <div class="rating_customer"><h6>Customer ratings & Review</h6></div>
+                <div class="rating_customer"><h6>@Localizer["Customer ratings & Review"]</h6></div>
 
                     <div class="Checkout col-lg-3  col-md-3 col-sm-3 ">
 
-                        <button type="button" id="writeReviewBtn">Write a Review </button>
+                    <button type="button" id="writeReviewBtn">@Localizer["Write a Review"] </button>
 
                     </div>
 

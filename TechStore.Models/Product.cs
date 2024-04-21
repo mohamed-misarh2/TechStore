@@ -17,6 +17,9 @@ namespace TechStore.Models
         public string Brand { get; set; }
         public string ModelName { get; set; }
         public int Quantity { get; set; }
+        public string? Ar_Description { get; set; }
+        public string? Ar_ModelName { get; set; }
+
         public DateTime? DateAdded { get; set; }=DateTime.Now;
         public int CategoryId { get; set; }
         public Category Category { get; set; }
