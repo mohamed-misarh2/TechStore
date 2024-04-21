@@ -230,6 +230,7 @@ namespace TechStore.Application.Services
                         Description = OrderItem.Product.Description,
                         Price = OrderItem.Product.Price,
                         Quantity = OrderItem.Quantity,
+                        Ar_Description = OrderItem.Product.Ar_Description,
                         Image = product.Images.Select(i => i.Name).FirstOrDefault()
                     };
                     list.Add(obj);
