@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TechStore.Application.Services;
 using TechStore.Dtos.OrderDtos;
 using TechStore.Dtos.ViewResult;
+using TechStore.Models;
 
 namespace TechStore.ViewAdmin.Controllers
 {
@@ -32,9 +33,9 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
         [HttpGet("GetAllOrdersAsync")]
-        public async Task<IActionResult> GetAllOrdersAsync(int ItemsPerPage, int PageNumber)
+        public async Task<IActionResult> GetAllOrdersAsync(int pageItem = 10 , int PageNumber = 1)
         {
-            var result = await _orderService.GetAllPaginationOrders(ItemsPerPage, PageNumber);
+            var result = await _orderService.GetAllPaginationOrders(pageItem, PageNumber);
             return Ok(result);
         }
 
@@ -42,13 +43,6 @@ namespace TechStore.ViewAdmin.Controllers
         public async Task<IActionResult> GetOrderItems(int orderId)
         {
             var result = await _orderService.GetOrderItems(orderId);
-            return Ok(result);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetOrder(int id)
-        {
-            var result = await _orderService.GetOrderDetails(id);
             return Ok(result);
         }
         
@@ -102,9 +96,9 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
         [HttpGet("searchOrder")]
-        public async Task<IActionResult> searchOrder(string term)
+        public async Task<IActionResult> searchOrder(int searchTerm)
         {
-            var result = await _orderService.SearchOrdersAsync(term);
+            var result = await _orderService.SearchOrdersAsync(searchTerm);
             return Ok(result);
         }
     }

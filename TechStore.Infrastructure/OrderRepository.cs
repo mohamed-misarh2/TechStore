@@ -17,33 +17,6 @@ namespace TechStore.Infrastructure
         {
         }
 
-        public async Task<Order> GetOrderWithItemsAsync(int orderId)
-        {
-            var order = await _context.Orders
-                .Where(order => order.Id == orderId)
-                .Include(order => order.OrderItems)
-                .Select(order => new Order
-                {
-                    Id = order.Id,
-                    UserId = order.UserId,
-                    OrderDate = order.OrderDate,
-                    ShippingAddress = order.ShippingAddress,
-                    OrderStatus = order.OrderStatus,
-                    TotalPrice = order.TotalPrice,
-                    OrderItems = order.OrderItems.Select(orderitem => new OrderItem
-                    {
-                        Id = orderitem.Id,
-                        OrderId = orderitem.OrderId,
-                        ProductId = orderitem.ProductId,
-                        Quantity = orderitem.Quantity ?? 0,
-                        UnitPrice = orderitem.UnitPrice ?? 0,
-                    }).ToList()
-                })
-                .FirstOrDefaultAsync();
-
-            return order;
-        }
-
         public async Task<List<Order>> GetOrdersSortedByDateAscendingAsync()
         {
             return await _context.Orders.OrderBy(order => order.OrderDate).ToListAsync();
@@ -54,14 +27,12 @@ namespace TechStore.Infrastructure
             return await _context.Orders.OrderByDescending(order => order.OrderDate).ToListAsync();
         }
 
-        public Task<List<Order>> SearchOrdersAsync(string searchTerm)
+        public Task<List<Order>> SearchOrdersAsync(int searchTerm)
         {
-            searchTerm = searchTerm.ToLower();
 
             var filteredOrders = _context.Orders
                 .Where(order =>
-                       order.ShippingAddress.ToLower().Contains(searchTerm) ||
-                       order.OrderStatus.Value.ToString() == searchTerm 
+                      (int) order.OrderStatus == searchTerm
                 ).ToList();
 
             return Task.FromResult( filteredOrders);

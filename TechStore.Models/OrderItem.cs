@@ -10,7 +10,7 @@ namespace TechStore.Models
     {
         public int? Quantity { get; set; }
         public decimal? UnitPrice { get; set; }
-        public decimal? TotalPrice => Quantity * UnitPrice; // Calculated property ??
+        public decimal? TotalPrice => Quantity * UnitPrice; 
 
         // Navigation properties
         public int? OrderId { get; set; } 

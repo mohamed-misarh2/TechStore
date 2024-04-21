@@ -9,7 +9,7 @@
     }
 }
 
-@model ResultView<GetOrderWithItemsDto>
+@model ResultDataList<GetAllOrderItemDto>
 
 <html>
 <head>
@@ -18,10 +18,9 @@
 </head>
 
 <body>
-    @* <h2>Order Details</h2> *@
-    <div class="containerr my-5">
+    <div class="container containerr my-5">
         <div class="row mx-4">
-            @foreach (var order in Model.Entity.Details)
+            @foreach (var order in Model.Entities)
             {
                 <div class="col-md-12">
                     <div class="order-details">
@@ -43,6 +42,9 @@
                                 }
                                 <p><span>@Localizer["Price"] :</span> @order.Price EGP</p>
                                 <p><span>@Localizer["Quantity"] :</span> @order.Quantity </p>
+                                <p class="mt-2 Desc">@order.Description</p>
+                                <p><span>Price :</span> @order.Price EGP</p>
+                                <p class="Quant"><span>Quantity :</span> @order.Quantity </p>
                             </div>
                         </div>
                     </div>

@@ -23,13 +23,15 @@ namespace TechStore.Application.Services
         private readonly IProductRepository _productRepository;
         private readonly IproductCategorySpecifications _productCategorySpecifications;
         private readonly IspecificationsRepository _specificationsRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public ProductService(IProductRepository productRepository,IproductCategorySpecifications productCategorySpecifications,IspecificationsRepository specificationsRepository,IMapper mapper,IWebHostEnvironment webHostEnvironment) {
+        public ProductService(IProductRepository productRepository,IproductCategorySpecifications productCategorySpecifications,IspecificationsRepository specificationsRepository,ICategoryRepository categoryRepository,IMapper mapper,IWebHostEnvironment webHostEnvironment) {
 
             _productRepository = productRepository;
             _productCategorySpecifications = productCategorySpecifications;
             _specificationsRepository = specificationsRepository;
+            _categoryRepository = categoryRepository;
             _mapper = mapper;
             _webHostEnvironment = webHostEnvironment;
         }
