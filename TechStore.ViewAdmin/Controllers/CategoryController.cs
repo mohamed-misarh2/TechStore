@@ -18,15 +18,9 @@ namespace TechStore.ViewAdmin.Controllers
         {
             _categoryService = categoryService;
         }
-        //[HttpPost]
-        //public async Task<IActionResult> Create( CategoryDto category,List<SpecificationsDto> specificationsDtos)
-        //{
-        //    var data = await _categoryService.CreateCategory(category, specificationsDtos);
-        //    return Ok(data);    
-        //}
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CategorySpecificationDto data)
+        public async Task<IActionResult> Create(CategorySpecificationDto data)
         {
             var result = await _categoryService.CreateCategory(data.Category, data.SpecificationsDtos);
             if (result.IsSuccess)
@@ -37,14 +31,14 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] CategoryDto category)
+        public async Task<IActionResult> Update(CategoryDto category)
         {
             var data = await _categoryService.UpdateCategory(category);
             return Ok(data);
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> Delete(CategoryDto category)
+        [HttpDelete("DeleteCategory")]
+        public async Task<IActionResult> DeleteCategory(CategoryDto category)
         {
             var data = await _categoryService.SoftDeleteCategory(category);
             return Ok(data);
@@ -66,9 +60,8 @@ namespace TechStore.ViewAdmin.Controllers
             return Ok(data);
         }
 
-        [HttpGet]
-        [Route("{Name}")]
-        public async Task<IActionResult> GetByName(string Name)
+        [HttpGet("SearchCategoriesByName")]
+        public async Task<IActionResult> SearchCategoriesByName(string Name)
         {
             var data = await _categoryService.GetCategoryByName(Name);
             return Ok(data);

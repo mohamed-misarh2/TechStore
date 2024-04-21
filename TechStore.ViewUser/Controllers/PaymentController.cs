@@ -133,7 +133,7 @@ namespace TechStore.ViewUser.Controllers
             decimal TotalPrice = 0;
             foreach (var item in CartItems)
             {
-                var orderItem = new OrderItemDto { ProductId = item.ProductId, Quantity = item.Quantity };
+                var orderItem = new OrderItemDto { ProductId = item.ProductId, Quantity = item.Quantity, UnitePrice = item.DiscountedPrice };
                 TotalPrice += (item.DiscountedPrice * item.Quantity);
                 orderItems.Add(orderItem);
             }

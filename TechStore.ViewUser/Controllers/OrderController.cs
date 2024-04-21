@@ -48,10 +48,11 @@ namespace TechStore.ViewUser.Controllers
 
         public async Task<IActionResult> GetAllOrderItems(int OrderId)
         {
-            var OrderItems = await _orderService.GetOrderDetails(OrderId);
+            var OrderItems = await _orderService.GetOrderItems(OrderId);
             return View("OrderItems", OrderItems);
         }
 
+        [HttpPost]
         public async Task<IActionResult> CancelOrder(int OrderId)
         {
             await _orderService.SoftDeleteOrderAsync(OrderId);

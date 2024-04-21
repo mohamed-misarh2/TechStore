@@ -39,11 +39,11 @@ namespace TechStore.Application.Mapper
             CreateMap<ProductWithSpecificationsDto,Product>().ReverseMap();
             
 
-
             CreateMap<UserDto, TechUser>().ReverseMap();
             CreateMap<CategoryDto, Category>().ReverseMap();
             CreateMap<CreateOrUpdateReviewDto, Review>().ReverseMap();
             CreateMap<GetAllReviewDto, Review>().ReverseMap();
+
 
             CreateMap<OrderDto, Order>().ReverseMap();
             CreateMap<OrderWithoutItemsDto, Order>().ReverseMap();

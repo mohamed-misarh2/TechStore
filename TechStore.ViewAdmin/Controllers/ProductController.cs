@@ -21,7 +21,7 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpGet("GetAll")]//create update delete getone getall
-        public async Task<IActionResult> GetAll(int itemsPerPage = 1, int pageNumber = 10)
+        public async Task<IActionResult> GetAll(int pageItem = 10, int pageNumber = 1)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace TechStore.ViewAdmin.Controllers
                 {
                     return NoContent();
                 }
-                var products = await _productService.GetAllPagination(itemsPerPage, pageNumber);
+                var products = await _productService.GetAllPagination(pageItem, pageNumber);
 
                 if(products.Count == 0)
                 {
@@ -48,7 +48,7 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpGet]
-        [Route("/Get/{id:int}")]
+        [Route("/GetOneById/{id:int}")]
         public async Task<IActionResult> GetOneById(int id)
         {
             if (id < 0)
@@ -69,7 +69,7 @@ namespace TechStore.ViewAdmin.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] ProductWithSpecificationsDto productWithSpecificationsDto)//spec doesn't take from form??
+        public async Task<ActionResult> Create([FromForm] ProductWithSpecificationsDto productWithSpecificationsDto)//spec doesn't take from form??
         {
             if (ModelState.IsValid)
             {

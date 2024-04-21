@@ -8,11 +8,12 @@ namespace TechStore.Dtos.OrderDtos
 {
     public class GetAllOrderItemDto
     {
-        public int Id { get; set; }
-        public int OrderId { get; set; }
-        public int ProductId { get; set; }
-        public int Quantity { get; set; }
-        public decimal UnitPrice { get; set; } 
-        public decimal TotalPrice => Quantity * UnitPrice; // Calculate total price
+        public int Id { get; set; }//orderitem
+        public int? ProductId { get; set; }//product
+        public int? OrderId { get; set; }//order
+        public string? Image { get; set; }//product
+        public string? Description { get; set; }//product
+        public decimal? Price { get; set; }//product
+        public int? Quantity { get; set; }//orderitem
     }
 }
