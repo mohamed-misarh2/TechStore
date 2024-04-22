@@ -124,7 +124,7 @@ namespace TechStore.Application.Services
 
             var reviewsWithUsers = (await _reviewRepository.GetAllAsync()).Where(review => review.ProductId == productId && review.IsDeleted==false)
                 .OrderByDescending(review => review.Id)
-                .Skip(items * pageNumber - 1)
+                .Skip(items * (pageNumber - 1))
                 .Take(items)
                 .Join(
                   await _UserRepository.GetAllAsync(),
@@ -146,7 +146,7 @@ namespace TechStore.Application.Services
 
 
             var totalCount = (await _reviewRepository.GetAllAsync())
-                .Where(review => review.ProductId == productId);
+                .Where(review => review.ProductId == productId && review.IsDeleted == false);
 
 
             ResultDataList<GetAllReviewDto> resultDataList = new ResultDataList<GetAllReviewDto>();

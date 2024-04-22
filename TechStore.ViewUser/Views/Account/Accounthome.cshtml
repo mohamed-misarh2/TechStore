@@ -38,7 +38,7 @@
     display: inline;
 }
 #content {
-    background-color: #ffffff; 
+ 
     padding: 15px;
 }
 
@@ -52,7 +52,8 @@
 #x h2{
     display: inline;
 }
-img{
+
+        .image-social {
     width: 25%;
 }
 
@@ -68,24 +69,24 @@ img{
 </head>
 <body>
     <div class="container">
-        <div class="row">
+        <div class="row col-12"  dir="auto">
             <!-- Side Panel -->
             <div id="side" class="col-md-4"> 
                 <div class="list-group">
                     <a href="Accounthome" class="list-group-item list-group-item-action" target="_self">
                         <i class="far fa-user-circle"></i>
-                        <span>Account Home</span>
+                        <span>@Localizer["Account Home"]</span>
                     </a>
                   
                     <a asp-action="UpdateAccount"  class="list-group-item list-group-item-action">
                         <i class="far fa-smile"></i>
-                        <span>update Profile</span>
+                        <span>@Localizer["update Profile"]</span>
                     </a>
                     <a asp-controller="Order" asp-action="GetAllOrders" class="list-group-item list-group-item-action" target="_self">
                         <i class="fas fa-box"></i>
-                        <span>Order History</span>
+                        <span>@Localizer["Order History"]</span>
                     </a>
-                    <a asp-action="Logout" class="list-group-item list-group-item-action log_out">Log out</a>
+                    <a asp-action="Logout" class="list-group-item list-group-item-action log_out">@Localizer["Log out"]</a>
                 </div>
                 <div id="list">
                     <div class="part" >
@@ -104,8 +105,8 @@ img{
                     <h6>Use our app</h6>
                     <p>Enjoy benefits & features use B.TECH app</p>
                      <div class="img">
-                        <img src="~/image-social-media/Google.webp">
-                        <img src="~/image-social-media/IOS.webp">
+                        <img class="image-social" src="~/image-social-media/Google.webp">
+                        <img class="image-social" src="~/image-social-media/IOS.webp">
                 </div> 
                 </div>
                     
@@ -119,7 +120,7 @@ img{
             <!-- Main Content -->
             <div id="content" class="col-md-8">
                 <div id="x">
-                    <h2>Hello,</h2>
+                    <h2>@Localizer["Hello"],</h2>
                     <h2>@Model.FirstName @Model.LastName</h2>
                     <p>@Model.PhoneNumber</p>
                 </div>

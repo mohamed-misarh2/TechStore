@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\css\order.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.3" />
@@ -20,16 +24,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\ImageUser\" />
+    <Folder Include="wwwroot\image-Categories-slide\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TechStore.Application\TechStore.Application.csproj" />
     <ProjectReference Include="..\TechStore.Context\TechStore.Context.csproj" />
     <ProjectReference Include="..\TechStore.Dtos\TechStore.Dtos.csproj" />
     <ProjectReference Include="..\TechStore.Infrastructure\TechStore.Infrastructure.csproj" />
     <ProjectReference Include="..\TechStore.Models\TechStore.Models.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\ImageUser\" />
-    <Folder Include="wwwroot\image-Categories-slide\" />
   </ItemGroup>
 
 </Project>

@@ -27,8 +27,8 @@ namespace TechStore.Application.Services
             _mapper = mapper;
         }
 
-        //
-        public async Task<ResultView<OrderDto>> CreateOrderAsync(OrderDto orderDto)//user
+        
+        public async Task<ResultView<OrderDto>> CreateOrderAsync(OrderDto orderDto)
         {
             var result = new ResultView<OrderDto>();
 
@@ -41,22 +41,18 @@ namespace TechStore.Application.Services
 
                 foreach (var orderItem in orderItems)
                 {
+                    var correspondingDto = orderDto.OrderItems.FirstOrDefault(dto => dto.Id == orderItem.Id);
+                    orderItem.UnitPrice = correspondingDto.UnitePrice;
+
                     var product = await _productRepository.GetByIdAsync(orderItem.ProductId);
-                    if (product == null)
-                        throw new Exception($"Product with ID {orderItem.ProductId} not found.");
-
-                    // Set the unit price of the order item to the actual price of the product
-                    orderItem.UnitPrice = product.Price;
-
-                    // Adjust product quantity
+                    if(product.Quantity < orderItem.Quantity)
+                        throw new Exception($"Product'Quantity Isn't Valid");
                     product.Quantity -= orderItem.Quantity ?? 0;
                     await _productRepository.UpdateAsync(product);
                     await _productRepository.SaveChangesAsync();
                 }
 
-                // Calculate the total price based on order item quantities and unit prices
-                order.TotalPrice = orderItems.Sum(item => (item.Quantity ?? 0) * item.UnitPrice);
-
+                order.TotalPrice = orderDto.TotalPrice;
                 order.OrderItems = orderItems;
 
                 var createdOrder = await _orderRepository.CreateAsync(order);
@@ -77,9 +73,9 @@ namespace TechStore.Application.Services
 
             return result;
         }
+
         
-        //
-        public async Task<ResultView<OrderItemDto>> UpdateOrderItemQuantityAsync(int orderId, int orderItemId, int newQuantity)//user
+        public async Task<ResultView<OrderItemDto>> UpdateOrderItemQuantityAsync(int orderId, int orderItemId, int newQuantity)
         {
             var result = new ResultView<OrderItemDto>();
 
@@ -94,12 +90,12 @@ namespace TechStore.Application.Services
                     throw new Exception("Product not found.");
 
                 int quantityDifference;
-                if (newQuantity > orderItem.Quantity)  
+                if (newQuantity > orderItem.Quantity)
                 {
-                    quantityDifference =  newQuantity - (orderItem.Quantity ?? 0); 
+                    quantityDifference = newQuantity - (orderItem.Quantity ?? 0);
                     product.Quantity -= quantityDifference;
                 }
-                else  
+                else
                 {
                     quantityDifference = (orderItem.Quantity ?? 0) - newQuantity;
                     product.Quantity += quantityDifference;
@@ -127,15 +123,17 @@ namespace TechStore.Application.Services
 
             return result;
         }
+
         
-        //  ??
-        public async Task<ResultView<GetAllOrderDto>> GetOrderByIdAsync(int orderId)//?
+        public async Task<ResultView<GetAllOrderDto>> GetOrderByIdAsync(int orderId)
         {
             var result = new ResultView<GetAllOrderDto>();
 
             try
             {
-                var order = await _orderRepository.GetByIdAsync(orderId);
+                var order = (await _orderRepository.GetAllAsync())
+                            .Include(order => order.User)
+                            .FirstOrDefault(order => order.Id == orderId);
                 if (order == null)
                     throw new Exception($"Order with ID {orderId} not found.");
 
@@ -153,30 +151,58 @@ namespace TechStore.Application.Services
 
             return result;
         }
+
         
-        //  want to edit with getorderdetails dto
-        public async Task<ResultView<GetAllOrderDto>> GetOrderWithItems(int orderId)//admin
+        public async Task<ResultDataList<GetAllOrderItemDto>> GetOrderItems(int orderId)
         {
-            var result = new ResultView<GetAllOrderDto>();
-            try
+            var ExistingOrder = await _orderRepository.GetByIdAsync(orderId);
+
+            if (ExistingOrder != null)
             {
-                var order = await _orderRepository.GetOrderWithItemsAsync(orderId);
-                var orderDto = _mapper.Map<GetAllOrderDto>(order);
-                result.Entity = orderDto;
-                result.Message = "Order returned Successfully";
-                result.IsSuccess = true;
+                var OrderItems = await _orderItemRepository.GetOrders(orderId);
+
+                var list = new List<GetAllOrderItemDto>();
+
+                foreach (var OrderItem in OrderItems)
+                {
+                    var product = await _productRepository.GetByIdAsync(OrderItem.ProductId);
+                    var images = await _productRepository.GetImagesByProductId(OrderItem.ProductId);
+                    product.Images = images.ToList();
+                    var obj = new GetAllOrderItemDto
+                    {
+                        Id = OrderItem.Id,
+                        OrderId = OrderItem.OrderId,
+                        ProductId = OrderItem.ProductId,
+                        Description = OrderItem.Product.Description,
+                        Ar_Description = OrderItem.Product.Ar_Description,
+                        Price = OrderItem.Product.Price,
+                        Quantity = OrderItem.Quantity,
+                        Image = product.Images.Select(i => i.Name).FirstOrDefault()
+                    };
+                    list.Add(obj);
+                }
+
+                var listDto = _mapper.Map<List<GetAllOrderItemDto>>(list);
+
+
+                return new ResultDataList<GetAllOrderItemDto>()
+                {
+                    Entities = listDto,
+                    Count = listDto.Count()
+                };
+
             }
-            catch (Exception ex)
+            else
             {
-                result.Entity = null;
-                result.Message = $"Error {ex.Message}";
-                result.IsSuccess = false;
+                return new ResultDataList<GetAllOrderItemDto>()
+                {
+                    Entities = null,
+                    Count = 0
+                };
             }
-            return result;
         }
-       
-        //
-        public async Task<ResultView<GetOrderWithItemsDto>> GetOrderDetails(int orderId)//user
+
+        public async Task<ResultView<GetOrderWithItemsDto>> GetOrderDetails(int orderId)
         { 
             var ExistingOrder = await _orderRepository.GetByIdAsync(orderId);
 
@@ -199,7 +225,8 @@ namespace TechStore.Application.Services
                         ProductId = OrderItem.ProductId,
                         Description = OrderItem.Product.Description,
                         Price = OrderItem.Product.Price,
-                        Quantity = OrderItem.Product.Quantity,
+                        Quantity = OrderItem.Quantity,
+                        Ar_Description = OrderItem.Product.Ar_Description,
                         Image = product.Images.Select(i => i.Name).FirstOrDefault()
                     };
                     list.Add(obj);
@@ -229,15 +256,14 @@ namespace TechStore.Application.Services
             }
         }
 
-        //
-        public async Task<ResultDataList<GetAllOrderDto>> GetAllOrdersAsync()//admin
+
+        public async Task<ResultDataList<GetAllOrderDto>> GetAllPaginationOrders(int ItemsPerPage, int PageNumber)
         {
             var result = new ResultDataList<GetAllOrderDto>();
 
             try
             {
                 var orders = await _orderRepository.GetAllAsync();
-                //var allOrders = orders.Include(order=>order.OrderItems).ToListAsync();
                 var orderDtos = _mapper.Map<List<GetAllOrderDto>>(orders);
 
                 result.Entities = orderDtos;
@@ -252,8 +278,8 @@ namespace TechStore.Application.Services
             return result;
         }
         
-        //
-        public async Task<ResultView<OrderDto>> SoftDeleteOrderAsync(int orderId)//user & admin
+        
+        public async Task<ResultView<OrderDto>> SoftDeleteOrderAsync(int orderId)
         {
             var result = new ResultView<OrderDto>();
 
@@ -290,7 +316,6 @@ namespace TechStore.Application.Services
             return result;
         }
 
-
         public async Task<ResultView<OrderItemDto>> SoftDeleteOrderItemAsync(int orderItemId)
         {
             var result = new ResultView<OrderItemDto>();
@@ -314,8 +339,9 @@ namespace TechStore.Application.Services
             }
             return result;
         }
-        //
-        public async Task<ResultView<OrderDto>> HardDeleteOrderAsync(int orderId)//user & admin
+        
+
+        public async Task<ResultView<OrderDto>> HardDeleteOrderAsync(int orderId)
         {
             var result = new ResultView<OrderDto>();
 
@@ -353,8 +379,8 @@ namespace TechStore.Application.Services
             return result;
         }
 
-        //
-        public async Task<ResultDataList<GetAllOrderDto>> GetOrdersSortedByDateAscendingAsync()//user & admin
+        
+        public async Task<ResultDataList<GetAllOrderDto>> GetOrdersSortedByDateAscendingAsync()
         {
             var result = new ResultDataList<GetAllOrderDto>();
 
@@ -375,8 +401,8 @@ namespace TechStore.Application.Services
             return result;
         }
 
-        //
-        public async Task<ResultDataList<GetAllOrderDto>> GetOrdersSortedByDateDescendingAsync()//user & admin
+        
+        public async Task<ResultDataList<GetAllOrderDto>> GetOrdersSortedByDateDescendingAsync()
         {
             var result = new ResultDataList<GetAllOrderDto>();
 
@@ -398,7 +424,7 @@ namespace TechStore.Application.Services
         }
 
         
-        public async Task<ResultDataList<GetAllOrderDto>> SearchOrdersAsync(string searchTerm)//user & admin
+        public async Task<ResultDataList<GetAllOrderDto>> SearchOrdersAsync(int searchTerm)
         {
             var result = new ResultDataList<GetAllOrderDto>();
 
@@ -419,8 +445,8 @@ namespace TechStore.Application.Services
             return result;
         }
 
-        //
-        public async Task<ResultDataList<GetAllOrderDto>> GetOrdersByUserIdAsync(string userId) //user
+        
+        public async Task<ResultDataList<GetAllOrderDto>> GetOrdersByUserIdAsync(string userId)
         {
             var result = new ResultDataList<GetAllOrderDto>();
 
@@ -443,8 +469,8 @@ namespace TechStore.Application.Services
             return result;
         }
 
-        //
-        public async Task<ResultView<OrderDto>> updateStatus(int OrderId , OrderStatus NewOrderStatus)//admin
+       
+        public async Task<ResultView<OrderDto>> updateStatus(int OrderId , OrderStatus NewOrderStatus)
         {
             var ExistingOrder = await _orderRepository.GetByIdAsync(OrderId);
             var result = new ResultView<OrderDto>();

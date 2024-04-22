@@ -23,13 +23,15 @@ namespace TechStore.Application.Services
         private readonly IProductRepository _productRepository;
         private readonly IproductCategorySpecifications _productCategorySpecifications;
         private readonly IspecificationsRepository _specificationsRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public ProductService(IProductRepository productRepository,IproductCategorySpecifications productCategorySpecifications,IspecificationsRepository specificationsRepository,IMapper mapper,IWebHostEnvironment webHostEnvironment) {
+        public ProductService(IProductRepository productRepository,IproductCategorySpecifications productCategorySpecifications,IspecificationsRepository specificationsRepository,ICategoryRepository categoryRepository,IMapper mapper,IWebHostEnvironment webHostEnvironment) {
 
             _productRepository = productRepository;
             _productCategorySpecifications = productCategorySpecifications;
             _specificationsRepository = specificationsRepository;
+            _categoryRepository = categoryRepository;
             _mapper = mapper;
             _webHostEnvironment = webHostEnvironment;
         }
@@ -42,22 +44,13 @@ namespace TechStore.Application.Services
 
             foreach (var image in images)
             {
-                if (image != null && image.Length > 0)
-                {
-                    // create file name
-                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+                using var datastream = new MemoryStream();
+                await image.CopyToAsync(datastream);
+                var Img1Byts = datastream.ToArray();
+                string img1Base64String = Convert.ToBase64String(Img1Byts);
+                imagePaths.Add(img1Base64String);
 
-                    //  where images will be saved => wwwroot/images
-                    var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "ImageProduct", fileName);
 
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await image.CopyToAsync(stream);
-                    }
-
-                    imagePaths.Add("/ImageProduct/" + fileName); 
-                    
-                }
             }
 
             return imagePaths;
@@ -66,7 +59,7 @@ namespace TechStore.Application.Services
 
         //admin
 
-        public async Task<ResultView<ProductCategorySpecificationsListDto>> Create(CreateOrUpdateProductDtos productDto,List<ProductCategorySpecificationsDto> ProductCategorySpecificationsDto)
+        public async Task<ResultView<ProductCategorySpecificationsListDto>> Create(ProductWithSpecificationsDto productDto)
         {
             var OldProduct = (await _productRepository.GetAllAsync())
                              .Where(p => p.Description == productDto.Description).FirstOrDefault();
@@ -79,7 +72,23 @@ namespace TechStore.Application.Services
                     Message = "Product Already Exists !"
                 };
             }
-            var product = _mapper.Map<Product>(productDto);
+
+            var createorupdateproduct = new CreateOrUpdateProductDtos
+            {
+                CategoryId = productDto.CategoryId,
+                Description = productDto.Description,
+                ModelName = productDto.ModelName,
+                Brand = productDto.Brand,
+                DateAdded = productDto.DateAdded,
+                DiscountValue = productDto.DiscountValue,
+                Price = productDto.Price,
+                Images = productDto.Images,
+                UserId = productDto.UserId,
+                Quantity = productDto.Quantity,
+                Warranty = productDto.Warranty
+            };
+
+            var product = _mapper.Map<Product>(createorupdateproduct);
 
 
             var imagePaths = await SaveProductImages(productDto.Images);
@@ -93,9 +102,10 @@ namespace TechStore.Application.Services
             var AddedProduct = await _productRepository.CreateAsync(product);
             await _productRepository.SaveChangesAsync();
 
+
             var list = new List<ProductCategorySpecifications>();
 
-            foreach (var item in ProductCategorySpecificationsDto)
+            foreach (var item in productDto.ProductCategorySpecifications)
             {
                 var itemModel = _mapper.Map<ProductCategorySpecifications>(item);
                 itemModel.ProductId = AddedProduct.Id;
@@ -109,11 +119,9 @@ namespace TechStore.Application.Services
             
             //map product & specifications
             var listDto = _mapper.Map<List<ProductCategorySpecificationsDto>>(list);
-            var NewProductDto = _mapper.Map<CreateOrUpdateProductDtos>(product);
-
             var ProductCategorySpecificationsList = new ProductCategorySpecificationsListDto
             {
-                CreateOrUpdateProductDtos = NewProductDto,
+                CreateOrUpdateProductDtos = _mapper.Map<CreateOrUpdateProductDtos>(AddedProduct),
                 ProductCategorySpecifications = listDto
             };
 
@@ -162,9 +170,8 @@ namespace TechStore.Application.Services
             };
         }
 
-        public async Task<ResultView<ProductCategorySpecificationsListDto>> Update(CreateOrUpdateProductDtos productDto , List<ProductCategorySpecificationsDto> ProductCategorySpecificationsDto)
+        public async Task<ResultView<ProductWithSpecificationsDto>> Update(ProductWithSpecificationsDto productDto)
         {
-            //var OldProduct = await _productRepository.GetByIdAsync(productDto.Id);//error here tracking id
 
             var OldProduct = await _productRepository.GetByIdAsync(productDto.Id);
             await _productRepository.DetachEntityAsync(OldProduct);
@@ -174,37 +181,17 @@ namespace TechStore.Application.Services
                 var updatedProduct = _mapper.Map<Product>(productDto);
                 var NewUpdatedProduct = await _productRepository.UpdateAsync(updatedProduct);
                 await _productRepository.SaveChangesAsync();
+                var NewUpdatedProductDto = _mapper.Map<ProductWithSpecificationsDto>(NewUpdatedProduct);
 
-                List<ProductCategorySpecifications> productCategorySpecifications = new List<ProductCategorySpecifications>();
-
-                foreach (var productSpecDto in ProductCategorySpecificationsDto)
+                return new ResultView<ProductWithSpecificationsDto>
                 {
-                    var updatedSpecModel = _mapper.Map<ProductCategorySpecifications>(productSpecDto);
-                    var updatedSpec = await _productCategorySpecifications.UpdateAsync(updatedSpecModel);
-                    productCategorySpecifications.Add(updatedSpec);
-                }
-
-                await _productCategorySpecifications.SaveChangesAsync();
-
-                var NewUpdatedProductDto = _mapper.Map<CreateOrUpdateProductDtos>(NewUpdatedProduct);
-                var productCategorySpecDto = _mapper.Map<List<ProductCategorySpecificationsDto>>(productCategorySpecifications);
-
-                var productCategorySpecListDto = new ProductCategorySpecificationsListDto
-                {
-                    CreateOrUpdateProductDtos = NewUpdatedProductDto,
-                    ProductCategorySpecifications = productCategorySpecDto
-                };
-
-                return new ResultView<ProductCategorySpecificationsListDto>
-                {
-                    Entity = productCategorySpecListDto,
+                    Entity =  NewUpdatedProductDto,
                     IsSuccess = true,
                     Message = "Product Updated Successfully !"
                 };
-
             }
 
-            return new ResultView<ProductCategorySpecificationsListDto>
+            return new ResultView<ProductWithSpecificationsDto>
             {
                 Entity = null,
                 IsSuccess = false,
@@ -304,7 +291,7 @@ namespace TechStore.Application.Services
             {
 
                 var products = (await _productRepository.GetAllAsync())
-                               .Where(p => p.IsDeleted == false)
+                               .Where(p => p.IsDeleted == false&&p.Quantity>0)
                                .Skip(ItemsPerPage * (PageNumber - 1))
                                .Take(ItemsPerPage)
                                .Select(p => new GetAllProductsDtos
@@ -319,6 +306,8 @@ namespace TechStore.Application.Services
                                    DiscountValue = p.DiscountValue,
                                    DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                    IsDeleted = p.IsDeleted,
+                                   Ar_Description = p.Ar_Description,
+                                   Ar_ModelName = p.Ar_ModelName,
                                    Images = p.Images.Select(i => i.Name).ToList()
                                }).ToList();
 
@@ -363,7 +352,7 @@ namespace TechStore.Application.Services
                 }
 
                 var products = (await _productRepository.GetProductsByCategory(categoryId))
-                               .Where(p => p.IsDeleted == false)
+                               .Where(p => p.IsDeleted == false && p.Quantity > 0)
                                .Skip(ItemsPerPage * (PageNumber - 1))
                                .Take(ItemsPerPage)
                                .Select(p => new GetAllProductsDtos
@@ -378,7 +367,9 @@ namespace TechStore.Application.Services
                                     DiscountValue = p.DiscountValue,
                                     DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                     IsDeleted = p.IsDeleted,
-                                    Images = p.Images.Select(i => i.Name).ToList()
+                                   Ar_Description = p.Ar_Description,
+                                   Ar_ModelName = p.Ar_ModelName,
+                                   Images = p.Images.Select(i => i.Name).ToList()
 
                                }).ToList();
                 var totalCount = (await _productRepository.GetProductsByCategory(categoryId))
@@ -411,7 +402,7 @@ namespace TechStore.Application.Services
         public async Task<ResultDataList<GetAllProductsDtos>> SortProductsByDesending(int categoryId, int ItemsPerPage, int PageNumber)
         {
             var products = (await _productRepository.GetProductsByDescending(categoryId))
-                            .Where(p => p.IsDeleted == false)
+                            .Where(p => p.IsDeleted == false && p.Quantity > 0)
                             .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
                             .Select(p => new GetAllProductsDtos
                             {
@@ -425,6 +416,8 @@ namespace TechStore.Application.Services
                                 DiscountValue = p.DiscountValue,
                                 DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                 IsDeleted = p.IsDeleted,
+                                Ar_Description = p.Ar_Description,
+                                Ar_ModelName = p.Ar_ModelName,
                                 Images = p.Images.Select(i => i.Name).ToList()
                             }).ToList();
             var totalcount = (await _productRepository.GetProductsByDescending(categoryId))
@@ -453,7 +446,7 @@ namespace TechStore.Application.Services
         public async Task<ResultDataList<GetAllProductsDtos>> SortProductsByAscending(int categoryId,int ItemsPerPage, int PageNumber)
         {
             var products = (await _productRepository.GetProductsByAscending(categoryId))
-                            .Where(p => p.IsDeleted == false)
+                            .Where(p => p.IsDeleted == false && p.Quantity > 0)
                             .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
                             .Select(p => new GetAllProductsDtos
                             {
@@ -467,6 +460,8 @@ namespace TechStore.Application.Services
                                 DiscountValue = p.DiscountValue,
                                 DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                 IsDeleted = p.IsDeleted,
+                                Ar_Description = p.Ar_Description,
+                                Ar_ModelName = p.Ar_ModelName,
                                 Images = p.Images.Select(i => i.Name).ToList()
                             }).ToList();
             var totalcount = (await _productRepository.GetProductsByAscending(categoryId))
@@ -511,7 +506,7 @@ namespace TechStore.Application.Services
                 }
 
                 var products = (await _productRepository.SearchProduct(Name))
-                               .Where(p => p.IsDeleted == false)
+                               .Where(p => p.IsDeleted == false && p.Quantity > 0)
                                .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
                                .Select(p => new GetAllProductsDtos
                                {
@@ -525,7 +520,9 @@ namespace TechStore.Application.Services
                                     DiscountValue = p.DiscountValue,
                                     DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                     IsDeleted = p.IsDeleted,
-                                    Images = p.Images.Select(i => i.Name).ToList()
+                                   Ar_Description = p.Ar_Description,
+                                   Ar_ModelName = p.Ar_ModelName,
+                                   Images = p.Images.Select(i => i.Name).ToList()
                                }).ToList();
                 var totalCount = (await _productRepository.SearchProduct(Name))
                                .Where(p => !p.IsDeleted)
@@ -556,7 +553,7 @@ namespace TechStore.Application.Services
         public async Task<ResultDataList<GetAllProductsDtos>> FilterProducts(FillterProductsDtos fillterProductsDto, int categoryId, int ItemsPerPage, int PageNumber)
         {
             var products = (await _productRepository.FilterProducts(fillterProductsDto,categoryId))
-                            .Where(p => p.IsDeleted == false)
+                            .Where(p => p.IsDeleted == false && p.Quantity > 0)
                             .Skip(ItemsPerPage * (PageNumber - 1)).Take(ItemsPerPage)
                             .Select(p => new GetAllProductsDtos
                             {
@@ -570,6 +567,8 @@ namespace TechStore.Application.Services
                                 DiscountValue = p.DiscountValue,
                                 DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                 IsDeleted = p.IsDeleted,
+                                Ar_Description = p.Ar_Description,
+                                Ar_ModelName = p.Ar_ModelName,
                                 Images = p.Images.Select(i => i.Name).ToList()
                             }).ToList();
             var totalcount = (await _productRepository.FilterProducts(fillterProductsDto, categoryId))
@@ -619,7 +618,7 @@ namespace TechStore.Application.Services
 
 
                 var products = (await _productRepository.GetNewlyAddedProducts(count))
-                               .Where(p => p.IsDeleted == false)
+                               .Where(p => p.IsDeleted == false && p.Quantity > 0)
                                .Select(p => new GetAllProductsDtos
                                {
                                    Id = p.Id,
@@ -633,6 +632,8 @@ namespace TechStore.Application.Services
                                    DiscountValue = p.DiscountValue,
                                    DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
                                    IsDeleted = p.IsDeleted,
+                                   Ar_Description = p.Ar_Description,
+                                   Ar_ModelName = p.Ar_ModelName,
                                    Images = p.Images.Select(i => i.Name).ToList()
 
                                }).ToList();
@@ -665,8 +666,25 @@ namespace TechStore.Application.Services
             {
               
                 var products = (await _productRepository.GetDiscountedProducts())
-                               .Where(p => p.IsDeleted == false)
-                               .ToList();
+                               .Where(p => p.IsDeleted == false && p.Quantity > 0)
+                                .Select(p => new GetAllProductsDtos
+                                {
+                                    Id = p.Id,
+                                    ModelName = p.ModelName,
+                                    Description = p.Description,
+                                    Brand = p.Brand,
+                                    CategoryId = p.CategoryId,
+                                    DateAdded = p.DateAdded,
+                                    Price = p.Price,
+                                    Quantity = p.Quantity,
+                                    DiscountValue = p.DiscountValue,
+                                    DiscountedPrice = p.Price - (p.Price * p.DiscountValue / 100),
+                                    IsDeleted = p.IsDeleted,
+                                    Ar_Description = p.Ar_Description,
+                                    Ar_ModelName = p.Ar_ModelName,
+                                    Images = p.Images.Select(i => i.Name).ToList()
+
+                                }).ToList();
 
                 if (products is null)
                 {

@@ -3,14 +3,105 @@
 @{
     ViewData["Title"] = "Register";
     Layout = null;
-    <link rel="stylesheet" href="/css/Register.css">
+    // <link rel="stylesheet" href="~/css/Register.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
-
+ 
 
 }
+@* 
+<link rel="stylesheet" href="~/css/Register.css"> *@
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color:white;
+        margin: 0;
+        padding: 0;
+    }
 
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+      
+    }
 
+    .form-container {
+        margin-top: 20px;
+        width: 400px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+        margin-bottom:20px;
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .form h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    .form-control {
+       
+        width: 100%;
+        padding: 10px;
+        border: 1px solid rgb(173, 173, 173);
+        border-radius: 4px;
+       
+
+    }
+    .control-label{
+        color:rgb(29,19,240);
+    }
+    .form-control-file {
+      
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    
+    }
+
+    .form p {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .form a {
+       
+        color: #0a0b0b;
+        text-decoration: none;
+    }
+
+        .form a:hover {
+            text-decoration: underline;
+        }
+
+    .form button {
+        margin-top:10px;
+        background-color: #0a0b0b;
+    }
+
+        .form button:hover {
+            background-color: #0a0b0b;
+        }
+
+    .star{
+        color: rgb(255, 0, 0);
+      font-weight:bold;
+    }
+</style>
 <div class="container">
+   
     <div class="form-container " >
         <form  id="register-form" class="form" asp-action="Register" asp-controller="Account" method="post"
               enctype="multipart/form-data">
@@ -20,49 +111,49 @@
                 <input asp-for="Id" class="form-control" />
             </div>
             <div class="form-group">
-                <label dir="auto" class="control-label">@Localizer["FirstName"]</label>
+                <label dir="auto" class="control-label">@Localizer["FirstName"]<span class="star">*</span> </label>
                 @* <label asp-for="FirstName" class="control-label"></label> *@
-                <input asp-for="FirstName" class="form-control" />
+                <input asp-for="FirstName" class="form-control"/>
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label dir="rtl" class="control-label">@Localizer["LastName"]</label>
+                <label dir="rtl" class="control-label"><span class="star">*</span>@Localizer["LastName"]</label>
                 @* <label asp-for="LastName" class="control-label"></label> *@
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label dir="auto" class="control-label">@Localizer["UserName"]</label>
+                <label dir="auto" class="control-label">@Localizer["UserName"]<span class="star">*</span></label>
                 @* <label asp-for="UserName" class="control-label"></label> *@
                 <input asp-for="UserName" class="form-control" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label dir="auto" class="control-label">@Localizer["Password"]</label>
+                <label dir="auto" class="control-label">@Localizer["Password"]<span class="star">*</span></label>
                 @* <label asp-for="Password" class="control-label"></label> *@
-                <input asp-for="Password" class="form-control" />
+                <input asp-for="Password" type="password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label dir="auto" class="control-label">@Localizer["PhoneNumber"]</label>
+                <label dir="auto" class="control-label">@Localizer["PhoneNumber"]<span class="star">*</span></label>
                 @* <label asp-for="PhoneNumber" class="control-label"></label> *@
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label dir="auto" class="control-label">@Localizer["Email"]</label>
+                <label dir="auto" class="control-label">@Localizer["Email"]<span class="star">*</span></label>
                 @* <label asp-for="Email" class="control-label"></label> *@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label dir="auto" class="control-label">@Localizer["Address"]</label>
+                <label dir="auto" class="control-label">@Localizer["Address"]<span class="star">*</span></label>
                 @* <label asp-for="Address" class="control-label"></label> *@
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label dir="auto" class="control-label">@Localizer["Image"]</label>
+                <label dir="auto" class="control-label">@Localizer["Image"]<span class="star">*</span></label>
                 @* <label asp-for="Image" class="control-label"></label> *@
                 <input type="file" name="Image" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger"></span>
@@ -72,18 +163,33 @@
             <p>@Localizer["Already"] <a asp-action="Login" asp-controller="Account">@Localizer["Loginhere"] </a></p>
 
         </form>
+        <div>
+            <span>
+                <form asp-action="Index" asp-controller="Home">
+                    <button type="submit" class="btn  btn-block " style="max-width:auto">@Localizer["BacktoList"]</button>
+                </form>
+            </span>
+        </div>
     </div>
-   
-       
-    
-</div>
+    </div>
 
 
-<span>
-    <form asp-action="Index" asp-controller="Home">
-        <button type="submit" class="btn  btn-block " style="max-width:auto">@Localizer["BacktoList"]</button>
-    </form>
-</span>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('register-form').addEventListener('submit', function (event) {
+            var form = event.target;
+
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            form.classList.add('was-validated');
+        });
+    });
+</script>
 
 
 @section Scripts {

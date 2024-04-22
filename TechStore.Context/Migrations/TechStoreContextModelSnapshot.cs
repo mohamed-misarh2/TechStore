@@ -243,10 +243,13 @@ namespace TechStore.Context.Migrations
                     b.Property<DateTime?>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PaymentStatus")
+                    b.Property<int?>("OrderStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PayMethod")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ShippingAddress")
+                    b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ShippingMethod")
@@ -257,9 +260,6 @@ namespace TechStore.Context.Migrations
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("orderStatus")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -343,6 +343,12 @@ namespace TechStore.Context.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Ar_Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Ar_ModelName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Brand")
                         .IsRequired()

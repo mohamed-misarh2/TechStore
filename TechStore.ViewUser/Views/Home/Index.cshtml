@@ -1,7 +1,4 @@
 ﻿
-
-
-
 @{
     ViewData["Title"] = "Home Page";
 
@@ -13,6 +10,11 @@
 
     
     var TopOfers1 = ViewBag.TopOfers1;
+    var lan = "en";
+    if (CultureInfo.CurrentCulture.TextInfo.CultureName.StartsWith("ar"))
+    {
+        lan = "ar";
+    }
 }
 
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
@@ -87,16 +89,12 @@
         }
 
        
-        .swiper-slide{
-
-        }
-
+      
 
     </style>     
    
 
 
-    <main class="main-container">
 
         <!-- slider Home -->
         <section class="container">
@@ -161,7 +159,6 @@
                 </div>
             </div>
 
-
         </section>
  
         
@@ -182,7 +179,14 @@
                                         <img src="@((pro1.Images.Count > 0) ? pro1.Images[0] : string.Empty)" class="card-img-top" alt="...">
                                     </a>
                                     <div class="card-body">
+                                    @if (lan == "ar")
+                                    {
+                                        <p class=""> @pro1.Ar_Description</p>
+                                    }
+                                    else
+                                    {
                                         <p class=""> @pro1.Description</p>
+                                    }
                                         @if (pro1.DiscountValue > 0)
                                         {
                                             string formattedDiscountedPrice = string.Format("{0:#,0}", pro1.DiscountedPrice);
@@ -220,10 +224,9 @@
         </section>
         
         <!-- Product section Top offers -->
-     
-    <section class="Product_section_2">
-        <div class="container container_wrapper">
-            <div class="swiper">
+        <section class="Product_section_2  ">
+            <div class="container container_wrapper">
+                <div class="swiper  m-1  p-2 ">
                 <h4>@Localizer["Topoffers"]</h4>
                 <div class="swiper-wrapper">
                     @foreach (var TOfers in TopOfers1)
@@ -233,29 +236,52 @@
                                 <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@TOfers.Id">
                                     <img src="@((TOfers.Images.Count > 0) ? TOfers.Images[0] : string.Empty)" class="card-img-top" alt="...">
                                 </a>
-                                <div class="card-body">
-                                    <p>@TOfers.Description</p>
-                                    @if (TOfers.DiscountValue > 0)
+                                    <div class="card-body">
+                                    @if (lan == "ar")
                                     {
-                                        string formattedDiscountedPrice = string.Format("{0:#,0}", TOfers.DiscountedPrice);
-                                        <p id="itemprice" class="cart-price">@formattedDiscountedPrice<span class="cart-EGP">EGP</span></p>
+                                        <p class=""> @TOfers.Ar_Description</p>
                                     }
                                     else
                                     {
-                                        string formattedPrice = string.Format("{0:#,0}", TOfers.Price);
-                                        <p id="itemprice" class="cart-price">@formattedPrice<span class="cart-EGP">EGP</span></p>
-                                    }
+                                        <p class=""> @TOfers.Description</p>
+                                    }                                 
+                                    @if (TOfers.DiscountValue > 0)
+                                        {
+                                            string formattedDiscountedPrice = string.Format("{0:#,0}", TOfers.DiscountedPrice);
+
+                                            <p id="itemprice" class="cart-price">@formattedDiscountedPrice<span class="cart-EGP">EGP</span></p>
+
+                                        }
+                                        else
+                                        {
+                                            string formattedPrice = string.Format("{0:#,0}", TOfers.Price);
+                                            <p id="itemprice" class="cart-price">@formattedPrice<span class="cart-EGP">EGP</span></p>
+                                        }
+
+
+
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    }
-                </div>
-                <div class="swiper-pagination"></div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
+
+                        }
+
+                    </div>
+                    <!-- If we need pagination -->
+                    <div class="swiper-pagination"></div>
+
+                    <!-- If we need navigation buttons -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+
+                    <!-- If we need scrollbar -->
+          
+                
             </div>
         </div>
     </section>
+
 
 
         <!-- Why TechStoer -->
@@ -302,43 +328,63 @@
 
 
         <!-- Product section 2 Based on your preference -->
-
-         <section class="Product_section_2">
+    <section class="Product_section_2">
         <div class="container container_wrapper">
             <div class="swiper">
                 <h4>@Localizer["Basedonyourpreference"]</h4>
-                <div class="swiper-wrapper">
-                    @foreach (var pro2 in Products2)
-                    {
-                        string formattedPrice = string.Format("{0:#,0}", pro2.Price);
-                        string formattedDiscountedPrice = string.Format("{0:#,0}", pro2.DiscountedPrice);
-                        <div class="card">
-                            <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@pro2.Id">
-                                <img src="@((pro2.Images.Count > 0) ? pro2.Images[0] : string.Empty)" class="card-img-top" alt="...">
-                            </a>
-                            <div class="card-body">
-                                <p>@pro2.Description</p>
-                                @if (pro2.DiscountValue > 0)
-                                {
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper ">
+                        <!-- Slides -->
+                        @foreach (var pro2 in Products2)
+                        {
 
-                                    <p id="itemprice" class="cart-price">@formattedDiscountedPrice<span class="cart-EGP">EGP</span></p>
-                                }
-                                else
-                                {
+                        <div class="swiper-slide">
+                            <div class="card  ">
+                                    <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@pro2.Id">
+                                        <img src="@((pro2.Images.Count > 0) ? pro2.Images[0] : string.Empty)" class="card-img-top" alt="...">
+                                    </a>
+                                    <div class="card-body">
+                                    @if (lan == "ar")
+                                    {
+                                        <p class=""> @pro2.Ar_Description</p>
+                                    }
+                                    else
+                                    {
+                                        <p class=""> @pro2.Description</p>
+                                    }                       
+                                    @if (pro2.DiscountValue > 0)
+                                        {
+                                            string formattedDiscountedPrice = string.Format("{0:#,0}", pro2.DiscountedPrice);
 
-                                    <p id="itemprice" class="cart-price">@formattedPrice<span class="cart-EGP">EGP</span></p>
-                                }
-                            </div>
-                        </div>
+                                            <p id="itemprice" class="cart-price">@formattedDiscountedPrice<span class="cart-EGP">EGP</span></p>
 
-                    }
-                </div>
+                                        }
+                                        else
+                                        {
+                                            string formattedPrice = string.Format("{0:#,0}", pro2.Price);
+                                            <p id="itemprice" class="cart-price">@formattedPrice<span class="cart-EGP">EGP</span></p>
+                                        }
+
+
+
+
+                                    </div>
+                                  
+               </div>
+               
+           </div>
+               }                   
+               </div>
                 <div class="swiper-pagination"></div>
+
+                <!-- If we need navigation buttons -->
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
-            </div>
-        </div>
+               </div>
+               </div>
+
     </section>
+
 
 
         <!-- Popular brands  -->
@@ -425,45 +471,74 @@
     </div>
 
         <!-- Product section 3 Based on your views -->
-     <section class="Product_section_3">
+
+
+    <section class="Product_section_3">
         <div class="container container_wrapper">
             <div class="swiper">
                 <h4>@Localizer["Basedonyourviews"]</h4>
-                <div class="swiper-wrapper">
-                    @foreach (var pro3 in Products3)
-                    {
+                <div class="swiper-wrapper ">
+                        <!-- Slides -->
+                        @foreach (var pro3 in Products3)
+                        {
+
                         <div class="swiper-slide">
-                            <div class="card">
-                                <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@pro3.Id">
-                                    <img src="@((pro3.Images.Count > 0) ? pro3.Images[0] : string.Empty)" class="card-img-top" alt="...">
-                                </a>
-                                <div class="card-body">
-                                    <p>@pro3.Description</p>
-                                    @if (pro3.DiscountValue > 0)
+                            <div class="card  ">
+                                    <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-controller="Product" asp-action="Details" asp-route-id="@pro3.Id">
+                                        <img src="@((pro3.Images.Count > 0) ? pro3.Images[0] : string.Empty)" class="card-img-top" alt="...">
+                                    </a>
+                                    <div class="card-body">
+                                    @if (lan == "ar")
                                     {
-                                        string formattedDiscountedPrice = string.Format("{0:#,0}", pro3.DiscountedPrice);
-                                        <p id="itemprice" class="cart-price">@formattedDiscountedPrice<span class="cart-EGP">EGP</span></p>
+                                        <p class=""> @pro3.Ar_Description</p>
                                     }
                                     else
                                     {
-                                        string formattedPrice = string.Format("{0:#,0}", pro3.Price);
-                                        <p id="itemprice" class="cart-price">@formattedPrice<span class="cart-EGP">EGP</span></p>
-                                    }
+                                        <p class=""> @pro3.Description</p>
+                                    }                             
+                                    @if (pro3.DiscountValue > 0)
+                                        {
+                                            string formattedDiscountedPrice = string.Format("{0:#,0}", pro3.DiscountedPrice);
+
+                                            <p id="itemprice" class="cart-price">@formattedDiscountedPrice<span class="cart-EGP">EGP</span></p>
+
+                                        }
+                                        else
+                                        {
+                                            string formattedPrice = string.Format("{0:#,0}", pro3.Price);
+                                            <p id="itemprice" class="cart-price">@formattedPrice<span class="cart-EGP">EGP</span></p>
+                                        }
+
+
+
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    }
+
+                        }
+
+                    </div>
+                    <!-- If we need pagination -->
+                    <div class="swiper-pagination"></div>
+
+                    <!-- If we need navigation buttons -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+
+                    <!-- If we need scrollbar -->
+
                 </div>
-                <div class="swiper-pagination"></div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
             </div>
-        </div>
-    </section> 
+                      
+         
+    </section>
 
-     
 
-    </main>
+      
+        
+
+    
 
 
 
@@ -501,7 +576,7 @@
             },
             640: {
                 slidesPerView: 5,
-                spaceBetween: 30
+                spaceBetween: 10
             }
         }
     });

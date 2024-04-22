@@ -186,8 +186,19 @@ namespace TechStore.Application.Services
                 {
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    await _userManager.AddToRoleAsync(user, RoleName);
-                    return new ResultView<RegisterDto> { Entity = model, IsSuccess = true, Message = "User registered successfully" };
+                if (!await _roleManager.RoleExistsAsync(RoleName))
+                {
+                    // If the role does not exist, create it
+                    var roleResult = await _roleManager.CreateAsync(new IdentityRole(RoleName));
+                    if (!roleResult.Succeeded)
+                    {
+                        // Handle role creation failure
+                        return new ResultView<RegisterDto> { Entity = model, IsSuccess = false, Message = "Failed to create role." };
+                    }
+                }
+
+                // Add the user to the role
+                await _userManager.AddToRoleAsync(user, RoleName); return new ResultView<RegisterDto> { Entity = model, IsSuccess = true, Message = "User registered successfully" };
                 }
                 else
                 {
@@ -252,6 +263,10 @@ namespace TechStore.Application.Services
             var UserId = await _userManager.GetUserIdAsync(user);
 
             return UserId; 
+        }
+        public async Task<bool> IsUserNameExists(string userName)
+        {
+            return await _userRepository.IsUserNameExists(userName);
         }
     }
 }

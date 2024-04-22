@@ -117,61 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddtoCart" xml:space="preserve">
-    <value>Add to Cart</value>
+  <data name="Account Home" xml:space="preserve">
+    <value>الصفحة الرئيسيه</value>
   </data>
-  <data name="Checkout" xml:space="preserve">
-    <value>Checkout</value>
+  <data name="Hello" xml:space="preserve">
+    <value>مرحبا</value>
   </data>
-  <data name="Don'tRemove" xml:space="preserve">
-    <value>Don't Remove</value>
+  <data name="Log out" xml:space="preserve">
+    <value>تسجيل الخروج</value>
   </data>
-  <data name="Forallorders" xml:space="preserve">
-    <value>For all orders</value>
+  <data name="Order History" xml:space="preserve">
+    <value>الطلبات</value>
   </data>
-  <data name="Haveaquestion?" xml:space="preserve">
-    <value>Have a question ?</value>
-  </data>
-  <data name="items" xml:space="preserve">
-    <value>items</value>
-  </data>
-  <data name="Mostitems" xml:space="preserve">
-    <value>Most items can be returned within 30 days of delivery</value>
-  </data>
-  <data name="Notsureyet?" xml:space="preserve">
-    <value>Not sure yet?</value>
-  </data>
-  <data name="Quantity" xml:space="preserve">
-    <value>Quantity</value>
-  </data>
-  <data name="Recently Added" xml:space="preserve">
-    <value>Recently Added</value>
-  </data>
-  <data name="Remove" xml:space="preserve">
-    <value>Remove</value>
-  </data>
-  <data name="Removeproduct" xml:space="preserve">
-    <value>Remove product from cart ?</value>
-  </data>
-  <data name="ReturnPolicy" xml:space="preserve">
-    <value>Return Policy</value>
-  </data>
-  <data name="Saveforlater" xml:space="preserve">
-    <value>Save For Later</value>
-  </data>
-  <data name="Shop Naw" xml:space="preserve">
-    <value>Shop Naw</value>
-  </data>
-  <data name="Subtotal" xml:space="preserve">
-    <value>Subtotal</value>
-  </data>
-  <data name="Tech Store is the #1 place for all your needs, explore our wide range of products, flexible payments &amp; offers!" xml:space="preserve">
-    <value>Tech Store is the #1 place for all your needs, explore our wide range of products, flexible payments &amp; offers!</value>
-  </data>
-  <data name="VendorTech.Store" xml:space="preserve">
-    <value>Vendor : Tech.Store</value>
-  </data>
-  <data name="Your  Shopping  Cart  Is  Empty!" xml:space="preserve">
-    <value>Your  Shopping  Cart  Is  Empty!</value>
+  <data name="update Profile" xml:space="preserve">
+    <value>تحديث الحساب</value>
   </data>
 </root>

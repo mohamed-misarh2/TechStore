@@ -74,12 +74,12 @@
         </div>
 
 
-		<header dir="auto" class="container col-12 navbar navbar-expand-lg navbar-light   ">
+        <header dir="auto" class="container col-12 navbar navbar-expand-lg navbar-light   ">
 
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon" ></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
             <span dir="auto" class="d-lg-none ">
                 <a asp-controller="Home" asp-action="Index"><img class="nav-link mr-sm-5" src="~/imag-slide/tech-02.png" alt="" width="110"></a>
@@ -92,11 +92,11 @@
                     <button class="btn btn-outline-success my-2 my-sm-0 d-none" type="submit">Search</button>
                 </form>
             </span>
-          
-			<!-- <div class="col-1"></div> -->
 
-			<div class="col-12 collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
-				<ul class="navbar-nav">
+            <!-- <div class="col-1"></div> -->
+
+            <div class="col-12 collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+                <ul class="navbar-nav">
 
 
 
@@ -104,61 +104,61 @@
                         <a asp-controller="Home" asp-action="Index"><img class="nav-link mr-sm-5" src="~/imag-slide/tech-02.png" alt="" width="110"></a>
                     </li>
 
-					<li>
+                    <li>
 
-					</li>
-					<li class="nav-item dropdown mr-sm-3 ">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-						   aria-haspopup="true" aria-expanded="false">
-							@Localizer["Categories"]
-						</a>
-						<div dir="auto" class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a dir="auto" class="dropdown-item" asp-controller="Product" asp-action="Mobile">@Localizer["Mobile&Tablet"]</a>
-							<a dir="auto" class="dropdown-item" asp-controller="Product" asp-action="Laptop">@Localizer["Laptop"] </a>
-							<a dir="auto" class="dropdown-item" asp-controller="Product" asp-action="Screen">@Localizer["Screens"] </a>
-							<a dir="auto" class="dropdown-item" asp-controller="Product" asp-action="SmartWatch">@Localizer["SmartWatch"]</a>
-						</div>
-					</li>
+                    </li>
+                    <li class="nav-item dropdown mr-sm-3 ">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            @Localizer["Categories"]
+                        </a>
+                        <div dir="auto" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a dir="auto" class="dropdown-item" asp-controller="Product" asp-action="Mobile">@Localizer["Mobile&Tablet"]</a>
+                            <a dir="auto" class="dropdown-item" asp-controller="Product" asp-action="Laptop">@Localizer["Laptop"] </a>
+                            <a dir="auto" class="dropdown-item" asp-controller="Product" asp-action="Screen">@Localizer["Screens"] </a>
+                            <a dir="auto" class="dropdown-item" asp-controller="Product" asp-action="SmartWatch">@Localizer["SmartWatch"]</a>
+                        </div>
+                    </li>
 
                     <li class="nav-item d-none d-md-block">
-						<form asp-controller="Product" asp-action="Search" method="get" class="form-inline my-2 my-lg-0">
-							<input class="form-control mr-sm-5 custom-search-width" style="width: 500px;" type="text"
-								   placeholder="@Localizer["SearchForProductsOrbrands"]" name="name">
-							<button class="btn btn-outline-success my-2 my-sm-0 d-none" type="submit">Search</button>
-						</form>
-					</li> 
+                        <form asp-controller="Product" asp-action="Search" method="get" class="form-inline my-2 my-lg-0">
+                            <input class="form-control mr-sm-5 custom-search-width" style="width: 500px;" type="text"
+                                   placeholder="@Localizer["SearchForProductsOrbrands"]" name="name">
+                            <button class="btn btn-outline-success my-2 my-sm-0 d-none" type="submit">Search</button>
+                        </form>
+                    </li>
 
 
-					@if (User.Identity.IsAuthenticated)
-					{
-						
-						<li class="nav-item ">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+
+                        <li class="nav-item ">
                             <a class="nav-link mr-sm-5 m-1 " asp-area="" asp-controller="Account" asp-action="Accounthome"><i class="fas fa-user "></i> @Localizer["My Account"]</a>
 
-						</li>
-					}
-					else
-					{
-						<li class="nav-item">
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
                             <a class="nav-link mr-sm-2 " asp-area="" asp-controller="Account" asp-action="Login"><i class="fas fa-user"></i> @Localizer["My Account"] </a>
 
-						</li>
-					}
-					<li class="nav-item">
-						<a class="nav-link mr-sm-2" asp-controller="Cart" asp-action="Index"><i class="fas fa-shopping-cart"></i> @Localizer["Cart"] </a>
-					</li>
+                        </li>
+                    }
+                    <li class="nav-item">
+                        <a class="nav-link mr-sm-2" asp-controller="Cart" asp-action="Index"><i class="fas fa-shopping-cart"></i> @Localizer["Cart"] </a>
+                    </li>
 
 
-					@if (User.Identity.IsAuthenticated)
-					{
-						<li class="nav-item">
-							<a class="nav-link mr-sm-5 " asp-area="" asp-controller="Account" asp-action="Logout"> @Localizer["Logout"] </a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link mr-sm-5 " asp-area="" asp-controller="Account" asp-action="Logout"> @Localizer["Logout"] </a>
 
-						</li>
-					}
+                        </li>
+                    }
 
 
-				</ul>
+                </ul>
                 <ul dir="auto" class="d-md-none">
                     <li dir="auto" class="nav-item">
                         <i class="arrow_carrot-down" style="font-size: 0.8rem; margin:5px">
@@ -167,9 +167,9 @@
                     </li>
                 </ul>
 
-			</div>
+            </div>
 
-		</header>
+        </header>
     </div>
 
 

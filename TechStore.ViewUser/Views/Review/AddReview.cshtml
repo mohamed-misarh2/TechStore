@@ -25,21 +25,23 @@
 
             #sidebars{
             height: 100%;
-            width: 0;
+        /*     width: 0; */
             position: fixed;
             top: 0;
-            right: 0;
+            right:0;
+           
             background-color:white;
-            overflow-x: hidden;
+            overflow:hidden;
             transition: 0.5s;
             padding-top: 10px;
             z-index: 1000;
-            width:360px;
+            width:382px;
             padding:10px;
             }
 
             body{
             background-color: white;
+          
             }
 
             #sidebar a {
@@ -143,7 +145,7 @@
    
     
     <!-- Sidebar Review -->
-
+    
     <div id="sidebars" class="bg-light">
         <div class="row top_Items  ">
             <div class="col-7"> <h4>Review product</h4></div>
@@ -197,16 +199,21 @@
     </div>
 
 
-
-
   
     <script>
+        // Review
+
       
+            function closeSidebar() {
+                var sidebar = document.getElementById("sidebars");
+                sidebar.style.width = "0";
 
-        function closeSidebar() {
-            document.getElementById("sidebars").style.width = "0";
+                setTimeout(function () {
+                    sidebar.style.display = "none"; 
+                }, 500); 
+            }
 
-        }
+
         function highlightStars(selectedRating) {
          
             var inputs = document.querySelectorAll('input[name="rating"]');
@@ -223,8 +230,7 @@
                 }
             }
         }
-       
-      
+ 
     </script>
 
 

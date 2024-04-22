@@ -12,6 +12,7 @@ namespace TechStore.Dtos.ProductDtos
         public int Id { get; set; }
         public string Description { get; set; }
         public string ModelName { get; set; }
+        public string Warranty { get; set; }
         public string Brand { get; set; }
         public decimal Price { get; set; }
         public decimal? DiscountValue { get; set; }
@@ -21,7 +22,8 @@ namespace TechStore.Dtos.ProductDtos
         public int CategoryId { get; set; }
         public DateTime? DateAdded { get; set; }
         public bool IsDeleted { get; set; }
-       
+        public string? Ar_Description { get; set; }
+        public string? Ar_ModelName { get; set; }
     }
 
 }

@@ -28,6 +28,12 @@ namespace TechStore.ViewUser.Controllers
                 return View(register);
             }
 
+            if (await _userServices.IsUserNameExists(register.UserName))
+            {
+               
+                ModelState.AddModelError(nameof(register.UserName), "Username already exists.");
+                return View("Register", register);
+            }
             var result= await _userServices.RegisterUser(register , RoleName);
             if (result.IsSuccess)
             {
@@ -40,6 +46,7 @@ namespace TechStore.ViewUser.Controllers
             }
 
         }
+
         [HttpGet]
         public IActionResult Login()
         {
@@ -50,21 +57,22 @@ namespace TechStore.ViewUser.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("Login",login);
+                return View("Login", login);
             }
-            
+
             var result = await _userServices.LoginUser(login);
             if (result.IsSuccess)
             {
-                return RedirectToAction("Index" ,"Home");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
-                return View("Login",login);
-
+                // If the login fails, add a model error for the UserName property
+                ModelState.AddModelError(nameof(login.UserName), "Invalid username or password.");
+                return View("Login", login);
             }
-
         }
+
         [Authorize]
 
         [HttpGet]

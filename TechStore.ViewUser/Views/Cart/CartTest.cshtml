@@ -3,6 +3,11 @@
 
    var products = ViewBag.Products;
    var products2 = ViewBag.Products2;
+    var lan = "en";
+    if (CultureInfo.CurrentCulture.TextInfo.CultureName.StartsWith("ar"))
+    {
+        lan = "ar";
+    }
 }
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -57,8 +62,17 @@
                                                 </a>
                                                 <div class="card-body">
                                                     <div class="product details product-item-details">
-                                                        <span data-bind="text: item.name">@product.Description</span>
-                                                    </div>
+                                                        @if(lan=="ar")
+                                                        {
+                                                            <span data-bind="text: item.name">@product.Ar_Description</span>
+
+                                                        }
+                                                        else
+                                                        {
+                                                             <span data-bind="text: item.name">@product.Description</span>
+                                                    
+                                                        }
+                                            </div>
                                                     <div class="price-and-button mt-auto">
                                                         @if (product.DiscountValue > 0)
                                                         {
@@ -72,6 +86,7 @@
                                                             <form asp-action="AddToCart" asp-controller="Cart" method="post">
                                                                 <input type="hidden" name="productId" value="@product.Id" />
                                                                 <input type="hidden" name="Description" value="@product.Description" />
+                                                                <input type="hidden" name="Ar_Description" value="@product.Ar_Description" />
                                                                 @* Check for discounts *@
                                                                 <input type="hidden" name="price" value="@product.Price" />
                                                                 <input type="hidden" name="DiscountValue" value="@product.DiscountValue" />
@@ -107,9 +122,17 @@
                                                     </div>
                                                 </a>
                                                 <div class="card-body">
-                                                    <p id="itemtext" class="card-text">@product.Description</p>
-                                                    <div class="price-and-button">
-                                                @if (product.DiscountValue > 0) 
+                                            @if (lan == "ar")
+                                            {
+                                                <span data-bind="text: item.name">@product.Ar_Description</span>
+
+                                            }
+                                            else
+                                            {
+                                                <span data-bind="text: item.name">@product.Description</span>
+
+                                            }                                                    <div class="price-and-button">
+                                                        @if (product.DiscountValue>0)
                                                         {
                                                             string formattedDiscountedPrice = string.Format("{0:#,0}", product.DiscountedPrice);
 
@@ -124,6 +147,7 @@
                                                             <form asp-action="AddToCart" asp-controller="Cart" method="post">
                                                                 <input type="hidden" name="productId" value="@product.Id" />
                                                                 <input type="hidden" name="Description" value="@product.Description" />
+                                                                <input type="hidden" name="Ar_Description" value="@product.Ar_Description" />
                                                                 @* Check for discounts *@
                                                                 <input type="hidden" name="price" value="@product.Price" />
                                                                 <input type="hidden" name="DiscountValue" value="@product.DiscountValue" />
@@ -188,11 +212,21 @@
                                                         </a>
                                                     </div>
                                                 <div class="" col-lg-8 col-md-7 col-sm-7 prag_cart">
-                                                        <p id="productName">
-                                                            @item.Description
-                                                        </p>
-                                                        <p>Vendor : Tech.Store</p>
-                                                        <p>
+                                                       
+                                                    @if (lan == "ar")
+                                                    {
+                                                    <p id="productName">
+                                                        @item.Ar_Description;
+                                                    </p>
+                                                    }
+                                                    else
+                                                    {
+                                                    <p id="productName">
+                                                        @item.Description
+                                                    </p>
+                                                    }
+
+                                                <p> @Localizer["VendorTech.Store"] </p>                                                        <p>
                                                             @{
                                                                 // Format the price with no decimal numbers under 1 and commas after every 3 digits
                                                                 string formattedPrice = string.Format("{0:#,0}", item.Price);
@@ -261,9 +295,18 @@
                                                         </a>
                                                     </div>
                                                     <div class="col-lg-9 col-md-8 col-sm-8 prag_cart">
+                                                    @if (lan == "ar")
+                                                    {
+                                                        <p id="productName">
+                                                            @item.Ar_Description;
+                                                        </p>
+                                                    }
+                                                    else
+                                                    {
                                                         <p id="productName">
                                                             @item.Description
                                                         </p>
+                                                    }
                                                         <p> @Localizer["VendorTech.Store"] </p>
                                                         <p>
                                                             @{
@@ -303,7 +346,7 @@
                                                                 <div class="Remove">
                                                                     <button type="submit" class="btn">
                                                                         <i class="fa-regular fa-trash-can"></i>
-                                                                    <span> @Localizer["Remove"] </span>
+                                                                    <span>  @Localizer["Remove"] </span>
                                                                     </button>
                                                                 </div>
                                                             </form>
@@ -354,9 +397,9 @@
                                         </div>
 
                                             <div class="Checkout col-12 ">
-                                                <a asp-action="Checkout" asp-controller="Payment">
-                                            <button type="button">Checkout</button>
-                                        </a>
+                                                <a asp-action="Index" asp-controller="Payment">
+                                        <button type="button">@Localizer["Checkout"]</button>
+                                                </a>
                                              </div>
 
                                     </div>
@@ -365,19 +408,19 @@
                                 <div id="list">
                                     <div class="part">
                                         <i class="fa-solid fa-wallet"></i>
-                                    <h6>@Localizer["Payondelivery"] Pay on delivery</h6>
-                                    <p>@Localizer["Forallorders"] For all orders</p>
+                                <h6>@Localizer["Pay on delivery"]</h6>
+                                <p>@Localizer["For all orders"]</p>
                                     </div>
                                     <div class="space "></div>
                                     <div class="part">
                                         <i class="fa-solid fa-arrows-rotate"></i>
-                                    <h6>@Localizer["Returnpolicy"] </h6>
+                                <h6>@Localizer["Return  Policy"] </h6>
                                     <p>@Localizer["Mostitems"]</p>
                                     </div>
                                     <div class="space "></div>
                                     <div class="part">
                                         <i class="fa-regular fa-circle-question"></i>
-                                        <h6>@Localizer["Haveaquestion?"]</h6>
+                                        <h6>@Localizer["Have a question ?"]</h6>
 
                                         <p>19966</p>
                                     </div>
@@ -401,8 +444,16 @@
                                     </a>
                                 </div>
                                 <div id="productDescription" style="">
-                                    <h5>@item.Description</h5>
-                                    <p>@item.Description</p>
+                            @if (lan == "ar")
+                            {
+                                <h5>@item.Ar_Description</h5>
+                                <p>@item.Ar_Description</p>
+                            }
+                            else
+                            {
+                                <h5>@item.Description</h5>
+                                <p>@item.Description</p>
+                            }
                                 </div>
                             </div>
                         </div>

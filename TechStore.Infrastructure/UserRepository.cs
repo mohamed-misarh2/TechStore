@@ -17,7 +17,11 @@ namespace TechStore.Infrastructure
         {
            
         }
-
+        public async Task<bool> IsUserNameExists(string userName)
+        {
+            // You need to replace YourDbContext with your actual DbContext class
+            return await _context.Users.AnyAsync(u => u.UserName == userName);
+        }
         public async Task<List<TechUser>> SearchUserByName(string name)
         {
             var data= await _context.Users.Where(u=>u.FirstName ==name|| u.LastName==name).Select(u=>u).ToListAsync();
