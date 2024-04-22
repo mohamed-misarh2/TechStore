@@ -30,8 +30,7 @@ namespace TechStore.ViewUser.Controllers
             ViewBag.Products3 = productsResult.Entities.Skip(14).Take(7);
             
 
-            //ViewBag.Products5 = productsResult.Entities.Skip(20).Take(5);
-            //ViewBag.Products6 = productsResult.Entities.Skip(25).Take(5);
+            
 
 
             var TopOfers = _productService.FilterDiscountedProducts();
@@ -39,7 +38,7 @@ namespace TechStore.ViewUser.Controllers
             ViewBag.TopOfers1 = TopOfersResult.Entities.Take(10);
 
 
-            // تحديد اتجاه الصفحة بناءً على اللغة المحددة
+           
             if (CultureInfo.CurrentCulture.TextInfo.IsRightToLeft)
             {
                 ViewData["PageDirection"] = "rtl";

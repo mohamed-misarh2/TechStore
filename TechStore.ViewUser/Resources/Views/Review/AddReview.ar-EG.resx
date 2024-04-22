@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddReview" xml:space="preserve">
-    <value>أضافة تقييم</value>
+    <value>إضافة تعليق</value>
   </data>
   <data name="BacktoList" xml:space="preserve">
     <value>العودة إلى الصفحة الرئيسية</value>
@@ -127,9 +127,9 @@
     <value>تعليق</value>
   </data>
   <data name="Rating" xml:space="preserve">
-    <value>تقييم</value>
+    <value>تقييم المنتج</value>
   </data>
   <data name="Send" xml:space="preserve">
-    <value>أرسال</value>
+    <value>إضافة تعليق</value>
   </data>
 </root>

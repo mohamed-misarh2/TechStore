@@ -147,7 +147,7 @@
   <data name="Quantity" xml:space="preserve">
     <value>الكمية</value>
   </data>
-  <data name="RecentlyAdded" xml:space="preserve">
+  <data name="Recently Added" xml:space="preserve">
     <value>المضافة حديثًا</value>
   </data>
   <data name="Remove" xml:space="preserve">
@@ -162,19 +162,19 @@
   <data name="Saveforlater" xml:space="preserve">
     <value>احفظ لوقت لاحق</value>
   </data>
-  <data name="ShopNaw" xml:space="preserve">
+  <data name="Shop Naw" xml:space="preserve">
     <value>تسوق  الأن</value>
   </data>
   <data name="Subtotal" xml:space="preserve">
     <value>المجموع الفرعي</value>
   </data>
-  <data name="TechStore" xml:space="preserve">
+  <data name="Tech Store is the #1 place for all your needs, explore our wide range of products, flexible payments &amp; offers!" xml:space="preserve">
     <value>تك ستور مكانك الاول لكل احتياجات الالكترونيات والأجهزة. تسوق الأن أكبر تشكيلة منتجات و عروض و تسهيلات فالدفع.</value>
   </data>
   <data name="VendorTech.Store" xml:space="preserve">
     <value>متجر التكنولوجيا البائعين</value>
   </data>
-  <data name="Yourshoppingcartisempty!" xml:space="preserve">
+  <data name="Your  Shopping  Cart  Is  Empty!" xml:space="preserve">
     <value>عربة التسوق الخاصة بك فارغة</value>
   </data>
 </root>

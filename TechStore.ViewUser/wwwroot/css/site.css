@@ -125,7 +125,7 @@
 }
 
 main {
-    margin: 2vh 10vh;
+    /*margin: 2vh 10vh;*/
 }
 
 
@@ -211,6 +211,8 @@ button.accept-policy {
         display: none;
     }
 }
+
+
 
 
 

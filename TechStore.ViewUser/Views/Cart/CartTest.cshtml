@@ -25,9 +25,9 @@
                     <div class=" row cart col-lg-12 ">
                     <div class="cartelement col-12 col-md-4">
                             <div class="cart_Img">   <img src="./ImageCart/download.png" alt="img Cart"></div>
-                        <div class="cart-empty"><p>@Localizer["Yourshoppingcartisempty!"]</p></div>
-                        <span class="cart-p">@Localizer["TechStore"]</span>
-                            <a asp-controller="Home" asp-action="Index" class="btn ShopNaw" type="button">@Localizer["ShopNaw"]</a>
+                    <div class="cart-empty"><p>@Localizer["Your  Shopping  Cart  Is  Empty!"]</p></div>
+                    <div class="cart-p ">@Localizer["Tech Store is the #1 place for all your needs, explore our wide range of products, flexible payments & offers!"]</div>
+                            <a asp-controller="Home" asp-action="Index" class="btn ShopNaw m-3" type="button">@Localizer["Shop Naw"]</a>
                         </div>
 
 
@@ -37,7 +37,7 @@
                 </div>
           
                 <div class="row carthome justify-content-center  ">
-                <h3 dir="auto" > @Localizer["RecentlyAdded"] </h3>
+                <h3 dir="auto" > @Localizer["Recently Added"] </h3>
 
                 <div class=" row cart col-lg-11 ">
                     <div id="carouselExampleControls" class="carousel slide carousel-dark " data-bs-ride="carousel">
@@ -109,7 +109,7 @@
                                                 <div class="card-body">
                                                     <p id="itemtext" class="card-text">@product.Description</p>
                                                     <div class="price-and-button">
-                                                        @if (product.DiscountValue>0)
+                                                @if (product.DiscountValue > 0) 
                                                         {
                                                             string formattedDiscountedPrice = string.Format("{0:#,0}", product.DiscountedPrice);
 
@@ -303,7 +303,7 @@
                                                                 <div class="Remove">
                                                                     <button type="submit" class="btn">
                                                                         <i class="fa-regular fa-trash-can"></i>
-                                                                        <span> Remove</span>
+                                                                    <span> @Localizer["Remove"] </span>
                                                                     </button>
                                                                 </div>
                                                             </form>
