@@ -172,10 +172,24 @@
         </div>
     </div>
     </div>
-   
 
 
 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('register-form').addEventListener('submit', function (event) {
+            var form = event.target;
+
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            form.classList.add('was-validated');
+        });
+    });
+</script>
 
 
 @section Scripts {

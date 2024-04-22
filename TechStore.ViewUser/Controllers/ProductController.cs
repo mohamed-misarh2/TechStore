@@ -111,6 +111,7 @@ namespace TechStore.ViewUser.Controllers
                 ViewBag.CategoryId = categoryId;
                 ViewBag.PageNumber = pageNumber;
                 ViewBag.Criteria = criteria;
+
                 var result = await _productService.FilterProducts(criteria,categoryId,itemsPerPage,pageNumber);
                 return View("ProductsByCategory", result);
             }

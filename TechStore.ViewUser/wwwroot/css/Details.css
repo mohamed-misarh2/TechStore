@@ -34,7 +34,7 @@
         object-fit: cover;
         cursor: pointer;
         transition: 0.3s;
-    }
+    }*/
 
 * {
     box-sizing: border-box;
@@ -60,7 +60,7 @@ thead th {
     border: none;
 }
 
-.Discrp {
+/*.Discrp {
     font-size: 1.2vw;
 }
 
