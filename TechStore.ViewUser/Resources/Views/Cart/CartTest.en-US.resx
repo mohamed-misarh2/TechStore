@@ -162,19 +162,19 @@
   <data name="Saveforlater" xml:space="preserve">
     <value>Save For Later</value>
   </data>
-  <data name="ShopNaw" xml:space="preserve">
+  <data name="Shop Now" xml:space="preserve">
     <value>Shop Naw</value>
   </data>
   <data name="Subtotal" xml:space="preserve">
     <value>Subtotal</value>
   </data>
-  <data name="TechStore" xml:space="preserve">
+  <data name="Tech Store is the #1 place for all your needs, explore our wide range of products, flexible payments &amp; offers!" xml:space="preserve">
     <value>Tech Store is the #1 place for all your needs, explore our wide range of products, flexible payments &amp; offers!</value>
   </data>
   <data name="VendorTech.Store" xml:space="preserve">
     <value>Vendor : Tech.Store</value>
   </data>
-  <data name="Yourshoppingcartisempty!" xml:space="preserve">
+  <data name="Your  Shopping  Cart  Is  Empty!" xml:space="preserve">
     <value>Your Shopping Cart Is Empty!</value>
   </data>
 </root>
