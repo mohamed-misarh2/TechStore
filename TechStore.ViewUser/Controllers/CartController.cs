@@ -23,7 +23,7 @@ namespace TechStore.ViewUser.Controllers
             var productsResultTask = _productService.FilterNewlyAddedProducts(10);
             var productsResult = await productsResultTask;
 
-            ViewBag.Products = productsResult.Entities.Take(5);
+            ViewBag.Products = productsResult.Entities.Take(10);
             ViewBag.Products2 = productsResult.Entities.Skip(5).Take(5);
             return View("CartTest", sessionCartItems);
         }
@@ -43,7 +43,8 @@ namespace TechStore.ViewUser.Controllers
                 cart.Add(cartItemDto);
 
             }
-
+            int cartItemCount = GetCartItemCounts();
+            ViewBag.CartItemCount = cartItemCount;
             HttpContext.Session.Set("Cart", cart);
 
             return RedirectToAction("Index", "Cart");
@@ -67,7 +68,8 @@ namespace TechStore.ViewUser.Controllers
                 }
                 HttpContext.Session.Set("Cart", cart);
             }
-
+            int cartItemCount = cart.Sum(item => item.Quantity);
+            ViewBag.CartItemCount = cartItemCount;
             return RedirectToAction("Index", "Cart");
         }
 
@@ -92,7 +94,18 @@ namespace TechStore.ViewUser.Controllers
             return View("Cart", sessionCartItems);
         }
 
-
+        private int GetCartItemCounts()
+        {
+            // Retrieve cart count from session or database
+            var cart = HttpContext.Session.Get<List<CartItemDto>>("Cart") ?? new List<CartItemDto>();
+            int cartItemCount = cart.Sum(item => item.Quantity);
+            return cartItemCount;
+        }
+        public IActionResult GetCartItemCount()
+        {
+            int cartItemCount = GetCartItemCounts();
+            return Json(cartItemCount);
+        }
         public IActionResult SetLanguage(string culture, string returnUrl)
         {
 

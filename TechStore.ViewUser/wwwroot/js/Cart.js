@@ -196,51 +196,40 @@ function toggleDescription() {
     }
 }
 
-var quantityDropdown = document.getElementById("quantityDropdown");
+//var quantityDropdown = document.getElementById("quantityDropdown");
 
-quantityDropdown.addEventListener("change", function () {
-    document.getElementById("updateQuantityForm").submit();
-});
-
-$(document).ready(function () {
-    $('#quantityDropdown').hide();
-
-    $('#dropdownIcon').click(function () {
-        $('#quantityDropdown').toggle();
-    });
-});
-
-// var cartItems = JSON.parse(localStorage.getItem('mycartapp')) || [];
-
-//const swiper = new Swiper('.swiper', {
-
-//    loop: true,
-
-//    pagination: {
-//        el: '.swiper-pagination',
-//    },
-
-
-//    navigation: {
-//        nextEl: '.swiper-button-next',
-//        prevEl: '.swiper-button-prev',
-//    },
-
-//    slidesPerView: 1,
-//    spaceBetween: 10,
-//    breakpoints: {
-//        320: {
-//            slidesPerView: 1,
-//            spaceBetween: 10
-//        },
-//        480: {
-//            slidesPerView: 2,
-//            spaceBetween: 20
-//        },
-//        640: {
-//            slidesPerView: 5,
-//            spaceBetween: 10
-//        }
-//    }
+//quantityDropdown.addEventListener("change", function () {
+//    document.getElementById("updateQuantityForm").submit();
 //});
-//window.alert(swiper)
+
+//$(document).ready(function () {
+//    $('#quantityDropdown').hide();
+
+//    $('#dropdownIcon').click(function () {
+//        $('#quantityDropdown').toggle();
+//    });
+//});
+
+//// var cartItems = JSON.parse(localStorage.getItem('mycartapp')) || [];
+
+//document.addEventListener("DOMContentLoaded", function () {
+//    var quantityDropdown = document.getElementById("quantityDropdown");
+//    var pricePerItem = parseFloat(document.getElementById("itemPrice").innerText); // Assuming there's an element displaying the price per item
+//    var totalPriceDisplay = document.getElementById("totalPriceDisplay");
+
+//    // Initial calculation and display of total price
+//    var updateTotalPrice = function () {
+//        var quantity = parseInt(quantityDropdown.value);
+//        var totalPrice = quantity * pricePerItem;
+//        totalPriceDisplay.innerText = totalPrice.toLocaleString(); // Update the displayed total price with formatted number
+//    };
+
+//    // Call the function to initially display the total price
+//    updateTotalPrice();
+
+//    // Event listener to update total price when quantity changes
+//    quantityDropdown.addEventListener("change", function () {
+//        updateTotalPrice(); // Update the total price when quantity changes
+//    });
+//});
+

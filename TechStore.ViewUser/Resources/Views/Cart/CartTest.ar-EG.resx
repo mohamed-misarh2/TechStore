@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddtoCart" xml:space="preserve">
+  <data name="Add to cart" xml:space="preserve">
     <value>أضف الي مشترياتي </value>
+  </data>
+  <data name="Basedonyourviews" xml:space="preserve">
+    <value>منتجات مقترحة مخصوص ليك</value>
+  </data>
+  <data name="Cart" xml:space="preserve">
+    <value>مشترياتي</value>
   </data>
   <data name="Checkout" xml:space="preserve">
     <value>تأكيد الطلب</value>
@@ -126,10 +132,10 @@
   <data name="Don'tRemove" xml:space="preserve">
     <value>لا تقم بالإزالة</value>
   </data>
-  <data name="Forallorders" xml:space="preserve">
+  <data name="For all orders" xml:space="preserve">
     <value>إجمالي الطلب</value>
   </data>
-  <data name="Haveaquestion?" xml:space="preserve">
+  <data name="Have a question ?" xml:space="preserve">
     <value>عندك سؤال ؟</value>
   </data>
   <data name="items" xml:space="preserve">
@@ -141,7 +147,7 @@
   <data name="Notsureyet?" xml:space="preserve">
     <value>لست متأكدا ؟</value>
   </data>
-  <data name="Payondelivery" xml:space="preserve">
+  <data name="Pay on delivery" xml:space="preserve">
     <value>الدفع عند الاستلام</value>
   </data>
   <data name="Quantity" xml:space="preserve">
@@ -156,7 +162,7 @@
   <data name="Removeproduct" xml:space="preserve">
     <value>حذف المنتج من السلة</value>
   </data>
-  <data name="Returnpolicy" xml:space="preserve">
+  <data name="Return  Policy" xml:space="preserve">
     <value>سياسة الإرجاع</value>
   </data>
   <data name="Saveforlater" xml:space="preserve">
@@ -170,6 +176,9 @@
   </data>
   <data name="Tech Store is the #1 place for all your needs, explore our wide range of products, flexible payments &amp; offers!" xml:space="preserve">
     <value>تك ستور مكانك الاول لكل احتياجات الالكترونيات والأجهزة. تسوق الأن أكبر تشكيلة منتجات و عروض و تسهيلات فالدفع.</value>
+  </data>
+  <data name="Topoffers" xml:space="preserve">
+    <value>أفضل العروض</value>
   </data>
   <data name="VendorTech.Store" xml:space="preserve">
     <value>متجر التكنولوجيا البائعين</value>

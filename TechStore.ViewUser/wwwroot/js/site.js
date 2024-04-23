@@ -68,7 +68,10 @@ function toggleButtons(buttonIds) {
     });
 }
 
+function reloadPage() {
 
+    location.reload();
+}
 
 toggleButtons(['button3', 'button4',
     'button5', 'button6',

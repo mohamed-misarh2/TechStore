@@ -30,6 +30,13 @@
     padding: 0;
     margin: 0;
     }
+
+        .item-count {
+            background-color: green;
+            color: white;
+            border-radius: 50%;
+            padding: 0.2em 0.4em;
+        }
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -140,9 +147,13 @@
                         </li>
                     }
                     <li class="nav-item">
-                        <a class="nav-link mr-sm-2" asp-controller="Cart" asp-action="Index"><i class="fas fa-shopping-cart"></i> @Localizer["Cart"] </a>
-                    </li>
+                        <a class="nav-link mr-sm-2" asp-controller="Cart" asp-action="Index">
+                            <span id="cartItemCount" class="item-count">0</span>
+                            <i class="fas fa-shopping-cart"></i>
 
+                            @Localizer["Cart"]
+                        </a>
+                    </li>
 
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -347,6 +358,22 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/main.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "/Cart/GetCartItemCount",
+                method: "GET",
+                success: function (data) {
+                    $("#cartItemCount").text(data);
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
+            });
+        });
+
+    
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
  
 </body>

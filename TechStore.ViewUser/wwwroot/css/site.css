@@ -32,6 +32,7 @@
     color: #000000;
     outline: none;
     transform: translate(-50%);
+    background-color:red;
 }
 
 
@@ -124,9 +125,9 @@
     border-radius: 15px;
 }
 
-main {
+/*main {
     margin: 2vh 10vh;
-}
+}*/
 
 
 .footer-bg {
@@ -214,3 +215,15 @@ button.accept-policy {
 
 
 
+@media (max-width: 767px) {
+    .mida{
+        width: 40px;
+        height: auto;
+    }
+    .custom-img{
+      
+         width:40px;
+         height:auto;
+
+    }
+}
