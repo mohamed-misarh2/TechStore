@@ -158,7 +158,7 @@
                         <input type="hidden" name="CopyQuantity" value="@Model.Entity.productsDtos.Quantity" />
                         <input type="hidden" name="image" value="@Model.Entity.productsDtos.Images.FirstOrDefault()" />
                         <input type="hidden" name="quantity" value="1" min="1" />
-                    <button id="addToCartButton" class="btn btn-dark w-100 full-width-small-sceen"><i class="fas fa-shopping-cart"></i> @Localizer["AddToCart"] </button>
+                    <button id="addToCartButton" class="btn btn-dark w-100 full-width-small-sceen" onclick="reloadPage()"><i class="fas fa-shopping-cart"></i> @Localizer["AddToCart"] </button>
                     </form>
                 
                     

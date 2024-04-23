@@ -94,8 +94,10 @@
                                                                 <input type="hidden" name="CopyQuantity" value="@product.Quantity" />
                                                                 <input type="hidden" name="image" value="@((product.Images.Count > 0) ? product.Images[0] : string.Empty)" />
                                                                 <input type="hidden" name="quantity" value="1" min="1" />
-                                                            <button id="btn_mycart" class="btn btn-dark">@Localizer["AddtoCart"] </button>
-                                                            </form>
+                                                              <button id="btn_mycart" class="btn btn-dark" onclick="reloadPage()">@Localizer["AddtoCart"]</button>
+
+                                                        
+                                                    </form>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -155,7 +157,7 @@
                                                                 <input type="hidden" name="CopyQuantity" value="@product.Quantity" />
                                                                 <input type="hidden" name="image" value="@((product.Images.Count > 0) ? product.Images[0] : string.Empty)" />
                                                                 <input type="hidden" name="quantity" value="1" min="1" />
-                                                            <button id="btn_mycart" class="btn btn-dark">@Localizer["AddtoCart"]</button>
+                                                        <button id="btn_mycart" class="btn btn-dark" onclick="reloadPage()">@Localizer["AddtoCart"]</button>
                                                             </form>
                                                         </div>
                                                     </div>
@@ -508,6 +510,12 @@
             });
         });
     </script>
+<script>
+    function reloadPage() {
+        // إعادة تحميل الصفحة
+        location.reload();
+    }
+</script>
     <script src="~/js/Cart.js">
 
     </script>

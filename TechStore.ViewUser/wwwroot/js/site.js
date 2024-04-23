@@ -11,6 +11,11 @@ function navigateTo(url) {
 
 
 
+    function reloadPage() {
+        
+        location.reload();
+    }
+
 
 
 

@@ -285,46 +285,44 @@
 
 
         <!-- Why TechStoer -->
-    <section class="container">
-        <div class="m-1 p-1 shadow">
-            <h4>@Localizer["WhyTechStoer"]</h4>
-            <div class="row justify-content-center">
-                <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
-                    <div class="categories text-center shadow">
-                        <a asp-controller="" asp-action="" class="image-item">
-                            <img src="~/why techstoer/pickup_banners__3_en.webp" class="img-fluid" alt="" />
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
-                    <div class="categories text-center shadow">
-                        <a asp-controller="" asp-action="" class="image-item">
-                            <img src="~/why techstoer/ramadan2024_generic_bottom_banners__2_en.webp" class="img-fluid" alt="" />
-                        </a>
-                    </div>
+<section class="container">
+    <div class="m-1 p-1 shadow">
+        <h4>@Localizer["WhyTechStoer"]</h4>
+        <div class="row justify-content-center">
+            <div class="col-lg-3 col-md-3 col-sm-3 mb-4 mida">
+                <div class="categories text-center shadow">
+                    <a asp-controller="" asp-action="" class="image-item">
+                        <img src="~/why techstoer/pickup_banners__3_en.webp" class="img-fluid custom-img" alt="" />
+                    </a>
                 </div>
             </div>
 
-            <div class="row justify-content-center">
-                <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
-                    <div class="categories text-center shadow">
-                        <a asp-controller="Product" asp-action="" class="image-item">
-                            <img src="~/why techstoer/ramadan2024_generic_bottom_banners__4_en.webp" class="img-fluid" alt="" />
-                        </a>
-                    </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 mb-4 mida">
+                <div class="categories text-center shadow">
+                    <a asp-controller="" asp-action="" class="image-item">
+                        <img src="~/why techstoer/ramadan2024_generic_bottom_banners__2_en.webp" class="img-fluid custom-img" alt="" />
+                    </a>
                 </div>
+            </div>
 
-                <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
-                    <div class="categories text-center shadow">
-                        <a asp-controller="" asp-action="" class="image-item">
-                            <img src="~/why techstoer/ramadan2024_generic_bottom_banners__7_en.webp" class="img-fluid" alt="" />
-                        </a>
-                    </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 mb-4 mida">
+                <div class="categories text-center shadow">
+                    <a asp-controller="Product" asp-action="" class="image-item">
+                        <img src="~/why techstoer/ramadan2024_generic_bottom_banners__4_en.webp" class="img-fluid custom-img" alt="" />
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3 mb-4 mida">
+                <div class="categories text-center shadow">
+                    <a asp-controller="" asp-action="" class="image-item">
+                        <img src="~/why techstoer/ramadan2024_generic_bottom_banners__7_en.webp" class="img-fluid custom-img" alt="" />
+                    </a>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
 
         <!-- Product section 2 Based on your preference -->
@@ -391,7 +389,7 @@
 
     <div class="container Product_section_3 ">
         <div style="overflow: hidden" class=" container_wrapper ">
-            <div class="swiper_brands  p-2">
+        <div class="swiper  p-2">
                 <h4>@Localizer["Popular brands"]</h4>
                 <div class="swiper-wrapper ">
                     <!-- Slides -->
@@ -458,11 +456,11 @@
                     
                 </div>
                 <!-- If we need pagination -->
-                <div class="swiper_brands-pagination"></div>
+                <div class="swiper-pagination"></div>
 
                 <!-- If we need navigation buttons -->
-                <div class="swiper_brands-button-prev"></div>
-                <div class="swiper_brands-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
 
                 <!-- If we need scrollbar -->
 
@@ -584,34 +582,34 @@
 
     //*************************** */
 
-    const swiper_brands = new Swiper('.swiper_brands', {
-        loop: true,
-        pagination: {
-            el: '.swiper_brands-pagination',
-        },
-        // navigation: {
-        //     nextEl: '.swiper_brands-button-next',
-        //     prevEl: '.swiper_brands-button-prev',
-        // },
-        slidesPerView: 7,
-        spaceBetween: 1,
-        breakpoints: {
-            420: {
-                slidesPerView: 3,
-                spaceBetween: 1
-            },
-            600: {
-                slidesPerView: 5,
-                spaceBetween: 1
-            },
-            1000: {
-                slidesPerView: 7,
-                spaceBetween: 1
-            }
-        },
-        autoplay: {
-            delay: 3000, 
-            disableOnInteraction: false, 
-    });
+    // const swiper_brands = new Swiper('.swiper_brands', {
+    //     loop: true,
+    //     pagination: {
+    //         el: '.swiper_brands-pagination',
+    //     },
+    //     // navigation: {
+    //     //     nextEl: '.swiper_brands-button-next',
+    //     //     prevEl: '.swiper_brands-button-prev',
+    //     // },
+    //     slidesPerView: 7,
+    //     spaceBetween: 1,
+    //     breakpoints: {
+    //         420: {
+    //             slidesPerView: 3,
+    //             spaceBetween: 1
+    //         },
+    //         600: {
+    //             slidesPerView: 5,
+    //             spaceBetween: 1
+    //         },
+    //         1000: {
+    //             slidesPerView: 7,
+    //             spaceBetween: 1
+    //         }
+    //     },
+    //     autoplay: {
+    //         delay: 3000, 
+    //         disableOnInteraction: false, 
+    // });
 
 </script>
