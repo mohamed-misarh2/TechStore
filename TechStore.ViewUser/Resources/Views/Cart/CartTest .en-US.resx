@@ -117,8 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddtoCart" xml:space="preserve">
-    <value>Add to Cart</value>
+  <data name="Add to cart" xml:space="preserve">
+    <value>Add to cart</value>
+  </data>
+  <data name="Basedonyourviews" xml:space="preserve">
+    <value>Based  on your views</value>
   </data>
   <data name="Checkout" xml:space="preserve">
     <value>Checkout</value>
@@ -167,6 +170,9 @@
   </data>
   <data name="TechStore" xml:space="preserve">
     <value>Tech Store is the #1 place for all your needs, explore our wide range of products, flexible payments &amp; offers!</value>
+  </data>
+  <data name="Topoffers" xml:space="preserve">
+    <value>Top offers</value>
   </data>
   <data name="VendorTech.Store" xml:space="preserve">
     <value>Vendor : Tech.Store</value>

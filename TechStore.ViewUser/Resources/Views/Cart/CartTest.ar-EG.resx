@@ -117,8 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddtoCart" xml:space="preserve">
+  <data name="Add to cart" xml:space="preserve">
     <value>أضف الي مشترياتي </value>
+  </data>
+  <data name="Basedonyourviews" xml:space="preserve">
+    <value>منتجات مقترحة مخصوص ليك</value>
   </data>
   <data name="Checkout" xml:space="preserve">
     <value>تأكيد الطلب</value>
@@ -170,6 +173,9 @@
   </data>
   <data name="TechStore" xml:space="preserve">
     <value>تك ستور مكانك الاول لكل احتياجات الالكترونيات والأجهزة. تسوق الأن أكبر تشكيلة منتجات و عروض و تسهيلات فالدفع.</value>
+  </data>
+  <data name="Topoffers" xml:space="preserve">
+    <value>أفضل العروض</value>
   </data>
   <data name="VendorTech.Store" xml:space="preserve">
     <value>متجر التكنولوجيا البائعين</value>

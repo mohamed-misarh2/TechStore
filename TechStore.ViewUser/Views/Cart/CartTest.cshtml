@@ -78,7 +78,8 @@
 
     .swiper-slide {
     }
-
+ 
+    
 </style>
 
  
@@ -89,7 +90,7 @@
         @if ( Model.Count == 0)
         {
             
-                <div class="row carthome justify-content-center ">
+                <div class="row carthome c justify-content-center ">
                     <div class=" row cart col-lg-12 ">
                     <div class="cartelement col-12 col-md-4">
                             <div class="cart_Img">   <img src="./ImageCart/download.png" alt="img Cart"></div>
@@ -112,7 +113,7 @@
                     <section class="Product_section_2">
                         <div class="container container_wrapper">
                         <div class="swiper">
-                                <h4>@Localizer["Topoffers"]</h4>
+                            <h4 dir="auto">@Localizer["Topoffers"]</h4>
                                 <div class="swiper-wrapper">
                                     @foreach (var product in products)
                                     {
@@ -149,7 +150,7 @@
                                                             <input type="hidden" name="CopyQuantity" value="@product.Quantity" />
                                                             <input type="hidden" name="image" value="@((product.Images.Count > 0) ? product.Images[0] : string.Empty)" />
                                                             <input type="hidden" name="quantity" value="1" min="1" />
-                                                            <button id="btn_mycart" class="btn btn-dark">@Localizer["Add  to cart"] </button>
+                                                            <button id="btn_mycart" class="btn btn-dark">@Localizer["Add to cart"] </button>
                                                         </form>
                                                     </div>
                                                 </div>
@@ -173,7 +174,7 @@
         <section class="Product_section_3">
             <div class="container container_wrapper">
                 <div class="swiper">
-                    <h4>@Localizer["Basedonyourviews"]</h4>
+                    <h4 dir="auto">@Localizer["Basedonyourviews"]</h4>
                     <div class="swiper-wrapper">
                          @foreach (var product in products)
                                     {
