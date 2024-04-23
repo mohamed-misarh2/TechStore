@@ -173,12 +173,24 @@ namespace TechStore.Application.Services
         public async Task<ResultView<ProductWithSpecificationsDto>> Update(ProductWithSpecificationsDto productDto)
         {
 
-            var OldProduct = await _productRepository.GetByIdAsync(productDto.Id);
+            var OldProduct = await _productRepository.GetByIdWithSpecificationsAsync(productDto.Id);
+
             await _productRepository.DetachEntityAsync(OldProduct);
 
             if (OldProduct != null)
             {
                 var updatedProduct = _mapper.Map<Product>(productDto);
+                foreach (var oldSpec in OldProduct.ProductCategorySpecifications)
+                {
+                   await _productCategorySpecifications.DeleteAsync(oldSpec);
+                }
+
+                foreach (var newSpec in updatedProduct.ProductCategorySpecifications)
+                {
+                    await _productCategorySpecifications.CreateAsync(newSpec);
+                }
+                await _productCategorySpecifications.SaveChangesAsync();
+
                 var NewUpdatedProduct = await _productRepository.UpdateAsync(updatedProduct);
                 await _productRepository.SaveChangesAsync();
                 var NewUpdatedProductDto = _mapper.Map<ProductWithSpecificationsDto>(NewUpdatedProduct);

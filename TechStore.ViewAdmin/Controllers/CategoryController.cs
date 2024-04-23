@@ -31,10 +31,10 @@ namespace TechStore.ViewAdmin.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(CategoryDto category)
+        public async Task<IActionResult> Update([FromBody] CategorySpecificationDto data)
         {
-            var data = await _categoryService.UpdateCategory(category);
-            return Ok(data);
+            var result = await _categoryService.UpdateCategory(data.Category, data.SpecificationsDtos);
+            return Ok(result);
         }
 
         [HttpDelete("DeleteCategory")]

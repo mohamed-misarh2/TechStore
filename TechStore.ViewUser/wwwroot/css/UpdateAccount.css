@@ -1,4 +1,4 @@
-body {
+﻿body {
     font-family: Arial, sans-serif;
     background-color: white;
     margin: 0;
@@ -13,13 +13,13 @@ body {
 }
 
 .form-container {
-    margin-top: 80px;
+    margin-top: 30px;
     width: 800px;
     background-color: #fff;
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
-    /*margin-bottom: 20px;*/
+    margin-bottom: 20px;
 }
 
 .form {
@@ -27,10 +27,10 @@ body {
     flex-direction: column;
 }
 
-.form h2 {
-    margin-bottom: 20px;
-    text-align: center;
-}
+    .form h2 {
+        margin-bottom: 20px;
+        text-align: center;
+    }
 
 .form-group {
     margin-bottom: 10px;
@@ -64,9 +64,9 @@ body {
     text-decoration: underline;
 }
 
-.form a:hover {
-    text-decoration: underline;
-}
+    .form a:hover {
+        text-decoration: underline;
+    }
 
 .form button {
     margin-top: 10px;
@@ -75,12 +75,7 @@ body {
 
 .subBtn button:hover {
     background-color: black !important;
-    border-color:black;
-}
-
-.star {
-    color: rgb(255, 0, 0);
-    font-weight: bold;
+    border-color: black;
 }
 
 .btn-primary {
@@ -88,37 +83,48 @@ body {
     border-color: black;
 }
 
-.subBtn button{
-    width:45%;
-    margin:30px 0px 10px;
+.subBtn button {
+    width: 40%;
+    margin: 30px 0px 10px;
 }
 
 
-@media (max-width: 900px) {
+.img-fluid {
+    height: 170px;
+}
 
-    .form-container {
-        margin-top: 55px;
-        width: 600px;
-        padding: 50px;
-        font-size: 13px;
-        margin-bottom: 30px;
+
+@media (max-width: 768px) {
+    .imgg {
+        width: 50% !important;
     }
 
+    .subBtn button {
+        width: 40%;
+    }
 }
-
-
 
 @media (max-width: 576px) {
     h2 {
         font-size: 18px;
     }
 
+    .container{
+        width:95%;
+    }
     .form-container {
-        /*margin-top: 30px;*/
-        width: 500px;
+        width: 600px;
         padding: 40px;
         font-size: 13px;
-        /*margin-bottom: 30px;*/
         margin: 30px 0px;
     }
+
+    .imgg{
+        width:100% !important; 
+    }
+
+    .subBtn button {
+        width: 70%;
+    }
 }
+

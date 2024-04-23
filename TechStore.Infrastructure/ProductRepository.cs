@@ -70,7 +70,6 @@ namespace TechStore.Infrastructure
                                                    p.Brand.ToLower().Contains(Name)));
         }
 
-
         public Task<IQueryable<Product>> GetProductsByWarranty(string Warranty)
         {
             return Task.FromResult(_entities.Where(p => p.Warranty == Warranty));
@@ -144,6 +143,13 @@ namespace TechStore.Infrastructure
         public async Task<IQueryable<string>> GetAllBrands()
         {
             return _entities.Select(b => b.Brand);
+        }
+
+        public async Task<Product> GetByIdWithSpecificationsAsync(int id)
+        {
+            return await _context.Products
+                .Include(p => p.ProductCategorySpecifications)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
     }
