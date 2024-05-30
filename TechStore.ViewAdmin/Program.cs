@@ -82,7 +82,7 @@ namespace TechStore.ViewAdmin
             //builder.Services.AddScoped<IUserServices, UserServices>();
             //builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-
+             
 
             builder.Services.AddDbContext<TechStoreContext>(options =>
                options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));

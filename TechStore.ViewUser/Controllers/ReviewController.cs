@@ -51,7 +51,7 @@ namespace TechStore.ViewUser.Controllers
                 return View("Error", new ErrorViewModel { Message = ex.Message });
             }
         }
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public IActionResult AddReview(string Description, string imgproduct ,int productid)
         {
